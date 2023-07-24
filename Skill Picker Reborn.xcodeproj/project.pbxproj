@@ -1,0 +1,573 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2974B6C42A6ECB6A00EB063B /* Skill_Picker_RebornApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2974B6C32A6ECB6A00EB063B /* Skill_Picker_RebornApp.swift */; };
+		2974B6C62A6ECB6A00EB063B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2974B6C52A6ECB6A00EB063B /* ContentView.swift */; };
+		2974B6C82A6ECB6D00EB063B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2974B6C72A6ECB6D00EB063B /* Assets.xcassets */; };
+		2974B6CB2A6ECB6D00EB063B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2974B6CA2A6ECB6D00EB063B /* Preview Assets.xcassets */; };
+		2974B6D62A6ECB6E00EB063B /* Skill_Picker_RebornTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2974B6D52A6ECB6E00EB063B /* Skill_Picker_RebornTests.swift */; };
+		2974B6E02A6ECB6E00EB063B /* Skill_Picker_RebornUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2974B6DF2A6ECB6E00EB063B /* Skill_Picker_RebornUITests.swift */; };
+		2974B6E22A6ECB6E00EB063B /* Skill_Picker_RebornUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2974B6E12A6ECB6E00EB063B /* Skill_Picker_RebornUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2974B6D22A6ECB6E00EB063B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2974B6B82A6ECB6A00EB063B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2974B6BF2A6ECB6A00EB063B;
+			remoteInfo = "Skill Picker Reborn";
+		};
+		2974B6DC2A6ECB6E00EB063B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2974B6B82A6ECB6A00EB063B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2974B6BF2A6ECB6A00EB063B;
+			remoteInfo = "Skill Picker Reborn";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		2974B6C02A6ECB6A00EB063B /* Skill Picker Reborn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Skill Picker Reborn.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2974B6C32A6ECB6A00EB063B /* Skill_Picker_RebornApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skill_Picker_RebornApp.swift; sourceTree = "<group>"; };
+		2974B6C52A6ECB6A00EB063B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		2974B6C72A6ECB6D00EB063B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2974B6CA2A6ECB6D00EB063B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		2974B6CC2A6ECB6D00EB063B /* Skill_Picker_Reborn.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Skill_Picker_Reborn.entitlements; sourceTree = "<group>"; };
+		2974B6D12A6ECB6E00EB063B /* Skill Picker RebornTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Skill Picker RebornTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2974B6D52A6ECB6E00EB063B /* Skill_Picker_RebornTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skill_Picker_RebornTests.swift; sourceTree = "<group>"; };
+		2974B6DB2A6ECB6E00EB063B /* Skill Picker RebornUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Skill Picker RebornUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2974B6DF2A6ECB6E00EB063B /* Skill_Picker_RebornUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skill_Picker_RebornUITests.swift; sourceTree = "<group>"; };
+		2974B6E12A6ECB6E00EB063B /* Skill_Picker_RebornUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skill_Picker_RebornUITestsLaunchTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2974B6BD2A6ECB6A00EB063B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2974B6CE2A6ECB6E00EB063B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2974B6D82A6ECB6E00EB063B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2974B6B72A6ECB6A00EB063B = {
+			isa = PBXGroup;
+			children = (
+				2974B6C22A6ECB6A00EB063B /* Skill Picker Reborn */,
+				2974B6D42A6ECB6E00EB063B /* Skill Picker RebornTests */,
+				2974B6DE2A6ECB6E00EB063B /* Skill Picker RebornUITests */,
+				2974B6C12A6ECB6A00EB063B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2974B6C12A6ECB6A00EB063B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2974B6C02A6ECB6A00EB063B /* Skill Picker Reborn.app */,
+				2974B6D12A6ECB6E00EB063B /* Skill Picker RebornTests.xctest */,
+				2974B6DB2A6ECB6E00EB063B /* Skill Picker RebornUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2974B6C22A6ECB6A00EB063B /* Skill Picker Reborn */ = {
+			isa = PBXGroup;
+			children = (
+				2974B6C32A6ECB6A00EB063B /* Skill_Picker_RebornApp.swift */,
+				2974B6C52A6ECB6A00EB063B /* ContentView.swift */,
+				2974B6C72A6ECB6D00EB063B /* Assets.xcassets */,
+				2974B6CC2A6ECB6D00EB063B /* Skill_Picker_Reborn.entitlements */,
+				2974B6C92A6ECB6D00EB063B /* Preview Content */,
+			);
+			path = "Skill Picker Reborn";
+			sourceTree = "<group>";
+		};
+		2974B6C92A6ECB6D00EB063B /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				2974B6CA2A6ECB6D00EB063B /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		2974B6D42A6ECB6E00EB063B /* Skill Picker RebornTests */ = {
+			isa = PBXGroup;
+			children = (
+				2974B6D52A6ECB6E00EB063B /* Skill_Picker_RebornTests.swift */,
+			);
+			path = "Skill Picker RebornTests";
+			sourceTree = "<group>";
+		};
+		2974B6DE2A6ECB6E00EB063B /* Skill Picker RebornUITests */ = {
+			isa = PBXGroup;
+			children = (
+				2974B6DF2A6ECB6E00EB063B /* Skill_Picker_RebornUITests.swift */,
+				2974B6E12A6ECB6E00EB063B /* Skill_Picker_RebornUITestsLaunchTests.swift */,
+			);
+			path = "Skill Picker RebornUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2974B6BF2A6ECB6A00EB063B /* Skill Picker Reborn */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2974B6E52A6ECB6E00EB063B /* Build configuration list for PBXNativeTarget "Skill Picker Reborn" */;
+			buildPhases = (
+				2974B6BC2A6ECB6A00EB063B /* Sources */,
+				2974B6BD2A6ECB6A00EB063B /* Frameworks */,
+				2974B6BE2A6ECB6A00EB063B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Skill Picker Reborn";
+			productName = "Skill Picker Reborn";
+			productReference = 2974B6C02A6ECB6A00EB063B /* Skill Picker Reborn.app */;
+			productType = "com.apple.product-type.application";
+		};
+		2974B6D02A6ECB6E00EB063B /* Skill Picker RebornTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2974B6E82A6ECB6E00EB063B /* Build configuration list for PBXNativeTarget "Skill Picker RebornTests" */;
+			buildPhases = (
+				2974B6CD2A6ECB6E00EB063B /* Sources */,
+				2974B6CE2A6ECB6E00EB063B /* Frameworks */,
+				2974B6CF2A6ECB6E00EB063B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2974B6D32A6ECB6E00EB063B /* PBXTargetDependency */,
+			);
+			name = "Skill Picker RebornTests";
+			productName = "Skill Picker RebornTests";
+			productReference = 2974B6D12A6ECB6E00EB063B /* Skill Picker RebornTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		2974B6DA2A6ECB6E00EB063B /* Skill Picker RebornUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2974B6EB2A6ECB6E00EB063B /* Build configuration list for PBXNativeTarget "Skill Picker RebornUITests" */;
+			buildPhases = (
+				2974B6D72A6ECB6E00EB063B /* Sources */,
+				2974B6D82A6ECB6E00EB063B /* Frameworks */,
+				2974B6D92A6ECB6E00EB063B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2974B6DD2A6ECB6E00EB063B /* PBXTargetDependency */,
+			);
+			name = "Skill Picker RebornUITests";
+			productName = "Skill Picker RebornUITests";
+			productReference = 2974B6DB2A6ECB6E00EB063B /* Skill Picker RebornUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2974B6B82A6ECB6A00EB063B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1430;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					2974B6BF2A6ECB6A00EB063B = {
+						CreatedOnToolsVersion = 14.3.1;
+					};
+					2974B6D02A6ECB6E00EB063B = {
+						CreatedOnToolsVersion = 14.3.1;
+						TestTargetID = 2974B6BF2A6ECB6A00EB063B;
+					};
+					2974B6DA2A6ECB6E00EB063B = {
+						CreatedOnToolsVersion = 14.3.1;
+						TestTargetID = 2974B6BF2A6ECB6A00EB063B;
+					};
+				};
+			};
+			buildConfigurationList = 2974B6BB2A6ECB6A00EB063B /* Build configuration list for PBXProject "Skill Picker Reborn" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2974B6B72A6ECB6A00EB063B;
+			productRefGroup = 2974B6C12A6ECB6A00EB063B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2974B6BF2A6ECB6A00EB063B /* Skill Picker Reborn */,
+				2974B6D02A6ECB6E00EB063B /* Skill Picker RebornTests */,
+				2974B6DA2A6ECB6E00EB063B /* Skill Picker RebornUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2974B6BE2A6ECB6A00EB063B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2974B6CB2A6ECB6D00EB063B /* Preview Assets.xcassets in Resources */,
+				2974B6C82A6ECB6D00EB063B /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2974B6CF2A6ECB6E00EB063B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2974B6D92A6ECB6E00EB063B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2974B6BC2A6ECB6A00EB063B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2974B6C62A6ECB6A00EB063B /* ContentView.swift in Sources */,
+				2974B6C42A6ECB6A00EB063B /* Skill_Picker_RebornApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2974B6CD2A6ECB6E00EB063B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2974B6D62A6ECB6E00EB063B /* Skill_Picker_RebornTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2974B6D72A6ECB6E00EB063B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2974B6E22A6ECB6E00EB063B /* Skill_Picker_RebornUITestsLaunchTests.swift in Sources */,
+				2974B6E02A6ECB6E00EB063B /* Skill_Picker_RebornUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2974B6D32A6ECB6E00EB063B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2974B6BF2A6ECB6A00EB063B /* Skill Picker Reborn */;
+			targetProxy = 2974B6D22A6ECB6E00EB063B /* PBXContainerItemProxy */;
+		};
+		2974B6DD2A6ECB6E00EB063B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2974B6BF2A6ECB6A00EB063B /* Skill Picker Reborn */;
+			targetProxy = 2974B6DC2A6ECB6E00EB063B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		2974B6E32A6ECB6E00EB063B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		2974B6E42A6ECB6E00EB063B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		2974B6E62A6ECB6E00EB063B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Skill Picker Reborn/Skill_Picker_Reborn.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Skill Picker Reborn/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "leifmotif.Skill-Picker-Reborn";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		2974B6E72A6ECB6E00EB063B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Skill Picker Reborn/Skill_Picker_Reborn.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Skill Picker Reborn/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "leifmotif.Skill-Picker-Reborn";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		2974B6E92A6ECB6E00EB063B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "leifmotif.Skill-Picker-RebornTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Skill Picker Reborn.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Skill Picker Reborn";
+			};
+			name = Debug;
+		};
+		2974B6EA2A6ECB6E00EB063B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "leifmotif.Skill-Picker-RebornTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Skill Picker Reborn.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Skill Picker Reborn";
+			};
+			name = Release;
+		};
+		2974B6EC2A6ECB6E00EB063B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "leifmotif.Skill-Picker-RebornUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "Skill Picker Reborn";
+			};
+			name = Debug;
+		};
+		2974B6ED2A6ECB6E00EB063B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "leifmotif.Skill-Picker-RebornUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "Skill Picker Reborn";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2974B6BB2A6ECB6A00EB063B /* Build configuration list for PBXProject "Skill Picker Reborn" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2974B6E32A6ECB6E00EB063B /* Debug */,
+				2974B6E42A6ECB6E00EB063B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2974B6E52A6ECB6E00EB063B /* Build configuration list for PBXNativeTarget "Skill Picker Reborn" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2974B6E62A6ECB6E00EB063B /* Debug */,
+				2974B6E72A6ECB6E00EB063B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2974B6E82A6ECB6E00EB063B /* Build configuration list for PBXNativeTarget "Skill Picker RebornTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2974B6E92A6ECB6E00EB063B /* Debug */,
+				2974B6EA2A6ECB6E00EB063B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2974B6EB2A6ECB6E00EB063B /* Build configuration list for PBXNativeTarget "Skill Picker RebornUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2974B6EC2A6ECB6E00EB063B /* Debug */,
+				2974B6ED2A6ECB6E00EB063B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2974B6B82A6ECB6A00EB063B /* Project object */;
+}
