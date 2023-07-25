@@ -6,31 +6,20 @@
 //
 
 import SwiftUI
+
+let fooSkills = ["Archery","Backcountry","Pelletry","Ultimate","Crafts","Drama"]
 var campers = [
-    try! Camper(fName: "Joe", lName: "Biden", cabin: "1", preferredSkills: ["Archery","Backcountry","Pelletry","Ultimate","Crafts","Drama"]),
-    try! Camper(fName: "Donald", lName: "Trump", cabin: "2", preferredSkills: ["Ultimate","Pedal Karts","Horses","Canoeing","Hockey",""])
+    try! Camper(fName: "Joe", lName: "Biden", cabin: "1", preferredSkills: fooSkills),
+    try! Camper(fName: "Donald", lName: "Trump", cabin: "2", preferredSkills: fooSkills),
+    try! Camper(fName: "Hilary", lName: "Clinton", cabin: "F", preferredSkills: fooSkills),
+    try! Camper(fName: "Doja", lName: "Cat", cabin: "A", preferredSkills: fooSkills),
+    try! Camper(fName: "Snoop", lName: "Dogg", cabin: "3", preferredSkills: fooSkills)
 ]
 
 struct CamperView: View {
     @State private var sortOrder = [KeyPathComparator(\Camper.lName)]
     var body: some View {
         VStack(){
-            HStack(){
-                Button("Select File"){
-                    
-                }
-                Button("Add Camper"){
-                    
-                }
-                Button("Export Schedules"){
-                    
-                }
-                .padding([.bottom,.top])
-            }
-            HStack(){
-                Text("Search")
-                TextField(/*@START_MENU_TOKEN@*/"Placeholder"/*@END_MENU_TOKEN@*/, text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
-            }
             Table(campers, sortOrder: $sortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
@@ -43,6 +32,27 @@ struct CamperView: View {
             .onChange(of: sortOrder){
                 campers.sort(using: $0)
             }
+        }
+        .toolbar {
+            Button {
+                
+            } label: {
+                Image(systemName: "doc")
+            }
+            .help("Select File")
+            Button {
+                
+            } label: {
+                Image(systemName:"person.badge.plus")
+            }
+            .help("Add Camper")
+            Button {
+                
+            } label: {
+                Image(systemName: "arrow.up.doc.on.clipboard")
+            }
+            .help("Export Schedules")
+            TextField("Search", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
         }
     }
 }
