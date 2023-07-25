@@ -21,6 +21,9 @@ struct CamperView: View {
                 TableColumn("Skill 3",value: \.skillThree)
                 TableColumn("Skill 4",value: \.skillFour)
             }
+            .onChange(of: sortOrder){
+                fooCampers.sort(using: $0)
+            }
             .contextMenu(forSelectionType: Camper.ID.self) { items in
               if items.isEmpty {
                 Button {

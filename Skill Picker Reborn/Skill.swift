@@ -11,7 +11,7 @@ class Skill {
         let min: Int
         let max: Int
         var leaders: [Leader]
-        var campers: [Camper]
+        var campers: [Camper] = []
     }
     let name: String
     var skillOne: Period

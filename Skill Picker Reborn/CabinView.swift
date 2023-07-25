@@ -12,12 +12,13 @@ struct CabinView: View {
     @State private var sortOrder = [KeyPathComparator(\Camper.lName)]
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("This is CabinView.")
-            Text("You have selected Cabin "+selectedCabin)
-            Table(fooCampers, sortOrder: $sortOrder){
+            Text(try! AttributedString(markdown: "**Senior:** "+fooCabins[selectedCabin]!.senior.fName+" "+fooCabins[selectedCabin]!.senior.lName))
+                .font(.title2)
+                .padding(.top)
+                .padding(.bottom,5)
+            Text(try! AttributedString(markdown: "**Junior:** "+fooCabins[selectedCabin]!.junior.fName+" "+fooCabins[selectedCabin]!.junior.lName))
+                .font(.title2)
+            Table(fooCabins[selectedCabin]!.campers, sortOrder: $sortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 TableColumn("Skill 1",value: \.skillOne)

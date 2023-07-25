@@ -11,8 +11,8 @@ class Cabin {
     var name: String
     var senior: Leader
     var junior: Leader
-    var campers: [Camper] = []
-    init(name: String, senior: Leader, junior: Leader) throws {
+    var campers: [Camper]
+    init(name: String, senior: Leader, junior: Leader, campers: [Camper] = []) throws {
         self.name = name
         if(!senior.senior){
             throw ValueError.NotASenior
@@ -24,5 +24,6 @@ class Cabin {
         } else {
             self.junior = junior
         }
+        self.campers = campers
     }
 }
