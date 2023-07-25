@@ -7,43 +7,16 @@
 
 import SwiftUI
 
-var campers = [
-    try! Camper(fName: "Joe", lName: "Biden", cabin: "1", preferredSkills: ["Archery","Backcountry","Pelletry","Ultimate","Crafts","Drama"]),
-    try! Camper(fName: "Donald", lName: "Trump", cabin: "2", preferredSkills: ["Ultimate","Pedal Karts","Horses","Canoeing","Hockey",""])
-]
-
 struct ContentView: View {
-    @State private var sortOrder = [KeyPathComparator(\Camper.lName)]
     var body: some View {
-        VStack(){
-            HStack(){
-                Button("Select File"){
-                    
-                }
-                Button("Add Camper"){
-                    
-                }
-                Button("Export Schedules"){
-                    
-                }
-                .padding([.bottom,.top])
+        NavigationView {
+            List {
+                Label("Campers", systemImage: "figure.stand")
+                Label("Skills", systemImage: "figure.run")
+                Label("Cabins", systemImage: "house")
+                Label("Leaders", systemImage: "figure.and.child.holdinghands")
             }
-            HStack(){
-                Text("Search")
-                TextField(/*@START_MENU_TOKEN@*/"Placeholder"/*@END_MENU_TOKEN@*/, text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
-            }
-            Table(campers, sortOrder: $sortOrder){
-                TableColumn("First Name",value: \.fName)
-                TableColumn("Last Name",value: \.lName)
-                TableColumn("Cabin",value: \.cabin)
-                TableColumn("Skill 1",value: \.skillOne)
-                TableColumn("Skill 2",value: \.skillTwo)
-                TableColumn("Skill 3",value: \.skillThree)
-                TableColumn("Skill 4",value: \.skillFour)
-            }
-            .onChange(of: sortOrder){
-                campers.sort(using: $0)
-            }
+            CamperView()
         }
     }
 }
