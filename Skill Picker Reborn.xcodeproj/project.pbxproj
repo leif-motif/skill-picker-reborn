@@ -13,6 +13,7 @@
 		29154B2A2A7027B300CE8CAC /* SkillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29154B292A7027B300CE8CAC /* SkillView.swift */; };
 		29154B2C2A704CBE00CE8CAC /* Cabin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29154B2B2A704CBE00CE8CAC /* Cabin.swift */; };
 		29154B2E2A704DCA00CE8CAC /* Coherence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29154B2D2A704DCA00CE8CAC /* Coherence.swift */; };
+		29154B302A706EDC00CE8CAC /* TestsThatNeedToGo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29154B2F2A706EDC00CE8CAC /* TestsThatNeedToGo.swift */; };
 		29708D912A6F88370090E369 /* Leader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29708D902A6F88370090E369 /* Leader.swift */; };
 		29708D932A6F88E30090E369 /* Camper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29708D922A6F88E30090E369 /* Camper.swift */; };
 		29708D952A6F999F0090E369 /* CamperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29708D942A6F999F0090E369 /* CamperView.swift */; };
@@ -50,6 +51,7 @@
 		29154B292A7027B300CE8CAC /* SkillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillView.swift; sourceTree = "<group>"; };
 		29154B2B2A704CBE00CE8CAC /* Cabin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cabin.swift; sourceTree = "<group>"; };
 		29154B2D2A704DCA00CE8CAC /* Coherence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coherence.swift; sourceTree = "<group>"; };
+		29154B2F2A706EDC00CE8CAC /* TestsThatNeedToGo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsThatNeedToGo.swift; sourceTree = "<group>"; };
 		29708D902A6F88370090E369 /* Leader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Leader.swift; sourceTree = "<group>"; };
 		29708D922A6F88E30090E369 /* Camper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camper.swift; sourceTree = "<group>"; };
 		29708D942A6F999F0090E369 /* CamperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamperView.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				29154B292A7027B300CE8CAC /* SkillView.swift */,
 				2974B6EE2A6ECBA800EB063B /* Human.swift */,
 				29154B2D2A704DCA00CE8CAC /* Coherence.swift */,
+				29154B2F2A706EDC00CE8CAC /* TestsThatNeedToGo.swift */,
 				2974B6C72A6ECB6D00EB063B /* Assets.xcassets */,
 				2974B6CC2A6ECB6D00EB063B /* Skill_Picker_Reborn.entitlements */,
 				2974B6C92A6ECB6D00EB063B /* Preview Content */,
@@ -289,6 +292,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29154B302A706EDC00CE8CAC /* TestsThatNeedToGo.swift in Sources */,
 				29154B282A70274400CE8CAC /* CabinView.swift in Sources */,
 				29154B2C2A704CBE00CE8CAC /* Cabin.swift in Sources */,
 				29708D912A6F88370090E369 /* Leader.swift in Sources */,
@@ -467,7 +471,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "leifmotif.Skill-Picker-Reborn";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -493,7 +497,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "leifmotif.Skill-Picker-Reborn";
 				PRODUCT_NAME = "$(TARGET_NAME)";

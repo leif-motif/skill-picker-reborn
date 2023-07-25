@@ -7,20 +7,11 @@
 
 import SwiftUI
 
-var leaders = [
-    try! Leader(fName: "Dirty", lName: "Harry", cabin: "1", senior: true),
-    try! Leader(fName: "Hugh", lName: "Jazz", cabin: "1", senior: false),
-    try! Leader(fName: "Peter", lName: "Griffin", cabin: "2", senior: true),
-    try! Leader(fName: "Mike", lName: "Ox", cabin: "2", senior: false),
-    try! Leader(fName: "Lois", lName: "Griffin", cabin: "A", senior: true),
-    try! Leader(fName: "Anna", lName: "Borshin", cabin: "A", senior: false)
-]
-
 struct LeaderView: View {
     @State private var sortOrder = [KeyPathComparator(\Leader.lName)]
     var body: some View {
         VStack(){
-            Table(leaders, sortOrder: $sortOrder){
+            Table(fooLeaders, sortOrder: $sortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 TableColumn("Cabin",value: \.cabin)
@@ -30,7 +21,7 @@ struct LeaderView: View {
                 TableColumn("Skill 4",value: \.skillFour)
             }
             .onChange(of: sortOrder){
-                leaders.sort(using: $0)
+                fooLeaders.sort(using: $0)
             }
         }
         .toolbar {

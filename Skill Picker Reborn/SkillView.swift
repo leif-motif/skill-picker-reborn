@@ -18,7 +18,7 @@ struct SkillView: View {
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
             Text("This is SkillView.")
-            Table(campers, sortOrder: $sortOrder){
+            Table(fooCampers, sortOrder: $sortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 TableColumn("Cabin",value: \.cabin)

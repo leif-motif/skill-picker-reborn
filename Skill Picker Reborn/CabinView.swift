@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CabinView: View {
-    @State private var selectedFlavor: Flavor = .chocolate
+    @State private var selectedCabin: String = "Unassigned"
     @State private var sortOrder = [KeyPathComparator(\Camper.lName)]
     var body: some View {
         VStack {
@@ -16,7 +16,8 @@ struct CabinView: View {
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
             Text("This is CabinView.")
-            Table(campers, sortOrder: $sortOrder){
+            Text("You have selected Cabin "+selectedCabin)
+            Table(fooCampers, sortOrder: $sortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 TableColumn("Skill 1",value: \.skillOne)
@@ -38,10 +39,10 @@ struct CabinView: View {
                 Image(systemName: "rectangle.badge.plus")
             }
             .help("Add Fanatic")
-            Picker("Flavor", selection: $selectedFlavor) {
-                Text("Chocolate").tag(Flavor.chocolate)
-                Text("Vanilla").tag(Flavor.vanilla)
-                Text("Strawberry").tag(Flavor.strawberry)
+            Picker("Cabin", selection: $selectedCabin) {
+                ForEach(validCabins, id: \.self){
+                    Text($0).tag($0)
+                }
             }
             TextField("Search", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
         }

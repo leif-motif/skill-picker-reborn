@@ -31,7 +31,7 @@ struct ContentView: View {
 
 struct NullView: View {
     var body: some View {
-        Text("")
+        Text("[Privacy Policy](https://www.youtube.com/watch?v=dQw4w9WgXcQ)")
         .toolbar {
             Text("")
         }

@@ -7,20 +7,12 @@
 
 import SwiftUI
 
-let fooSkills = ["Archery","Backcountry","Pelletry","Ultimate","Crafts","Drama"]
-var campers = [
-    try! Camper(fName: "Joe", lName: "Biden", cabin: "1", preferredSkills: fooSkills),
-    try! Camper(fName: "Donald", lName: "Trump", cabin: "2", preferredSkills: fooSkills),
-    try! Camper(fName: "Hilary", lName: "Clinton", cabin: "F", preferredSkills: fooSkills),
-    try! Camper(fName: "Doja", lName: "Cat", cabin: "A", preferredSkills: fooSkills),
-    try! Camper(fName: "Snoop", lName: "Dogg", cabin: "3", preferredSkills: fooSkills)
-]
-
 struct CamperView: View {
     @State private var sortOrder = [KeyPathComparator(\Camper.lName)]
+    @State private var selectedCamper = Set<Camper.ID>()
     var body: some View {
         VStack(){
-            Table(campers, sortOrder: $sortOrder){
+            Table(fooCampers, selection: $selectedCamper, sortOrder: $sortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 TableColumn("Cabin",value: \.cabin)
@@ -29,17 +21,39 @@ struct CamperView: View {
                 TableColumn("Skill 3",value: \.skillThree)
                 TableColumn("Skill 4",value: \.skillFour)
             }
-            .onChange(of: sortOrder){
-                campers.sort(using: $0)
+            .contextMenu(forSelectionType: Camper.ID.self) { items in
+              if items.isEmpty {
+                Button {
+                    
+                } label: {
+                  Label("New Camper...", systemImage: "plus")
+                }
+              } else if items.count == 1 {
+                Button {
+                    
+                } label: {
+                  Label("Info/Edit...", systemImage: "pencil.line")
+                }
+                Button(role: .destructive) {
+                    
+                } label: {
+                  Label("Delete", systemImage: "trash")
+                }
+              } else {
+                Button {
+                    
+                } label: {
+                  Label("Info/Edit Selection...", systemImage: "pencil.line")
+                }
+                Button(role: .destructive) {
+                    
+                } label: {
+                  Label("Delete Selection", systemImage: "trash")
+                }
+              }
             }
         }
         .toolbar {
-            Button {
-                
-            } label: {
-                Image(systemName: "doc")
-            }
-            .help("Select File")
             Button {
                 
             } label: {
@@ -49,10 +63,16 @@ struct CamperView: View {
             Button {
                 
             } label: {
-                Image(systemName: "arrow.up.doc.on.clipboard")
+                Image(systemName: "square.and.arrow.down")
             }
-            .help("Export Schedules")
-            TextField("Search", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
+            .help("Import files")
+            Button {
+                
+            } label: {
+                Image(systemName: "square.and.arrow.up")
+            }
+            .help("Export Schedule")
+            TextField(" This search bar doesn't work. ", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
         }
     }
 }
