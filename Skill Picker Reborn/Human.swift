@@ -7,14 +7,6 @@
 
 import Foundation
 
-let validCabins: [String] = ["A","B","C","D","E","F","1","2","3","4","5"]
-enum ValueError: Error {
-    case OutOfRange
-    case InvalidValue
-    case InvalidSize
-    case TooManySkills
-}
-
 class Human: Identifiable {
     let id = UUID()
     let fName: String
