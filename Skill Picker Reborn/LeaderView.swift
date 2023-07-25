@@ -1,26 +1,26 @@
 //
-//  CamperView.swift
+//  LeaderView.swift
 //  Skill Picker Reborn
 //
-//  Created by Leif Benson on 2023-07-24.
+//  Created by Leif Benson on 2023-07-25.
 //
 
 import SwiftUI
 
-let fooSkills = ["Archery","Backcountry","Pelletry","Ultimate","Crafts","Drama"]
-var campers = [
-    try! Camper(fName: "Joe", lName: "Biden", cabin: "1", preferredSkills: fooSkills),
-    try! Camper(fName: "Donald", lName: "Trump", cabin: "2", preferredSkills: fooSkills),
-    try! Camper(fName: "Hilary", lName: "Clinton", cabin: "F", preferredSkills: fooSkills),
-    try! Camper(fName: "Doja", lName: "Cat", cabin: "A", preferredSkills: fooSkills),
-    try! Camper(fName: "Snoop", lName: "Dogg", cabin: "3", preferredSkills: fooSkills)
+var leaders = [
+    try! Leader(fName: "Dirty", lName: "Harry", cabin: "1", senior: true),
+    try! Leader(fName: "Hugh", lName: "Jazz", cabin: "1", senior: false),
+    try! Leader(fName: "Peter", lName: "Griffin", cabin: "2", senior: true),
+    try! Leader(fName: "Mike", lName: "Ox", cabin: "2", senior: false),
+    try! Leader(fName: "Lois", lName: "Griffin", cabin: "A", senior: true),
+    try! Leader(fName: "Anna", lName: "Borshin", cabin: "A", senior: false)
 ]
 
-struct CamperView: View {
-    @State private var sortOrder = [KeyPathComparator(\Camper.lName)]
+struct LeaderView: View {
+    @State private var sortOrder = [KeyPathComparator(\Leader.lName)]
     var body: some View {
         VStack(){
-            Table(campers, sortOrder: $sortOrder){
+            Table(leaders, sortOrder: $sortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 TableColumn("Cabin",value: \.cabin)
@@ -30,7 +30,7 @@ struct CamperView: View {
                 TableColumn("Skill 4",value: \.skillFour)
             }
             .onChange(of: sortOrder){
-                campers.sort(using: $0)
+                leaders.sort(using: $0)
             }
         }
         .toolbar {
@@ -45,7 +45,7 @@ struct CamperView: View {
             } label: {
                 Image(systemName:"person.badge.plus")
             }
-            .help("Add Camper")
+            .help("Add Leader")
             Button {
                 
             } label: {
@@ -57,9 +57,8 @@ struct CamperView: View {
     }
 }
 
-
-struct CamperView_Previews: PreviewProvider {
+struct LeaderView_Previews: PreviewProvider {
     static var previews: some View {
-        CamperView()
+        LeaderView()
     }
 }
