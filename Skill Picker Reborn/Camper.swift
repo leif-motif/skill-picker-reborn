@@ -8,7 +8,7 @@
 import Foundation
 class Camper: Human {
     var preferredSkills: [String]
-    init(fName: String, lName: String, cabin: String, preferredSkills: [String]) throws {
+    init(fName: String, lName: String, cabin: String, preferredSkills: [String] = ["","","","","",""]) throws {
         if(preferredSkills.count != 6){
             throw ValueError.InvalidSize
         } else {

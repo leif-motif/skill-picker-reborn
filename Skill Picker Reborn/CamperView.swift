@@ -14,6 +14,7 @@ struct CamperView: View {
     @State private var filename = "Filename"
     @State private var showFileChooser = false
     @State private var addCamperSheet = false
+    @State var campers: [Camper] = []
     var body: some View {
         VStack(){
             Text(filename)
