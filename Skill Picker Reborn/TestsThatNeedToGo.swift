@@ -57,6 +57,3 @@ var fooSkills = [
                                   []])
     
 ]
-
-let validCabins: [String] = ["Unassigned","A","1","2"]
-//["Unassigned","A","B","C","D","E","F","1","2","3","4","5"]

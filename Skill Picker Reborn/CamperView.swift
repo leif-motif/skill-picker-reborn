@@ -13,6 +13,7 @@ struct CamperView: View {
     @State private var selectedCamper = Set<Camper.ID>()
     @State private var filename = "Filename"
     @State private var showFileChooser = false
+    @State private var addCamperSheet = false
     var body: some View {
         VStack(){
             Text(filename)
@@ -57,7 +58,7 @@ struct CamperView: View {
         }
         .toolbar {
             Button {
-                
+                addCamperSheet.toggle()
             } label: {
                 Image(systemName:"person.badge.plus")
                     .foregroundColor(Color(.systemGreen))
@@ -99,9 +100,13 @@ struct CamperView: View {
             .help("Export Schedule for all Campers")
             TextField(" This search bar doesn't work. ", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
         }
+        .sheet(isPresented: $addCamperSheet) {
+            print("Sheet dismissed!")
+        } content: {
+            AddCamperView()
+        }
     }
 }
-
 
 struct CamperView_Previews: PreviewProvider {
     static var previews: some View {

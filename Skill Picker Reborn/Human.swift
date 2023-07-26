@@ -19,10 +19,6 @@ class Human: Identifiable {
     init(fName: String, lName: String, cabin: String) throws {
         self.fName = fName
         self.lName = lName
-        if(!validCabins.contains(cabin)){
-            throw ValueError.InvalidValue
-        } else {
-            self.cabin = cabin
-        }
+        self.cabin = cabin
     }
 }
