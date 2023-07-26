@@ -7,13 +7,13 @@
 
 import Foundation
 
-let fooSkills = ["Archery","Backcountry","Pelletry","Ultimate","Crafts","Drama"]
+let fooPreferredSkills = ["Archery","Backcountry","Pelletry","Ultimate","Crafts","Drama"]
 var fooCampers = [
-    try! Camper(fName: "Joe", lName: "Biden", cabin: "1", preferredSkills: fooSkills),
-    try! Camper(fName: "Donald", lName: "Trump", cabin: "2", preferredSkills: fooSkills),
-    try! Camper(fName: "Snoop", lName: "Dogg", cabin: "2", preferredSkills: fooSkills),
-    try! Camper(fName: "Hilary", lName: "Clinton", cabin: "A", preferredSkills: fooSkills),
-    try! Camper(fName: "Doja", lName: "Cat", cabin: "A", preferredSkills: fooSkills),
+    try! Camper(fName: "Joe", lName: "Biden", cabin: "1", preferredSkills: fooPreferredSkills),
+    try! Camper(fName: "Donald", lName: "Trump", cabin: "2", preferredSkills: fooPreferredSkills),
+    try! Camper(fName: "Snoop", lName: "Dogg", cabin: "2", preferredSkills: fooPreferredSkills),
+    try! Camper(fName: "Hilary", lName: "Clinton", cabin: "A", preferredSkills: fooPreferredSkills),
+    try! Camper(fName: "Doja", lName: "Cat", cabin: "A", preferredSkills: fooPreferredSkills),
 ]
 
 var fooLeaders = [
@@ -24,8 +24,8 @@ var fooLeaders = [
     try! Leader(fName: "Lois", lName: "Griffin", cabin: "A", senior: true),
     try! Leader(fName: "Anna", lName: "Borshin", cabin: "A", senior: false)
 ]
-var nullSenior = try! Leader(fName: "Null", lName: "Null", cabin: "Unassigned", senior: true)
-var nullJunior = try! Leader(fName: "Null", lName: "Null", cabin: "Unassigned", senior: false)
+var nullSenior = try! Leader(fName: "null", lName: "null", cabin: "Unassigned", senior: true)
+var nullJunior = try! Leader(fName: "null", lName: "null", cabin: "Unassigned", senior: false)
 
 var fooCabins = [
     "Unassigned": try! Cabin(name: "Unassigned", senior: nullSenior, junior: nullJunior, campers: []),
@@ -34,12 +34,12 @@ var fooCabins = [
     "A": try! Cabin(name: "A", senior: fooLeaders[4], junior: fooLeaders[5], campers: [fooCampers[3],fooCampers[4]])
 ]
 
+var fooSkills = [
+    "None": Skill(name: "None", skillOneLeaders: [nullSenior, nullJunior], skillTwoLeaders: [nullSenior, nullJunior], skillThreeLeaders: [nullSenior, nullJunior], skillFourLeaders: [nullSenior, nullJunior]),
+    "Archery": Skill(name: "Archery", skillOne: [fooCampers[0],fooCampers[1]], skillOneLeaders: [fooLeaders[2],fooLeaders[1]]),
+    "Backcountry": Skill(name: "Backcountry", skillThree: [fooCampers[4],fooCampers[2]], skillThreeLeaders: [fooLeaders[0],fooLeaders[5]])
+    
+]
+
 let validCabins: [String] = ["Unassigned","A","1","2"]
 //["Unassigned","A","B","C","D","E","F","1","2","3","4","5"]
-
-enum Flavor: String, CaseIterable, Identifiable {
-    case chocolate, vanilla, strawberry
-    var id: Self {
-        self
-    }
-}

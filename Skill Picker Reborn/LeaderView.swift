@@ -9,9 +9,10 @@ import SwiftUI
 
 struct LeaderView: View {
     @State private var sortOrder = [KeyPathComparator(\Leader.lName)]
+    @State private var selectedLeader = Set<Leader.ID>()
     var body: some View {
         VStack(){
-            Table(fooLeaders, sortOrder: $sortOrder){
+            Table(fooLeaders, selection: $selectedLeader, sortOrder: $sortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 TableColumn("Cabin",value: \.cabin)
@@ -23,14 +24,39 @@ struct LeaderView: View {
             .onChange(of: sortOrder){
                 fooLeaders.sort(using: $0)
             }
+            .contextMenu(forSelectionType: Leader.ID.self) { items in
+              if items.isEmpty {
+                Button {
+                    
+                } label: {
+                  Label("New Leader...", systemImage: "plus")
+                }
+              } else if items.count == 1 {
+                Button {
+                    
+                } label: {
+                  Label("Info/Edit...", systemImage: "pencil.line")
+                }
+                Button(role: .destructive) {
+                    
+                } label: {
+                  Label("Delete", systemImage: "trash")
+                }
+              } else {
+                Button {
+                    
+                } label: {
+                  Label("Info/Edit Selection...", systemImage: "pencil.line")
+                }
+                Button(role: .destructive) {
+                    
+                } label: {
+                  Label("Delete Selection", systemImage: "trash")
+                }
+              }
+            }
         }
         .toolbar {
-            Button {
-                
-            } label: {
-                Image(systemName: "doc")
-            }
-            .help("Select File")
             Button {
                 
             } label: {
@@ -40,10 +66,16 @@ struct LeaderView: View {
             Button {
                 
             } label: {
-                Image(systemName: "arrow.up.doc.on.clipboard")
+                Image(systemName: "square.and.arrow.down")
             }
-            .help("Export Schedules")
-            TextField("Search", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
+            .help("Import file")
+            Button {
+                
+            } label: {
+                Image(systemName: "square.and.arrow.up")
+            }
+            .help("Export Schedule")
+            TextField(" This search bar doesn't work. ", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
         }
     }
 }

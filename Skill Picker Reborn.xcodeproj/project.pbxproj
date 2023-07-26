@@ -67,6 +67,7 @@
 		2974B6DF2A6ECB6E00EB063B /* Skill_Picker_RebornUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skill_Picker_RebornUITests.swift; sourceTree = "<group>"; };
 		2974B6E12A6ECB6E00EB063B /* Skill_Picker_RebornUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skill_Picker_RebornUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		2974B6EE2A6ECBA800EB063B /* Human.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Human.swift; sourceTree = "<group>"; };
+		29A4EF162A70C4E900B034E7 /* Skill-Picker-Reborn-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Skill-Picker-Reborn-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +118,7 @@
 		2974B6C22A6ECB6A00EB063B /* Skill Picker Reborn */ = {
 			isa = PBXGroup;
 			children = (
+				29A4EF162A70C4E900B034E7 /* Skill-Picker-Reborn-Info.plist */,
 				2974B6C52A6ECB6A00EB063B /* ContentView.swift */,
 				2974B6C32A6ECB6A00EB063B /* Skill_Picker_RebornApp.swift */,
 				29154B2B2A704CBE00CE8CAC /* Cabin.swift */,
@@ -466,6 +468,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Skill Picker Reborn/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Skill-Picker-Reborn-Info.plist";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -492,6 +495,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Skill Picker Reborn/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Skill-Picker-Reborn-Info.plist";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

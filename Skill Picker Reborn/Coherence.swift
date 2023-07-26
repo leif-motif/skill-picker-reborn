@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UniformTypeIdentifiers
 
 enum ValueError: Error {
     case OutOfRange
@@ -14,4 +15,8 @@ enum ValueError: Error {
     case NotASenior
     case NotAJunior
     case TooManySkills
+}
+
+extension UTType {
+    public static let csv = UTType(exportedAs: "com.domain.csv")
 }

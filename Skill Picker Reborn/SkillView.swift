@@ -7,17 +7,15 @@
 
 import SwiftUI
 
-
-
 struct SkillView: View {
-    @State private var selectedFlavor: Flavor = .chocolate
+    @State private var selectedSkill: String = "None"
+    @State private var selectedCamper = Set<Camper.ID>()
     @State private var sortOrder = [KeyPathComparator(\Camper.lName)]
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("This is SkillView.")
+            //ForEach(fooSkills){
+                
+            //}
             Table(fooCampers, sortOrder: $sortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
@@ -37,12 +35,12 @@ struct SkillView: View {
                 Image(systemName: "rectangle.badge.plus")
             }
             .help("Add Fanatic")
-            Picker("Flavor", selection: $selectedFlavor) {
-                Text("Chocolate").tag(Flavor.chocolate)
-                Text("Vanilla").tag(Flavor.vanilla)
-                Text("Strawberry").tag(Flavor.strawberry)
+            Picker("Skill", selection: $selectedSkill) {
+                Text("None").tag("None")
+                Text("Backcountry").tag("Backcountry")
+                Text("Ultimate").tag("Ultimate")
             }
-            TextField("Search", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
+            TextField(" This search bar doesn't work. ", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
         }
     }
 }

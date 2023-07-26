@@ -7,22 +7,24 @@
 
 import Foundation
 class Skill {
-    struct Period {
-        let min: Int
-        let max: Int
-        var leaders: [Leader]
-        var campers: [Camper] = []
-    }
     let name: String
-    var skillOne: Period
-    var skillTwo: Period
-    var skillThree: Period
-    var skillFour: Period
-    init(name: String, skillOne: Period, skillTwo: Period, skillThree: Period, skillFour: Period) {
+    var skillOne: [Camper]
+    var skillOneLeaders: [Leader]
+    var skillTwo: [Camper]
+    var skillTwoLeaders: [Leader]
+    var skillThree: [Camper]
+    var skillThreeLeaders: [Leader]
+    var skillFour: [Camper]
+    var skillFourLeaders: [Leader]
+    init(name: String, skillOne: [Camper] = [], skillOneLeaders: [Leader] = [], skillTwo: [Camper] = [], skillTwoLeaders: [Leader] = [], skillThree: [Camper] = [], skillThreeLeaders: [Leader] = [], skillFour: [Camper] = [], skillFourLeaders: [Leader] = []) {
         self.name = name
         self.skillOne = skillOne
+        self.skillOneLeaders = skillOneLeaders
         self.skillTwo = skillTwo
+        self.skillTwoLeaders = skillTwoLeaders
         self.skillThree = skillThree
+        self.skillThreeLeaders = skillThreeLeaders
         self.skillFour = skillFour
+        self.skillFourLeaders = skillFourLeaders
     }
 }

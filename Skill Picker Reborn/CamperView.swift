@@ -6,12 +6,16 @@
 //
 
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct CamperView: View {
     @State private var sortOrder = [KeyPathComparator(\Camper.lName)]
     @State private var selectedCamper = Set<Camper.ID>()
+    @State private var filename = "Filename"
+    @State private var showFileChooser = false
     var body: some View {
         VStack(){
+            Text(filename)
             Table(fooCampers, selection: $selectedCamper, sortOrder: $sortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
@@ -64,11 +68,17 @@ struct CamperView: View {
             }
             .help("Add Camper")
             Button {
-                
+                let panel = NSOpenPanel()
+                panel.allowsMultipleSelection = false
+                panel.canChooseDirectories = false
+                panel.allowedContentTypes = [.csv]
+                if panel.runModal() == .OK {
+                    self.filename = panel.url?.lastPathComponent ?? "<none>"
+                }
             } label: {
                 Image(systemName: "square.and.arrow.down")
             }
-            .help("Import files")
+            .help("Import file")
             Button {
                 
             } label: {
