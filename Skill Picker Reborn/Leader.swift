@@ -8,8 +8,8 @@
 import Foundation
 class Leader: Human {
     let senior: Bool
-    init(fName: String, lName: String, cabin: String, senior: Bool) throws {
+    init(fName: String, lName: String, cabin: String = "Unassigned", senior: Bool, skillOne: String = "None", skillTwo: String = "None", skillThree: String = "None", skillFour: String = "None") throws {
         self.senior = senior
-        try! super.init(fName: fName, lName: lName, cabin: cabin)
+        try! super.init(fName: fName, lName: lName, cabin: cabin, skillOne: skillOne, skillTwo: skillTwo, skillThree: skillThree, skillFour: skillFour)
     }
 }

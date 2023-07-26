@@ -9,20 +9,20 @@ import Foundation
 
 let fooPreferredSkills = ["Archery","Backcountry","Pelletry","Ultimate","Crafts","Drama"]
 var fooCampers = [
-    try! Camper(fName: "Joe", lName: "Biden", cabin: "1", preferredSkills: fooPreferredSkills),
-    try! Camper(fName: "Donald", lName: "Trump", cabin: "2", preferredSkills: fooPreferredSkills),
-    try! Camper(fName: "Snoop", lName: "Dogg", cabin: "2", preferredSkills: fooPreferredSkills),
+    try! Camper(fName: "Joe", lName: "Biden", cabin: "1", preferredSkills: fooPreferredSkills, skillOne: "Archery"),
+    try! Camper(fName: "Donald", lName: "Trump", cabin: "2", preferredSkills: fooPreferredSkills, skillOne: "Archery"),
+    try! Camper(fName: "Snoop", lName: "Dogg", cabin: "2", preferredSkills: fooPreferredSkills, skillThree: "Backcountry"),
     try! Camper(fName: "Hilary", lName: "Clinton", cabin: "A", preferredSkills: fooPreferredSkills),
-    try! Camper(fName: "Doja", lName: "Cat", cabin: "A", preferredSkills: fooPreferredSkills),
+    try! Camper(fName: "Doja", lName: "Cat", cabin: "A", preferredSkills: fooPreferredSkills, skillThree: "Backcountry"),
 ]
 
 var fooLeaders = [
-    try! Leader(fName: "Dirty", lName: "Harry", cabin: "1", senior: true),
-    try! Leader(fName: "Hugh", lName: "Jazz", cabin: "1", senior: false),
-    try! Leader(fName: "Peter", lName: "Griffin", cabin: "2", senior: true),
+    try! Leader(fName: "Dirty", lName: "Harry", cabin: "1", senior: true, skillThree: "Backcountry"),
+    try! Leader(fName: "Hugh", lName: "Jazz", cabin: "1", senior: false, skillOne: "Archery"),
+    try! Leader(fName: "Peter", lName: "Griffin", cabin: "2", senior: true, skillOne: "Archery"),
     try! Leader(fName: "Mike", lName: "Ox", cabin: "2", senior: false),
     try! Leader(fName: "Lois", lName: "Griffin", cabin: "A", senior: true),
-    try! Leader(fName: "Anna", lName: "Borshin", cabin: "A", senior: false)
+    try! Leader(fName: "Anna", lName: "Borshin", cabin: "A", senior: false, skillThree: "Backcountry")
 ]
 var nullSenior = try! Leader(fName: "null", lName: "null", cabin: "Unassigned", senior: true)
 var nullJunior = try! Leader(fName: "null", lName: "null", cabin: "Unassigned", senior: false)

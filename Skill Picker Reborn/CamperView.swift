@@ -17,7 +17,6 @@ struct CamperView: View {
     @State var campers: [Camper] = []
     var body: some View {
         VStack(){
-            Text(filename)
             Table(fooCampers, selection: $selectedCamper, sortOrder: $sortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
@@ -33,16 +32,16 @@ struct CamperView: View {
             .contextMenu(forSelectionType: Camper.ID.self) { items in
               if items.isEmpty {
                 Button {
-                    
+                    addCamperSheet.toggle()
                 } label: {
                   Label("New Camper...", systemImage: "plus")
                 }
               } else if items.count == 1 {
-                Button {
+                /*Button {
                     
                 } label: {
                   Label("Info/Edit...", systemImage: "pencil.line")
-                }
+                }*/
                 Button(role: .destructive) {
                     
                 } label: {
@@ -66,19 +65,35 @@ struct CamperView: View {
             }
             .help("Add Camper")
             Button {
-                
+                //remove camper from cabin
+                fooCabins[fooCampers.first(where: {$0.id == selectedCamper.first})!.cabin]!.campers.removeAll(where: {$0.id == selectedCamper.first})
+                //remove camper from skills
+                if(fooCampers.first(where: {$0.id == selectedCamper.first})!.skillOne != "None"){
+                    fooSkills[fooCampers.first(where: {$0.id == selectedCamper.first})!.skillOne]!.periods[0].removeAll(where: {$0.id == selectedCamper.first})
+                }
+                if(fooCampers.first(where: {$0.id == selectedCamper.first})!.skillTwo != "None"){
+                    fooSkills[fooCampers.first(where: {$0.id == selectedCamper.first})!.skillTwo]!.periods[1].removeAll(where: {$0.id == selectedCamper.first})
+                }
+                if(fooCampers.first(where: {$0.id == selectedCamper.first})!.skillThree != "None"){
+                    fooSkills[fooCampers.first(where: {$0.id == selectedCamper.first})!.skillThree]!.periods[2].removeAll(where: {$0.id == selectedCamper.first})
+                }
+                if(fooCampers.first(where: {$0.id == selectedCamper.first})!.skillFour != "None"){
+                    fooSkills[fooCampers.first(where: {$0.id == selectedCamper.first})!.skillFour]!.periods[3].removeAll(where: {$0.id == selectedCamper.first})
+                }
+                //delete camper for good
+                fooCampers.removeAll(where: {$0.id == selectedCamper.first})
             } label: {
                 Image(systemName:"person.badge.minus")
                     .foregroundColor(Color(.systemRed))
             }
             .help("Delete Camper")
-            Button {
+            /*Button {
                 
             } label: {
                 Image(systemName:"pencil.line")
                     .foregroundColor(Color(.systemOrange))
             }
-            .help("Edit Camper")
+            .help("Edit Camper")*/
             Button {
                 let panel = NSOpenPanel()
                 panel.allowsMultipleSelection = false
@@ -102,7 +117,6 @@ struct CamperView: View {
             TextField(" This search bar doesn't work. ", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
         }
         .sheet(isPresented: $addCamperSheet) {
-            print("Sheet dismissed!")
         } content: {
             AddCamperView()
         }

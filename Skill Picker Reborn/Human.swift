@@ -12,13 +12,17 @@ class Human: Identifiable {
     var fName: String
     var lName: String
     var cabin: String
-    var skillOne = "None"
-    var skillTwo = "None"
-    var skillThree = "None"
-    var skillFour = "None"
-    init(fName: String, lName: String, cabin: String) throws {
+    var skillOne: String
+    var skillTwo: String
+    var skillThree: String
+    var skillFour: String
+    init(fName: String, lName: String, cabin: String = "Unassigned", skillOne: String = "None", skillTwo: String = "None", skillThree: String = "None", skillFour: String = "None") throws {
         self.fName = fName
         self.lName = lName
         self.cabin = cabin
+        self.skillOne = skillOne
+        self.skillTwo = skillTwo
+        self.skillThree = skillThree
+        self.skillFour = skillFour
     }
 }
