@@ -43,11 +43,6 @@ struct LeaderView: View {
                   Label("Delete", systemImage: "trash")
                 }
               } else {
-                Button {
-                    
-                } label: {
-                  Label("Info/Edit Selection...", systemImage: "pencil.line")
-                }
                 Button(role: .destructive) {
                     
                 } label: {
@@ -61,20 +56,30 @@ struct LeaderView: View {
                 
             } label: {
                 Image(systemName:"person.badge.plus")
+                    .foregroundColor(Color(.systemGreen))
             }
             .help("Add Leader")
             Button {
                 
             } label: {
-                Image(systemName: "square.and.arrow.down")
+                Image(systemName:"person.badge.minus")
+                    .foregroundColor(Color(.systemRed))
             }
-            .help("Import file")
+            .help("Delete Leader")
             Button {
                 
             } label: {
-                Image(systemName: "square.and.arrow.up")
+                Image(systemName:"pencil.line")
+                    .foregroundColor(Color(.systemOrange))
             }
-            .help("Export Schedule")
+            .help("Edit Leader")
+            Button {
+                
+            } label: {
+                Image(systemName: "arrow.up.doc.on.clipboard")
+                .foregroundColor(Color(.systemBlue))
+            }
+            .help("Export Schedule for all Leaders")
             TextField(" This search bar doesn't work. ", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
         }
     }

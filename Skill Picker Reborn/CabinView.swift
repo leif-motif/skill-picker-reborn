@@ -35,7 +35,7 @@ struct CabinView: View {
                     Button {
                         
                     } label: {
-                        Label("New Camper...", systemImage: "plus")
+                        Label("New Camper in Cabin...", systemImage: "plus")
                     }
                 } else if items.count == 1 {
                     Button {
@@ -49,11 +49,6 @@ struct CabinView: View {
                         Label("Delete", systemImage: "trash")
                     }
                 } else {
-                    Button {
-                        
-                    } label: {
-                        Label("Info/Edit Selection...", systemImage: "pencil.line")
-                    }
                     Button(role: .destructive) {
                         
                     } label: {
@@ -66,17 +61,33 @@ struct CabinView: View {
             Button {
                 
             } label: {
-                Image(systemName: "rectangle.stack.badge.plus")
+                Image(systemName: "plus.square")
+                    .foregroundColor(Color(.systemGreen))
             }
-            .help("Add Skill")
+            .help("Add Cabin")
             Button {
                 
             } label: {
-                Image(systemName: "rectangle.badge.plus")
+                Image(systemName: "minus.square")
+                    .foregroundColor(Color(.systemRed))
             }
-            .help("Add Fanatic")
+            .help("Delete Cabin")
+            Button {
+                
+            } label: {
+                Image(systemName: "person.2.badge.gearshape")
+                    .foregroundColor(Color(.systemOrange))
+            }
+            .help("Edit Cabin's Leaders")
+            Button {
+                
+            } label: {
+                Image(systemName: "arrow.up.doc.on.clipboard")
+                .foregroundColor(Color(.systemBlue))
+            }
+            .help("Export Cabin Schedule")
             Picker("Cabin", selection: $selectedCabin) {
-                ForEach(validCabins, id: \.self){
+                ForEach(Array(fooCabins.keys).sorted(), id: \.self){
                     Text($0).tag($0)
                 }
             }

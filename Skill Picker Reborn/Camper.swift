@@ -7,13 +7,7 @@
 
 import Foundation
 class Camper: Human {
-    private let preferredSkills: [String]
-    func getPreferredSkill(priority: Int) throws -> String {
-        if(priority < 1 || priority > 6){
-            throw ValueError.OutOfRange
-        }
-        return self.preferredSkills[priority-1]
-    }
+    var preferredSkills: [String]
     init(fName: String, lName: String, cabin: String, preferredSkills: [String]) throws {
         if(preferredSkills.count != 6){
             throw ValueError.InvalidSize

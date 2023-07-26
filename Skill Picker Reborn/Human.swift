@@ -9,9 +9,9 @@ import Foundation
 
 class Human: Identifiable {
     let id = UUID()
-    let fName: String
-    let lName: String
-    let cabin: String
+    var fName: String
+    var lName: String
+    var cabin: String
     var skillOne = "None"
     var skillTwo = "None"
     var skillThree = "None"

@@ -35,9 +35,26 @@ var fooCabins = [
 ]
 
 var fooSkills = [
-    "None": Skill(name: "None", skillOneLeaders: [nullSenior, nullJunior], skillTwoLeaders: [nullSenior, nullJunior], skillThreeLeaders: [nullSenior, nullJunior], skillFourLeaders: [nullSenior, nullJunior]),
-    "Archery": Skill(name: "Archery", skillOne: [fooCampers[0],fooCampers[1]], skillOneLeaders: [fooLeaders[2],fooLeaders[1]]),
-    "Backcountry": Skill(name: "Backcountry", skillThree: [fooCampers[4],fooCampers[2]], skillThreeLeaders: [fooLeaders[0],fooLeaders[5]])
+    "None": try! Skill(name: "None", leaders: [[nullSenior, nullJunior],
+                                          [nullSenior, nullJunior],
+                                          [nullSenior, nullJunior],
+                                          [nullSenior, nullJunior]]),
+    "Archery": try! Skill(name: "Archery", periods: [[fooCampers[0],fooCampers[1]],
+                                                     [],
+                                                     [],
+                                                     []],
+                    leaders: [[fooLeaders[2],fooLeaders[1]],
+                              [],
+                              [],
+                              []]),
+    "Backcountry": try! Skill(name: "Backcountry", periods: [[],
+                                                             [],
+                                                             [fooCampers[4],fooCampers[2]],
+                                                             []],
+                        leaders: [[],
+                                  [],
+                                  [fooLeaders[0],fooLeaders[5]],
+                                  []])
     
 ]
 

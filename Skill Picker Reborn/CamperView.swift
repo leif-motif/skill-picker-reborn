@@ -47,11 +47,6 @@ struct CamperView: View {
                   Label("Delete", systemImage: "trash")
                 }
               } else {
-                Button {
-                    
-                } label: {
-                  Label("Info/Edit Selection...", systemImage: "pencil.line")
-                }
                 Button(role: .destructive) {
                     
                 } label: {
@@ -65,8 +60,23 @@ struct CamperView: View {
                 
             } label: {
                 Image(systemName:"person.badge.plus")
+                    .foregroundColor(Color(.systemGreen))
             }
             .help("Add Camper")
+            Button {
+                
+            } label: {
+                Image(systemName:"person.badge.minus")
+                    .foregroundColor(Color(.systemRed))
+            }
+            .help("Delete Camper")
+            Button {
+                
+            } label: {
+                Image(systemName:"pencil.line")
+                    .foregroundColor(Color(.systemOrange))
+            }
+            .help("Edit Camper")
             Button {
                 let panel = NSOpenPanel()
                 panel.allowsMultipleSelection = false
@@ -76,15 +86,17 @@ struct CamperView: View {
                     self.filename = panel.url?.lastPathComponent ?? "<none>"
                 }
             } label: {
-                Image(systemName: "square.and.arrow.down")
+                Image(systemName: "arrow.down.doc")
+                    .foregroundColor(Color(.systemBlue))
             }
             .help("Import file")
             Button {
                 
             } label: {
-                Image(systemName: "square.and.arrow.up")
+                Image(systemName: "arrow.up.doc.on.clipboard")
+                .foregroundColor(Color(.systemBlue))
             }
-            .help("Export Schedule")
+            .help("Export Schedule for all Campers")
             TextField(" This search bar doesn't work. ", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
         }
     }
