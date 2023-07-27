@@ -22,6 +22,7 @@
 		2971FDC22A721F49007DD484 /* AddSkillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2971FDC12A721F49007DD484 /* AddSkillView.swift */; };
 		2971FDC42A7233BE007DD484 /* AddFanaticView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2971FDC32A7233BE007DD484 /* AddFanaticView.swift */; };
 		2971FDC62A72B616007DD484 /* CamperOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2971FDC52A72B616007DD484 /* CamperOperations.swift */; };
+		2971FDC82A72BE46007DD484 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2971FDC72A72BE45007DD484 /* LICENSE.txt */; };
 		2974B6C42A6ECB6A00EB063B /* Skill_Picker_RebornApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2974B6C32A6ECB6A00EB063B /* Skill_Picker_RebornApp.swift */; };
 		2974B6C62A6ECB6A00EB063B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2974B6C52A6ECB6A00EB063B /* ContentView.swift */; };
 		2974B6C82A6ECB6D00EB063B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2974B6C72A6ECB6D00EB063B /* Assets.xcassets */; };
@@ -66,6 +67,7 @@
 		2971FDC12A721F49007DD484 /* AddSkillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSkillView.swift; sourceTree = "<group>"; };
 		2971FDC32A7233BE007DD484 /* AddFanaticView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFanaticView.swift; sourceTree = "<group>"; };
 		2971FDC52A72B616007DD484 /* CamperOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamperOperations.swift; sourceTree = "<group>"; };
+		2971FDC72A72BE45007DD484 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE.txt; path = "Skill Picker Reborn/LICENSE.txt"; sourceTree = SOURCE_ROOT; };
 		2974B6C02A6ECB6A00EB063B /* Skill Picker Reborn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Skill Picker Reborn.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2974B6C32A6ECB6A00EB063B /* Skill_Picker_RebornApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skill_Picker_RebornApp.swift; sourceTree = "<group>"; };
 		2974B6C52A6ECB6A00EB063B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 				29154B2D2A704DCA00CE8CAC /* Coherence.swift */,
 				29154B2F2A706EDC00CE8CAC /* TestsThatNeedToGo.swift */,
 				2971FDBF2A71F9CD007DD484 /* README.md */,
+				2971FDC72A72BE45007DD484 /* LICENSE.txt */,
 				29A4EF162A70C4E900B034E7 /* Skill-Picker-Reborn-Info.plist */,
 				2974B6C72A6ECB6D00EB063B /* Assets.xcassets */,
 				2974B6CC2A6ECB6D00EB063B /* Skill_Picker_Reborn.entitlements */,
@@ -286,6 +289,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2971FDC82A72BE46007DD484 /* LICENSE.txt in Resources */,
 				2971FDC02A71F9CD007DD484 /* README.md in Resources */,
 				2974B6CB2A6ECB6D00EB063B /* Preview Assets.xcassets in Resources */,
 				2974B6C82A6ECB6D00EB063B /* Assets.xcassets in Resources */,
