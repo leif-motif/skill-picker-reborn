@@ -14,6 +14,7 @@ struct SkillView: View {
     @State private var selectedLeader = Set<Leader.ID>()
     @State private var camperSortOrder = [KeyPathComparator(\Camper.lName)]
     @State private var leaderSortOrder = [KeyPathComparator(\Leader.lName)]
+    @State private var addSkillSheet = false
     var body: some View {
         VStack {
             Text("Leaders")
@@ -41,7 +42,7 @@ struct SkillView: View {
         }
         .toolbar {
             Button {
-                
+                addSkillSheet.toggle()
             } label: {
                 Image(systemName: "calendar.badge.plus")
                     .foregroundColor(Color(.systemGreen))
@@ -80,6 +81,10 @@ struct SkillView: View {
                 Text("Skill 4").tag(3)
             }
             TextField(" This search bar doesn't work. ", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
+        }
+        .sheet(isPresented: $addSkillSheet) {
+        } content: {
+            AddSkillView()
         }
     }
 }

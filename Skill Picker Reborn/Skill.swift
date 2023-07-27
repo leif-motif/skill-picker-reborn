@@ -10,7 +10,8 @@ class Skill {
     let name: String
     var periods: [[Camper]]
     var leaders: [[Leader]]
-    init(name: String, periods: [[Camper]] = [[],[],[],[]], leaders: [[Leader]] = [[],[],[],[]]) throws {
+    var maximums: [Int]
+    init(name: String, periods: [[Camper]] = [[],[],[],[]], leaders: [[Leader]] = [[],[],[],[]], maximums: [Int]) throws {
         self.name = name
         if(periods.count != 4){
             throw ValueError.InvalidSize
@@ -21,6 +22,11 @@ class Skill {
             throw ValueError.InvalidSize
         } else {
             self.leaders = leaders
+        }
+        if(maximums.count != 4){
+            throw ValueError.InvalidSize
+        } else {
+            self.maximums = maximums
         }
     }
 }
