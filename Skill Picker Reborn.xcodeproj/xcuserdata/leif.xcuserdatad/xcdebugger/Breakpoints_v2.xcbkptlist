@@ -109,6 +109,21 @@
                   endingLineNumber = "24"
                   offsetFromSymbolStart = "561">
                </Location>
+               <Location
+                  uuid = "0978994D-AEF1-4C45-8728-793D32EBABD1 - f22a30bc688baa5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; SwiftUI.TupleTableColumnContent&lt;Skill_Picker_Reborn.Camper, Foundation.KeyPathComparator&lt;Skill_Picker_Reborn.Camper&gt;, (SwiftUI.TableColumn&lt;Skill_Picker_Reborn.Camper, Foundation.KeyPathComparator&lt;Skill_Picker_Reborn.Camper&gt;, SwiftUI.Text, SwiftUI.Text&gt;, SwiftUI.TableColumn&lt;Skill_Picker_Reborn.Camper, Foundation.KeyPathComparator&lt;Skill_Picker_Reborn.Camper&gt;, SwiftUI.Text, SwiftUI.Text&gt;, SwiftUI.TableColumn&lt;Skill_Picker_Reborn.Camper, Foundation.KeyPathComparator&lt;Skill_Picker_Reborn.Camper&gt;, SwiftUI.Text, SwiftUI.Text&gt;, SwiftUI.TableColumn&lt;Skill_Picker_Reborn.Camper, Foundation.KeyPathComparator&lt;Skill_Picker_Reborn.Camper&gt;, SwiftUI.Text, SwiftUI.Text&gt;, SwiftUI.TableColumn&lt;Skill_Picker_Reborn.Camper, Foundation.KeyPathComparator&lt;Skill_Picker_Reborn.Camper&gt;, SwiftUI.Text, SwiftUI.Text&gt;, SwiftUI.TableColumn&lt;Skill_Picker_Reborn.Camper, Foundation.KeyPathComparator&lt;Skill_Picker_Reborn.Camper&gt;, SwiftUI.Text, SwiftUI.Text&gt;, SwiftUI.TableColumn&lt;Skill_Picker_Reborn.Camper, Foundation.KeyPathComparator&lt;Skill_Picker_Reborn.Camper&gt;, SwiftUI.Text, SwiftUI.Text&gt;)&gt; in closure #1 () -&gt; &lt;&lt;opaque return type of SwiftUI.View.contextMenu&lt;&#x3c4;_0_0, &#x3c4;_0_1 where &#x3c4;_1_0: Swift.Hashable, &#x3c4;_1_1: SwiftUI.View&gt;(forSelectionType: &#x3c4;_1_0.Type, menu: (Swift.Set&lt;&#x3c4;_1_0&gt;) -&gt; &#x3c4;_1_1, primaryAction: Swift.Optional&lt;(Swift.Set&lt;&#x3c4;_1_0&gt;) -&gt; ()&gt;) -&gt; some&gt;&gt;.0 in Skill_Picker_Reborn.CamperView.body.getter : some"
+                  moduleName = "Skill Picker Reborn"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/leif/xcode/Skill%20Picker%20Reborn/Skill%20Picker%20Reborn/CamperView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21"
+                  offsetFromSymbolStart = "561">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>

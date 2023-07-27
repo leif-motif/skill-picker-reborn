@@ -11,6 +11,7 @@ struct CabinView: View {
     @State private var selectedCabin: String = "Unassigned"
     @State private var selectedCamper = Set<Camper.ID>()
     @State private var sortOrder = [KeyPathComparator(\Camper.lName)]
+    @State private var addCabinSheet = false
     var body: some View {
         VStack {
             Text(try! AttributedString(markdown: "**Senior:** "+fooCabins[selectedCabin]!.senior.fName+" "+fooCabins[selectedCabin]!.senior.lName))
@@ -59,7 +60,7 @@ struct CabinView: View {
         }
         .toolbar {
             Button {
-                
+                addCabinSheet.toggle()
             } label: {
                 Image(systemName: "plus.square")
                     .foregroundColor(Color(.systemGreen))
@@ -92,6 +93,10 @@ struct CabinView: View {
                 }
             }
             TextField(" This search bar doesn't work. ", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
+        }
+        .sheet(isPresented: $addCabinSheet) {
+        } content: {
+            AddCabinView()
         }
     }
 }
