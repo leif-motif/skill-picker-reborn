@@ -31,7 +31,8 @@ struct ContentView: View {
 
 struct NullView: View {
     var body: some View {
-        Text("[Privacy Policy](https://www.youtube.com/watch?v=dQw4w9WgXcQ)")
+        Text("This app is from [this repository.](https://github.com/leif-motif/skill-picker-reborn)")
+        Text("Check it out, or begin working.")
         .toolbar {
             Text("")
         }
