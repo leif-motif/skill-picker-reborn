@@ -10,6 +10,7 @@ import SwiftUI
 struct LeaderView: View {
     @State private var sortOrder = [KeyPathComparator(\Leader.lName)]
     @State private var selectedLeader = Set<Leader.ID>()
+    @State private var search = ""
     var body: some View {
         VStack(){
             Table(fooLeaders, selection: $selectedLeader, sortOrder: $sortOrder){
@@ -27,24 +28,24 @@ struct LeaderView: View {
             .contextMenu(forSelectionType: Leader.ID.self) { items in
               if items.isEmpty {
                 Button {
-                    
+                    //add leader
                 } label: {
                   Label("New Leader...", systemImage: "plus")
                 }
               } else if items.count == 1 {
-                Button {
+                /*Button {
                     
                 } label: {
                   Label("Info/Edit...", systemImage: "pencil.line")
-                }
+                }*/
                 Button(role: .destructive) {
-                    
+                    //delete leader
                 } label: {
                   Label("Delete", systemImage: "trash")
                 }
               } else {
                 Button(role: .destructive) {
-                    
+                    //delete leaders
                 } label: {
                   Label("Delete Selection", systemImage: "trash")
                 }
@@ -53,34 +54,34 @@ struct LeaderView: View {
         }
         .toolbar {
             Button {
-                
+                //add leader
             } label: {
                 Image(systemName:"person.badge.plus")
                     .foregroundColor(Color(.systemGreen))
             }
             .help("Add Leader")
             Button {
-                
+                //delete leader
             } label: {
                 Image(systemName:"person.badge.minus")
                     .foregroundColor(Color(.systemRed))
             }
             .help("Delete Leader")
-            Button {
+            /*Button {
                 
             } label: {
                 Image(systemName:"pencil.line")
                     .foregroundColor(Color(.systemOrange))
             }
-            .help("Edit Leader")
+            .help("Edit Leader")*/
             Button {
-                
+                //export schedule for all leaders
             } label: {
                 Image(systemName: "arrow.up.doc.on.clipboard")
                 .foregroundColor(Color(.systemBlue))
             }
             .help("Export Schedule for all Leaders")
-            TextField(" This search bar doesn't work. ", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
+            TextField(" This search bar doesn't work. ", text: $search)
         }
     }
 }

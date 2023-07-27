@@ -48,6 +48,7 @@ struct AddSkillView: View {
                     dismiss()
                 }
                 Button("Add Skill") {
+                    //add skill
                     dismiss()
                 }
             }

@@ -12,6 +12,7 @@ struct CabinView: View {
     @State private var selectedCamper = Set<Camper.ID>()
     @State private var sortOrder = [KeyPathComparator(\Camper.lName)]
     @State private var addCabinSheet = false
+    @State private var search = ""
     var body: some View {
         VStack {
             Text(try! AttributedString(markdown: "**Senior:** "+fooCabins[selectedCabin]!.senior.fName+" "+fooCabins[selectedCabin]!.senior.lName))
@@ -34,24 +35,34 @@ struct CabinView: View {
             .contextMenu(forSelectionType: Camper.ID.self) { items in
                 if items.isEmpty {
                     Button {
-                        
+                        //add camper with this cabin
                     } label: {
                         Label("New Camper in Cabin...", systemImage: "plus")
                     }
                 } else if items.count == 1 {
-                    Button {
+                    /*Button {
                         
                     } label: {
                         Label("Info/Edit...", systemImage: "pencil.line")
+                    }*/
+                    Button(role: .destructive) {
+                        //remove camper from cabin
+                    } label: {
+                        Label("Remove", systemImage: "trash")
                     }
                     Button(role: .destructive) {
-                        
+                        //delete camper
                     } label: {
                         Label("Delete", systemImage: "trash")
                     }
                 } else {
                     Button(role: .destructive) {
-                        
+                        //remove campers from cabin
+                    } label: {
+                        Label("Remove Selection", systemImage: "trash")
+                    }
+                    Button(role: .destructive) {
+                        //delete campers
                     } label: {
                         Label("Delete Selection", systemImage: "trash")
                     }
@@ -67,21 +78,21 @@ struct CabinView: View {
             }
             .help("Add Cabin")
             Button {
-                
+                //delete cabin
             } label: {
                 Image(systemName: "minus.square")
                     .foregroundColor(Color(.systemRed))
             }
             .help("Delete Cabin")
             Button {
-                
+                //change cabin leaders
             } label: {
                 Image(systemName: "person.2.badge.gearshape")
                     .foregroundColor(Color(.systemOrange))
             }
-            .help("Edit Cabin's Leaders")
+            .help("Edit Cabin Leaders")
             Button {
-                
+                //export cabin schedule
             } label: {
                 Image(systemName: "arrow.up.doc.on.clipboard")
                 .foregroundColor(Color(.systemBlue))
@@ -92,7 +103,7 @@ struct CabinView: View {
                     Text($0).tag($0)
                 }
             }
-            TextField(" This search bar doesn't work. ", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
+            TextField(" This search bar doesn't work. ", text: $search)
         }
         .sheet(isPresented: $addCabinSheet) {
         } content: {

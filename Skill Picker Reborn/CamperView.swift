@@ -14,7 +14,7 @@ struct CamperView: View {
     @State private var filename = "Filename"
     @State private var showFileChooser = false
     @State private var addCamperSheet = false
-    @State var campers: [Camper] = []
+    @State private var search = ""
     var body: some View {
         VStack(){
             Table(fooCampers, selection: $selectedCamper, sortOrder: $sortOrder){
@@ -43,13 +43,13 @@ struct CamperView: View {
                   Label("Info/Edit...", systemImage: "pencil.line")
                 }*/
                 Button(role: .destructive) {
-                    
+                    //delete camper
                 } label: {
                   Label("Delete", systemImage: "trash")
                 }
               } else {
                 Button(role: .destructive) {
-                    
+                    //delete campers
                 } label: {
                   Label("Delete Selection", systemImage: "trash")
                 }
@@ -108,13 +108,13 @@ struct CamperView: View {
             }
             .help("Import file")
             Button {
-                
+                //export schedule for all campers
             } label: {
                 Image(systemName: "arrow.up.doc.on.clipboard")
                 .foregroundColor(Color(.systemBlue))
             }
             .help("Export Schedule for all Campers")
-            TextField(" This search bar doesn't work. ", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
+            TextField(" This search bar doesn't work. ", text: $search)
         }
         .sheet(isPresented: $addCamperSheet) {
         } content: {

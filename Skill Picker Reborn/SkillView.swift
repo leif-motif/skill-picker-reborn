@@ -15,6 +15,8 @@ struct SkillView: View {
     @State private var camperSortOrder = [KeyPathComparator(\Camper.lName)]
     @State private var leaderSortOrder = [KeyPathComparator(\Leader.lName)]
     @State private var addSkillSheet = false
+    @State private var addFanaticSheet = false
+    @State private var search = ""
     var body: some View {
         VStack {
             Text("Leaders")
@@ -28,6 +30,42 @@ struct SkillView: View {
             .onChange(of: camperSortOrder){
                 fooSkills[selectedSkill]!.periods[selectedPeriod].sort(using: $0)
             }
+            .contextMenu(forSelectionType: Leader.ID.self) { items in
+                if items.isEmpty {
+                    Button {
+                        //add leader
+                    } label: {
+                        Label("New Leader in Skill...", systemImage: "plus")
+                    }
+                } else if items.count == 1 {
+                    /*Button {
+                     
+                     } label: {
+                     Label("Info/Edit...", systemImage: "pencil.line")
+                     }*/
+                    Button(role: .destructive) {
+                        //remove leader from skill
+                    } label: {
+                        Label("Remove", systemImage: "trash")
+                    }
+                    Button(role: .destructive) {
+                        //delete leader
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                    }
+                } else {
+                    Button(role: .destructive) {
+                        //remove leaders from skill
+                    } label: {
+                        Label("Remove Selection", systemImage: "trash")
+                    }
+                    Button(role: .destructive) {
+                        //delete leaders
+                    } label: {
+                        Label("Delete Selection", systemImage: "trash")
+                    }
+                }
+            }
             Text("Campers")
                 .font(.title)
                 .bold()
@@ -39,6 +77,42 @@ struct SkillView: View {
             .onChange(of: camperSortOrder){
                 fooSkills[selectedSkill]!.periods[selectedPeriod].sort(using: $0)
             }
+            .contextMenu(forSelectionType: Camper.ID.self) { items in
+                if items.isEmpty {
+                    Button {
+                        //add camper
+                    } label: {
+                        Label("New Camper in Skill...", systemImage: "plus")
+                    }
+                } else if items.count == 1 {
+                    /*Button {
+                     
+                     } label: {
+                     Label("Info/Edit...", systemImage: "pencil.line")
+                     }*/
+                    Button(role: .destructive) {
+                        //remove camper from skill
+                    } label: {
+                        Label("Remove", systemImage: "trash")
+                    }
+                    Button(role: .destructive) {
+                        //delete camper
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                    }
+                } else {
+                    Button(role: .destructive) {
+                        //remove campers from skill
+                    } label: {
+                        Label("Remove Selection", systemImage: "trash")
+                    }
+                    Button(role: .destructive) {
+                        //delete campers
+                    } label: {
+                        Label("Delete Selection", systemImage: "trash")
+                    }
+                }
+            }
         }
         .toolbar {
             Button {
@@ -49,21 +123,21 @@ struct SkillView: View {
             }
             .help("Add Skill")
             Button {
-                
+                addFanaticSheet.toggle()
             } label: {
                 Image(systemName: "note.text.badge.plus")
                     .foregroundColor(Color(.systemGreen))
             }
             .help("Add Fanatic")
             Button {
-                
+                //remove skill/fanatic
             } label: {
                 Image(systemName: "calendar.badge.minus")
                     .foregroundColor(Color(.systemRed))
             }
             .help("Remove Skill/Fanatic")
             Button {
-                
+                //export schedule
             } label: {
                 Image(systemName: "arrow.up.doc.on.clipboard")
                 .foregroundColor(Color(.systemBlue))
@@ -80,11 +154,15 @@ struct SkillView: View {
                 Text("Skill 3").tag(2)
                 Text("Skill 4").tag(3)
             }
-            TextField(" This search bar doesn't work. ", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
+            TextField(" This search bar doesn't work. ", text: $search)
         }
         .sheet(isPresented: $addSkillSheet) {
         } content: {
             AddSkillView()
+        }
+        .sheet(isPresented: $addFanaticSheet) {
+        } content: {
+            AddFanaticView()
         }
     }
 }
