@@ -10,6 +10,7 @@ import SwiftUI
 struct LeaderView: View {
     @State private var sortOrder = [KeyPathComparator(\Leader.lName)]
     @State private var selectedLeader = Set<Leader.ID>()
+    @State private var addLeaderSheet = false
     @State private var search = ""
     var body: some View {
         VStack(){
@@ -28,7 +29,7 @@ struct LeaderView: View {
             .contextMenu(forSelectionType: Leader.ID.self) { items in
               if items.isEmpty {
                 Button {
-                    //add leader
+                    addLeaderSheet.toggle()
                 } label: {
                   Label("New Leader...", systemImage: "plus")
                 }
@@ -54,7 +55,7 @@ struct LeaderView: View {
         }
         .toolbar {
             Button {
-                //add leader
+                addLeaderSheet.toggle()
             } label: {
                 Image(systemName:"person.badge.plus")
                     .foregroundColor(Color(.systemGreen))
@@ -82,6 +83,10 @@ struct LeaderView: View {
             }
             .help("Export Schedule for all Leaders")
             TextField(" This search bar doesn't work. ", text: $search)
+        }
+        .sheet(isPresented: $addLeaderSheet) {
+        } content: {
+            AddLeaderView()
         }
     }
 }

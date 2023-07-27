@@ -7,8 +7,9 @@
 
 import Foundation
 
-func newCamper(){
-    
+func createCamper(newCamper: Camper){
+    fooCampers.append(newCamper)
+    fooCabins[newCamper.cabin]!.campers.append(newCamper)
 }
 
 func deleteCamper(camperSelection: Set<Camper.ID>){

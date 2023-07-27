@@ -60,14 +60,11 @@ struct AddCamperView: View {
                     dismiss()
                 }
                 Button("Create Camper"){
-                    var newCamper = try! Camper(fName: iFName, lName: iLName, cabin: selectedCabin)
-                    fooCampers.append(newCamper)
-                    fooCabins[selectedCabin]?.campers.append(newCamper)
+                    createCamper(newCamper: try! Camper(fName: iFName, lName: iLName, cabin: selectedCabin))
                     dismiss()
                 }
                 Spacer()
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
             .padding([.vertical,.trailing])
         }
     }

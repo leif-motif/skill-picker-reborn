@@ -12,6 +12,7 @@ struct CabinView: View {
     @State private var selectedCamper = Set<Camper.ID>()
     @State private var sortOrder = [KeyPathComparator(\Camper.lName)]
     @State private var addCabinSheet = false
+    @State private var modifyCabinLeadersSheet = false
     @State private var search = ""
     var body: some View {
         VStack {
@@ -85,7 +86,7 @@ struct CabinView: View {
             }
             .help("Delete Cabin")
             Button {
-                //change cabin leaders
+                modifyCabinLeadersSheet.toggle()
             } label: {
                 Image(systemName: "person.2.badge.gearshape")
                     .foregroundColor(Color(.systemOrange))
@@ -108,6 +109,10 @@ struct CabinView: View {
         .sheet(isPresented: $addCabinSheet) {
         } content: {
             AddCabinView()
+        }
+        .sheet(isPresented: $modifyCabinLeadersSheet) {
+        } content: {
+            ModifyCabinLeadersView()
         }
     }
 }
