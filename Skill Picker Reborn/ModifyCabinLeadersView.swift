@@ -10,6 +10,7 @@ import SwiftUI
 struct ModifyCabinLeadersView: View {
     @State private var seniorSelection = "null null"
     @State private var juniorSelection = "null null"
+    private var targetCabin: String
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
@@ -30,17 +31,22 @@ struct ModifyCabinLeadersView: View {
                     dismiss()
                 }
                 Button("Change Cabin Leaders") {
-                    //modify the cabin's leaders
+                    changeCabinLeaders(cabinName: targetCabin,
+                                       targetSenior: fooLeaders.first(where: {$0.fName == seniorSelection.components(separatedBy: " ")[0] && $0.lName == seniorSelection.components(separatedBy: " ")[1]})!,
+                                       targetJunior: fooLeaders.first(where: {$0.fName == juniorSelection.components(separatedBy: " ")[0] && $0.lName == juniorSelection.components(separatedBy: " ")[1]})!)
                     dismiss()
                 }
             }
             .padding([.bottom,.trailing])
         }
     }
+    init(targetCabin: String) {
+        self.targetCabin = targetCabin
+    }
 }
 
 struct ModifyCabinLeadersView_Previews: PreviewProvider {
     static var previews: some View {
-        ModifyCabinLeadersView()
+        ModifyCabinLeadersView(targetCabin: "This is a cabin.")
     }
 }

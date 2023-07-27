@@ -37,6 +37,16 @@ func deleteCabin(targetCabin: String) throws {
     
 }
 
-func changeCabinLeaders(){
-    
+func changeCabinLeaders(cabinName: String, targetSenior: Leader, targetJunior: Leader){
+    //if the current cabin's leader is not the null leader, move them to the unassigned cabin
+    if(fooCabins[cabinName]!.senior.id != fooLeaders[1].id){
+        fooCabins[cabinName]!.senior.cabin = "Unassigned"
+    }
+    if(fooCabins[cabinName]!.junior.id != fooLeaders[0].id){
+        fooCabins[cabinName]!.junior.cabin = "Unassigned"
+    }
+    fooCabins[cabinName]!.senior = targetSenior
+    targetSenior.cabin = cabinName
+    fooCabins[cabinName]!.junior = targetJunior
+    targetJunior.cabin = cabinName
 }

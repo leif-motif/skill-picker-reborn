@@ -13,6 +13,7 @@ struct CabinView: View {
     @State private var sortOrder = [KeyPathComparator(\Camper.lName)]
     @State private var addCabinSheet = false
     @State private var modifyCabinLeadersSheet = false
+    @State private var unassignedCabinAlert = false
     @State private var search = ""
     var body: some View {
         VStack {
@@ -79,14 +80,18 @@ struct CabinView: View {
             }
             .help("Add Cabin")
             Button {
-                //delete cabin
+                try! deleteCabin(targetCabin: selectedCabin)
             } label: {
                 Image(systemName: "minus.square")
                     .foregroundColor(Color(.systemRed))
             }
             .help("Delete Cabin")
             Button {
-                modifyCabinLeadersSheet.toggle()
+                if(selectedCabin == "Unassigned"){
+                    unassignedCabinAlert.toggle()
+                } else {
+                    modifyCabinLeadersSheet.toggle()
+                }
             } label: {
                 Image(systemName: "person.2.badge.gearshape")
                     .foregroundColor(Color(.systemOrange))
@@ -112,7 +117,12 @@ struct CabinView: View {
         }
         .sheet(isPresented: $modifyCabinLeadersSheet) {
         } content: {
-            ModifyCabinLeadersView()
+            ModifyCabinLeadersView(targetCabin: selectedCabin)
+        }
+        .alert(isPresented: $unassignedCabinAlert) {
+            Alert(title: Text("Error!"),
+                  message: Text("Cannot delete the \"Unassigned\" cabin."),
+                  dismissButton: .default(Text("Dismiss")))
         }
     }
 }

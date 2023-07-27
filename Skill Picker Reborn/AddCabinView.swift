@@ -34,7 +34,9 @@ struct AddCabinView: View {
                 }
                 Button("Create Cabin"){
                     //gets the first element of the leader array where the selection's first and last names are equal to the element's first and last names
-                    createCabin(cabinName: iName, targetSenior: fooLeaders.first(where: {$0.fName == seniorSelection.components(separatedBy: " ")[0] && $0.lName == seniorSelection.components(separatedBy: " ")[1]})!, targetJunior: fooLeaders.first(where: {$0.fName == juniorSelection.components(separatedBy: " ")[0] && $0.lName == juniorSelection.components(separatedBy: " ")[1]})!)
+                    createCabin(cabinName: iName,
+                                targetSenior: fooLeaders.first(where: {$0.fName == seniorSelection.components(separatedBy: " ")[0] && $0.lName == seniorSelection.components(separatedBy: " ")[1]})!,
+                                targetJunior: fooLeaders.first(where: {$0.fName == juniorSelection.components(separatedBy: " ")[0] && $0.lName == juniorSelection.components(separatedBy: " ")[1]})!)
                     dismiss()
                 }
                 Spacer()

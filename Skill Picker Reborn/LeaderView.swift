@@ -14,7 +14,7 @@ struct LeaderView: View {
     @State private var search = ""
     var body: some View {
         VStack(){
-            Table(fooLeaders, selection: $selectedLeader, sortOrder: $sortOrder){
+            Table(fooLeaders[2...], selection: $selectedLeader, sortOrder: $sortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 TableColumn("Cabin",value: \.cabin)
