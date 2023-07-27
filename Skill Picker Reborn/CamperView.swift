@@ -43,13 +43,13 @@ struct CamperView: View {
                   Label("Info/Edit...", systemImage: "pencil.line")
                 }*/
                 Button(role: .destructive) {
-                    //delete camper
+                    deleteCamper(camperSelection: selectedCamper)
                 } label: {
                   Label("Delete", systemImage: "trash")
                 }
               } else {
                 Button(role: .destructive) {
-                    //delete campers
+                    deleteCamper(camperSelection: selectedCamper)
                 } label: {
                   Label("Delete Selection", systemImage: "trash")
                 }
@@ -65,23 +65,7 @@ struct CamperView: View {
             }
             .help("Add Camper")
             Button {
-                //remove camper from cabin
-                fooCabins[fooCampers.first(where: {$0.id == selectedCamper.first})!.cabin]!.campers.removeAll(where: {$0.id == selectedCamper.first})
-                //remove camper from skills
-                if(fooCampers.first(where: {$0.id == selectedCamper.first})!.skillOne != "None"){
-                    fooSkills[fooCampers.first(where: {$0.id == selectedCamper.first})!.skillOne]!.periods[0].removeAll(where: {$0.id == selectedCamper.first})
-                }
-                if(fooCampers.first(where: {$0.id == selectedCamper.first})!.skillTwo != "None"){
-                    fooSkills[fooCampers.first(where: {$0.id == selectedCamper.first})!.skillTwo]!.periods[1].removeAll(where: {$0.id == selectedCamper.first})
-                }
-                if(fooCampers.first(where: {$0.id == selectedCamper.first})!.skillThree != "None"){
-                    fooSkills[fooCampers.first(where: {$0.id == selectedCamper.first})!.skillThree]!.periods[2].removeAll(where: {$0.id == selectedCamper.first})
-                }
-                if(fooCampers.first(where: {$0.id == selectedCamper.first})!.skillFour != "None"){
-                    fooSkills[fooCampers.first(where: {$0.id == selectedCamper.first})!.skillFour]!.periods[3].removeAll(where: {$0.id == selectedCamper.first})
-                }
-                //delete camper for good
-                fooCampers.removeAll(where: {$0.id == selectedCamper.first})
+                deleteCamper(camperSelection: selectedCamper)
             } label: {
                 Image(systemName:"person.badge.minus")
                     .foregroundColor(Color(.systemRed))
