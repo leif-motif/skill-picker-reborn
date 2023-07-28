@@ -35,7 +35,7 @@ struct AddLeaderView: View {
                     dismiss()
                 }
                 Button("Create Leader"){
-                    //createLeader(newLeader: try! Leader(fName: iFName, lName: iLName, cabin: selectedCabin, senior: isSenior))
+                    createLeader(newLeader: try! Leader(fName: iFName, lName: iLName, cabin: selectedCabin, senior: isSenior))
                     dismiss()
                 }
             }

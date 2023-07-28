@@ -13,23 +13,23 @@ func createCamper(newCamper: Camper){
 }
 
 func deleteCamper(camperSelection: Set<Camper.ID>){
-    for targetCamper in camperSelection {
+    for camperID in camperSelection {
         //remove camper from cabin
-        fooCabins[fooCampers.first(where: {$0.id == targetCamper})!.cabin]!.campers.removeAll(where: {$0.id == targetCamper})
+        fooCabins[fooCampers.first(where: {$0.id == camperID})!.cabin]!.campers.removeAll(where: {$0.id == camperID})
         //remove camper from skills
-        if(fooCampers.first(where: {$0.id == targetCamper})!.skillOne != "None"){
-            fooSkills[fooCampers.first(where: {$0.id == targetCamper})!.skillOne]!.periods[0].removeAll(where: {$0.id == targetCamper})
+        if(fooCampers.first(where: {$0.id == camperID})!.skillOne != "None"){
+            fooSkills[fooCampers.first(where: {$0.id == camperID})!.skillOne]!.periods[0].removeAll(where: {$0.id == camperID})
         }
-        if(fooCampers.first(where: {$0.id == targetCamper})!.skillTwo != "None"){
-            fooSkills[fooCampers.first(where: {$0.id == targetCamper})!.skillTwo]!.periods[1].removeAll(where: {$0.id == targetCamper})
+        if(fooCampers.first(where: {$0.id == camperID})!.skillTwo != "None"){
+            fooSkills[fooCampers.first(where: {$0.id == camperID})!.skillTwo]!.periods[1].removeAll(where: {$0.id == camperID})
         }
-        if(fooCampers.first(where: {$0.id == targetCamper})!.skillThree != "None"){
-            fooSkills[fooCampers.first(where: {$0.id == targetCamper})!.skillThree]!.periods[2].removeAll(where: {$0.id == targetCamper})
+        if(fooCampers.first(where: {$0.id == camperID})!.skillThree != "None"){
+            fooSkills[fooCampers.first(where: {$0.id == camperID})!.skillThree]!.periods[2].removeAll(where: {$0.id == camperID})
         }
-        if(fooCampers.first(where: {$0.id == targetCamper})!.skillFour != "None"){
-            fooSkills[fooCampers.first(where: {$0.id == targetCamper})!.skillFour]!.periods[3].removeAll(where: {$0.id == targetCamper})
+        if(fooCampers.first(where: {$0.id == camperID})!.skillFour != "None"){
+            fooSkills[fooCampers.first(where: {$0.id == camperID})!.skillFour]!.periods[3].removeAll(where: {$0.id == camperID})
         }
         //delete camper for good
-        fooCampers.removeAll(where: {$0.id == targetCamper})
+        fooCampers.removeAll(where: {$0.id == camperID})
     }
 }

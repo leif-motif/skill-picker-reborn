@@ -40,13 +40,13 @@ struct LeaderView: View {
                   Label("Info/Edit...", systemImage: "pencil.line")
                 }*/
                 Button(role: .destructive) {
-                    //delete leader
+                    deleteLeader(leaderSelection: selectedLeader)
                 } label: {
                   Label("Delete", systemImage: "trash")
                 }
               } else {
                 Button(role: .destructive) {
-                    //delete leaders
+                    deleteLeader(leaderSelection: selectedLeader)
                 } label: {
                   Label("Delete Selection", systemImage: "trash")
                 }
@@ -62,7 +62,7 @@ struct LeaderView: View {
             }
             .help("Add Leader")
             Button {
-                //delete leader
+                deleteLeader(leaderSelection: selectedLeader)
             } label: {
                 Image(systemName:"person.badge.minus")
                     .foregroundColor(Color(.systemRed))
