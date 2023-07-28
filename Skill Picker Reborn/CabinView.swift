@@ -48,23 +48,23 @@ struct CabinView: View {
                         Label("Info/Edit...", systemImage: "pencil.line")
                     }*/
                     Button(role: .destructive) {
-                        //remove camper from cabin
+                        removeCamperFromCabin(camperSelection: selectedCamper)
                     } label: {
                         Label("Remove", systemImage: "trash")
                     }
                     Button(role: .destructive) {
-                        //delete camper
+                        deleteCamper(camperSelection: selectedCamper)
                     } label: {
                         Label("Delete", systemImage: "trash")
                     }
                 } else {
                     Button(role: .destructive) {
-                        //remove campers from cabin
+                        removeCamperFromCabin(camperSelection: selectedCamper)
                     } label: {
                         Label("Remove Selection", systemImage: "trash")
                     }
                     Button(role: .destructive) {
-                        //delete campers
+                        deleteCamper(camperSelection: selectedCamper)
                     } label: {
                         Label("Delete Selection", systemImage: "trash")
                     }

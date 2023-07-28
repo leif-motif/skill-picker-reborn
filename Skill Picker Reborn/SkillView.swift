@@ -96,7 +96,7 @@ struct SkillView: View {
                         Label("Remove", systemImage: "trash")
                     }
                     Button(role: .destructive) {
-                        //delete camper
+                        deleteCamper(camperSelection: selectedCamper)
                     } label: {
                         Label("Delete", systemImage: "trash")
                     }
@@ -107,7 +107,7 @@ struct SkillView: View {
                         Label("Remove Selection", systemImage: "trash")
                     }
                     Button(role: .destructive) {
-                        //delete campers
+                        deleteCamper(camperSelection: selectedCamper)
                     } label: {
                         Label("Delete Selection", systemImage: "trash")
                     }

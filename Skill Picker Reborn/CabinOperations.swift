@@ -50,3 +50,10 @@ func changeCabinLeaders(cabinName: String, targetSenior: Leader, targetJunior: L
     fooCabins[cabinName]!.junior = targetJunior
     targetJunior.cabin = cabinName
 }
+
+func removeCamperFromCabin(camperSelection: Set<Camper.ID>){
+    for targetCamper in camperSelection {
+        fooCabins[fooCampers.first(where: {$0.id == targetCamper})!.cabin]!.campers.removeAll(where: {$0.id == targetCamper})
+        fooCampers.first(where: {$0.id == targetCamper})!.cabin = "Unassigned"
+    }
+}
