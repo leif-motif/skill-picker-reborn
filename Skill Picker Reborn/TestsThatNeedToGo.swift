@@ -37,10 +37,10 @@ var fooCabins = [
 ]
 
 var fooSkills = [
-    "None": try! Skill(name: "None", leaders: [[nullSenior, nullJunior],
-                                               [nullSenior, nullJunior],
-                                               [nullSenior, nullJunior],
-                                               [nullSenior, nullJunior]], maximums: [0,0,0,0]),
+    "None": try! Skill(name: "None", leaders: [[],
+                                               [],
+                                               [],
+                                               []], maximums: [255,255,255,255]),
     "Archery": try! Skill(name: "Archery", periods: [[fooCampers[0],fooCampers[1]],
                                                      [],
                                                      [],

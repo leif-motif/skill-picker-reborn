@@ -7,10 +7,11 @@
 
 import Foundation
 
-func createSkill(){
+func createSkill(newSkill: Skill){
+    fooSkills[newSkill.name] = newSkill
     
 }
 
-func deleteSkill(){
+func deleteSkill(skillName: String){
     
 }

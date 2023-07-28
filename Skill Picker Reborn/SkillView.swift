@@ -16,6 +16,7 @@ struct SkillView: View {
     @State private var leaderSortOrder = [KeyPathComparator(\Leader.lName)]
     @State private var addSkillSheet = false
     @State private var addFanaticSheet = false
+    @State private var noneSkillAlert = false
     @State private var search = ""
     var body: some View {
         VStack {
@@ -35,9 +36,9 @@ struct SkillView: View {
             .contextMenu(forSelectionType: Leader.ID.self) { items in
                 if items.isEmpty {
                     Button {
-                        //add leader
+                        //assign leader
                     } label: {
-                        Label("New Leader in Skill...", systemImage: "plus")
+                        Label("Assign Leader to Skill...", systemImage: "plus")
                     }
                 } else if items.count == 1 {
                     /*Button {
@@ -68,7 +69,9 @@ struct SkillView: View {
                     }
                 }
             }
-            Text("Campers")
+            @State var currentSkillCount = fooSkills[selectedSkill]!.periods[selectedPeriod].count
+            @State var currentSkillMax = fooSkills[selectedSkill]!.maximums[selectedPeriod]
+            Text("Campers ("+String(currentSkillCount)+"/"+String(currentSkillMax)+")")
                 .font(.title)
                 .bold()
             Table((fooSkills[selectedSkill]!.periods[selectedPeriod]), sortOrder: $camperSortOrder){

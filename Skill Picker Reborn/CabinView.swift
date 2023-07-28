@@ -80,7 +80,11 @@ struct CabinView: View {
             }
             .help("Add Cabin")
             Button {
-                try! deleteCabin(targetCabin: selectedCabin)
+                if(selectedCabin == "Unassigned"){
+                    unassignedCabinAlert.toggle()
+                } else {
+                    try! deleteCabin(targetCabin: selectedCabin)
+                }
             } label: {
                 Image(systemName: "minus.square")
                     .foregroundColor(Color(.systemRed))
@@ -121,7 +125,7 @@ struct CabinView: View {
         }
         .alert(isPresented: $unassignedCabinAlert) {
             Alert(title: Text("Error!"),
-                  message: Text("Cannot delete the \"Unassigned\" cabin."),
+                  message: Text("Cannot modify/delete the \"Unassigned\" cabin."),
                   dismissButton: .default(Text("Dismiss")))
         }
     }

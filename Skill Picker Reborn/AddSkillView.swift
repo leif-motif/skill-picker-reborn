@@ -19,30 +19,35 @@ struct AddSkillView: View {
         Form {
             TextField("Name:", text: $iName)
                 .padding(.all)
-            Slider(value: $firstMax, in: range, step: 1){
-                Text("First Skill Size:")
+            Group {
+                Text("To make a skill not run during a skill period, set the size to 0.")
+                    .bold()
+                    .padding(.trailing)
+                Slider(value: $firstMax, in: range, step: 1){
+                    Text("First Skill Size:")
+                }
+                .padding(.horizontal)
+                Text("\(Int(firstMax))")
+                    .bold()
+                Slider(value: $secondMax, in: range, step: 1){
+                    Text("Second Skill Size:")
+                }
+                .padding(.horizontal)
+                Text("\(Int(secondMax))")
+                    .bold()
+                Slider(value: $thirdMax, in: range, step: 1){
+                    Text("Third Skill Size:")
+                }
+                .padding(.horizontal)
+                Text("\(Int(thirdMax))")
+                    .bold()
+                Slider(value: $fourthMax, in: range, step: 1){
+                    Text("Fourth Skill Size:")
+                }
+                .padding(.horizontal)
+                Text("\(Int(fourthMax))")
+                    .bold()
             }
-            .padding(.horizontal)
-            Text("\(Int(firstMax))")
-                .bold()
-            Slider(value: $secondMax, in: range, step: 1){
-                Text("Second Skill Size:")
-            }
-            .padding(.horizontal)
-            Text("\(Int(secondMax))")
-                .bold()
-            Slider(value: $thirdMax, in: range, step: 1){
-                Text("Third Skill Size:")
-            }
-            .padding(.horizontal)
-            Text("\(Int(thirdMax))")
-                .bold()
-            Slider(value: $fourthMax, in: range, step: 1){
-                Text("Fourth Skill Size:")
-            }
-            .padding(.horizontal)
-            Text("\(Int(fourthMax))")
-                .bold()
             HStack {
                 Button("Cancel") {
                     dismiss()
