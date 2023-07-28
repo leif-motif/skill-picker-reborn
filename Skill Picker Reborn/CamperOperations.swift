@@ -10,6 +10,10 @@ import Foundation
 func createCamper(newCamper: Camper){
     fooCampers.append(newCamper)
     fooCabins[newCamper.cabin]!.campers.append(newCamper)
+    fooSkills[newCamper.skillOne]!.periods[0].append(newCamper)
+    fooSkills[newCamper.skillTwo]!.periods[1].append(newCamper)
+    fooSkills[newCamper.skillThree]!.periods[2].append(newCamper)
+    fooSkills[newCamper.skillFour]!.periods[3].append(newCamper)
 }
 
 func deleteCamper(camperSelection: Set<Camper.ID>){

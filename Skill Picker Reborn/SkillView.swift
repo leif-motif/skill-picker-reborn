@@ -22,11 +22,13 @@ struct SkillView: View {
             Text("Leaders")
                 .font(.title)
                 .bold()
+                .padding(.top)
             Table((fooSkills[selectedSkill]!.leaders[selectedPeriod]), sortOrder: $leaderSortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 TableColumn("Cabin",value: \.cabin)
             }
+            .frame(height: 90)
             .onChange(of: camperSortOrder){
                 fooSkills[selectedSkill]!.periods[selectedPeriod].sort(using: $0)
             }

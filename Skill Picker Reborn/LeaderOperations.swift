@@ -22,7 +22,10 @@ func createLeader(newLeader: Leader){
         }
         fooCabins[newLeader.cabin]!.junior = newLeader
     }
-    
+    fooSkills[newLeader.skillOne]!.leaders[0].append(newLeader)
+    fooSkills[newLeader.skillTwo]!.leaders[1].append(newLeader)
+    fooSkills[newLeader.skillThree]!.leaders[2].append(newLeader)
+    fooSkills[newLeader.skillFour]!.leaders[3].append(newLeader)
 }
 
 func deleteLeader(leaderSelection: Set<Leader.ID>){
