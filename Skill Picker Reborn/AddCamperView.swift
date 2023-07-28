@@ -17,7 +17,7 @@ struct AddCamperView: View {
     @State private var fourthChoice = ""
     @State private var fifthChoice = ""
     @State private var sixthChoice = ""
-    @State private var fanatic = "None"
+    @State private var fanaticSelection = "None"
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
@@ -31,10 +31,11 @@ struct AddCamperView: View {
                 }
             }
                 .padding([.horizontal])
-            Picker("Fanatic", selection: $fanatic){
+            Picker("Fanatic", selection: $fanaticSelection){
                 Text("None").tag("None")
-                Text("Tubing").tag("Tubing")
-                Text("Paintball").tag("Paintball")
+                ForEach(Array(fooFanatics.keys).sorted(), id: \.self){
+                    Text($0).tag($0)
+                }
             }
                 .padding([.horizontal])
             Text("Preferred Skills:")
@@ -53,14 +54,18 @@ struct AddCamperView: View {
                     .padding(.horizontal)
                 TextField("Sixth:",text: $sixthChoice)
                     .padding(.horizontal)
-                    .disabled(fanatic != "None")
+                    .disabled(fanaticSelection != "None")
             }
             HStack {
                 Button("Cancel") {
                     dismiss()
                 }
                 Button("Create Camper"){
-                    createCamper(newCamper: try! Camper(fName: iFName, lName: iLName, cabin: selectedCabin))
+                    if(fanaticSelection != "None"){
+                        try! createCamper(newCamper: try! Camper(fName: iFName, lName: iLName, cabin: selectedCabin, preferredSkills: [firstChoice,secondChoice,thirdChoice,fourthChoice,fifthChoice], fanatic: fanaticSelection))
+                    } else {
+                        try! createCamper(newCamper: try! Camper(fName: iFName, lName: iLName, cabin: selectedCabin, preferredSkills: [firstChoice,secondChoice,thirdChoice,fourthChoice,fifthChoice,sixthChoice], fanatic: fanaticSelection))
+                    }
                     dismiss()
                 }
                 Spacer()

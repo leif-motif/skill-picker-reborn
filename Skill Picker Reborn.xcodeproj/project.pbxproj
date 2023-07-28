@@ -23,6 +23,7 @@
 		29708D912A6F88370090E369 /* Leader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29708D902A6F88370090E369 /* Leader.swift */; };
 		29708D932A6F88E30090E369 /* Camper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29708D922A6F88E30090E369 /* Camper.swift */; };
 		29708D952A6F999F0090E369 /* CamperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29708D942A6F999F0090E369 /* CamperView.swift */; };
+		2970DFA62A7412C400D2A71F /* Fanatic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2970DFA52A7412C400D2A71F /* Fanatic.swift */; };
 		2971FDBE2A71D6F1007DD484 /* AddCabinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2971FDBD2A71D6F1007DD484 /* AddCabinView.swift */; };
 		2971FDC02A71F9CD007DD484 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 2971FDBF2A71F9CD007DD484 /* README.md */; };
 		2971FDC22A721F49007DD484 /* AddSkillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2971FDC12A721F49007DD484 /* AddSkillView.swift */; };
@@ -73,6 +74,7 @@
 		29708D902A6F88370090E369 /* Leader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Leader.swift; sourceTree = "<group>"; };
 		29708D922A6F88E30090E369 /* Camper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camper.swift; sourceTree = "<group>"; };
 		29708D942A6F999F0090E369 /* CamperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamperView.swift; sourceTree = "<group>"; };
+		2970DFA52A7412C400D2A71F /* Fanatic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fanatic.swift; sourceTree = "<group>"; };
 		2971FDBD2A71D6F1007DD484 /* AddCabinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCabinView.swift; sourceTree = "<group>"; };
 		2971FDBF2A71F9CD007DD484 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		2971FDC12A721F49007DD484 /* AddSkillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSkillView.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 				29154B292A7027B300CE8CAC /* SkillView.swift */,
 				2971FDC12A721F49007DD484 /* AddSkillView.swift */,
 				2971FDC32A7233BE007DD484 /* AddFanaticView.swift */,
+				2970DFA52A7412C400D2A71F /* Fanatic.swift */,
 				291CC5822A72C312001D422C /* SkillOperations.swift */,
 				2974B6EE2A6ECBA800EB063B /* Human.swift */,
 				29154B2D2A704DCA00CE8CAC /* Coherence.swift */,
@@ -346,6 +349,7 @@
 				29154B262A70269000CE8CAC /* LeaderView.swift in Sources */,
 				2974B6C62A6ECB6A00EB063B /* ContentView.swift in Sources */,
 				290240112A6EDB7200F747D7 /* Skill.swift in Sources */,
+				2970DFA62A7412C400D2A71F /* Fanatic.swift in Sources */,
 				2971FDBE2A71D6F1007DD484 /* AddCabinView.swift in Sources */,
 				291CC57F2A72C2E2001D422C /* CabinOperations.swift in Sources */,
 				29154B2A2A7027B300CE8CAC /* SkillView.swift in Sources */,

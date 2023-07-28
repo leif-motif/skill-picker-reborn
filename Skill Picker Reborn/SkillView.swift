@@ -22,7 +22,7 @@ struct SkillView: View {
             Text("Leaders")
                 .font(.title)
                 .bold()
-                .padding(.top)
+                .padding(.top, 10)
             Table((fooSkills[selectedSkill]!.leaders[selectedPeriod]), sortOrder: $leaderSortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)

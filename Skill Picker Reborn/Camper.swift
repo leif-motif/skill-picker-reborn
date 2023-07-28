@@ -7,9 +7,11 @@
 
 import Foundation
 class Camper: Human {
-    var preferredSkills: [String]
-    init(fName: String, lName: String, cabin: String, preferredSkills: [String] = ["","","","","",""], skillOne: String = "None", skillTwo: String = "None", skillThree: String = "None", skillFour: String = "None") throws {
-        if(preferredSkills.count != 6){
+    let preferredSkills: [String]
+    var fanatic: String
+    init(fName: String, lName: String, cabin: String, preferredSkills: [String], fanatic: String, skillOne: String = "None", skillTwo: String = "None", skillThree: String = "None", skillFour: String = "None") throws {
+        self.fanatic = fanatic
+        if((preferredSkills.count != 6 && fanatic == "None") || (preferredSkills.count != 5 && fanatic != "None")){
             throw ValueError.InvalidSize
         } else {
             self.preferredSkills = preferredSkills

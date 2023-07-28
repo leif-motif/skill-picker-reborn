@@ -8,12 +8,13 @@
 import Foundation
 
 let fooPreferredSkills = ["Archery","Backcountry","Pelletry","Ultimate","Crafts","Drama"]
+let fooFanPrefSkills = ["Volleyball","Wall","Horses","Swimming","Drama"]
 var fooCampers = [
-    try! Camper(fName: "Joe", lName: "Biden", cabin: "1", preferredSkills: fooPreferredSkills, skillOne: "Archery"),
-    try! Camper(fName: "Donald", lName: "Trump", cabin: "2", preferredSkills: fooPreferredSkills, skillOne: "Archery"),
-    try! Camper(fName: "Snoop", lName: "Dogg", cabin: "2", preferredSkills: fooPreferredSkills, skillThree: "Backcountry"),
-    try! Camper(fName: "Hilary", lName: "Clinton", cabin: "A", preferredSkills: fooPreferredSkills),
-    try! Camper(fName: "Doja", lName: "Cat", cabin: "A", preferredSkills: fooPreferredSkills, skillThree: "Backcountry"),
+    try! Camper(fName: "Joe", lName: "Biden", cabin: "1", preferredSkills: fooPreferredSkills, fanatic: "None", skillOne: "Archery"),
+    try! Camper(fName: "Donald", lName: "Trump", cabin: "2", preferredSkills: fooFanPrefSkills, fanatic: "Paintball", skillOne: "Archery", skillThree: "Paintball", skillFour: "Paintball"),
+    try! Camper(fName: "Snoop", lName: "Dogg", cabin: "2", preferredSkills: fooPreferredSkills, fanatic: "None", skillThree: "Backcountry"),
+    try! Camper(fName: "Hilary", lName: "Clinton", cabin: "A", preferredSkills: fooFanPrefSkills, fanatic: "Paintball", skillThree: "Paintball", skillFour: "Paintball"),
+    try! Camper(fName: "Doja", lName: "Cat", cabin: "A", preferredSkills: fooPreferredSkills, fanatic: "None", skillThree: "Backcountry")
 ]
 
 var nullSenior = try! Leader(fName: "null", lName: "senior", cabin: "Unassigned", senior: true)
@@ -55,6 +56,19 @@ var fooSkills = [
                         leaders: [[],
                                   [],
                                   [fooLeaders[2],fooLeaders[7]],
-                                  []], maximums: [10,10,10,10])
+                                  []], maximums: [10,10,10,10]),
+    "Paintball": try! Skill(name: "Paintball", periods: [[],
+                                                        [],
+                                                        [fooCampers[1],fooCampers[3]],
+                                                        [fooCampers[1],fooCampers[3]]],
+                          leaders: [[],
+                                    [],
+                                    [],
+                                    []], maximums: [0,0,20,20])
     
+]
+
+var fooFanatics = [
+    //"Tabletop Adventure": try! Fanatic(name: "Tabletop Adventure", activePeriods: [true, true, false, false]),
+    "Paintball": try! Fanatic(name: "Paintball", activePeriods: [false, false, true, true])
 ]

@@ -16,6 +16,7 @@ enum ValueError: Error {
     case NotAJunior
     case TooManySkills
     case RefusingDelete
+    case SkillFanaticConflict
 }
 
 extension UTType {
