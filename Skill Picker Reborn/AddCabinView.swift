@@ -9,8 +9,8 @@ import SwiftUI
 
 struct AddCabinView: View {
     @State private var iName = ""
-    @State private var seniorSelection = "null null"
-    @State private var juniorSelection = "null null"
+    @State private var seniorSelection = "null senior"
+    @State private var juniorSelection = "null junior"
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {

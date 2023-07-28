@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ModifyCabinLeadersView: View {
-    @State private var seniorSelection = "null null"
-    @State private var juniorSelection = "null null"
+    @State private var seniorSelection = "null senior"
+    @State private var juniorSelection = "null junior"
     private var targetCabin: String
     @Environment(\.dismiss) var dismiss
     var body: some View {
