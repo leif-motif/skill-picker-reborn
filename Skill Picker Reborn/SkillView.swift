@@ -24,7 +24,7 @@ struct SkillView: View {
                 .font(.title)
                 .bold()
                 .padding(.top, 10)
-            Table((fooSkills[selectedSkill]!.leaders[selectedPeriod]), sortOrder: $leaderSortOrder){
+            Table((fooSkills[selectedSkill]!.leaders[selectedPeriod]), selection: $selectedLeader, sortOrder: $leaderSortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 TableColumn("Cabin",value: \.cabin)
@@ -74,7 +74,7 @@ struct SkillView: View {
             Text("Campers ("+String(currentSkillCount)+"/"+String(currentSkillMax)+")")
                 .font(.title)
                 .bold()
-            Table((fooSkills[selectedSkill]!.periods[selectedPeriod]), sortOrder: $camperSortOrder){
+            Table((fooSkills[selectedSkill]!.periods[selectedPeriod]), selection: $selectedCamper, sortOrder: $camperSortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 TableColumn("Cabin",value: \.cabin)
