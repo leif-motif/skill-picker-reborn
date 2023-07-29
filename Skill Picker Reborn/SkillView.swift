@@ -29,7 +29,7 @@ struct SkillView: View {
                 TableColumn("Last Name",value: \.lName)
                 TableColumn("Cabin",value: \.cabin)
             }
-            .frame(height: 90)
+            .frame(height: 85)
             .onChange(of: camperSortOrder){
                 fooSkills[selectedSkill]!.periods[selectedPeriod].sort(using: $0)
             }
