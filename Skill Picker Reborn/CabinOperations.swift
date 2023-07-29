@@ -12,11 +12,11 @@ func createCabin(cabinName: String, targetSenior: Leader, targetJunior: Leader){
     
     //if leaders are already assigned to a cabin, replace their place in that cabin with the null leader
     if(targetSenior.cabin != "Unassigned"){
-        fooCabins[targetSenior.cabin]!.senior = fooLeaders[1]
+        fooCabins[targetSenior.cabin]!.senior = nullSenior
     }
     targetSenior.cabin = cabinName
     if(targetJunior.cabin != "Unassigned"){
-        fooCabins[targetJunior.cabin]!.junior = fooLeaders[0]
+        fooCabins[targetJunior.cabin]!.junior = nullJunior
     }
     targetJunior.cabin = cabinName
     fooCabins[cabinName] = try! Cabin(name: cabinName, senior: targetSenior, junior: targetJunior)
@@ -39,10 +39,10 @@ func deleteCabin(targetCabin: String) throws {
 
 func changeCabinLeaders(cabinName: String, targetSenior: Leader, targetJunior: Leader){
     //if the current cabin's leader is not the null leader, move them to the unassigned cabin
-    if(fooCabins[cabinName]!.senior.id != fooLeaders[1].id){
+    if(fooCabins[cabinName]!.senior.id != nullSenior.id){
         fooCabins[cabinName]!.senior.cabin = "Unassigned"
     }
-    if(fooCabins[cabinName]!.junior.id != fooLeaders[0].id){
+    if(fooCabins[cabinName]!.junior.id != nullJunior.id){
         fooCabins[cabinName]!.junior.cabin = "Unassigned"
     }
     fooCabins[cabinName]!.senior = targetSenior
