@@ -12,7 +12,7 @@ class Camper: Human {
     init(fName: String, lName: String, cabin: String, preferredSkills: [String], fanatic: String, skillOne: String = "None", skillTwo: String = "None", skillThree: String = "None", skillFour: String = "None") throws {
         self.fanatic = fanatic
         if((preferredSkills.count != 6 && fanatic == "None") || (preferredSkills.count != 5 && fanatic != "None")){
-            throw ValueError.InvalidSize
+            throw SPRError.InvalidSize
         } else {
             self.preferredSkills = preferredSkills
         }

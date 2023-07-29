@@ -16,7 +16,7 @@ func createCamper(newCamper: Camper) throws {
             fooSkills[newCamper.fanatic]!.periods[0].append(newCamper)
             newCamper.skillOne = newCamper.fanatic
         } else if(fooFanatics[newCamper.fanatic]!.activePeriods[0]){
-            throw ValueError.SkillFanaticConflict
+            throw SPRError.SkillFanaticConflict
         } else {
             fooSkills[newCamper.skillOne]!.periods[0].append(newCamper)
         }
@@ -24,7 +24,7 @@ func createCamper(newCamper: Camper) throws {
             fooSkills[newCamper.fanatic]!.periods[1].append(newCamper)
             newCamper.skillTwo = newCamper.fanatic
         } else if(fooFanatics[newCamper.fanatic]!.activePeriods[1]){
-            throw ValueError.SkillFanaticConflict
+            throw SPRError.SkillFanaticConflict
         } else {
             fooSkills[newCamper.skillTwo]!.periods[1].append(newCamper)
         }
@@ -32,7 +32,7 @@ func createCamper(newCamper: Camper) throws {
             fooSkills[newCamper.fanatic]!.periods[2].append(newCamper)
             newCamper.skillThree = newCamper.fanatic
         } else if(fooFanatics[newCamper.fanatic]!.activePeriods[2]){
-            throw ValueError.SkillFanaticConflict
+            throw SPRError.SkillFanaticConflict
         } else {
             fooSkills[newCamper.skillThree]!.periods[2].append(newCamper)
         }
@@ -40,7 +40,7 @@ func createCamper(newCamper: Camper) throws {
             fooSkills[newCamper.fanatic]!.periods[3].append(newCamper)
             newCamper.skillFour = newCamper.fanatic
         } else if(fooFanatics[newCamper.fanatic]!.activePeriods[3]){
-            throw ValueError.SkillFanaticConflict
+            throw SPRError.SkillFanaticConflict
         } else {
             fooSkills[newCamper.skillFour]!.periods[3].append(newCamper)
         }

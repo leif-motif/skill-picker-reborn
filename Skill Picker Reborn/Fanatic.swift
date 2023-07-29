@@ -13,7 +13,7 @@ class Fanatic {
     init(name: String, activePeriods: [Bool]) throws {
         self.name = name
         if(activePeriods.count != 4){
-            throw ValueError.InvalidSize
+            throw SPRError.InvalidSize
         } else {
             self.activePeriods = activePeriods
         }

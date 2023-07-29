@@ -14,17 +14,17 @@ class Skill {
     init(name: String, periods: [[Camper]] = [[],[],[],[]], leaders: [[Leader]] = [[],[],[],[]], maximums: [Int]) throws {
         self.name = name
         if(periods.count != 4){
-            throw ValueError.InvalidSize
+            throw SPRError.InvalidSize
         } else {
             self.periods = periods
         }
         if(leaders.count != 4){
-            throw ValueError.InvalidSize
+            throw SPRError.InvalidSize
         } else {
             self.leaders = leaders
         }
         if(maximums.count != 4){
-            throw ValueError.InvalidSize
+            throw SPRError.InvalidSize
         } else {
             self.maximums = maximums
         }

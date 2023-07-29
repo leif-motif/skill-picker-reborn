@@ -17,8 +17,6 @@ var fooCampers = [
     try! Camper(fName: "Doja", lName: "Cat", cabin: "A", preferredSkills: fooPreferredSkills, fanatic: "None", skillThree: "Backcountry")
 ]
 
-var nullSenior = try! Leader(fName: "null", lName: "senior", cabin: "Unassigned", senior: true)
-var nullJunior = try! Leader(fName: "null", lName: "junior", cabin: "Unassigned", senior: false)
 var fooLeaders = [
     nullJunior,
     nullSenior,

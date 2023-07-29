@@ -12,7 +12,6 @@
 		29154B282A70274400CE8CAC /* CabinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29154B272A70274400CE8CAC /* CabinView.swift */; };
 		29154B2A2A7027B300CE8CAC /* SkillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29154B292A7027B300CE8CAC /* SkillView.swift */; };
 		29154B2C2A704CBE00CE8CAC /* Cabin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29154B2B2A704CBE00CE8CAC /* Cabin.swift */; };
-		29154B2E2A704DCA00CE8CAC /* Coherence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29154B2D2A704DCA00CE8CAC /* Coherence.swift */; };
 		29154B302A706EDC00CE8CAC /* TestsThatNeedToGo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29154B2F2A706EDC00CE8CAC /* TestsThatNeedToGo.swift */; };
 		291CC5792A72C1E0001D422C /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 291CC5782A72C1E0001D422C /* LICENSE.txt */; };
 		291CC57B2A72C262001D422C /* AddLeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291CC57A2A72C262001D422C /* AddLeaderView.swift */; };
@@ -21,6 +20,9 @@
 		291CC5812A72C2F2001D422C /* LeaderOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291CC5802A72C2F2001D422C /* LeaderOperations.swift */; };
 		291CC5832A72C312001D422C /* SkillOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291CC5822A72C312001D422C /* SkillOperations.swift */; };
 		291F0BCD2A746DA900C73BCD /* FanaticOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F0BCC2A746DA900C73BCD /* FanaticOperations.swift */; };
+		293A19832A74DE4400B4B015 /* SPRErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293A19822A74DE4400B4B015 /* SPRErrors.swift */; };
+		293A19852A74E1C400B4B015 /* UTType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293A19842A74E1C400B4B015 /* UTType.swift */; };
+		293A19872A74E37C00B4B015 /* MasterData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293A19862A74E37C00B4B015 /* MasterData.swift */; };
 		29708D912A6F88370090E369 /* Leader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29708D902A6F88370090E369 /* Leader.swift */; };
 		29708D932A6F88E30090E369 /* Camper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29708D922A6F88E30090E369 /* Camper.swift */; };
 		29708D952A6F999F0090E369 /* CamperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29708D942A6F999F0090E369 /* CamperView.swift */; };
@@ -64,7 +66,6 @@
 		29154B272A70274400CE8CAC /* CabinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CabinView.swift; sourceTree = "<group>"; };
 		29154B292A7027B300CE8CAC /* SkillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillView.swift; sourceTree = "<group>"; };
 		29154B2B2A704CBE00CE8CAC /* Cabin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cabin.swift; sourceTree = "<group>"; };
-		29154B2D2A704DCA00CE8CAC /* Coherence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coherence.swift; sourceTree = "<group>"; };
 		29154B2F2A706EDC00CE8CAC /* TestsThatNeedToGo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsThatNeedToGo.swift; sourceTree = "<group>"; };
 		291CC5782A72C1E0001D422C /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		291CC57A2A72C262001D422C /* AddLeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLeaderView.swift; sourceTree = "<group>"; };
@@ -73,6 +74,9 @@
 		291CC5802A72C2F2001D422C /* LeaderOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderOperations.swift; sourceTree = "<group>"; };
 		291CC5822A72C312001D422C /* SkillOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillOperations.swift; sourceTree = "<group>"; };
 		291F0BCC2A746DA900C73BCD /* FanaticOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FanaticOperations.swift; sourceTree = "<group>"; };
+		293A19822A74DE4400B4B015 /* SPRErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPRErrors.swift; sourceTree = "<group>"; };
+		293A19842A74E1C400B4B015 /* UTType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UTType.swift; sourceTree = "<group>"; };
+		293A19862A74E37C00B4B015 /* MasterData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterData.swift; sourceTree = "<group>"; };
 		29708D902A6F88370090E369 /* Leader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Leader.swift; sourceTree = "<group>"; };
 		29708D922A6F88E30090E369 /* Camper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camper.swift; sourceTree = "<group>"; };
 		29708D942A6F999F0090E369 /* CamperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamperView.swift; sourceTree = "<group>"; };
@@ -171,7 +175,9 @@
 				2971FDC32A7233BE007DD484 /* AddFanaticView.swift */,
 				291F0BCC2A746DA900C73BCD /* FanaticOperations.swift */,
 				2974B6EE2A6ECBA800EB063B /* Human.swift */,
-				29154B2D2A704DCA00CE8CAC /* Coherence.swift */,
+				293A19842A74E1C400B4B015 /* UTType.swift */,
+				293A19862A74E37C00B4B015 /* MasterData.swift */,
+				293A19822A74DE4400B4B015 /* SPRErrors.swift */,
 				29154B2F2A706EDC00CE8CAC /* TestsThatNeedToGo.swift */,
 				29A4EF162A70C4E900B034E7 /* Skill-Picker-Reborn-Info.plist */,
 				2974B6C72A6ECB6D00EB063B /* Assets.xcassets */,
@@ -339,6 +345,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2971FDC22A721F49007DD484 /* AddSkillView.swift in Sources */,
+				293A19872A74E37C00B4B015 /* MasterData.swift in Sources */,
 				29154B302A706EDC00CE8CAC /* TestsThatNeedToGo.swift in Sources */,
 				2971FDC42A7233BE007DD484 /* AddFanaticView.swift in Sources */,
 				291CC57B2A72C262001D422C /* AddLeaderView.swift in Sources */,
@@ -347,9 +354,11 @@
 				2971FDC62A72B616007DD484 /* CamperOperations.swift in Sources */,
 				29154B282A70274400CE8CAC /* CabinView.swift in Sources */,
 				29154B2C2A704CBE00CE8CAC /* Cabin.swift in Sources */,
+				293A19852A74E1C400B4B015 /* UTType.swift in Sources */,
 				29708D912A6F88370090E369 /* Leader.swift in Sources */,
 				29A4EF182A70F3EB00B034E7 /* AddCamperView.swift in Sources */,
 				29708D932A6F88E30090E369 /* Camper.swift in Sources */,
+				293A19832A74DE4400B4B015 /* SPRErrors.swift in Sources */,
 				29154B262A70269000CE8CAC /* LeaderView.swift in Sources */,
 				2974B6C62A6ECB6A00EB063B /* ContentView.swift in Sources */,
 				290240112A6EDB7200F747D7 /* Skill.swift in Sources */,
@@ -360,7 +369,6 @@
 				291CC57D2A72C2B9001D422C /* ModifyCabinLeadersView.swift in Sources */,
 				2974B6EF2A6ECBA900EB063B /* Human.swift in Sources */,
 				29708D952A6F999F0090E369 /* CamperView.swift in Sources */,
-				29154B2E2A704DCA00CE8CAC /* Coherence.swift in Sources */,
 				291CC5812A72C2F2001D422C /* LeaderOperations.swift in Sources */,
 				2974B6C42A6ECB6A00EB063B /* Skill_Picker_RebornApp.swift in Sources */,
 			);

@@ -24,7 +24,7 @@ func createCabin(cabinName: String, targetSenior: Leader, targetJunior: Leader){
 
 func deleteCabin(targetCabin: String) throws {
     if(targetCabin == "Unassigned"){
-        throw ValueError.RefusingDelete
+        throw SPRError.RefusingDelete
     } else {
         for camper in fooCampers.filter({$0.cabin == targetCabin}) {
             camper.cabin = "Unassigned"

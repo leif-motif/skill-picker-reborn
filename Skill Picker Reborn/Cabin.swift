@@ -15,12 +15,12 @@ class Cabin {
     init(name: String, senior: Leader, junior: Leader, campers: [Camper] = []) throws {
         self.name = name
         if(!senior.senior){
-            throw ValueError.NotASenior
+            throw SPRError.NotASenior
         } else {
             self.senior = senior
         }
         if(junior.senior){
-            throw ValueError.NotAJunior
+            throw SPRError.NotAJunior
         } else {
             self.junior = junior
         }
