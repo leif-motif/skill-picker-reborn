@@ -42,8 +42,8 @@ struct AddFanaticView: View {
                 Button("Cancel") {
                     dismiss()
                 }
-                Button("Add Skill") {
-                    //add fanatic
+                Button("Add Fanatic") {
+                    createFanatic(newFanatic: try! Fanatic(name: iName, activePeriods: [firstSkill,secondSkill,thirdSkill,fourthSkill]))
                     dismiss()
                 }
             }

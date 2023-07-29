@@ -53,7 +53,7 @@ struct AddSkillView: View {
                     dismiss()
                 }
                 Button("Add Skill") {
-                    //add skill
+                    createSkill(newSkill: try! Skill(name: iName, maximums: [Int(firstMax),Int(secondMax),Int(thirdMax),Int(fourthMax)]))
                     dismiss()
                 }
             }
