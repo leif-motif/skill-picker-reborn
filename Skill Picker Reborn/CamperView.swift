@@ -98,7 +98,8 @@ struct CamperView: View {
                 .foregroundColor(Color(.systemBlue))
             }
             .help("Export Schedule for all Campers")
-            TextField(" This search bar doesn't work. ", text: $search)
+            TextField("Search...", text: $search)
+                .frame(width: 100)
         }
         .sheet(isPresented: $addCamperSheet) {
         } content: {

@@ -30,8 +30,8 @@ struct SkillView: View {
                 TableColumn("Cabin",value: \.cabin)
             }
             .frame(height: 85)
-            .onChange(of: camperSortOrder){
-                fooSkills[selectedSkill]!.periods[selectedPeriod].sort(using: $0)
+            .onChange(of: leaderSortOrder){
+                fooSkills[selectedSkill]!.leaders[selectedPeriod].sort(using: $0)
             }
             .contextMenu(forSelectionType: Leader.ID.self) { items in
                 if items.isEmpty {
@@ -85,9 +85,9 @@ struct SkillView: View {
             .contextMenu(forSelectionType: Camper.ID.self) { items in
                 if items.isEmpty {
                     Button {
-                        //add camper
+                        //assign camper
                     } label: {
-                        Label("New Camper in Skill...", systemImage: "plus")
+                        Label("Assign Camper to Skill...", systemImage: "plus")
                     }
                 } else if items.count == 1 {
                     /*Button {
@@ -159,7 +159,8 @@ struct SkillView: View {
                 Text("Skill 3").tag(2)
                 Text("Skill 4").tag(3)
             }
-            TextField(" This search bar doesn't work. ", text: $search)
+            TextField("Search...", text: $search)
+                .frame(width: 100)
         }
         .sheet(isPresented: $addSkillSheet) {
         } content: {

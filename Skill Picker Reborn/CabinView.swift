@@ -37,16 +37,16 @@ struct CabinView: View {
             .contextMenu(forSelectionType: Camper.ID.self) { items in
                 if items.isEmpty {
                     Button {
-                        //add camper with this cabin
+                        //assign camper with this cabin
                     } label: {
-                        Label("New Camper in Cabin...", systemImage: "plus")
+                        Label("Assign Camper to Cabin...", systemImage: "plus")
                     }
                 } else if items.count == 1 {
                     /*Button {
-                        
-                    } label: {
-                        Label("Info/Edit...", systemImage: "pencil.line")
-                    }*/
+                     
+                     } label: {
+                     Label("Info/Edit...", systemImage: "pencil.line")
+                     }*/
                     Button(role: .destructive) {
                         removeCamperFromCabin(camperSelection: selectedCamper)
                     } label: {
@@ -105,7 +105,7 @@ struct CabinView: View {
                 //export cabin schedule
             } label: {
                 Image(systemName: "arrow.up.doc.on.clipboard")
-                .foregroundColor(Color(.systemBlue))
+                    .foregroundColor(Color(.systemBlue))
             }
             .help("Export Cabin Schedule")
             Picker("Cabin", selection: $selectedCabin) {
@@ -113,7 +113,9 @@ struct CabinView: View {
                     Text($0).tag($0)
                 }
             }
-            TextField(" This search bar doesn't work. ", text: $search)
+            //This search bar STILL doesn't work.
+            TextField("Search... ", text: $search)
+                .frame(width: 100)
         }
         .sheet(isPresented: $addCabinSheet) {
         } content: {

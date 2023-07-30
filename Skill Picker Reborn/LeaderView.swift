@@ -14,7 +14,7 @@ struct LeaderView: View {
     @State private var search = ""
     var body: some View {
         VStack(){
-            Table(fooLeaders[2...], selection: $selectedLeader, sortOrder: $sortOrder){
+            Table(fooLeaders, selection: $selectedLeader, sortOrder: $sortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 TableColumn("Cabin",value: \.cabin)
@@ -82,7 +82,9 @@ struct LeaderView: View {
                 .foregroundColor(Color(.systemBlue))
             }
             .help("Export Schedule for all Leaders")
-            TextField(" This search bar doesn't work. ", text: $search)
+            //This search bar STILL doesn't work.
+            TextField("Search...", text: $search)
+                .frame(width: 100)
         }
         .sheet(isPresented: $addLeaderSheet) {
         } content: {
