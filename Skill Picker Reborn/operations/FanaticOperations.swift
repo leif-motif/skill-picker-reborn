@@ -15,6 +15,24 @@ func createFanatic(newFanatic: Fanatic){
                                                                               newFanatic.activePeriods[3] ? 255 : 0])
 }
 
-func deleteFanatic(fanaticName: String){
+func deleteFanatic(fanaticName: String) throws {
+    try deleteSkill(skillName: fanaticName)
+    fooFanatics.removeValue(forKey: fanaticName)
+}
+
+func assignLeaderToFanatic(targetLeader: Leader, fanaticName: String){
     
 }
+
+func removeLeaderFromFanatic(leaderSelection: Set<Leader.ID>, fanaticName: String){
+    
+}
+
+func assignCamperToFanatic(targetCamper: Camper, fanaticName: String){
+    
+}
+
+func removeCamperFromFanatic(camperSelection: Set<Camper.ID>){
+    
+}
+

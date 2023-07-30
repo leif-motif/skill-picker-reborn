@@ -135,7 +135,15 @@ struct SkillView: View {
             }
             .help("Add Fanatic")
             Button {
-                //remove skill/fanatic
+                if(selectedSkill == "None"){
+                    noneSkillAlert.toggle()
+                } else {
+                    if(fooFanatics.keys.contains(selectedSkill)){
+                        try! deleteFanatic(fanaticName: selectedSkill)
+                    } else {
+                        try! deleteSkill(skillName: selectedSkill)
+                    }
+                }
             } label: {
                 Image(systemName: "calendar.badge.minus")
                     .foregroundColor(Color(.systemRed))
@@ -169,6 +177,11 @@ struct SkillView: View {
         .sheet(isPresented: $addFanaticSheet) {
         } content: {
             AddFanaticView()
+        }
+        .alert(isPresented: $noneSkillAlert) {
+            Alert(title: Text("Error!"),
+                  message: Text("Cannot delete the \"None\" skill."),
+                  dismissButton: .default(Text("Dismiss")))
         }
     }
 }

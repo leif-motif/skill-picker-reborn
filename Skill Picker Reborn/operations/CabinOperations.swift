@@ -25,16 +25,14 @@ func createCabin(cabinName: String, targetSenior: Leader, targetJunior: Leader){
 func deleteCabin(targetCabin: String) throws {
     if(targetCabin == "Unassigned"){
         throw SPRError.RefusingDelete
-    } else {
-        for camper in fooCampers.filter({$0.cabin == targetCabin}) {
-            camper.cabin = "Unassigned"
-        }
-        for leader in fooLeaders.filter({$0.cabin == targetCabin}) {
-            leader.cabin = "Unassigned"
-        }
-        fooCabins.removeValue(forKey: targetCabin)
     }
-    
+    for camper in fooCampers.filter({$0.cabin == targetCabin}) {
+        camper.cabin = "Unassigned"
+    }
+    for leader in fooLeaders.filter({$0.cabin == targetCabin}) {
+        leader.cabin = "Unassigned"
+    }
+    fooCabins.removeValue(forKey: targetCabin)
 }
 
 func changeCabinLeaders(cabinName: String, targetSenior: Leader, targetJunior: Leader){
@@ -49,6 +47,10 @@ func changeCabinLeaders(cabinName: String, targetSenior: Leader, targetJunior: L
     targetSenior.cabin = cabinName
     fooCabins[cabinName]!.junior = targetJunior
     targetJunior.cabin = cabinName
+}
+
+func assignCamperToCabin(targetCamper: Camper, cabinName: String){
+    
 }
 
 func removeCamperFromCabin(camperSelection: Set<Camper.ID>){

@@ -130,8 +130,9 @@
 		2974B6B72A6ECB6A00EB063B = {
 			isa = PBXGroup;
 			children = (
-				2971FDBF2A71F9CD007DD484 /* README.md */,
 				291CC5782A72C1E0001D422C /* LICENSE.txt */,
+				2971FDBF2A71F9CD007DD484 /* README.md */,
+				29A4EF162A70C4E900B034E7 /* Skill-Picker-Reborn-Info.plist */,
 				2974B6C22A6ECB6A00EB063B /* Skill Picker Reborn */,
 				2974B6D42A6ECB6E00EB063B /* Skill Picker RebornTests */,
 				2974B6DE2A6ECB6E00EB063B /* Skill Picker RebornUITests */,
@@ -156,7 +157,6 @@
 				29E0D1E52A76348F00C068A9 /* operations */,
 				29E0D1E32A76346600C068A9 /* views */,
 				29E0D1E62A76353B00C068A9 /* other */,
-				29A4EF162A70C4E900B034E7 /* Skill-Picker-Reborn-Info.plist */,
 				2974B6C72A6ECB6D00EB063B /* Assets.xcassets */,
 				2974B6CC2A6ECB6D00EB063B /* Skill_Picker_Reborn.entitlements */,
 				2974B6C92A6ECB6D00EB063B /* Preview Content */,
