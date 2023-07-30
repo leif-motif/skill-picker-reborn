@@ -152,33 +152,10 @@
 		2974B6C22A6ECB6A00EB063B /* Skill Picker Reborn */ = {
 			isa = PBXGroup;
 			children = (
-				2974B6C52A6ECB6A00EB063B /* ContentView.swift */,
-				2974B6C32A6ECB6A00EB063B /* Skill_Picker_RebornApp.swift */,
-				29154B2B2A704CBE00CE8CAC /* Cabin.swift */,
-				29154B272A70274400CE8CAC /* CabinView.swift */,
-				2971FDBD2A71D6F1007DD484 /* AddCabinView.swift */,
-				291CC57C2A72C2B9001D422C /* ModifyCabinLeadersView.swift */,
-				291CC57E2A72C2E2001D422C /* CabinOperations.swift */,
-				29708D922A6F88E30090E369 /* Camper.swift */,
-				29708D942A6F999F0090E369 /* CamperView.swift */,
-				29A4EF172A70F3EB00B034E7 /* AddCamperView.swift */,
-				2971FDC52A72B616007DD484 /* CamperOperations.swift */,
-				29708D902A6F88370090E369 /* Leader.swift */,
-				29154B252A70269000CE8CAC /* LeaderView.swift */,
-				291CC57A2A72C262001D422C /* AddLeaderView.swift */,
-				291CC5802A72C2F2001D422C /* LeaderOperations.swift */,
-				290240102A6EDB7200F747D7 /* Skill.swift */,
-				29154B292A7027B300CE8CAC /* SkillView.swift */,
-				2971FDC12A721F49007DD484 /* AddSkillView.swift */,
-				291CC5822A72C312001D422C /* SkillOperations.swift */,
-				2970DFA52A7412C400D2A71F /* Fanatic.swift */,
-				2971FDC32A7233BE007DD484 /* AddFanaticView.swift */,
-				291F0BCC2A746DA900C73BCD /* FanaticOperations.swift */,
-				2974B6EE2A6ECBA800EB063B /* Human.swift */,
-				293A19842A74E1C400B4B015 /* UTType.swift */,
-				293A19862A74E37C00B4B015 /* MasterData.swift */,
-				293A19822A74DE4400B4B015 /* SPRErrors.swift */,
-				29154B2F2A706EDC00CE8CAC /* TestsThatNeedToGo.swift */,
+				29E0D1E42A76347C00C068A9 /* models */,
+				29E0D1E52A76348F00C068A9 /* operations */,
+				29E0D1E32A76346600C068A9 /* views */,
+				29E0D1E62A76353B00C068A9 /* other */,
 				29A4EF162A70C4E900B034E7 /* Skill-Picker-Reborn-Info.plist */,
 				2974B6C72A6ECB6D00EB063B /* Assets.xcassets */,
 				2974B6CC2A6ECB6D00EB063B /* Skill_Picker_Reborn.entitlements */,
@@ -210,6 +187,61 @@
 				2974B6E12A6ECB6E00EB063B /* Skill_Picker_RebornUITestsLaunchTests.swift */,
 			);
 			path = "Skill Picker RebornUITests";
+			sourceTree = "<group>";
+		};
+		29E0D1E32A76346600C068A9 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				2974B6C52A6ECB6A00EB063B /* ContentView.swift */,
+				29154B272A70274400CE8CAC /* CabinView.swift */,
+				2971FDBD2A71D6F1007DD484 /* AddCabinView.swift */,
+				291CC57C2A72C2B9001D422C /* ModifyCabinLeadersView.swift */,
+				29708D942A6F999F0090E369 /* CamperView.swift */,
+				29A4EF172A70F3EB00B034E7 /* AddCamperView.swift */,
+				29154B252A70269000CE8CAC /* LeaderView.swift */,
+				291CC57A2A72C262001D422C /* AddLeaderView.swift */,
+				29154B292A7027B300CE8CAC /* SkillView.swift */,
+				2971FDC12A721F49007DD484 /* AddSkillView.swift */,
+				2971FDC32A7233BE007DD484 /* AddFanaticView.swift */,
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
+		29E0D1E42A76347C00C068A9 /* models */ = {
+			isa = PBXGroup;
+			children = (
+				29154B2B2A704CBE00CE8CAC /* Cabin.swift */,
+				29708D922A6F88E30090E369 /* Camper.swift */,
+				29708D902A6F88370090E369 /* Leader.swift */,
+				290240102A6EDB7200F747D7 /* Skill.swift */,
+				2970DFA52A7412C400D2A71F /* Fanatic.swift */,
+				2974B6EE2A6ECBA800EB063B /* Human.swift */,
+			);
+			path = models;
+			sourceTree = "<group>";
+		};
+		29E0D1E52A76348F00C068A9 /* operations */ = {
+			isa = PBXGroup;
+			children = (
+				291CC57E2A72C2E2001D422C /* CabinOperations.swift */,
+				2971FDC52A72B616007DD484 /* CamperOperations.swift */,
+				291CC5802A72C2F2001D422C /* LeaderOperations.swift */,
+				291CC5822A72C312001D422C /* SkillOperations.swift */,
+				291F0BCC2A746DA900C73BCD /* FanaticOperations.swift */,
+			);
+			path = operations;
+			sourceTree = "<group>";
+		};
+		29E0D1E62A76353B00C068A9 /* other */ = {
+			isa = PBXGroup;
+			children = (
+				2974B6C32A6ECB6A00EB063B /* Skill_Picker_RebornApp.swift */,
+				293A19842A74E1C400B4B015 /* UTType.swift */,
+				293A19862A74E37C00B4B015 /* MasterData.swift */,
+				293A19822A74DE4400B4B015 /* SPRErrors.swift */,
+				29154B2F2A706EDC00CE8CAC /* TestsThatNeedToGo.swift */,
+			);
+			path = other;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
