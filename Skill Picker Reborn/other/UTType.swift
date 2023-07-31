@@ -10,5 +10,5 @@ import Foundation
 import UniformTypeIdentifiers
 
 extension UTType {
-    public static let csv = UTType(exportedAs: "com.domain.csv")
+    public static let csv = UTType(importedAs: "com.domain.csv")
 }
