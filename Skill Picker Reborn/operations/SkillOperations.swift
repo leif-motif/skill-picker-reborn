@@ -33,8 +33,15 @@ func assignLeaderToSkill(targetLeader: Leader, skillName: String, period: Int){
     targetLeader.skills[period] = skillName
 }
 
-func removeLeaderFromSkill(leaderSelection: Set<Leader.ID>, skillName: String, period: Int){
-    
+func removeLeaderFromSkill(leaderSelection: Set<Leader.ID>, skillName: String, period: Int) throws {
+    if(skillName == "None"){
+        throw SPRError.RefusingDelete
+    }
+    for leaderID in leaderSelection {
+        skills[skillName]!.leaders[period].removeAll(where: {$0.id == leaderID})
+        leaders.first(where: {$0.id == leaderID})!.skills[period] = "None"
+        skills["None"]!.leaders[period].append(leaders.first(where: {$0.id == leaderID})!)
+    }
 }
 
 func assignCamperToSkill(targetCamper: Camper, skillName: String, period: Int) throws {
@@ -46,6 +53,13 @@ func assignCamperToSkill(targetCamper: Camper, skillName: String, period: Int) t
     }
 }
 
-func removeCamperFromSkill(camperSelection: Set<Camper.ID>, skillName: String, period: Int){
-    
+func removeCamperFromSkill(camperSelection: Set<Camper.ID>, skillName: String, period: Int) throws {
+    if(skillName == "None"){
+        throw SPRError.RefusingDelete
+    }
+    for camperID in camperSelection {
+        skills[skillName]!.periods[period].removeAll(where: {$0.id == camperID})
+        campers.first(where: {$0.id == camperID})!.skills[period] = "None"
+        skills["None"]!.periods[period].append(campers.first(where: {$0.id == camperID})!)
+    }
 }

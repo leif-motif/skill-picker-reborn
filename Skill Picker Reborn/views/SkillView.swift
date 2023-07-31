@@ -55,23 +55,35 @@ struct SkillView: View {
                      Label("Info/Edit...", systemImage: "pencil.line")
                      }*/
                     Button(role: .destructive) {
-                        //remove leader from skill
+                        if(selectedSkill == "None"){
+                            skillErrorAlert.toggle()
+                        } else if(fanatics.keys.contains(selectedSkill)){
+                            //remove leader from fanatic
+                        } else {
+                            try! removeLeaderFromSkill(leaderSelection: selectedLeader, skillName: selectedSkill, period: selectedPeriod)
+                        }
                     } label: {
                         Label("Remove", systemImage: "trash")
                     }
                     Button(role: .destructive) {
-                        //delete leader
+                        deleteLeader(leaderSelection: selectedLeader)
                     } label: {
                         Label("Delete", systemImage: "trash")
                     }
                 } else {
                     Button(role: .destructive) {
-                        //remove leaders from skill
+                        if(selectedSkill == "None"){
+                            skillErrorAlert.toggle()
+                        } else if(fanatics.keys.contains(selectedSkill)){
+                            //remove leader from fanatic
+                        } else {
+                            try! removeLeaderFromSkill(leaderSelection: selectedLeader, skillName: selectedSkill, period: selectedPeriod)
+                        }
                     } label: {
                         Label("Remove Selection", systemImage: "trash")
                     }
                     Button(role: .destructive) {
-                        //delete leaders
+                        deleteLeader(leaderSelection: selectedLeader)
                     } label: {
                         Label("Delete Selection", systemImage: "trash")
                     }
@@ -110,7 +122,13 @@ struct SkillView: View {
                      Label("Info/Edit...", systemImage: "pencil.line")
                      }*/
                     Button(role: .destructive) {
-                        //remove camper from skill
+                        if(selectedSkill == "None"){
+                            skillErrorAlert.toggle()
+                        } else if(fanatics.keys.contains(selectedSkill)){
+                            //remove camper from fanatic
+                        } else {
+                            try! removeCamperFromSkill(camperSelection: selectedCamper, skillName: selectedSkill, period: selectedPeriod)
+                        }
                     } label: {
                         Label("Remove", systemImage: "trash")
                     }
@@ -121,7 +139,13 @@ struct SkillView: View {
                     }
                 } else {
                     Button(role: .destructive) {
-                        //remove campers from skill
+                        if(selectedSkill == "None"){
+                            skillErrorAlert.toggle()
+                        } else if(fanatics.keys.contains(selectedSkill)){
+                            //remove camper from fanatic
+                        } else {
+                            try! removeCamperFromSkill(camperSelection: selectedCamper, skillName: selectedSkill, period: selectedPeriod)
+                        }
                     } label: {
                         Label("Remove Selection", systemImage: "trash")
                     }
