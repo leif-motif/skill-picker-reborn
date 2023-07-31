@@ -16,11 +16,17 @@ func createFanatic(newFanatic: Fanatic){
 }
 
 func deleteFanatic(fanaticName: String) throws {
+    if(fanaticName == "None"){
+        throw SPRError.NoneSkillRefusal
+    }
     try! deleteSkill(skillName: fanaticName)
     fanatics.removeValue(forKey: fanaticName)
 }
 
-func assignLeaderToFanatic(targetLeader: Leader, fanaticName: String){
+func assignLeaderToFanatic(targetLeader: Leader, fanaticName: String) throws {
+    if(fanaticName == "None"){
+        throw SPRError.NoneSkillRefusal
+    }
     for i in 0...3 {
         if(fanatics[fanaticName]!.activePeriods[i]){
             targetLeader.skills[i] = fanaticName
@@ -29,20 +35,49 @@ func assignLeaderToFanatic(targetLeader: Leader, fanaticName: String){
     }
 }
 
-func removeLeaderFromFanatic(leaderSelection: Set<Leader.ID>, fanaticName: String){
-    
+func removeLeaderFromFanatic(leaderSelection: Set<Leader.ID>, fanaticName: String) throws {
+    if(fanaticName == "None"){
+        throw SPRError.NoneSkillRefusal
+    }
+    for leaderID in leaderSelection {
+        for i in 0...3 {
+            if(fanatics[fanaticName]!.activePeriods[i]){
+                skills[fanaticName]!.leaders[i].removeAll(where: {$0.id == leaderID})
+                leaders.first(where: {$0.id == leaderID})!.skills[i] = "None"
+                skills["None"]!.leaders[i].append(leaders.first(where: {$0.id == leaderID})!)
+            }
+        }
+    }
 }
 
-func assignCamperToFanatic(targetCamper: Camper, fanaticName: String){
+func assignCamperToFanatic(targetCamper: Camper, fanaticName: String) throws {
+    if(fanaticName == "None"){
+        throw SPRError.NoneSkillRefusal
+    }
     for i in 0...3 {
         if(fanatics[fanaticName]!.activePeriods[i]){
             targetCamper.skills[i] = fanaticName
             skills[fanaticName]!.periods[i].append(targetCamper)
         }
     }
+    targetCamper.fanatic = fanaticName
+    targetCamper.preferredSkills.remove(at: 5)
 }
 
-func removeCamperFromFanatic(camperSelection: Set<Camper.ID>){
-    
+func removeCamperFromFanatic(camperSelection: Set<Camper.ID>, fanaticName: String, newSixthPreferredSkill: String) throws {
+    if(fanaticName == "None"){
+        throw SPRError.NoneSkillRefusal
+    }
+    for camperID in camperSelection {
+        for i in 0...3 {
+            if(fanatics[fanaticName]!.activePeriods[i]){
+                skills[fanaticName]!.periods[i].removeAll(where: {$0.id == camperID})
+                campers.first(where: {$0.id == camperID})!.skills[i] = "None"
+                skills["None"]!.periods[i].append(campers.first(where: {$0.id == camperID})!)
+            }
+        }
+        campers.first(where: {$0.id == camperID})!.fanatic = "None"
+        campers.first(where: {$0.id == camperID})!.preferredSkills.append(newSixthPreferredSkill)
+    }
 }
 

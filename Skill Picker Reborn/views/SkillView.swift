@@ -58,7 +58,7 @@ struct SkillView: View {
                         if(selectedSkill == "None"){
                             skillErrorAlert.toggle()
                         } else if(fanatics.keys.contains(selectedSkill)){
-                            //remove leader from fanatic
+                            try! removeLeaderFromFanatic(leaderSelection: selectedLeader, fanaticName: selectedSkill)
                         } else {
                             try! removeLeaderFromSkill(leaderSelection: selectedLeader, skillName: selectedSkill, period: selectedPeriod)
                         }
@@ -75,7 +75,7 @@ struct SkillView: View {
                         if(selectedSkill == "None"){
                             skillErrorAlert.toggle()
                         } else if(fanatics.keys.contains(selectedSkill)){
-                            //remove leader from fanatic
+                            try! removeLeaderFromFanatic(leaderSelection: selectedLeader, fanaticName: selectedSkill)
                         } else {
                             try! removeLeaderFromSkill(leaderSelection: selectedLeader, skillName: selectedSkill, period: selectedPeriod)
                         }

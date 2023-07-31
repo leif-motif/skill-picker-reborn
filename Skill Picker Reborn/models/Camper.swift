@@ -7,7 +7,7 @@
 
 import Foundation
 class Camper: Human {
-    let preferredSkills: [String]
+    var preferredSkills: [String]
     var fanatic: String
     init(fName: String, lName: String, cabin: String, preferredSkills: [String], fanatic: String, skills: [String] = ["None", "None", "None", "None"]) throws {
         self.fanatic = fanatic
