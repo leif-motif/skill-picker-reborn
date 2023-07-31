@@ -11,6 +11,7 @@ struct AssignSkillLeaderView: View {
     private var targetSkill: String
     private var skillPeriod: Int
     @State private var selectedLeader: String = "None"
+    @State private var noneLeaderAlert: Bool = false
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
@@ -19,18 +20,27 @@ struct AssignSkillLeaderView: View {
                     Text($0).tag($0)
                 }
             }
-            .padding([.top,.horizontal])
+            .padding()
             HStack {
                 Button("Cancel") {
                     dismiss()
                 }
                 Button("Assign Leader") {
-                    assignLeaderToSkill(targetLeader: fooLeaders.first(where: {$0.fName == selectedLeader.components(separatedBy: " ")[0] && $0.lName == selectedLeader.components(separatedBy: " ")[1]})!,
-                                        skillName: targetSkill, period: skillPeriod)
-                    dismiss()
+                    if(selectedLeader != "None"){
+                        assignLeaderToSkill(targetLeader: fooLeaders.first(where: {$0.fName == selectedLeader.components(separatedBy: " ")[0] && $0.lName == selectedLeader.components(separatedBy: " ")[1]})!,
+                                            skillName: targetSkill, period: skillPeriod)
+                        dismiss()
+                    } else {
+                        noneLeaderAlert.toggle()
+                    }
                 }
             }
             .padding([.bottom,.trailing])
+        }
+        .alert(isPresented: $noneLeaderAlert) {
+            Alert(title: Text("Error!"),
+                message: Text("A leader to assign to the skill must be selected."),
+                dismissButton: .default(Text("Dismiss")))
         }
     }
     init(targetSkill: String, skillPeriod: Int) {
