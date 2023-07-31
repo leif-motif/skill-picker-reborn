@@ -18,8 +18,7 @@ struct SkillView: View {
     @State private var assignSkillLeaderSheet = false
     @State private var assignSkillCamperSheet = false
     @State private var addFanaticSheet = false
-    @State private var noneSkillAlert = false
-    @State private var fullSkillAlert = false
+    @State private var skillErrorAlert = false
     @State private var search = ""
     var body: some View {
         VStack {
@@ -98,7 +97,7 @@ struct SkillView: View {
                             if(skills[selectedSkill]!.periods[selectedPeriod].count < skills[selectedSkill]!.maximums[selectedPeriod]){
                                 assignSkillCamperSheet.toggle()
                             } else {
-                                fullSkillAlert.toggle()
+                                skillErrorAlert.toggle()
                             }
                         }
                     } label: {
@@ -151,7 +150,7 @@ struct SkillView: View {
             .help("Add Fanatic")
             Button {
                 if(selectedSkill == "None"){
-                    noneSkillAlert.toggle()
+                    skillErrorAlert.toggle()
                 } else {
                     if(fanatics.keys.contains(selectedSkill)){
                         try! deleteFanatic(fanaticName: selectedSkill)
@@ -200,14 +199,11 @@ struct SkillView: View {
         } content: {
             AddFanaticView()
         }
-        .alert(isPresented: $noneSkillAlert) {
+        //Somehow, you can't have more than one alerts in a single view.
+        //WHY?
+        .alert(isPresented: $skillErrorAlert) {
             Alert(title: Text("Error!"),
-                  message: Text("Cannot delete the \"None\" skill."),
-                  dismissButton: .default(Text("Dismiss")))
-        }
-        .alert(isPresented: $fullSkillAlert) {
-            Alert(title: Text("Error!"),
-                  message: Text("The skill is full."),
+                  message: Text("Cannot perform desired operation on skill."),
                   dismissButton: .default(Text("Dismiss")))
         }
     }
