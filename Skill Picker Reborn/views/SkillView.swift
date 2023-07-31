@@ -38,7 +38,9 @@ struct SkillView: View {
             .contextMenu(forSelectionType: Leader.ID.self) { items in
                 if items.isEmpty {
                     Button {
-                        if(fanatics.keys.contains(selectedSkill)){
+                        if(skills[selectedSkill]!.maximums[selectedPeriod] == 0){
+                            skillErrorAlert.toggle()
+                        } else if(fanatics.keys.contains(selectedSkill)){
                             //assign leader to fanatic
                         } else {
                             assignSkillLeaderSheet.toggle()
@@ -91,14 +93,12 @@ struct SkillView: View {
             .contextMenu(forSelectionType: Camper.ID.self) { items in
                 if items.isEmpty {
                     Button {
-                        if(fanatics.keys.contains(selectedSkill)){
-                            //assign leader to fanatic
+                        if(skills[selectedSkill]!.periods[selectedPeriod].count >= skills[selectedSkill]!.maximums[selectedPeriod]){
+                            skillErrorAlert.toggle()
+                        } else if(fanatics.keys.contains(selectedSkill)){
+                            //assign camper to fanatic
                         } else {
-                            if(skills[selectedSkill]!.periods[selectedPeriod].count < skills[selectedSkill]!.maximums[selectedPeriod]){
-                                assignSkillCamperSheet.toggle()
-                            } else {
-                                skillErrorAlert.toggle()
-                            }
+                            assignSkillCamperSheet.toggle()
                         }
                     } label: {
                         Label("Assign Camper to Skill...", systemImage: "plus")
