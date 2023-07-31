@@ -9,7 +9,6 @@ import Foundation
 
 func createSkill(newSkill: Skill){
     fooSkills[newSkill.name] = newSkill
-    
 }
 
 func deleteSkill(skillName: String) throws {
@@ -52,7 +51,16 @@ func deleteSkill(skillName: String) throws {
 }
 
 func assignLeaderToSkill(targetLeader: Leader, skillName: String, period: Int){
-    
+    fooSkills[skillName]!.leaders[period].append(targetLeader)
+    if(period == 0){
+        targetLeader.skillOne = skillName
+    } else if(period == 1){
+        targetLeader.skillTwo = skillName
+    } else if(period == 2){
+        targetLeader.skillThree = skillName
+    } else if(period == 3){
+        targetLeader.skillFour = skillName
+    }
 }
 
 func removeLeaderFromSkill(leaderSelection: Set<Leader.ID>, skillName: String, period: Int){
@@ -60,7 +68,16 @@ func removeLeaderFromSkill(leaderSelection: Set<Leader.ID>, skillName: String, p
 }
 
 func assignCamperToSkill(targetCamper: Camper, skillName: String, period: Int){
-    
+    fooSkills[skillName]!.periods[period].append(targetCamper)
+    if(period == 0){
+        targetCamper.skillOne = skillName
+    } else if(period == 1){
+        targetCamper.skillTwo = skillName
+    } else if(period == 2){
+        targetCamper.skillThree = skillName
+    } else if(period == 3){
+        targetCamper.skillFour = skillName
+    }
 }
 
 func removeCamperFromSkill(camperSelection: Set<Camper.ID>, skillName: String, period: Int){
