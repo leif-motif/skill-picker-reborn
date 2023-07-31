@@ -14,7 +14,7 @@ struct LeaderView: View {
     @State private var search = ""
     var body: some View {
         VStack(){
-            Table(fooLeaders, selection: $selectedLeader, sortOrder: $sortOrder){
+            Table(leaders, selection: $selectedLeader, sortOrder: $sortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 TableColumn("Cabin",value: \.cabin)
@@ -26,7 +26,7 @@ struct LeaderView: View {
                 TableColumn("Skill 4",value: \.skills[3])
             }
             .onChange(of: sortOrder){
-                fooLeaders.sort(using: $0)
+                leaders.sort(using: $0)
             }
             .contextMenu(forSelectionType: Leader.ID.self) { items in
               if items.isEmpty {

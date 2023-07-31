@@ -16,7 +16,7 @@ struct AssignSkillCamperView: View {
     var body: some View {
         Form {
             Picker("Camper:", selection: $selectedCamper){
-                ForEach(zip(fooCampers.filter{$0.skills[skillPeriod] != targetSkill}.map(\.fName),fooCampers.filter{$0.skills[skillPeriod] != targetSkill}.map(\.lName)).map {$0+" "+$1}, id: \.self){
+                ForEach(zip(campers.filter{$0.skills[skillPeriod] != targetSkill}.map(\.fName),campers.filter{$0.skills[skillPeriod] != targetSkill}.map(\.lName)).map {$0+" "+$1}, id: \.self){
                     Text($0).tag($0)
                 }
             }
@@ -27,7 +27,7 @@ struct AssignSkillCamperView: View {
                 }
                 Button("Assign Camper") {
                     if(selectedCamper != "None"){
-                        try! assignCamperToSkill(targetCamper: fooCampers.first(where: {$0.fName == selectedCamper.components(separatedBy: " ")[0] && $0.lName == selectedCamper.components(separatedBy: " ")[1]})!,
+                        try! assignCamperToSkill(targetCamper: campers.first(where: {$0.fName == selectedCamper.components(separatedBy: " ")[0] && $0.lName == selectedCamper.components(separatedBy: " ")[1]})!,
                                                  skillName: targetSkill, period: skillPeriod)
                         dismiss()
                     } else {

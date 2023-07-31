@@ -8,7 +8,7 @@
 import Foundation
 
 func createSkill(newSkill: Skill){
-    fooSkills[newSkill.name] = newSkill
+    skills[newSkill.name] = newSkill
 }
 
 func deleteSkill(skillName: String) throws {
@@ -16,20 +16,20 @@ func deleteSkill(skillName: String) throws {
         throw SPRError.RefusingDelete
     }
     for i in 0...3 {
-        if(fooSkills[skillName]!.maximums[i] != 0){
-            for leader in fooSkills[skillName]!.leaders[i] {
+        if(skills[skillName]!.maximums[i] != 0){
+            for leader in skills[skillName]!.leaders[i] {
                 leader.skills[i] = "None"
             }
-            for camper in fooSkills[skillName]!.periods[i] {
+            for camper in skills[skillName]!.periods[i] {
                 camper.skills[i] = "None"
             }
         }
     }
-    fooSkills.removeValue(forKey: skillName)
+    skills.removeValue(forKey: skillName)
 }
 
 func assignLeaderToSkill(targetLeader: Leader, skillName: String, period: Int){
-    fooSkills[skillName]!.leaders[period].append(targetLeader)
+    skills[skillName]!.leaders[period].append(targetLeader)
     targetLeader.skills[period] = skillName
 }
 
@@ -38,8 +38,8 @@ func removeLeaderFromSkill(leaderSelection: Set<Leader.ID>, skillName: String, p
 }
 
 func assignCamperToSkill(targetCamper: Camper, skillName: String, period: Int) throws {
-    if(fooSkills[skillName]!.periods[period].count < fooSkills[skillName]!.maximums[period]){
-        fooSkills[skillName]!.periods[period].append(targetCamper)
+    if(skills[skillName]!.periods[period].count < skills[skillName]!.maximums[period]){
+        skills[skillName]!.periods[period].append(targetCamper)
         targetCamper.skills[period] = skillName
     } else {
         throw SPRError.SkillFull

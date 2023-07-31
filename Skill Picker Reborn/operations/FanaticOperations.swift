@@ -8,23 +8,23 @@
 import Foundation
 
 func createFanatic(newFanatic: Fanatic){
-    fooFanatics[newFanatic.name] = newFanatic
-    fooSkills[newFanatic.name] = try! Skill(name: newFanatic.name, maximums: [newFanatic.activePeriods[0] ? 255 : 0,
-                                                                              newFanatic.activePeriods[1] ? 255 : 0,
-                                                                              newFanatic.activePeriods[2] ? 255 : 0,
-                                                                              newFanatic.activePeriods[3] ? 255 : 0])
+    fanatics[newFanatic.name] = newFanatic
+    skills[newFanatic.name] = try! Skill(name: newFanatic.name, maximums: [newFanatic.activePeriods[0] ? 255 : 0,
+                                                                           newFanatic.activePeriods[1] ? 255 : 0,
+                                                                           newFanatic.activePeriods[2] ? 255 : 0,
+                                                                           newFanatic.activePeriods[3] ? 255 : 0])
 }
 
 func deleteFanatic(fanaticName: String) throws {
-    try deleteSkill(skillName: fanaticName)
-    fooFanatics.removeValue(forKey: fanaticName)
+    try! deleteSkill(skillName: fanaticName)
+    fanatics.removeValue(forKey: fanaticName)
 }
 
 func assignLeaderToFanatic(targetLeader: Leader, fanaticName: String){
     for i in 0...3 {
-        if(fooFanatics[fanaticName]!.activePeriods[i]){
+        if(fanatics[fanaticName]!.activePeriods[i]){
             targetLeader.skills[i] = fanaticName
-            fooSkills[fanaticName]!.leaders[i].append(targetLeader)
+            skills[fanaticName]!.leaders[i].append(targetLeader)
         }
     }
 }
@@ -35,9 +35,9 @@ func removeLeaderFromFanatic(leaderSelection: Set<Leader.ID>, fanaticName: Strin
 
 func assignCamperToFanatic(targetCamper: Camper, fanaticName: String){
     for i in 0...3 {
-        if(fooFanatics[fanaticName]!.activePeriods[i]){
+        if(fanatics[fanaticName]!.activePeriods[i]){
             targetCamper.skills[i] = fanaticName
-            fooSkills[fanaticName]!.periods[i].append(targetCamper)
+            skills[fanaticName]!.periods[i].append(targetCamper)
         }
     }
 }

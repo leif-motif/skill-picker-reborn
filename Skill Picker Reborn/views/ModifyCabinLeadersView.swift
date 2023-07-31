@@ -16,14 +16,14 @@ struct ModifyCabinLeadersView: View {
         Form {
             Picker("Senior", selection: $seniorSelection) {
                 Text("None").tag("None")
-                ForEach(zip(fooLeaders.filter{$0.senior}.map(\.fName),fooLeaders.filter{$0.senior}.map(\.lName)).map {$0+" "+$1}, id: \.self){
+                ForEach(zip(leaders.filter{$0.senior}.map(\.fName),leaders.filter{$0.senior}.map(\.lName)).map {$0+" "+$1}, id: \.self){
                     Text($0).tag($0)
                 }
             }
             .padding([.top,.horizontal])
             Picker("Junior", selection: $juniorSelection) {
                 Text("None").tag("None")
-                ForEach(zip(fooLeaders.filter{!$0.senior}.map(\.fName),fooLeaders.filter{!$0.senior}.map(\.lName)).map {$0+" "+$1}, id: \.self){
+                ForEach(zip(leaders.filter{!$0.senior}.map(\.fName),leaders.filter{!$0.senior}.map(\.lName)).map {$0+" "+$1}, id: \.self){
                     Text($0).tag($0)
                 }
             }
@@ -38,15 +38,15 @@ struct ModifyCabinLeadersView: View {
                     } else if(seniorSelection == "None"){
                         changeCabinLeaders(cabinName: targetCabin,
                                     targetSenior: nullSenior,
-                                    targetJunior: fooLeaders.first(where: {$0.fName == juniorSelection.components(separatedBy: " ")[0] && $0.lName == juniorSelection.components(separatedBy: " ")[1]})!)
+                                    targetJunior: leaders.first(where: {$0.fName == juniorSelection.components(separatedBy: " ")[0] && $0.lName == juniorSelection.components(separatedBy: " ")[1]})!)
                     } else if(juniorSelection == "None"){
                         changeCabinLeaders(cabinName: targetCabin,
-                                    targetSenior: fooLeaders.first(where: {$0.fName == seniorSelection.components(separatedBy: " ")[0] && $0.lName == seniorSelection.components(separatedBy: " ")[1]})!,
+                                    targetSenior: leaders.first(where: {$0.fName == seniorSelection.components(separatedBy: " ")[0] && $0.lName == seniorSelection.components(separatedBy: " ")[1]})!,
                                     targetJunior: nullJunior)
                     } else {
                         changeCabinLeaders(cabinName: targetCabin,
-                                    targetSenior: fooLeaders.first(where: {$0.fName == seniorSelection.components(separatedBy: " ")[0] && $0.lName == seniorSelection.components(separatedBy: " ")[1]})!,
-                                    targetJunior: fooLeaders.first(where: {$0.fName == juniorSelection.components(separatedBy: " ")[0] && $0.lName == juniorSelection.components(separatedBy: " ")[1]})!)
+                                    targetSenior: leaders.first(where: {$0.fName == seniorSelection.components(separatedBy: " ")[0] && $0.lName == seniorSelection.components(separatedBy: " ")[1]})!,
+                                    targetJunior: leaders.first(where: {$0.fName == juniorSelection.components(separatedBy: " ")[0] && $0.lName == juniorSelection.components(separatedBy: " ")[1]})!)
                     }
                     dismiss()
                 }

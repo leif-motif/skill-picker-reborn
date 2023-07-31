@@ -26,14 +26,14 @@ struct AddCamperView: View {
             TextField("Last Name:",text: $iLName)
                 .padding([.horizontal])
             Picker("Cabin", selection: $selectedCabin) {
-                ForEach(Array(fooCabins.keys).sorted(), id: \.self){
+                ForEach(Array(cabins.keys).sorted(), id: \.self){
                     Text($0).tag($0)
                 }
             }
                 .padding([.horizontal])
             Picker("Fanatic", selection: $fanaticSelection){
                 Text("None").tag("None")
-                ForEach(Array(fooFanatics.keys).sorted(), id: \.self){
+                ForEach(Array(fanatics.keys).sorted(), id: \.self){
                     Text($0).tag($0)
                 }
             }

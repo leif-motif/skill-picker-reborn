@@ -17,7 +17,7 @@ struct CamperView: View {
     @State private var search = ""
     var body: some View {
         VStack(){
-            Table(fooCampers, selection: $selectedCamper, sortOrder: $sortOrder){
+            Table(campers, selection: $selectedCamper, sortOrder: $sortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 TableColumn("Cabin",value: \.cabin)
@@ -28,7 +28,7 @@ struct CamperView: View {
                 TableColumn("Skill 4",value: \.skills[3])
             }
             .onChange(of: sortOrder){
-                fooCampers.sort(using: $0)
+                campers.sort(using: $0)
             }
             .contextMenu(forSelectionType: Camper.ID.self) { items in
               if items.isEmpty {

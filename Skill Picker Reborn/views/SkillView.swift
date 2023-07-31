@@ -27,19 +27,19 @@ struct SkillView: View {
                 .font(.title)
                 .bold()
                 .padding(.top, 10)
-            Table((fooSkills[selectedSkill]!.leaders[selectedPeriod]), selection: $selectedLeader, sortOrder: $leaderSortOrder){
+            Table(skills[selectedSkill]!.leaders[selectedPeriod], selection: $selectedLeader, sortOrder: $leaderSortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 TableColumn("Cabin",value: \.cabin)
             }
             .frame(height: 85)
             .onChange(of: leaderSortOrder){
-                fooSkills[selectedSkill]!.leaders[selectedPeriod].sort(using: $0)
+                skills[selectedSkill]!.leaders[selectedPeriod].sort(using: $0)
             }
             .contextMenu(forSelectionType: Leader.ID.self) { items in
                 if items.isEmpty {
                     Button {
-                        if(fooFanatics.keys.contains(selectedSkill)){
+                        if(fanatics.keys.contains(selectedSkill)){
                             //assign leader to fanatic
                         } else {
                             assignSkillLeaderSheet.toggle()
@@ -76,26 +76,26 @@ struct SkillView: View {
                     }
                 }
             }
-            @State var currentSkillCount = fooSkills[selectedSkill]!.periods[selectedPeriod].count
-            @State var currentSkillMax = fooSkills[selectedSkill]!.maximums[selectedPeriod]
+            @State var currentSkillCount = skills[selectedSkill]!.periods[selectedPeriod].count
+            @State var currentSkillMax = skills[selectedSkill]!.maximums[selectedPeriod]
             Text("Campers ("+String(currentSkillCount)+"/"+String(currentSkillMax)+")")
                 .font(.title)
                 .bold()
-            Table((fooSkills[selectedSkill]!.periods[selectedPeriod]), selection: $selectedCamper, sortOrder: $camperSortOrder){
+            Table(skills[selectedSkill]!.periods[selectedPeriod], selection: $selectedCamper, sortOrder: $camperSortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 TableColumn("Cabin",value: \.cabin)
             }
             .onChange(of: camperSortOrder){
-                fooSkills[selectedSkill]!.periods[selectedPeriod].sort(using: $0)
+                skills[selectedSkill]!.periods[selectedPeriod].sort(using: $0)
             }
             .contextMenu(forSelectionType: Camper.ID.self) { items in
                 if items.isEmpty {
                     Button {
-                        if(fooFanatics.keys.contains(selectedSkill)){
+                        if(fanatics.keys.contains(selectedSkill)){
                             //assign leader to fanatic
                         } else {
-                            if(fooSkills[selectedSkill]!.periods[selectedPeriod].count < fooSkills[selectedSkill]!.maximums[selectedPeriod]){
+                            if(skills[selectedSkill]!.periods[selectedPeriod].count < skills[selectedSkill]!.maximums[selectedPeriod]){
                                 assignSkillCamperSheet.toggle()
                             } else {
                                 fullSkillAlert.toggle()
@@ -153,7 +153,7 @@ struct SkillView: View {
                 if(selectedSkill == "None"){
                     noneSkillAlert.toggle()
                 } else {
-                    if(fooFanatics.keys.contains(selectedSkill)){
+                    if(fanatics.keys.contains(selectedSkill)){
                         try! deleteFanatic(fanaticName: selectedSkill)
                     } else {
                         try! deleteSkill(skillName: selectedSkill)
@@ -172,7 +172,7 @@ struct SkillView: View {
             }
             .help("Export Skill Schedule")
             Picker("Skill", selection: $selectedSkill){
-                ForEach(Array(fooSkills.keys).sorted(), id: \.self){
+                ForEach(Array(skills.keys).sorted(), id: \.self){
                     Text($0).tag($0)
                 }
             }

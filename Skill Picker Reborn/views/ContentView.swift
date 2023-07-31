@@ -34,7 +34,14 @@ struct NullView: View {
         Text("This app is from [this repository.](https://github.com/leif-motif/skill-picker-reborn)")
         Text("Check it out, or begin working.")
         .toolbar {
-            Text("")
+            Button {
+                createTestingData()
+            } label: {
+                Image(systemName: "testtube.2")
+                    .foregroundColor(Color(.systemCyan))
+            }
+            .help("Create Testing Data")
+            //Text("")
         }
     }
 }

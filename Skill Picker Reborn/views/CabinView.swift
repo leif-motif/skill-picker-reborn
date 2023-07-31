@@ -17,13 +17,13 @@ struct CabinView: View {
     @State private var search = ""
     var body: some View {
         VStack {
-            Text(try! AttributedString(markdown: "**Senior:** "+fooCabins[selectedCabin]!.senior.fName+" "+fooCabins[selectedCabin]!.senior.lName))
+            Text(try! AttributedString(markdown: "**Senior:** "+cabins[selectedCabin]!.senior.fName+" "+cabins[selectedCabin]!.senior.lName))
                 .font(.title2)
                 .padding(.top,10)
                 .padding(.bottom,2)
-            Text(try! AttributedString(markdown: "**Junior:** "+fooCabins[selectedCabin]!.junior.fName+" "+fooCabins[selectedCabin]!.junior.lName))
+            Text(try! AttributedString(markdown: "**Junior:** "+cabins[selectedCabin]!.junior.fName+" "+cabins[selectedCabin]!.junior.lName))
                 .font(.title2)
-            Table(fooCabins[selectedCabin]!.campers, selection: $selectedCamper, sortOrder: $sortOrder){
+            Table(cabins[selectedCabin]!.campers, selection: $selectedCamper, sortOrder: $sortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 //see comment in LeaderView.swift
@@ -33,7 +33,7 @@ struct CabinView: View {
                 TableColumn("Skill 4",value: \.skills[3])
             }
             .onChange(of: sortOrder){
-                fooCabins[selectedCabin]!.campers.sort(using: $0)
+                cabins[selectedCabin]!.campers.sort(using: $0)
             }
             .contextMenu(forSelectionType: Camper.ID.self) { items in
                 if items.isEmpty {
@@ -110,7 +110,7 @@ struct CabinView: View {
             }
             .help("Export Cabin Schedule")
             Picker("Cabin", selection: $selectedCabin) {
-                ForEach(Array(fooCabins.keys).sorted(), id: \.self){
+                ForEach(Array(cabins.keys).sorted(), id: \.self){
                     Text($0).tag($0)
                 }
             }
