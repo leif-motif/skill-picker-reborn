@@ -21,10 +21,11 @@ struct CamperView: View {
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 TableColumn("Cabin",value: \.cabin)
-                TableColumn("Skill 1",value: \.skillOne)
-                TableColumn("Skill 2",value: \.skillTwo)
-                TableColumn("Skill 3",value: \.skillThree)
-                TableColumn("Skill 4",value: \.skillFour)
+                //see comment in LeaderView.swift
+                TableColumn("Skill 1",value: \.skills[0])
+                TableColumn("Skill 2",value: \.skills[1])
+                TableColumn("Skill 3",value: \.skills[2])
+                TableColumn("Skill 4",value: \.skills[3])
             }
             .onChange(of: sortOrder){
                 fooCampers.sort(using: $0)

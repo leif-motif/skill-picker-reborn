@@ -10,20 +10,47 @@ import Foundation
 let fooPreferredSkills = ["Archery","Backcountry","Pelletry","Ultimate","Crafts","Drama"]
 let fooFanPrefSkills = ["Volleyball","Wall","Horses","Swimming","Drama"]
 var fooCampers = [
-    try! Camper(fName: "Joe", lName: "Biden", cabin: "1", preferredSkills: fooPreferredSkills, fanatic: "None", skillOne: "Archery"),
-    try! Camper(fName: "Donald", lName: "Trump", cabin: "2", preferredSkills: fooFanPrefSkills, fanatic: "Paintball", skillOne: "Archery", skillThree: "Paintball", skillFour: "Paintball"),
-    try! Camper(fName: "Snoop", lName: "Dogg", cabin: "2", preferredSkills: fooPreferredSkills, fanatic: "None", skillThree: "Backcountry"),
-    try! Camper(fName: "Hilary", lName: "Clinton", cabin: "A", preferredSkills: fooFanPrefSkills, fanatic: "Paintball", skillThree: "Paintball", skillFour: "Paintball"),
-    try! Camper(fName: "Doja", lName: "Cat", cabin: "A", preferredSkills: fooPreferredSkills, fanatic: "None", skillThree: "Backcountry")
+    try! Camper(fName: "Joe", lName: "Biden", cabin: "1", preferredSkills: fooPreferredSkills, fanatic: "None", skills: ["Archery",
+                                                                                                                         "None",
+                                                                                                                         "None",
+                                                                                                                         "None"]),
+    try! Camper(fName: "Donald", lName: "Trump", cabin: "2", preferredSkills: fooFanPrefSkills, fanatic: "Paintball", skills: ["Archery",
+                                                                                                                               "None",
+                                                                                                                               "Paintball",
+                                                                                                                               "Paintball"]),
+    try! Camper(fName: "Snoop", lName: "Dogg", cabin: "2", preferredSkills: fooPreferredSkills, fanatic: "None", skills: ["None",
+                                                                                                                          "None",
+                                                                                                                          "Backcountry",
+                                                                                                                          "None"]),
+    try! Camper(fName: "Hilary", lName: "Clinton", cabin: "A", preferredSkills: fooFanPrefSkills, fanatic: "Paintball", skills: ["None",
+                                                                                                                                 "None",
+                                                                                                                                 "Paintball",
+                                                                                                                                 "Paintball"]),
+    try! Camper(fName: "Doja", lName: "Cat", cabin: "A", preferredSkills: fooPreferredSkills, fanatic: "None", skills: ["None",
+                                                                                                                        "None",
+                                                                                                                        "Backcountry",
+                                                                                                                        "None"])
 ]
 
 var fooLeaders = [
-    try! Leader(fName: "Dirty", lName: "Harry", cabin: "1", senior: true, skillThree: "Backcountry"),
-    try! Leader(fName: "Hugh", lName: "Jazz", cabin: "1", senior: false, skillOne: "Archery"),
-    try! Leader(fName: "Peter", lName: "Griffin", cabin: "2", senior: true, skillOne: "Archery"),
+    try! Leader(fName: "Dirty", lName: "Harry", cabin: "1", senior: true, skills: ["None",
+                                                                                   "None",
+                                                                                   "Backcountry",
+                                                                                   "None"]),
+    try! Leader(fName: "Hugh", lName: "Jazz", cabin: "1", senior: false, skills: ["Archery",
+                                                                                  "None",
+                                                                                  "None",
+                                                                                  "None"]),
+    try! Leader(fName: "Peter", lName: "Griffin", cabin: "2", senior: true, skills: ["Archery",
+                                                                                     "None",
+                                                                                     "None",
+                                                                                     "None"]),
     try! Leader(fName: "Mike", lName: "Ox", cabin: "2", senior: false),
     try! Leader(fName: "Lois", lName: "Griffin", cabin: "A", senior: true),
-    try! Leader(fName: "Anna", lName: "Borshin", cabin: "A", senior: false, skillThree: "Backcountry")
+    try! Leader(fName: "Anna", lName: "Borshin", cabin: "A", senior: false, skills: ["None",
+                                                                                     "None",
+                                                                                     "Backcountry",
+                                                                                     "None"])
 ]
 var fooCabins = [
     "Unassigned": try! Cabin(name: "Unassigned", senior: nullSenior, junior: nullJunior, campers: []),

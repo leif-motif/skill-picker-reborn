@@ -22,10 +22,9 @@ func createLeader(newLeader: Leader){
         }
         fooCabins[newLeader.cabin]!.junior = newLeader
     }
-    fooSkills[newLeader.skillOne]!.leaders[0].append(newLeader)
-    fooSkills[newLeader.skillTwo]!.leaders[1].append(newLeader)
-    fooSkills[newLeader.skillThree]!.leaders[2].append(newLeader)
-    fooSkills[newLeader.skillFour]!.leaders[3].append(newLeader)
+    for i in 0...3 {
+        fooSkills[newLeader.skills[i]]!.leaders[i].append(newLeader)
+    }
 }
 
 func deleteLeader(leaderSelection: Set<Leader.ID>){
@@ -40,17 +39,10 @@ func deleteLeader(leaderSelection: Set<Leader.ID>){
             }
         }
         //remove leader from skills where it is not none
-        if(fooLeaders.first(where: {$0.id == leaderID})!.skillOne != "None"){
-            fooSkills[fooLeaders.first(where: {$0.id == leaderID})!.skillOne]!.leaders[0].removeAll(where: {$0.id == leaderID})
-        }
-        if(fooLeaders.first(where: {$0.id == leaderID})!.skillTwo != "None"){
-            fooSkills[fooLeaders.first(where: {$0.id == leaderID})!.skillTwo]!.leaders[1].removeAll(where: {$0.id == leaderID})
-        }
-        if(fooLeaders.first(where: {$0.id == leaderID})!.skillThree != "None"){
-            fooSkills[fooLeaders.first(where: {$0.id == leaderID})!.skillThree]!.leaders[2].removeAll(where: {$0.id == leaderID})
-        }
-        if(fooLeaders.first(where: {$0.id == leaderID})!.skillFour != "None"){
-            fooSkills[fooLeaders.first(where: {$0.id == leaderID})!.skillFour]!.leaders[3].removeAll(where: {$0.id == leaderID})
+        for i in 0...3 {
+            if(fooLeaders.first(where: {$0.id == leaderID})!.skills[i] != "None"){
+                fooSkills[fooLeaders.first(where: {$0.id == leaderID})!.skills[i]]!.leaders[i].removeAll(where: {$0.id == leaderID})
+            }
         }
         //delete leader for good
         fooLeaders.removeAll(where: {$0.id == leaderID})

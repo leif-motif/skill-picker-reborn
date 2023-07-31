@@ -10,7 +10,7 @@ class Skill {
     let name: String
     var periods: [[Camper]]
     var leaders: [[Leader]]
-    var maximums: [Int]
+    let maximums: [Int]
     init(name: String, periods: [[Camper]] = [[],[],[],[]], leaders: [[Leader]] = [[],[],[],[]], maximums: [Int]) throws {
         self.name = name
         if(periods.count != 4){

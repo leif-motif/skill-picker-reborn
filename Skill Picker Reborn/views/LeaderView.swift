@@ -18,10 +18,12 @@ struct LeaderView: View {
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 TableColumn("Cabin",value: \.cabin)
-                TableColumn("Skill 1",value: \.skillOne)
-                TableColumn("Skill 2",value: \.skillTwo)
-                TableColumn("Skill 3",value: \.skillThree)
-                TableColumn("Skill 4",value: \.skillFour)
+                //There is FOR SURE a better way to do this with something like a for statement.
+                //BUT NO, "Closure containing control flow statement cannot be used with result builder" like shut up.
+                TableColumn("Skill 1",value: \.skills[0])
+                TableColumn("Skill 2",value: \.skills[1])
+                TableColumn("Skill 3",value: \.skills[2])
+                TableColumn("Skill 4",value: \.skills[3])
             }
             .onChange(of: sortOrder){
                 fooLeaders.sort(using: $0)
