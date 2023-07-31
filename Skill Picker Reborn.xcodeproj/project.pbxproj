@@ -41,7 +41,7 @@
 		2974B6E22A6ECB6E00EB063B /* Skill_Picker_RebornUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2974B6E12A6ECB6E00EB063B /* Skill_Picker_RebornUITestsLaunchTests.swift */; };
 		2974B6EF2A6ECBA900EB063B /* Human.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2974B6EE2A6ECBA800EB063B /* Human.swift */; };
 		29A4EF182A70F3EB00B034E7 /* AddCamperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A4EF172A70F3EB00B034E7 /* AddCamperView.swift */; };
-		29E0D1E82A775E5E00C068A9 /* AssignLeaderToSkillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E0D1E72A775E5E00C068A9 /* AssignLeaderToSkillView.swift */; };
+		29E0D1E82A775E5E00C068A9 /* AssignSkillLeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E0D1E72A775E5E00C068A9 /* AssignSkillLeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,7 +101,7 @@
 		2974B6EE2A6ECBA800EB063B /* Human.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Human.swift; sourceTree = "<group>"; };
 		29A4EF162A70C4E900B034E7 /* Skill-Picker-Reborn-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Skill-Picker-Reborn-Info.plist"; sourceTree = SOURCE_ROOT; };
 		29A4EF172A70F3EB00B034E7 /* AddCamperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCamperView.swift; sourceTree = "<group>"; };
-		29E0D1E72A775E5E00C068A9 /* AssignLeaderToSkillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignLeaderToSkillView.swift; sourceTree = "<group>"; };
+		29E0D1E72A775E5E00C068A9 /* AssignSkillLeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignSkillLeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -205,7 +205,7 @@
 				29154B292A7027B300CE8CAC /* SkillView.swift */,
 				2971FDC12A721F49007DD484 /* AddSkillView.swift */,
 				2971FDC32A7233BE007DD484 /* AddFanaticView.swift */,
-				29E0D1E72A775E5E00C068A9 /* AssignLeaderToSkillView.swift */,
+				29E0D1E72A775E5E00C068A9 /* AssignSkillLeaderView.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -382,7 +382,7 @@
 				2971FDC22A721F49007DD484 /* AddSkillView.swift in Sources */,
 				293A19872A74E37C00B4B015 /* MasterData.swift in Sources */,
 				29154B302A706EDC00CE8CAC /* TestsThatNeedToGo.swift in Sources */,
-				29E0D1E82A775E5E00C068A9 /* AssignLeaderToSkillView.swift in Sources */,
+				29E0D1E82A775E5E00C068A9 /* AssignSkillLeaderView.swift in Sources */,
 				2971FDC42A7233BE007DD484 /* AddFanaticView.swift in Sources */,
 				291CC57B2A72C262001D422C /* AddLeaderView.swift in Sources */,
 				291F0BCD2A746DA900C73BCD /* FanaticOperations.swift in Sources */,

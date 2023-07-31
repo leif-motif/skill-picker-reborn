@@ -15,6 +15,7 @@ struct SkillView: View {
     @State private var camperSortOrder = [KeyPathComparator(\Camper.lName)]
     @State private var leaderSortOrder = [KeyPathComparator(\Leader.lName)]
     @State private var addSkillSheet = false
+    @State private var assignSkillLeaderSheet = false
     @State private var addFanaticSheet = false
     @State private var noneSkillAlert = false
     @State private var search = ""
@@ -36,7 +37,11 @@ struct SkillView: View {
             .contextMenu(forSelectionType: Leader.ID.self) { items in
                 if items.isEmpty {
                     Button {
-                        //assign leader
+                        if(fooFanatics.keys.contains(selectedSkill)){
+                            //assign leader to fanatic
+                        } else {
+                            assignSkillLeaderSheet.toggle()
+                        }
                     } label: {
                         Label("Assign Leader to Skill...", systemImage: "plus")
                     }
@@ -173,6 +178,10 @@ struct SkillView: View {
         .sheet(isPresented: $addSkillSheet) {
         } content: {
             AddSkillView()
+        }
+        .sheet(isPresented: $assignSkillLeaderSheet) {
+        } content: {
+            AssignSkillLeaderView(targetSkill: selectedSkill, skillPeriod: selectedPeriod)
         }
         .sheet(isPresented: $addFanaticSheet) {
         } content: {
