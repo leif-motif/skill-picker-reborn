@@ -37,9 +37,13 @@ func removeLeaderFromSkill(leaderSelection: Set<Leader.ID>, skillName: String, p
     
 }
 
-func assignCamperToSkill(targetCamper: Camper, skillName: String, period: Int){
-    fooSkills[skillName]!.periods[period].append(targetCamper)
-    targetCamper.skills[period] = skillName
+func assignCamperToSkill(targetCamper: Camper, skillName: String, period: Int) throws {
+    if(fooSkills[skillName]!.periods[period].count < fooSkills[skillName]!.maximums[period]){
+        fooSkills[skillName]!.periods[period].append(targetCamper)
+        targetCamper.skills[period] = skillName
+    } else {
+        throw SPRError.SkillFull
+    }
 }
 
 func removeCamperFromSkill(camperSelection: Set<Camper.ID>, skillName: String, period: Int){

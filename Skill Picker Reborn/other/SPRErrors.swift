@@ -13,4 +13,5 @@ enum SPRError: Error {
     case NotAJunior
     case RefusingDelete
     case SkillFanaticConflict
+    case SkillFull
 }

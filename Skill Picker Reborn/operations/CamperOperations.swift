@@ -35,9 +35,7 @@ func deleteCamper(camperSelection: Set<Camper.ID>){
         fooCabins[fooCampers.first(where: {$0.id == camperID})!.cabin]!.campers.removeAll(where: {$0.id == camperID})
         //remove camper from skills
         for i in 0...3 {
-            if(fooCampers.first(where: {$0.id == camperID})!.skills[i] != "None"){
-                fooSkills[fooCampers.first(where: {$0.id == camperID})!.skills[i]]!.periods[i].removeAll(where: {$0.id == camperID})
-            }
+            fooSkills[fooCampers.first(where: {$0.id == camperID})!.skills[i]]!.periods[i].removeAll(where: {$0.id == camperID})
         }
         //delete camper for good
         fooCampers.removeAll(where: {$0.id == camperID})

@@ -42,6 +42,7 @@
 		2974B6EF2A6ECBA900EB063B /* Human.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2974B6EE2A6ECBA800EB063B /* Human.swift */; };
 		29A4EF182A70F3EB00B034E7 /* AddCamperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A4EF172A70F3EB00B034E7 /* AddCamperView.swift */; };
 		29E0D1E82A775E5E00C068A9 /* AssignSkillLeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E0D1E72A775E5E00C068A9 /* AssignSkillLeaderView.swift */; };
+		29E0D1EA2A7801DE00C068A9 /* AssignSkillCamperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E0D1E92A7801DE00C068A9 /* AssignSkillCamperView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +103,7 @@
 		29A4EF162A70C4E900B034E7 /* Skill-Picker-Reborn-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Skill-Picker-Reborn-Info.plist"; sourceTree = SOURCE_ROOT; };
 		29A4EF172A70F3EB00B034E7 /* AddCamperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCamperView.swift; sourceTree = "<group>"; };
 		29E0D1E72A775E5E00C068A9 /* AssignSkillLeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignSkillLeaderView.swift; sourceTree = "<group>"; };
+		29E0D1E92A7801DE00C068A9 /* AssignSkillCamperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignSkillCamperView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -204,8 +206,9 @@
 				291CC57A2A72C262001D422C /* AddLeaderView.swift */,
 				29154B292A7027B300CE8CAC /* SkillView.swift */,
 				2971FDC12A721F49007DD484 /* AddSkillView.swift */,
-				2971FDC32A7233BE007DD484 /* AddFanaticView.swift */,
 				29E0D1E72A775E5E00C068A9 /* AssignSkillLeaderView.swift */,
+				29E0D1E92A7801DE00C068A9 /* AssignSkillCamperView.swift */,
+				2971FDC32A7233BE007DD484 /* AddFanaticView.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -395,6 +398,7 @@
 				29A4EF182A70F3EB00B034E7 /* AddCamperView.swift in Sources */,
 				29708D932A6F88E30090E369 /* Camper.swift in Sources */,
 				293A19832A74DE4400B4B015 /* SPRErrors.swift in Sources */,
+				29E0D1EA2A7801DE00C068A9 /* AssignSkillCamperView.swift in Sources */,
 				29154B262A70269000CE8CAC /* LeaderView.swift in Sources */,
 				2974B6C62A6ECB6A00EB063B /* ContentView.swift in Sources */,
 				290240112A6EDB7200F747D7 /* Skill.swift in Sources */,

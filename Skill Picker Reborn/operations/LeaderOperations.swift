@@ -38,11 +38,9 @@ func deleteLeader(leaderSelection: Set<Leader.ID>){
                 fooCabins[fooLeaders.first(where: {$0.id == leaderID})!.cabin]!.junior = nullJunior
             }
         }
-        //remove leader from skills where it is not none
+        //remove leader from skills
         for i in 0...3 {
-            if(fooLeaders.first(where: {$0.id == leaderID})!.skills[i] != "None"){
-                fooSkills[fooLeaders.first(where: {$0.id == leaderID})!.skills[i]]!.leaders[i].removeAll(where: {$0.id == leaderID})
-            }
+            fooSkills[fooLeaders.first(where: {$0.id == leaderID})!.skills[i]]!.leaders[i].removeAll(where: {$0.id == leaderID})
         }
         //delete leader for good
         fooLeaders.removeAll(where: {$0.id == leaderID})

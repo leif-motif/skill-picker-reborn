@@ -16,8 +16,10 @@ struct SkillView: View {
     @State private var leaderSortOrder = [KeyPathComparator(\Leader.lName)]
     @State private var addSkillSheet = false
     @State private var assignSkillLeaderSheet = false
+    @State private var assignSkillCamperSheet = false
     @State private var addFanaticSheet = false
     @State private var noneSkillAlert = false
+    @State private var fullSkillAlert = false
     @State private var search = ""
     var body: some View {
         VStack {
@@ -90,7 +92,15 @@ struct SkillView: View {
             .contextMenu(forSelectionType: Camper.ID.self) { items in
                 if items.isEmpty {
                     Button {
-                        //assign camper
+                        if(fooFanatics.keys.contains(selectedSkill)){
+                            //assign leader to fanatic
+                        } else {
+                            if(fooSkills[selectedSkill]!.periods[selectedPeriod].count < fooSkills[selectedSkill]!.maximums[selectedPeriod]){
+                                assignSkillCamperSheet.toggle()
+                            } else {
+                                fullSkillAlert.toggle()
+                            }
+                        }
                     } label: {
                         Label("Assign Camper to Skill...", systemImage: "plus")
                     }
@@ -183,6 +193,10 @@ struct SkillView: View {
         } content: {
             AssignSkillLeaderView(targetSkill: selectedSkill, skillPeriod: selectedPeriod)
         }
+        .sheet(isPresented: $assignSkillCamperSheet) {
+        } content: {
+            AssignSkillCamperView(targetSkill: selectedSkill, skillPeriod: selectedPeriod)
+        }
         .sheet(isPresented: $addFanaticSheet) {
         } content: {
             AddFanaticView()
@@ -190,6 +204,11 @@ struct SkillView: View {
         .alert(isPresented: $noneSkillAlert) {
             Alert(title: Text("Error!"),
                   message: Text("Cannot delete the \"None\" skill."),
+                  dismissButton: .default(Text("Dismiss")))
+        }
+        .alert(isPresented: $fullSkillAlert) {
+            Alert(title: Text("Error!"),
+                  message: Text("The skill is full."),
                   dismissButton: .default(Text("Dismiss")))
         }
     }
