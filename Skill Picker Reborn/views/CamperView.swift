@@ -22,6 +22,9 @@ struct CamperView: View {
                 TableColumn("Last Name",value: \.lName)
                 TableColumn("Cabin",value: \.cabin)
                 //see comment in LeaderView.swift
+                //ForEach(0...3, id: \.self){
+                //    TableColumn("Skill "+String($0+1),value: \.skills[$0])
+                //}
                 TableColumn("Skill 1",value: \.skills[0])
                 TableColumn("Skill 2",value: \.skills[1])
                 TableColumn("Skill 3",value: \.skills[2])

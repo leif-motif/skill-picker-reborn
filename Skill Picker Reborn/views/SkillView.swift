@@ -177,10 +177,9 @@ struct SkillView: View {
                 }
             }
             Picker("Period", selection: $selectedPeriod){
-                Text("Skill 1").tag(0)
-                Text("Skill 2").tag(1)
-                Text("Skill 3").tag(2)
-                Text("Skill 4").tag(3)
+                ForEach(0...3, id: \.self){
+                    Text("Skill "+String($0+1)).tag($0)
+                }
             }
             TextField("Search...", text: $search)
                 .frame(width: 100)

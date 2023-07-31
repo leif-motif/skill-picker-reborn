@@ -18,8 +18,10 @@ struct LeaderView: View {
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 TableColumn("Cabin",value: \.cabin)
-                //There is FOR SURE a better way to do this with something like a for statement.
-                //BUT NO, "Closure containing control flow statement cannot be used with result builder" like shut up.
+                //"The compiler is unable to type-check this expression in reasonable time" my ass
+                //ForEach(0...3, id: \.self){
+                //    TableColumn("Skill "+String($0+1),value: \.skills[$0])
+                //}
                 TableColumn("Skill 1",value: \.skills[0])
                 TableColumn("Skill 2",value: \.skills[1])
                 TableColumn("Skill 3",value: \.skills[2])
