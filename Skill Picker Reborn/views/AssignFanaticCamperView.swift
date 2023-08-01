@@ -14,12 +14,15 @@ struct AssignFanaticCamperView: View {
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
+            Text("Warning: This will remove the\ncamper's sixth preferred skill.")
+                .bold()
+                .padding([.top,.trailing])
             Picker("Camper:", selection: $selectedCamper){
                 ForEach(zip(campers.filter{!$0.skills.contains(targetFanatic)}.map(\.fName),campers.filter{!$0.skills.contains(targetFanatic)}.map(\.lName)).map {$0+" "+$1}, id: \.self){
                     Text($0).tag($0)
                 }
             }
-            .padding()
+            .padding(.horizontal)
             HStack {
                 Button("Cancel") {
                     dismiss()
@@ -34,7 +37,7 @@ struct AssignFanaticCamperView: View {
                     }
                 }
             }
-            .padding([.bottom,.trailing])
+            .padding([.vertical,.trailing])
         }
         .alert(isPresented: $noneCamperAlert) {
             Alert(title: Text("Error!"),
