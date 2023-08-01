@@ -11,7 +11,6 @@ import UniformTypeIdentifiers
 struct CamperView: View {
     @State private var sortOrder = [KeyPathComparator(\Camper.lName)]
     @State private var selectedCamper = Set<Camper.ID>()
-    @State private var filename = "Filename"
     @State private var showFileChooser = false
     @State private var addCamperSheet = false
     @State private var search = ""
@@ -88,7 +87,12 @@ struct CamperView: View {
                 panel.canChooseDirectories = false
                 panel.allowedContentTypes = [.csv]
                 if panel.runModal() == .OK {
-                    self.filename = panel.url?.lastPathComponent ?? "<none>"
+                    var csvInput: [Substring] = [""]
+                    do {
+                        csvInput = try String(contentsOf: panel.url!).lines
+                    } catch {
+                        assertionFailure("Failed reading from URL: \(panel.url), Error: " + error.localizedDescription)
+                    }
                 }
             } label: {
                 Image(systemName: "arrow.down.doc")

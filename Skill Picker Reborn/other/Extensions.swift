@@ -1,14 +1,17 @@
 //
-//  UTType.swift
+//  Extensions.swift
 //  Skill Picker Reborn
 //
 //  Created by Leif Benson on 2023-07-28.
 //
 
-//I will forever resent that this file has to exist. BY ITSELF. Like where else am I supposed to put this declaration?
 import Foundation
 import UniformTypeIdentifiers
 
 extension UTType {
     public static let csv = UTType(importedAs: "com.domain.csv")
+}
+
+extension StringProtocol {
+    var lines: [SubSequence] { split(whereSeparator: \.isNewline) }
 }

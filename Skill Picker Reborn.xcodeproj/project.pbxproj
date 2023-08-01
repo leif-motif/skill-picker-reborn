@@ -24,7 +24,7 @@
 		291CC5832A72C312001D422C /* SkillOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291CC5822A72C312001D422C /* SkillOperations.swift */; };
 		291F0BCD2A746DA900C73BCD /* FanaticOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F0BCC2A746DA900C73BCD /* FanaticOperations.swift */; };
 		293A19832A74DE4400B4B015 /* SPRErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293A19822A74DE4400B4B015 /* SPRErrors.swift */; };
-		293A19852A74E1C400B4B015 /* UTType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293A19842A74E1C400B4B015 /* UTType.swift */; };
+		293A19852A74E1C400B4B015 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293A19842A74E1C400B4B015 /* Extensions.swift */; };
 		293A19872A74E37C00B4B015 /* MasterData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293A19862A74E37C00B4B015 /* MasterData.swift */; };
 		29708D912A6F88370090E369 /* Leader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29708D902A6F88370090E369 /* Leader.swift */; };
 		29708D932A6F88E30090E369 /* Camper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29708D922A6F88E30090E369 /* Camper.swift */; };
@@ -83,7 +83,7 @@
 		291CC5822A72C312001D422C /* SkillOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillOperations.swift; sourceTree = "<group>"; };
 		291F0BCC2A746DA900C73BCD /* FanaticOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FanaticOperations.swift; sourceTree = "<group>"; };
 		293A19822A74DE4400B4B015 /* SPRErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPRErrors.swift; sourceTree = "<group>"; };
-		293A19842A74E1C400B4B015 /* UTType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UTType.swift; sourceTree = "<group>"; };
+		293A19842A74E1C400B4B015 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		293A19862A74E37C00B4B015 /* MasterData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterData.swift; sourceTree = "<group>"; };
 		29708D902A6F88370090E369 /* Leader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Leader.swift; sourceTree = "<group>"; };
 		29708D922A6F88E30090E369 /* Camper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camper.swift; sourceTree = "<group>"; };
@@ -251,7 +251,7 @@
 			isa = PBXGroup;
 			children = (
 				2974B6C32A6ECB6A00EB063B /* Skill_Picker_RebornApp.swift */,
-				293A19842A74E1C400B4B015 /* UTType.swift */,
+				293A19842A74E1C400B4B015 /* Extensions.swift */,
 				293A19862A74E37C00B4B015 /* MasterData.swift */,
 				293A19822A74DE4400B4B015 /* SPRErrors.swift */,
 				29154B2F2A706EDC00CE8CAC /* TestsThatNeedToGo.swift */,
@@ -402,7 +402,7 @@
 				2971FDC62A72B616007DD484 /* CamperOperations.swift in Sources */,
 				29154B282A70274400CE8CAC /* CabinView.swift in Sources */,
 				29154B2C2A704CBE00CE8CAC /* Cabin.swift in Sources */,
-				293A19852A74E1C400B4B015 /* UTType.swift in Sources */,
+				293A19852A74E1C400B4B015 /* Extensions.swift in Sources */,
 				29708D912A6F88370090E369 /* Leader.swift in Sources */,
 				290F78C52A787AE6007F7D1E /* AssignFanaticLeaderView.swift in Sources */,
 				29A4EF182A70F3EB00B034E7 /* AddCamperView.swift in Sources */,
