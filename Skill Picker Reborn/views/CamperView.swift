@@ -13,6 +13,8 @@ struct CamperView: View {
     @State private var selectedCamper = Set<Camper.ID>()
     @State private var showFileChooser = false
     @State private var addCamperSheet = false
+    @State private var camperInfoSheet = false
+    @State private var multiCamperSelectAlert = false
     @State private var search = ""
     var body: some View {
         VStack(){
@@ -33,30 +35,35 @@ struct CamperView: View {
                 campers.sort(using: $0)
             }
             .contextMenu(forSelectionType: Camper.ID.self) { items in
-              if items.isEmpty {
-                Button {
-                    addCamperSheet.toggle()
-                } label: {
-                  Label("New Camper...", systemImage: "plus")
+                if items.isEmpty {
+                    Button {
+                        addCamperSheet.toggle()
+                    } label: {
+                        Label("New Camper...", systemImage: "plus")
+                    }
+                } else if items.count == 1 {
+                    Button {
+                        camperInfoSheet.toggle()
+                    } label: {
+                        Label("Information...", systemImage: "person.text.rectangle")
+                    }
+                    Button(role: .destructive) {
+                        deleteCamper(camperSelection: selectedCamper)
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                    }
+                } else {
+                    Button {
+                        camperInfoSheet.toggle()
+                    } label: {
+                        Label("Information...", systemImage: "person.text.rectangle")
+                    }
+                    Button(role: .destructive) {
+                        deleteCamper(camperSelection: selectedCamper)
+                    } label: {
+                        Label("Delete Selection", systemImage: "trash")
+                    }
                 }
-              } else if items.count == 1 {
-                /*Button {
-                    
-                } label: {
-                  Label("Info/Edit...", systemImage: "pencil.line")
-                }*/
-                Button(role: .destructive) {
-                    deleteCamper(camperSelection: selectedCamper)
-                } label: {
-                  Label("Delete", systemImage: "trash")
-                }
-              } else {
-                Button(role: .destructive) {
-                    deleteCamper(camperSelection: selectedCamper)
-                } label: {
-                  Label("Delete Selection", systemImage: "trash")
-                }
-              }
             }
         }
         .toolbar {
@@ -74,13 +81,17 @@ struct CamperView: View {
                     .foregroundColor(Color(.systemRed))
             }
             .help("Delete Camper")
-            /*Button {
-                
+            Button {
+                if(selectedCamper.count == 1){
+                    camperInfoSheet.toggle()
+                } else if(selectedCamper.count > 1){
+                    multiCamperSelectAlert.toggle()
+                }
             } label: {
-                Image(systemName:"pencil.line")
+                Image(systemName:"person.text.rectangle")
                     .foregroundColor(Color(.systemOrange))
             }
-            .help("Edit Camper")*/
+            .help("Get Camper Info")
             Button {
                 let panel = NSOpenPanel()
                 panel.allowsMultipleSelection = false
@@ -114,6 +125,15 @@ struct CamperView: View {
         .sheet(isPresented: $addCamperSheet) {
         } content: {
             AddCamperView()
+        }
+        .sheet(isPresented: $camperInfoSheet) {
+        } content: {
+            try! CamperInfoView(camperSelection: selectedCamper)
+        }
+        .alert(isPresented: $multiCamperSelectAlert) {
+            Alert(title: Text("Error!"),
+                  message: Text("Cannot view the information of multiple campers at the same time."),
+                  dismissButton: .default(Text("Dismiss")))
         }
     }
 }

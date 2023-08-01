@@ -15,4 +15,5 @@ enum SPRError: Error {
     case SkillFanaticConflict
     case SkillFull
     case NoneSkillRefusal
+    case EmptySelection
 }
