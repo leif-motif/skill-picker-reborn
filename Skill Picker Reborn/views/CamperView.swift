@@ -90,7 +90,9 @@ struct CamperView: View {
                     var csvInput: [Substring] = [""]
                     do {
                         csvInput = try String(contentsOf: panel.url!).lines
+                        cabinsFromCSV(csv: csvInput)
                     } catch {
+                        //I have really no idea what this does.
                         assertionFailure("Failed reading from URL: \(panel.url), Error: " + error.localizedDescription)
                     }
                 }

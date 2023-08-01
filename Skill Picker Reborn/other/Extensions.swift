@@ -14,4 +14,5 @@ extension UTType {
 
 extension StringProtocol {
     var lines: [SubSequence] { split(whereSeparator: \.isNewline) }
+    var collumns: [SubSequence] { split(separator: ",", omittingEmptySubsequences: false)}
 }
