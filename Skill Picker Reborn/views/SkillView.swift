@@ -18,6 +18,8 @@ struct SkillView: View {
     @State private var assignSkillLeaderSheet = false
     @State private var assignSkillCamperSheet = false
     @State private var addFanaticSheet = false
+    @State private var assignFanaticLeaderSheet = false
+    @State private var assignFanaticCamperSheet = false
     @State private var skillErrorAlert = false
     @State private var search = ""
     var body: some View {
@@ -41,7 +43,7 @@ struct SkillView: View {
                         if(skills[selectedSkill]!.maximums[selectedPeriod] == 0){
                             skillErrorAlert.toggle()
                         } else if(fanatics.keys.contains(selectedSkill)){
-                            //assign leader to fanatic
+                            assignFanaticLeaderSheet.toggle()
                         } else {
                             assignSkillLeaderSheet.toggle()
                         }
@@ -108,7 +110,7 @@ struct SkillView: View {
                         if(skills[selectedSkill]!.periods[selectedPeriod].count >= skills[selectedSkill]!.maximums[selectedPeriod]){
                             skillErrorAlert.toggle()
                         } else if(fanatics.keys.contains(selectedSkill)){
-                            //assign camper to fanatic
+                            assignFanaticCamperSheet.toggle()
                         } else {
                             assignSkillCamperSheet.toggle()
                         }
@@ -222,6 +224,14 @@ struct SkillView: View {
         .sheet(isPresented: $addFanaticSheet) {
         } content: {
             AddFanaticView()
+        }
+        .sheet(isPresented: $assignFanaticLeaderSheet) {
+        } content: {
+            AssignFanaticLeaderView(targetFanatic: selectedSkill)
+        }
+        .sheet(isPresented: $assignFanaticCamperSheet) {
+        } content: {
+            AssignFanaticCamperView(targetFanatic: selectedSkill)
         }
         //Somehow, you can't have more than one alerts in a single view.
         //WHY?
