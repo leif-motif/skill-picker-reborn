@@ -9,11 +9,8 @@ import SwiftUI
 
 struct AddSkillView: View {
     @State private var iName = ""
-    @State private var firstMax = 1.0
-    @State private var secondMax = 1.0
-    @State private var thirdMax = 1.0
-    @State private var fourthMax = 1.0
-    private var range = 0.0...20.0
+    @State private var maximums = [1.0, 1.0 ,1.0 ,1.0]
+    private let range = 0.0...20.0
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
@@ -23,29 +20,29 @@ struct AddSkillView: View {
                 Text("To make a skill not run during a skill period, set the size to 0.")
                     .bold()
                     .padding(.trailing)
-                Slider(value: $firstMax, in: range, step: 1){
+                Slider(value: $maximums[0], in: range, step: 1){
                     Text("First Skill Size:")
                 }
                 .padding(.horizontal)
-                Text("\(Int(firstMax))")
+                Text("\(Int(maximums[0]))")
                     .bold()
-                Slider(value: $secondMax, in: range, step: 1){
+                Slider(value: $maximums[1], in: range, step: 1){
                     Text("Second Skill Size:")
                 }
                 .padding(.horizontal)
-                Text("\(Int(secondMax))")
+                Text("\(Int(maximums[1]))")
                     .bold()
-                Slider(value: $thirdMax, in: range, step: 1){
+                Slider(value: $maximums[2], in: range, step: 1){
                     Text("Third Skill Size:")
                 }
                 .padding(.horizontal)
-                Text("\(Int(thirdMax))")
+                Text("\(Int(maximums[2]))")
                     .bold()
-                Slider(value: $fourthMax, in: range, step: 1){
+                Slider(value: $maximums[3], in: range, step: 1){
                     Text("Fourth Skill Size:")
                 }
                 .padding(.horizontal)
-                Text("\(Int(fourthMax))")
+                Text("\(Int(maximums[3]))")
                     .bold()
             }
             HStack {
@@ -53,7 +50,7 @@ struct AddSkillView: View {
                     dismiss()
                 }
                 Button("Add Skill") {
-                    createSkill(newSkill: try! Skill(name: iName, maximums: [Int(firstMax),Int(secondMax),Int(thirdMax),Int(fourthMax)]))
+                    createSkill(newSkill: try! Skill(name: iName, maximums: maximums.map({Int($0)})))
                     dismiss()
                 }
             }
