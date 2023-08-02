@@ -46,6 +46,29 @@ func skillListFromCSV(csv: [Substring]) -> [String:Bool] {
     return isFanatic
 }
 
-func campersFromCSV(csv: [Substring]){
-    
+func campersFromCSV(csv: [Substring]) throws {
+    let numbers = ["1","2","3","4","5","6"]
+    var fName: String
+    var lName: String
+    var cabinName: String
+    var fanatic: String
+    for i in 1...(csv.count-1){
+        fName = csv[i].collumns[0].components(separatedBy: " ").first!
+        lName = csv[i].collumns[0].components(separatedBy: " ").last!
+        cabinName = String(csv[i].collumns[1])
+        fanatic = "None"
+        var preferredSkills: [String?] = [nil,nil,nil,nil,nil,nil]
+        for j in 2...(csv[i].collumns.count-1){
+            if(csv[i].collumns[j] == "TRUE"){
+                fanatic = String(csv[0].collumns[j])
+                preferredSkills.remove(at: 5)
+            } else if(numbers.contains(String(csv[i].collumns[j]))){
+                preferredSkills[Int(csv[i].collumns[j])!-1] = String(csv[0].collumns[j])
+            }
+        }
+        if(preferredSkills.contains(nil)){
+            throw SPRError.MissingSkill
+        }
+        try createCamper(newCamper: try! Camper(fName: fName, lName: lName, cabin: cabinName, preferredSkills: preferredSkills.compactMap{$0}, fanatic: fanatic))
+    }
 }

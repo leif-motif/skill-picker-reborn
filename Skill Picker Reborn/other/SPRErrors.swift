@@ -16,4 +16,5 @@ enum SPRError: Error {
     case SkillFull
     case NoneSkillRefusal
     case EmptySelection
+    case MissingSkill
 }
