@@ -27,8 +27,23 @@ func cabinsFromCSV(csv: [Substring]){
     }
 }
 
-func skillsFromCSV(csv: [Substring]){
-    
+func skillListFromCSV(csv: [Substring]) -> [String:Bool] {
+    var isFanatic: [String:Bool] = [:]
+    let lazyNumbers: [Substring] = ["1","2","3","4","5","6"]
+    for x in 0...(csv[0].collumns.count-1) {
+        if(csv[0].collumns[x] != "Name" && csv[0].collumns[x] != "Cabin"){
+            for y in 1...(csv.count-1){
+                if(csv[y].collumns[x] == "TRUE"){
+                    isFanatic[String(csv[0].collumns[x])] = true
+                    break
+                } else if (lazyNumbers.contains(csv[y].collumns[x])){
+                    isFanatic[String(csv[0].collumns[x])] = false
+                    break
+                }
+            }
+        }
+    }
+    return isFanatic
 }
 
 func campersFromCSV(csv: [Substring]){

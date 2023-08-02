@@ -102,6 +102,7 @@ struct CamperView: View {
                     do {
                         csvInput = try String(contentsOf: panel.url!).lines
                         cabinsFromCSV(csv: csvInput)
+                        //skillListFromCSV(csv: csvInput)
                     } catch {
                         //I have really no idea what this does.
                         assertionFailure("Failed reading from URL: \(panel.url), Error: " + error.localizedDescription)
