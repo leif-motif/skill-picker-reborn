@@ -101,6 +101,7 @@ struct LeaderView: View {
         .sheet(isPresented: $addLeaderSheet) {
         } content: {
             AddLeaderView()
+                .frame(width: 290, height: 190)
         }
     }
 }

@@ -12,6 +12,7 @@ struct AddLeaderView: View {
     @State private var iLName = ""
     @State private var isSenior = false
     @State private var selectedCabin = "Unassigned"
+    @State private var nameAlert = false
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
@@ -31,16 +32,29 @@ struct AddLeaderView: View {
             .toggleStyle(.switch)
             .padding(.horizontal)
             HStack {
+                Spacer()
                 Button("Cancel") {
                     dismiss()
                 }
                 Button("Create Leader"){
-                    createLeader(newLeader: try! Leader(fName: iFName, lName: iLName, cabin: selectedCabin, senior: isSenior))
-                    dismiss()
+                    if(iFName == "" || iLName == ""){
+                        nameAlert.toggle()
+                    } else {
+                        createLeader(newLeader: try! Leader(fName: iFName, lName: iLName, cabin: selectedCabin, senior: isSenior))
+                        dismiss()
+                    }
                 }
+                .buttonStyle(.borderedProminent)
+                .tint(.blue)
             }
             .padding([.vertical,.trailing])
+            .alert(isPresented: $nameAlert){
+                Alert(title: Text("Error!"),
+                    message: Text("You must provide a first and last name for the leader."),
+                    dismissButton: .default(Text("Dismiss")))
+            }
         }
+        .frame(width: 290, height: 190)
     }
 }
 
