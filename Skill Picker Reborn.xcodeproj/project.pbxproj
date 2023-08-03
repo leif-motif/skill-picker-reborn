@@ -10,7 +10,6 @@
 		290240112A6EDB7200F747D7 /* Skill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290240102A6EDB7200F747D7 /* Skill.swift */; };
 		290F78C52A787AE6007F7D1E /* AssignFanaticLeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290F78C42A787AE6007F7D1E /* AssignFanaticLeaderView.swift */; };
 		290F78C72A787E11007F7D1E /* AssignFanaticCamperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290F78C62A787E11007F7D1E /* AssignFanaticCamperView.swift */; };
-		290F78CD2A78C8C1007F7D1E /* RemoveFanaticCamperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290F78CC2A78C8C1007F7D1E /* RemoveFanaticCamperView.swift */; };
 		290F78CF2A7963F6007F7D1E /* CSVOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290F78CE2A7963F6007F7D1E /* CSVOperations.swift */; };
 		290F78D12A798612007F7D1E /* CamperInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290F78D02A798612007F7D1E /* CamperInfoView.swift */; };
 		29154B262A70269000CE8CAC /* LeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29154B252A70269000CE8CAC /* LeaderView.swift */; };
@@ -72,7 +71,6 @@
 		290240102A6EDB7200F747D7 /* Skill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skill.swift; sourceTree = "<group>"; };
 		290F78C42A787AE6007F7D1E /* AssignFanaticLeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignFanaticLeaderView.swift; sourceTree = "<group>"; };
 		290F78C62A787E11007F7D1E /* AssignFanaticCamperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignFanaticCamperView.swift; sourceTree = "<group>"; };
-		290F78CC2A78C8C1007F7D1E /* RemoveFanaticCamperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveFanaticCamperView.swift; sourceTree = "<group>"; };
 		290F78CE2A7963F6007F7D1E /* CSVOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVOperations.swift; sourceTree = "<group>"; };
 		290F78D02A798612007F7D1E /* CamperInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamperInfoView.swift; sourceTree = "<group>"; };
 		29154B252A70269000CE8CAC /* LeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderView.swift; sourceTree = "<group>"; };
@@ -225,7 +223,6 @@
 				2971FDC32A7233BE007DD484 /* AddFanaticView.swift */,
 				290F78C42A787AE6007F7D1E /* AssignFanaticLeaderView.swift */,
 				290F78C62A787E11007F7D1E /* AssignFanaticCamperView.swift */,
-				290F78CC2A78C8C1007F7D1E /* RemoveFanaticCamperView.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -415,7 +412,6 @@
 				29708D912A6F88370090E369 /* Leader.swift in Sources */,
 				290F78C52A787AE6007F7D1E /* AssignFanaticLeaderView.swift in Sources */,
 				29A4EF182A70F3EB00B034E7 /* AddCamperView.swift in Sources */,
-				290F78CD2A78C8C1007F7D1E /* RemoveFanaticCamperView.swift in Sources */,
 				290F78D12A798612007F7D1E /* CamperInfoView.swift in Sources */,
 				29708D932A6F88E30090E369 /* Camper.swift in Sources */,
 				293A19832A74DE4400B4B015 /* SPRErrors.swift in Sources */,

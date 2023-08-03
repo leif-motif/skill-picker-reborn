@@ -20,7 +20,6 @@ struct SkillView: View {
     @State private var addFanaticSheet = false
     @State private var assignFanaticLeaderSheet = false
     @State private var assignFanaticCamperSheet = false
-    @State private var removeFanaticCamperSheet = false
     @State private var skillErrorAlert = false
     @State private var search = ""
     var body: some View {
@@ -128,7 +127,7 @@ struct SkillView: View {
                         if(selectedSkill == "None"){
                             skillErrorAlert.toggle()
                         } else if(fanatics.keys.contains(selectedSkill)){
-                            removeFanaticCamperSheet.toggle()
+                            try! removeCamperFromFanatic(camperSelection: selectedCamper, fanaticName: selectedSkill, newSixthPreferredSkill: "")
                         } else {
                             try! removeCamperFromSkill(camperSelection: selectedCamper, skillName: selectedSkill, period: selectedPeriod)
                         }
@@ -145,7 +144,7 @@ struct SkillView: View {
                         if(selectedSkill == "None"){
                             skillErrorAlert.toggle()
                         } else if(fanatics.keys.contains(selectedSkill)){
-                            removeFanaticCamperSheet.toggle()
+                            try! removeCamperFromFanatic(camperSelection: selectedCamper, fanaticName: selectedSkill, newSixthPreferredSkill: "")
                         } else {
                             try! removeCamperFromSkill(camperSelection: selectedCamper, skillName: selectedSkill, period: selectedPeriod)
                         }
@@ -233,10 +232,6 @@ struct SkillView: View {
         .sheet(isPresented: $assignFanaticCamperSheet) {
         } content: {
             AssignFanaticCamperView(targetFanatic: selectedSkill)
-        }
-        .sheet(isPresented: $removeFanaticCamperSheet) {
-        } content: {
-            RemoveFanaticCamperView(camperSelection: selectedCamper, fanaticName: selectedSkill)
         }
         //Somehow, you can't have more than one alerts in a single view.
         //WHY?
