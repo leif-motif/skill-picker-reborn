@@ -26,6 +26,10 @@ struct ContentView: View {
             }
             NullView()
         }
+        .frame(minWidth: 800,
+               idealWidth: 800,
+               minHeight: 270,
+               idealHeight: 600)
     }
 }
 
