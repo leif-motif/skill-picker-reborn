@@ -29,6 +29,7 @@ struct ModifyCabinLeadersView: View {
             }
             .padding([.bottom,.horizontal])
             HStack {
+                Spacer()
                 Button("Cancel") {
                     dismiss()
                 }
@@ -50,9 +51,12 @@ struct ModifyCabinLeadersView: View {
                     }
                     dismiss()
                 }
+                .buttonStyle(.borderedProminent)
+                .tint(.blue)
             }
             .padding([.bottom,.trailing])
         }
+        .frame(width: 310, height: 120)
     }
     init(targetCabin: String) {
         self.targetCabin = targetCabin

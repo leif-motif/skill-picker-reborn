@@ -129,6 +129,7 @@ struct CabinView: View {
         .sheet(isPresented: $modifyCabinLeadersSheet) {
         } content: {
             ModifyCabinLeadersView(targetCabin: selectedCabin)
+                .frame(width: 310, height: 120)
         }
         .alert(isPresented: $unassignedCabinAlert) {
             Alert(title: Text("Error!"),
