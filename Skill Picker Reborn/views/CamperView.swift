@@ -11,6 +11,7 @@ import UniformTypeIdentifiers
 struct CamperView: View {
     @State private var sortOrder = [KeyPathComparator(\Camper.lName)]
     @State private var selectedCamper = Set<Camper.ID>()
+    @State private var csvInput: [Substring] = [""]
     @State private var showFileChooser = false
     @State private var addCamperSheet = false
     @State private var camperInfoSheet = false
@@ -99,14 +100,11 @@ struct CamperView: View {
                 panel.canChooseDirectories = false
                 panel.allowedContentTypes = [.csv]
                 if panel.runModal() == .OK {
-                    var csvInput: [Substring] = [""]
                     do {
                         csvInput = try String(contentsOf: panel.url!).lines
                         cabinsFromCSV(csv: csvInput)
                         importSkillList = skillListFromCSV(csv: csvInput)
-                        print(importSkillList)
                         importSkillSheet.toggle()
-                        try campersFromCSV(csv: csvInput)
                     } catch {
                         //I have really no idea what this does.
                         assertionFailure("Failed reading from URL: \(panel.url), Error: " + error.localizedDescription)
@@ -135,10 +133,11 @@ struct CamperView: View {
         } content: {
             try! CamperInfoView(camperSelection: selectedCamper)
         }
-        .sheet(isPresented: $importSkillSheet) {
-        } content: {
+        .sheet(isPresented: $importSkillSheet, onDismiss: {
+            try! campersFromCSV(csv: csvInput)
+        }, content: {
             try! ImportSkillView()
-        }
+        })
         .alert(isPresented: $multiCamperSelectAlert) {
             Alert(title: Text("Error!"),
                   message: Text("Cannot view the information of multiple campers at the same time."),

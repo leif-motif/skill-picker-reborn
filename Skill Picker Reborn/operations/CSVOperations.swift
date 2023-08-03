@@ -57,18 +57,26 @@ func campersFromCSV(csv: [Substring]) throws {
         lName = csv[i].collumns[0].components(separatedBy: " ").last!
         cabinName = String(csv[i].collumns[1])
         fanatic = "None"
-        var preferredSkills: [String?] = [nil,nil,nil,nil,nil,nil]
+        var preferredNullSkills: [String?] = [nil,nil,nil,nil,nil,nil]
         for j in 2...(csv[i].collumns.count-1){
             if(csv[i].collumns[j] == "TRUE"){
                 fanatic = String(csv[0].collumns[j])
-                preferredSkills.remove(at: 5)
             } else if(numbers.contains(String(csv[i].collumns[j]))){
-                preferredSkills[Int(csv[i].collumns[j])!-1] = String(csv[0].collumns[j])
+                preferredNullSkills[Int(csv[i].collumns[j])!-1] = String(csv[0].collumns[j])
             }
         }
-        if(preferredSkills.contains(nil)){
-            throw SPRError.MissingSkill
+        var preferredSkills: [String] = []
+        for skill in preferredNullSkills {
+            if(skill != nil){
+                preferredSkills.append(skill!)
+            }
         }
-        try createCamper(newCamper: try! Camper(fName: fName, lName: lName, cabin: cabinName, preferredSkills: preferredSkills.compactMap{$0}, fanatic: fanatic))
+        if(fanatic != "None" && preferredSkills.count == 6){
+            preferredSkills.remove(at: 5)
+        }
+        while(preferredSkills.count < (fanatic == "None" ? 6 : 5)){
+            preferredSkills.append("")
+        }
+        try createCamper(newCamper: try! Camper(fName: fName, lName: lName, cabin: cabinName, preferredSkills: preferredSkills, fanatic: fanatic))
     }
 }
