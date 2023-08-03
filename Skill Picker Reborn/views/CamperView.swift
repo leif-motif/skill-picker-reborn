@@ -22,16 +22,24 @@ struct CamperView: View {
         VStack(){
             Table(campers, selection: $selectedCamper, sortOrder: $sortOrder){
                 TableColumn("First Name",value: \.fName)
+                    .width(min: 80, ideal: 80)
                 TableColumn("Last Name",value: \.lName)
+                    .width(min: 80, ideal: 80)
                 TableColumn("Cabin",value: \.cabin)
+                    .width(min: 80, ideal: 80)
                 //see comment in LeaderView.swift
                 //ForEach(0...3, id: \.self){
                 //    TableColumn("Skill "+String($0+1),value: \.skills[$0])
+                //        .width(min: 80, ideal: 80)
                 //}
                 TableColumn("Skill 1",value: \.skills[0])
+                    .width(min: 80, ideal: 80)
                 TableColumn("Skill 2",value: \.skills[1])
+                    .width(min: 80, ideal: 80)
                 TableColumn("Skill 3",value: \.skills[2])
+                    .width(min: 80, ideal: 80)
                 TableColumn("Skill 4",value: \.skills[3])
+                    .width(min: 80, ideal: 80)
             }
             .onChange(of: sortOrder){
                 campers.sort(using: $0)
