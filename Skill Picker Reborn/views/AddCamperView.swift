@@ -11,13 +11,9 @@ struct AddCamperView: View {
     @State private var iFName = ""
     @State private var iLName = ""
     @State private var selectedCabin = "Unassigned"
-    @State private var firstChoice = ""
-    @State private var secondChoice = ""
-    @State private var thirdChoice = ""
-    @State private var fourthChoice = ""
-    @State private var fifthChoice = ""
-    @State private var sixthChoice = ""
+    @State private var preferredSkills = ["","","","","",""]
     @State private var fanaticSelection = "None"
+    @State private var nameAlert = false
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
@@ -42,36 +38,48 @@ struct AddCamperView: View {
                 .bold()
                 .padding([.top,.trailing])
             Group {
-                TextField("First:",text: $firstChoice)
+                TextField("First:",text: $preferredSkills[0])
                     .padding(.horizontal)
-                TextField("Second:",text: $secondChoice)
+                TextField("Second:",text: $preferredSkills[1])
                     .padding(.horizontal)
-                TextField("Third:",text: $thirdChoice)
+                TextField("Third:",text: $preferredSkills[2])
                     .padding(.horizontal)
-                TextField("Fourth:",text: $fourthChoice)
+                TextField("Fourth:",text: $preferredSkills[3])
                     .padding(.horizontal)
-                TextField("Fifth:",text: $fifthChoice)
+                TextField("Fifth:",text: $preferredSkills[4])
                     .padding(.horizontal)
-                TextField("Sixth:",text: $sixthChoice)
+                TextField("Sixth:",text: $preferredSkills[5])
                     .padding(.horizontal)
                     .disabled(fanaticSelection != "None")
             }
             HStack {
+                Spacer()
                 Button("Cancel") {
                     dismiss()
                 }
                 Button("Create Camper"){
-                    if(fanaticSelection != "None"){
-                        try! createCamper(newCamper: try! Camper(fName: iFName, lName: iLName, cabin: selectedCabin, preferredSkills: [firstChoice,secondChoice,thirdChoice,fourthChoice,fifthChoice], fanatic: fanaticSelection))
+                    if(iFName == "" || iLName == ""){
+                        nameAlert.toggle()
+                    } else if(fanaticSelection != "None"){
+                        preferredSkills.remove(at: 5)
+                        try! createCamper(newCamper: try! Camper(fName: iFName, lName: iLName, cabin: selectedCabin, preferredSkills: preferredSkills, fanatic: fanaticSelection))
+                        dismiss()
                     } else {
-                        try! createCamper(newCamper: try! Camper(fName: iFName, lName: iLName, cabin: selectedCabin, preferredSkills: [firstChoice,secondChoice,thirdChoice,fourthChoice,fifthChoice,sixthChoice], fanatic: fanaticSelection))
+                        try! createCamper(newCamper: try! Camper(fName: iFName, lName: iLName, cabin: selectedCabin, preferredSkills: preferredSkills, fanatic: fanaticSelection))
+                        dismiss()
                     }
-                    dismiss()
                 }
-                Spacer()
+                .buttonStyle(.borderedProminent)
+                .tint(.blue)
             }
             .padding([.vertical,.trailing])
         }
+        .alert(isPresented: $nameAlert){
+            Alert(title: Text("Error!"),
+                  message: Text("You must provide a first and last name for the camper."),
+                  dismissButton: .default(Text("Dismiss")))
+        }
+        .frame(width: 300, height: 400)
     }
 }
 

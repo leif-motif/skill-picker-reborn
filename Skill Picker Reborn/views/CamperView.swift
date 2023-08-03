@@ -136,6 +136,7 @@ struct CamperView: View {
         .sheet(isPresented: $addCamperSheet) {
         } content: {
             AddCamperView()
+                .frame(width: 300, height: 400)
         }
         .sheet(isPresented: $camperInfoSheet) {
         } content: {
