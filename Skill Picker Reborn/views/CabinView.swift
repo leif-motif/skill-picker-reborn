@@ -124,6 +124,7 @@ struct CabinView: View {
         .sheet(isPresented: $addCabinSheet) {
         } content: {
             AddCabinView()
+                .frame(width: 250, height: 170)
         }
         .sheet(isPresented: $modifyCabinLeadersSheet) {
         } content: {
