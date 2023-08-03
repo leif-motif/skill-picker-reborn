@@ -14,6 +14,7 @@ struct CamperView: View {
     @State private var showFileChooser = false
     @State private var addCamperSheet = false
     @State private var camperInfoSheet = false
+    @State private var importSkillSheet = false
     @State private var multiCamperSelectAlert = false
     @State private var search = ""
     var body: some View {
@@ -102,7 +103,9 @@ struct CamperView: View {
                     do {
                         csvInput = try String(contentsOf: panel.url!).lines
                         cabinsFromCSV(csv: csvInput)
-                        //skillListFromCSV(csv: csvInput)
+                        importSkillList = skillListFromCSV(csv: csvInput)
+                        print(importSkillList)
+                        importSkillSheet.toggle()
                         try campersFromCSV(csv: csvInput)
                     } catch {
                         //I have really no idea what this does.
@@ -131,6 +134,10 @@ struct CamperView: View {
         .sheet(isPresented: $camperInfoSheet) {
         } content: {
             try! CamperInfoView(camperSelection: selectedCamper)
+        }
+        .sheet(isPresented: $importSkillSheet) {
+        } content: {
+            try! ImportSkillView()
         }
         .alert(isPresented: $multiCamperSelectAlert) {
             Alert(title: Text("Error!"),

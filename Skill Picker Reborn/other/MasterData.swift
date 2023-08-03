@@ -19,3 +19,6 @@ var skills = [
     "None": try! Skill(name: "None", maximums: [255,255,255,255])
 ]
 var fanatics: [String: Fanatic] = [:]
+
+//There is little reason why I should have to resort to doing this.
+var importSkillList: [String:Bool] = [:]
