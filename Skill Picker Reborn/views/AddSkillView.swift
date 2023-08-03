@@ -9,53 +9,92 @@ import SwiftUI
 
 struct AddSkillView: View {
     @State private var iName = ""
-    @State private var maximums = [1.0, 1.0 ,1.0 ,1.0]
-    private let range = 0.0...20.0
+    @State private var maximums = [1, 1, 1 ,1]
+    @State private var nameAlert = false
+    private let range = 0...20
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
-            TextField("Name:", text: $iName)
-                .padding(.all)
-            Group {
-                Text("To make a skill not run during a skill period, set the size to 0.")
-                    .bold()
-                    .padding(.trailing)
-                Slider(value: $maximums[0], in: range, step: 1){
-                    Text("First Skill Size:")
+            VStack(alignment: .leading) {
+                TextField("Skill Name:", text: $iName)
+            }
+            Text("To make a skill not run during a skill period, set the size to 0.")
+                .bold()
+                .frame(width: 150, alignment: .center)
+            VStack(alignment: .leading) {
+                HStack {
+                    TextField("First Skill Size:", value: $maximums[0], formatter: NumberFormatter())
+                        .frame(width: 130)
+                    Stepper(value: $maximums[0], in: range, step: 1) {
+                        EmptyView()
+                    }
+                    .labelsHidden()
                 }
-                .padding(.horizontal)
-                Text("\(Int(maximums[0]))")
-                    .bold()
-                Slider(value: $maximums[1], in: range, step: 1){
-                    Text("Second Skill Size:")
+            }
+            VStack(alignment: .leading) {
+                HStack {
+                    TextField("Second Skill Size:", value: $maximums[1], formatter: NumberFormatter())
+                        .frame(width: 149)
+                    Stepper(value: $maximums[1], in: range, step: 1) {
+                        EmptyView()
+                    }
+                    .labelsHidden()
                 }
-                .padding(.horizontal)
-                Text("\(Int(maximums[1]))")
-                    .bold()
-                Slider(value: $maximums[2], in: range, step: 1){
-                    Text("Third Skill Size:")
+            }
+            VStack(alignment: .leading) {
+                HStack {
+                    TextField("Third Skill Size:", value: $maximums[2], formatter: NumberFormatter())
+                        .frame(width: 135)
+                    Stepper(value: $maximums[2], in: range, step: 1) {
+                        EmptyView()
+                    }
+                    .labelsHidden()
                 }
-                .padding(.horizontal)
-                Text("\(Int(maximums[2]))")
-                    .bold()
-                Slider(value: $maximums[3], in: range, step: 1){
-                    Text("Fourth Skill Size:")
+            }
+            VStack(alignment: .leading) {
+                HStack {
+                    TextField("Fourth Skill Size:", value: $maximums[3], formatter: NumberFormatter())
+                        .frame(width: 143)
+                    Stepper(value: $maximums[3], in: range, step: 1) {
+                        EmptyView()
+                    }
+                    .labelsHidden()
                 }
-                .padding(.horizontal)
-                Text("\(Int(maximums[3]))")
-                    .bold()
             }
             HStack {
+                Spacer()
                 Button("Cancel") {
                     dismiss()
                 }
                 Button("Add Skill") {
-                    createSkill(newSkill: try! Skill(name: iName, maximums: maximums.map({Int($0)})))
-                    dismiss()
+                    if(iName == ""){
+                        nameAlert.toggle()
+                    } else {
+                        //There's probably a better way to do this but I no longer care.
+                        for i in 0...3 {
+                            if(maximums[i] < 0){
+                                maximums[i] = 0
+                            } else if(maximums[i] > 20){
+                                maximums[i] = 20
+                            }
+                        }
+                        createSkill(newSkill: try! Skill(name: iName, maximums: maximums))
+                        dismiss()
+                    }
                 }
+                
+                .buttonStyle(.borderedProminent)
+                .tint(.blue)
             }
-            .padding([.bottom,.trailing])
+            .padding(.top)
         }
+        .alert(isPresented: $nameAlert){
+            Alert(title: Text("Error!"),
+                  message: Text("You must provide a name for the skill."),
+                  dismissButton: .default(Text("Dismiss")))
+        }
+        .padding()
+        .frame(width: 300, height: 270)
     }
 }
 
