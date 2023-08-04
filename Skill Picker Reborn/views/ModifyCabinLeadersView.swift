@@ -8,23 +8,31 @@
 import SwiftUI
 
 struct ModifyCabinLeadersView: View {
-    @State private var seniorSelection = "None"
-    @State private var juniorSelection = "None"
+    @State private var seniorSelection = nullSenior.id
+    @State private var juniorSelection = nullJunior.id
     private var targetCabin: String
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
             Picker("Senior", selection: $seniorSelection) {
-                Text("None").tag("None")
-                ForEach(zip(leaders.filter{$0.senior}.map(\.fName),leaders.filter{$0.senior}.map(\.lName)).map {$0+" "+$1}, id: \.self){
-                    Text($0).tag($0)
+                Text("None").tag(nullSenior.id)
+                if(leaders.count > 0){
+                    ForEach(0...(leaders.count-1), id: \.self){
+                        if(leaders[$0].senior){
+                            Text(leaders[$0].fName+" "+leaders[$0].lName).tag(leaders[$0].id)
+                        }
+                    }
                 }
             }
             .padding([.top,.horizontal])
             Picker("Junior", selection: $juniorSelection) {
-                Text("None").tag("None")
-                ForEach(zip(leaders.filter{!$0.senior}.map(\.fName),leaders.filter{!$0.senior}.map(\.lName)).map {$0+" "+$1}, id: \.self){
-                    Text($0).tag($0)
+                Text("None").tag(nullJunior.id)
+                if(leaders.count > 0){
+                    ForEach(0...(leaders.count-1), id: \.self){
+                        if(!leaders[$0].senior){
+                            Text(leaders[$0].fName+" "+leaders[$0].lName).tag(leaders[$0].id)
+                        }
+                    }
                 }
             }
             .padding([.bottom,.horizontal])
@@ -34,20 +42,20 @@ struct ModifyCabinLeadersView: View {
                     dismiss()
                 }
                 Button("Change Cabin Leaders") {
-                    if(seniorSelection == "None" && juniorSelection == "None"){
+                    if(seniorSelection == nullSenior.id && juniorSelection == nullJunior.id){
                         changeCabinLeaders(cabinName: targetCabin, targetSenior: nullSenior, targetJunior: nullJunior)
-                    } else if(seniorSelection == "None"){
+                    } else if(seniorSelection == nullSenior.id){
                         changeCabinLeaders(cabinName: targetCabin,
-                                    targetSenior: nullSenior,
-                                    targetJunior: leaders.first(where: {$0.fName == juniorSelection.components(separatedBy: " ")[0] && $0.lName == juniorSelection.components(separatedBy: " ")[1]})!)
-                    } else if(juniorSelection == "None"){
+                                           targetSenior: nullSenior,
+                                           targetJunior: leaders.first(where: {$0.id == juniorSelection})!)
+                    } else if(juniorSelection == nullJunior.id){
                         changeCabinLeaders(cabinName: targetCabin,
-                                    targetSenior: leaders.first(where: {$0.fName == seniorSelection.components(separatedBy: " ")[0] && $0.lName == seniorSelection.components(separatedBy: " ")[1]})!,
-                                    targetJunior: nullJunior)
+                                           targetSenior: leaders.first(where: {$0.id == seniorSelection})!,
+                                           targetJunior: nullJunior)
                     } else {
                         changeCabinLeaders(cabinName: targetCabin,
-                                    targetSenior: leaders.first(where: {$0.fName == seniorSelection.components(separatedBy: " ")[0] && $0.lName == seniorSelection.components(separatedBy: " ")[1]})!,
-                                    targetJunior: leaders.first(where: {$0.fName == juniorSelection.components(separatedBy: " ")[0] && $0.lName == juniorSelection.components(separatedBy: " ")[1]})!)
+                                           targetSenior: leaders.first(where: {$0.id == seniorSelection})!,
+                                           targetJunior: leaders.first(where: {$0.id == juniorSelection})!)
                     }
                     dismiss()
                 }

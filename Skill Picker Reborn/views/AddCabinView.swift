@@ -9,8 +9,8 @@ import SwiftUI
 
 struct AddCabinView: View {
     @State private var iName = ""
-    @State private var seniorSelection = "None"
-    @State private var juniorSelection = "None"
+    @State private var seniorSelection = nullSenior.id
+    @State private var juniorSelection = nullJunior.id
     @State private var nameAlert = false
     @Environment(\.dismiss) var dismiss
     var body: some View {
@@ -18,19 +18,27 @@ struct AddCabinView: View {
             TextField("Name:",text: $iName)
                 .padding([.top,.horizontal])
             Picker("Senior", selection: $seniorSelection) {
-                Text("None").tag("None")
-                ForEach(zip(leaders.filter{$0.senior}.map(\.fName),leaders.filter{$0.senior}.map(\.lName)).map {$0+" "+$1}, id: \.self){
-                    Text($0).tag($0)
+                Text("None").tag(nullSenior.id)
+                if(leaders.count > 0){
+                    ForEach(0...(leaders.count-1), id: \.self){
+                        if(leaders[$0].senior){
+                            Text(leaders[$0].fName+" "+leaders[$0].lName).tag(leaders[$0].id)
+                        }
+                    }
                 }
             }
             .padding([.top,.horizontal])
             Picker("Junior", selection: $juniorSelection) {
-                Text("None").tag("None")
-                ForEach(zip(leaders.filter{!$0.senior}.map(\.fName),leaders.filter{!$0.senior}.map(\.lName)).map {$0+" "+$1}, id: \.self){
-                    Text($0).tag($0)
+                Text("None").tag(nullJunior.id)
+                if(leaders.count > 0){
+                    ForEach(0...(leaders.count-1), id: \.self){
+                        if(!leaders[$0].senior){
+                            Text(leaders[$0].fName+" "+leaders[$0].lName).tag(leaders[$0].id)
+                        }
+                    }
                 }
             }
-                .padding([.horizontal])
+            .padding([.horizontal])
             HStack {
                 Spacer()
                 Button("Cancel") {
@@ -40,23 +48,23 @@ struct AddCabinView: View {
                     if(iName == ""){
                         nameAlert.toggle()
                     //gets the first element of the leader array where the selection's first and last names are equal to the element's first and last names
-                    } else if(seniorSelection == "None" && juniorSelection == "None"){
+                    } else if(seniorSelection == nullSenior.id && juniorSelection == nullJunior.id){
                         createCabin(cabinName: iName, targetSenior: nullSenior, targetJunior: nullJunior)
                         dismiss()
-                    } else if(seniorSelection == "None"){
+                    } else if(seniorSelection == nullSenior.id){
                         createCabin(cabinName: iName,
                                     targetSenior: nullSenior,
-                                    targetJunior: leaders.first(where: {$0.fName == juniorSelection.components(separatedBy: " ")[0] && $0.lName == juniorSelection.components(separatedBy: " ")[1]})!)
+                                    targetJunior: leaders.first(where: {$0.id == juniorSelection})!)
                         dismiss()
-                    } else if(juniorSelection == "None"){
+                    } else if(juniorSelection == nullJunior.id){
                         createCabin(cabinName: iName,
-                                    targetSenior: leaders.first(where: {$0.fName == seniorSelection.components(separatedBy: " ")[0] && $0.lName == seniorSelection.components(separatedBy: " ")[1]})!,
+                                    targetSenior: leaders.first(where: {$0.id == seniorSelection})!,
                                     targetJunior: nullJunior)
                         dismiss()
                     } else {
                         createCabin(cabinName: iName,
-                                    targetSenior: leaders.first(where: {$0.fName == seniorSelection.components(separatedBy: " ")[0] && $0.lName == seniorSelection.components(separatedBy: " ")[1]})!,
-                                    targetJunior: leaders.first(where: {$0.fName == juniorSelection.components(separatedBy: " ")[0] && $0.lName == juniorSelection.components(separatedBy: " ")[1]})!)
+                                    targetSenior: leaders.first(where: {$0.id == seniorSelection})!,
+                                    targetJunior: leaders.first(where: {$0.id == juniorSelection})!)
                         dismiss()
                     }
                 }

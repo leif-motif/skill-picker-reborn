@@ -14,9 +14,8 @@ class Human: Identifiable {
     var cabin: String
     var skills: [String]
     init(fName: String, lName: String, cabin: String = "Unassigned", skills: [String] = ["None", "None", "None", "None"]) throws {
-        //I am not taking any chances with spaces. Cope. Seethe.
-        self.fName = fName.replacingOccurrences(of: " ", with: "")
-        self.lName = lName.replacingOccurrences(of: " ", with: "")
+        self.fName = fName
+        self.lName = lName
         self.cabin = cabin
         if(skills.count != 4){
             throw SPRError.InvalidSize
