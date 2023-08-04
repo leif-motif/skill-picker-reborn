@@ -82,7 +82,6 @@ struct AddSkillView: View {
                         dismiss()
                     }
                 }
-                
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
             }
