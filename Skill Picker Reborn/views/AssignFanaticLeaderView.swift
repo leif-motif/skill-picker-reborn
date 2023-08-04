@@ -21,6 +21,7 @@ struct AssignFanaticLeaderView: View {
             }
             .padding()
             HStack {
+                Spacer()
                 Button("Cancel") {
                     dismiss()
                 }
@@ -33,9 +34,12 @@ struct AssignFanaticLeaderView: View {
                         noneLeaderAlert.toggle()
                     }
                 }
+                .buttonStyle(.borderedProminent)
+                .tint(.blue)
             }
             .padding([.bottom,.trailing])
         }
+        .frame(width: 270, height: 90)
         .alert(isPresented: $noneLeaderAlert) {
             Alert(title: Text("Error!"),
                   message: Text("A leader to assign to the fanatic skill must be selected."),

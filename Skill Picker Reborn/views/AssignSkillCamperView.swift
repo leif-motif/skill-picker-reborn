@@ -22,6 +22,7 @@ struct AssignSkillCamperView: View {
             }
             .padding()
             HStack {
+                Spacer()
                 Button("Cancel") {
                     dismiss()
                 }
@@ -34,9 +35,12 @@ struct AssignSkillCamperView: View {
                         noneCamperAlert.toggle()
                     }
                 }
+                .buttonStyle(.borderedProminent)
+                .tint(.blue)
             }
             .padding([.bottom,.trailing])
         }
+        .frame(width: 280, height: 90)
         .alert(isPresented: $noneCamperAlert) {
             Alert(title: Text("Error!"),
                   message: Text("A camper to assign to the skill must be selected."),

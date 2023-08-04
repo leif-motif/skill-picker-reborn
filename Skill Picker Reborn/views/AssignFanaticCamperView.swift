@@ -24,6 +24,7 @@ struct AssignFanaticCamperView: View {
             }
             .padding(.horizontal)
             HStack {
+                Spacer()
                 Button("Cancel") {
                     dismiss()
                 }
@@ -36,9 +37,12 @@ struct AssignFanaticCamperView: View {
                         noneCamperAlert.toggle()
                     }
                 }
+                .buttonStyle(.borderedProminent)
+                .tint(.blue)
             }
             .padding([.vertical,.trailing])
         }
+        .frame(width: 280, height: 141)
         .alert(isPresented: $noneCamperAlert) {
             Alert(title: Text("Error!"),
                   message: Text("A camper to assign to the fanatic skill must be selected."),

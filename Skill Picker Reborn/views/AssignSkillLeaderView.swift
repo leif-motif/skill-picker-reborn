@@ -22,6 +22,7 @@ struct AssignSkillLeaderView: View {
             }
             .padding()
             HStack {
+                Spacer()
                 Button("Cancel") {
                     dismiss()
                 }
@@ -34,13 +35,16 @@ struct AssignSkillLeaderView: View {
                         noneLeaderAlert.toggle()
                     }
                 }
+                .buttonStyle(.borderedProminent)
+                .tint(.blue)
             }
             .padding([.bottom,.trailing])
         }
+        .frame(width: 270, height: 90)
         .alert(isPresented: $noneLeaderAlert) {
             Alert(title: Text("Error!"),
-                message: Text("A leader to assign to the skill must be selected."),
-                dismissButton: .default(Text("Dismiss")))
+                  message: Text("A leader to assign to the skill must be selected."),
+                  dismissButton: .default(Text("Dismiss")))
         }
     }
     init(targetSkill: String, skillPeriod: Int) {
