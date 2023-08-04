@@ -22,7 +22,7 @@ struct ImportSkillView: View {
             result[key] = [false, false, false, false]
         }
     }
-    private let range = 1...20
+    private let range = 0...20
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
@@ -37,7 +37,9 @@ struct ImportSkillView: View {
             if(selectedSkill == "this is an empty selection"){
                 //Spacer()
             } else if(!importSkillList[selectedSkill]!){
-                Text("To make a skill not run during a skill period, set the size to 0.")
+                //The only reason I am not displaying the number "0" outright is because the values in the TextFields won't update unless their unbinded value is shown somewhere.
+                //I HATE THE SWIFT COMPILER I HATE THE SWIFT COMPILER I HATE THE SWIFT COMPILER
+                Text("To make a skill not run during a skill period, set the size to "+String((skillMaximums[selectedSkill]![0]/skillMaximums[selectedSkill]![0])-1)+".")
                     .bold()
                     .frame(width: 150, alignment: .center)
                     .padding(.trailing)
@@ -49,6 +51,7 @@ struct ImportSkillView: View {
                             EmptyView()
                         }
                         .labelsHidden()
+                        //Text(String(skillMaximums[selectedSkill]![0]))
                     }
                 }
                 .padding(.horizontal)
