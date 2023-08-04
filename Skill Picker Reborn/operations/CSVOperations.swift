@@ -53,8 +53,17 @@ func campersFromCSV(csv: [Substring]) throws {
     var cabinName: String
     var fanatic: String
     for i in 1...(csv.count-1){
-        fName = csv[i].collumns[0].components(separatedBy: " ").first!
-        lName = csv[i].collumns[0].components(separatedBy: " ").last!
+        var nameComponents = csv[i].collumns[0].components(separatedBy: " ")
+        if(nameComponents.count < 2){
+            throw SPRError.ReallyBadName
+        }
+        fName = nameComponents.first!
+        var i = 1
+        while(i < nameComponents.count-1){
+            fName = fName+" "+nameComponents[i]
+            i += 1
+        }
+        lName = nameComponents.last!
         cabinName = String(csv[i].collumns[1])
         fanatic = "None"
         var preferredNullSkills: [String?] = [nil,nil,nil,nil,nil,nil]
