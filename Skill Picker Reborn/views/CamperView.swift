@@ -103,6 +103,17 @@ struct CamperView: View {
             }
             .help("Get Camper Info")
             Button {
+                do {
+                    try processPreferredSkills()
+                } catch {
+                    print("CRASH!")
+                }
+            } label: {
+                Image(systemName: "figure.run.square.stack")
+                    .foregroundColor(Color(.systemIndigo))
+            }
+            .help("Assign Preferred Skills")
+            Button {
                 let panel = NSOpenPanel()
                 panel.allowsMultipleSelection = false
                 panel.canChooseDirectories = false

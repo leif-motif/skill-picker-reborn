@@ -18,4 +18,6 @@ enum SPRError: Error {
     case EmptySelection
     case MissingSkill
     case ReallyBadName
+    case NoSkills
+    case NotEnoughSkillSpace
 }

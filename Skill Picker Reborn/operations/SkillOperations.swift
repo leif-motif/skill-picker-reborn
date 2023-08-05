@@ -65,3 +65,21 @@ func removeCamperFromSkill(camperSelection: Set<Camper.ID>, skillName: String, p
         skills["None"]!.periods[period].append(campers.first(where: {$0.id == camperID})!)
     }
 }
+
+func processPreferredSkills() throws {
+    if(skills.count == 1){
+        throw SPRError.NoSkills
+    }
+    var emptySpaces: Int
+    for p in 0...3 {
+        emptySpaces = 0
+        for skill in skills.keys {
+            if(skill != "None" && !fanatics.keys.contains(skill)){
+                emptySpaces += skills[skill]!.maximums[p]-skills[skill]!.periods[p].count
+            }
+        }
+        if(emptySpaces-skills["None"]!.periods[p].count < 0){
+            throw SPRError.NotEnoughSkillSpace
+        }
+    }
+}
