@@ -29,6 +29,7 @@ func deleteSkill(skillName: String) throws {
 }
 
 func assignLeaderToSkill(targetLeader: Leader, skillName: String, period: Int){
+    skills[targetLeader.skills[period]]!.leaders[period].removeAll(where: {$0 == targetLeader})
     skills[skillName]!.leaders[period].append(targetLeader)
     targetLeader.skills[period] = skillName
 }
@@ -46,6 +47,7 @@ func removeLeaderFromSkill(leaderSelection: Set<Leader.ID>, skillName: String, p
 
 func assignCamperToSkill(targetCamper: Camper, skillName: String, period: Int) throws {
     if(skills[skillName]!.periods[period].count < skills[skillName]!.maximums[period]){
+        skills[targetCamper.skills[period]]!.periods[period].removeAll(where: {$0 == targetCamper})
         skills[skillName]!.periods[period].append(targetCamper)
         targetCamper.skills[period] = skillName
     } else {

@@ -29,6 +29,7 @@ func assignLeaderToFanatic(targetLeader: Leader, fanaticName: String) throws {
     }
     for i in 0...3 {
         if(fanatics[fanaticName]!.activePeriods[i]){
+            skills[targetLeader.skills[i]]!.leaders[i].removeAll(where: {$0 == targetLeader})
             targetLeader.skills[i] = fanaticName
             skills[fanaticName]!.leaders[i].append(targetLeader)
         }
@@ -56,6 +57,7 @@ func assignCamperToFanatic(targetCamper: Camper, fanaticName: String) throws {
     }
     for i in 0...3 {
         if(fanatics[fanaticName]!.activePeriods[i]){
+            skills[targetCamper.skills[i]]!.leaders[i].removeAll(where: {$0 == targetCamper})
             targetCamper.skills[i] = fanaticName
             skills[fanaticName]!.periods[i].append(targetCamper)
         }
