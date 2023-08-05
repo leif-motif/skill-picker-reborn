@@ -17,7 +17,7 @@ struct AssignSkillLeaderView: View {
         Form {
             Picker("Leader:", selection: $selectedLeader){
                 ForEach(0...(leaders.count-1), id: \.self){
-                    if(!skills[targetSkill]!.leaders[skillPeriod].contains(leaders[$0])){
+                    if(leaders[$0].skills[skillPeriod] != targetSkill){
                         Text(leaders[$0].fName+" "+leaders[$0].lName).tag(leaders[$0].id)
                     }
                 }

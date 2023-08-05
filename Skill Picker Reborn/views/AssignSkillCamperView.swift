@@ -10,14 +10,16 @@ import SwiftUI
 struct AssignSkillCamperView: View {
     private var targetSkill: String
     private var skillPeriod: Int
-    @State private var selectedCamper: String = "None"
+    @State private var selectedCamper = UUID()
     @State private var noneCamperAlert: Bool = false
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
             Picker("Camper:", selection: $selectedCamper){
-                ForEach(zip(campers.filter{$0.skills[skillPeriod] != targetSkill}.map(\.fName),campers.filter{$0.skills[skillPeriod] != targetSkill}.map(\.lName)).map {$0+" "+$1}, id: \.self){
-                    Text($0).tag($0)
+                ForEach(0...(campers.count-1), id: \.self){
+                    if(campers[$0].skills[skillPeriod] != targetSkill){
+                        Text(campers[$0].fName+" "+campers[$0].lName).tag(campers[$0].id)
+                    }
                 }
             }
             .padding()
@@ -27,8 +29,9 @@ struct AssignSkillCamperView: View {
                     dismiss()
                 }
                 Button("Assign Camper") {
-                    if(selectedCamper != "None"){
-                        try! assignCamperToSkill(targetCamper: campers.first(where: {$0.fName == selectedCamper.components(separatedBy: " ")[0] && $0.lName == selectedCamper.components(separatedBy: " ")[1]})!,
+                    let targetCamper: Camper? = campers.first(where: {$0.id == selectedCamper})
+                    if(targetCamper != nil){
+                        try! assignCamperToSkill(targetCamper: targetCamper!,
                                                  skillName: targetSkill, period: skillPeriod)
                         dismiss()
                     } else {

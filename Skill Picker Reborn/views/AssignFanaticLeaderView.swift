@@ -9,14 +9,16 @@ import SwiftUI
 
 struct AssignFanaticLeaderView: View {
     private var targetFanatic: String
-    @State private var selectedLeader: String = "None"
+    @State private var selectedLeader = UUID()
     @State private var noneLeaderAlert: Bool = false
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
             Picker("Leader:", selection: $selectedLeader){
-                ForEach(zip(leaders.filter{!$0.skills.contains(targetFanatic)}.map(\.fName),leaders.filter{!$0.skills.contains(targetFanatic)}.map(\.lName)).map {$0+" "+$1}, id: \.self){
-                    Text($0).tag($0)
+                ForEach(0...(leaders.count-1), id: \.self){
+                    if(!leaders[$0].skills.contains(targetFanatic)){
+                        Text(leaders[$0].fName+" "+leaders[$0].lName).tag(leaders[$0].id)
+                    }
                 }
             }
             .padding()
@@ -26,8 +28,9 @@ struct AssignFanaticLeaderView: View {
                     dismiss()
                 }
                 Button("Assign Leader") {
-                    if(selectedLeader != "None"){
-                        try! assignLeaderToFanatic(targetLeader: leaders.first(where: {$0.fName == selectedLeader.components(separatedBy: " ")[0] && $0.lName == selectedLeader.components(separatedBy: " ")[1]})!,
+                    let targetLeader: Leader? = leaders.first(where: {$0.id == selectedLeader})
+                    if(targetLeader != nil){
+                        try! assignLeaderToFanatic(targetLeader: targetLeader!,
                                                    fanaticName: targetFanatic)
                         dismiss()
                     } else {
