@@ -22,3 +22,4 @@ var fanatics: [String: Fanatic] = [:]
 
 //There is little reason why I should have to resort to doing this.
 var importSkillList: [String:Bool] = [:]
+var isImporting = false

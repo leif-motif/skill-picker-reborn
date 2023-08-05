@@ -110,7 +110,6 @@ struct CamperView: View {
                 if panel.runModal() == .OK {
                     do {
                         csvInput = try String(contentsOf: panel.url!).lines
-                        cabinsFromCSV(csv: csvInput)
                         importSkillList = skillListFromCSV(csv: csvInput)
                         importSkillSheet.toggle()
                     } catch {
@@ -142,7 +141,11 @@ struct CamperView: View {
             try! CamperInfoView(camperSelection: selectedCamper)
         }
         .sheet(isPresented: $importSkillSheet, onDismiss: {
-            try! campersFromCSV(csv: csvInput)
+            if(isImporting){
+                cabinsFromCSV(csv: csvInput)
+                try! campersFromCSV(csv: csvInput)
+                isImporting = false
+            }
         }, content: {
             try! ImportSkillView()
         })

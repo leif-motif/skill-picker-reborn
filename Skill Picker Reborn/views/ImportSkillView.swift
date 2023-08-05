@@ -132,6 +132,7 @@ struct ImportSkillView: View {
                             createSkill(newSkill: try! Skill(name: skill, maximums: skillMaximums[skill]!))
                         }
                     }
+                    isImporting = true
                     dismiss()
                 }
                 .buttonStyle(.borderedProminent)
