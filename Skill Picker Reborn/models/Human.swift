@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Human: Identifiable {
+class Human: Identifiable, Equatable {
     let id = UUID()
     var fName: String
     var lName: String
@@ -21,5 +21,8 @@ class Human: Identifiable {
             throw SPRError.InvalidSize
         }
         self.skills = skills
+    }
+    static func == (lhs: Human, rhs: Human) -> Bool {
+        return lhs.id == rhs.id
     }
 }

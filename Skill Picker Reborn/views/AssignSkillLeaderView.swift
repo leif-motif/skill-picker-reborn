@@ -10,14 +10,16 @@ import SwiftUI
 struct AssignSkillLeaderView: View {
     private var targetSkill: String
     private var skillPeriod: Int
-    @State private var selectedLeader: String = "None"
+    @State private var selectedLeader = UUID()
     @State private var noneLeaderAlert: Bool = false
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
             Picker("Leader:", selection: $selectedLeader){
-                ForEach(zip(leaders.filter{$0.skills[skillPeriod] != targetSkill}.map(\.fName),leaders.filter{$0.skills[skillPeriod] != targetSkill}.map(\.lName)).map {$0+" "+$1}, id: \.self){
-                    Text($0).tag($0)
+                ForEach(0...(leaders.count-1), id: \.self){
+                    if(!skills[targetSkill]!.leaders[skillPeriod].contains(leaders[$0])){
+                        Text(leaders[$0].fName+" "+leaders[$0].lName).tag(leaders[$0].id)
+                    }
                 }
             }
             .padding()
@@ -27,8 +29,9 @@ struct AssignSkillLeaderView: View {
                     dismiss()
                 }
                 Button("Assign Leader") {
-                    if(selectedLeader != "None"){
-                        assignLeaderToSkill(targetLeader: leaders.first(where: {$0.fName == selectedLeader.components(separatedBy: " ")[0] && $0.lName == selectedLeader.components(separatedBy: " ")[1]})!,
+                    let targetLeader: Leader? = leaders.first(where: {$0.id == selectedLeader})
+                    if(targetLeader != nil){
+                        assignLeaderToSkill(targetLeader: targetLeader!,
                                             skillName: targetSkill, period: skillPeriod)
                         dismiss()
                     } else {
