@@ -16,3 +16,11 @@ extension StringProtocol {
     var lines: [SubSequence] { split(whereSeparator: \.isNewline) }
     var collumns: [SubSequence] { split(separator: ",", omittingEmptySubsequences: false)}
 }
+
+extension Sequence where Element: Hashable {
+    func uniqued() -> [Element] {
+        var set = Set<Element>()
+        return filter { set.insert($0).inserted }
+    }
+}
+
