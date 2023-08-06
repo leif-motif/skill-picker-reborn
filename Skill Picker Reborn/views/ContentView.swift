@@ -39,7 +39,7 @@ struct NullView: View {
         Text("Check it out, or begin working.")
         .toolbar {
             Button {
-                createTestingData()
+                createTestingDataPlus()
             } label: {
                 Image(systemName: "testtube.2")
                     .foregroundColor(Color(.systemCyan))
