@@ -13,6 +13,7 @@ struct CamperView: View {
     @State private var selectedCamper = Set<Camper.ID>()
     @State private var csvInput: [Substring] = [""]
     @State private var showFileChooser = false
+    @State private var showCsvExporter = false
     @State private var addCamperSheet = false
     @State private var camperInfoSheet = false
     @State private var importSkillSheet = false
@@ -133,7 +134,8 @@ struct CamperView: View {
                         importSkillSheet.toggle()
                     } catch {
                         //I have really no idea what this does.
-                        assertionFailure("Failed reading from URL: \(panel.url), Error: " + error.localizedDescription)
+                        //It was whining about some kind of warning earlier? Wrapped \/ THAT part in String() and it shut up so idk.
+                        assertionFailure("Failed reading from URL: \(String(describing: panel.url)), Error: " + error.localizedDescription)
                     }
                 }
             } label: {
@@ -142,12 +144,21 @@ struct CamperView: View {
             }
             .help("Import file")
             Button {
-                //export schedule for all campers
+                showCsvExporter.toggle()
             } label: {
                 Image(systemName: "arrow.up.doc.on.clipboard")
                 .foregroundColor(Color(.systemBlue))
             }
             .help("Export Schedule for all Campers")
+            .fileExporter(isPresented: $showCsvExporter, document: CSVFile(initialText: "i,like,big\nbutts,and,i\ncan,not,lie,"),
+                          contentType: .csv, defaultFilename: "Campers") { result in
+                switch result {
+                case .success(let url):
+                    print("Saved to \(url)")
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
             TextField("Search...", text: $search)
                 .frame(width: 100)
         }
