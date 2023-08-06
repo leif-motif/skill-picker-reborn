@@ -14,12 +14,14 @@ struct SkillView: View {
     @State private var selectedLeader = Set<Leader.ID>()
     @State private var camperSortOrder = [KeyPathComparator(\Camper.lName)]
     @State private var leaderSortOrder = [KeyPathComparator(\Leader.lName)]
+    @State private var csvInput: [Substring] = [""]
     @State private var addSkillSheet = false
     @State private var assignSkillLeaderSheet = false
     @State private var assignSkillCamperSheet = false
     @State private var addFanaticSheet = false
     @State private var assignFanaticLeaderSheet = false
     @State private var assignFanaticCamperSheet = false
+    @State private var importSkillSheet = false
     @State private var skillErrorAlert = false
     @State private var search = ""
     var body: some View {
@@ -190,6 +192,27 @@ struct SkillView: View {
             }
             .help("Remove Skill/Fanatic")
             Button {
+                let panel = NSOpenPanel()
+                panel.allowsMultipleSelection = false
+                panel.canChooseDirectories = false
+                panel.allowedContentTypes = [.csv]
+                if panel.runModal() == .OK {
+                    do {
+                        csvInput = try String(contentsOf: panel.url!).lines
+                        importSkillList = skillListFromCSV(csv: csvInput)
+                        importSkillSheet.toggle()
+                    } catch {
+                        //I have really no idea what this does.
+                        //It was whining about some kind of warning earlier? Wrapped \/ THAT part in String() and it shut up so idk.
+                        assertionFailure("Failed reading from URL: \(String(describing: panel.url)), Error: " + error.localizedDescription)
+                    }
+                }
+            } label: {
+                Image(systemName: "arrow.down.doc")
+                    .foregroundColor(Color(.systemBlue))
+            }
+            .help("Import CSV")
+            Button {
                 //export schedule
             } label: {
                 Image(systemName: "arrow.up.doc.on.clipboard")
@@ -233,6 +256,15 @@ struct SkillView: View {
         } content: {
             AssignFanaticCamperView(targetFanatic: selectedSkill)
         }
+        .sheet(isPresented: $importSkillSheet, onDismiss: {
+            if(isImporting){
+                cabinsFromCSV(csv: csvInput)
+                try! campersFromCSV(csv: csvInput)
+                isImporting = false
+            }
+        }, content: {
+            try! ImportSkillView()
+        })
         //Somehow, you can't have more than one alerts in a single view.
         //WHY?
         .alert(isPresented: $skillErrorAlert) {

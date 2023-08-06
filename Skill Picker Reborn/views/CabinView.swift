@@ -11,8 +11,10 @@ struct CabinView: View {
     @State private var selectedCabin: String = "Unassigned"
     @State private var selectedCamper = Set<Camper.ID>()
     @State private var sortOrder = [KeyPathComparator(\Camper.lName)]
+    @State private var csvInput: [Substring] = [""]
     @State private var addCabinSheet = false
     @State private var modifyCabinLeadersSheet = false
+    @State private var importSkillSheet = false
     @State private var unassignedCabinAlert = false
     @State private var search = ""
     var body: some View {
@@ -106,6 +108,27 @@ struct CabinView: View {
             }
             .help("Edit Cabin Leaders")
             Button {
+                let panel = NSOpenPanel()
+                panel.allowsMultipleSelection = false
+                panel.canChooseDirectories = false
+                panel.allowedContentTypes = [.csv]
+                if panel.runModal() == .OK {
+                    do {
+                        csvInput = try String(contentsOf: panel.url!).lines
+                        importSkillList = skillListFromCSV(csv: csvInput)
+                        importSkillSheet.toggle()
+                    } catch {
+                        //I have really no idea what this does.
+                        //It was whining about some kind of warning earlier? Wrapped \/ THAT part in String() and it shut up so idk.
+                        assertionFailure("Failed reading from URL: \(String(describing: panel.url)), Error: " + error.localizedDescription)
+                    }
+                }
+            } label: {
+                Image(systemName: "arrow.down.doc")
+                    .foregroundColor(Color(.systemBlue))
+            }
+            .help("Import CSV")
+            Button {
                 //export cabin schedule
             } label: {
                 Image(systemName: "arrow.up.doc.on.clipboard")
@@ -129,6 +152,15 @@ struct CabinView: View {
         } content: {
             ModifyCabinLeadersView(targetCabin: selectedCabin)
         }
+        .sheet(isPresented: $importSkillSheet, onDismiss: {
+            if(isImporting){
+                cabinsFromCSV(csv: csvInput)
+                try! campersFromCSV(csv: csvInput)
+                isImporting = false
+            }
+        }, content: {
+            try! ImportSkillView()
+        })
         .alert(isPresented: $unassignedCabinAlert) {
             Alert(title: Text("Error!"),
                   message: Text("Cannot modify/delete the \"Unassigned\" cabin."),

@@ -142,7 +142,7 @@ struct CamperView: View {
                 Image(systemName: "arrow.down.doc")
                     .foregroundColor(Color(.systemBlue))
             }
-            .help("Import file")
+            .help("Import CSV")
             Button {
                 showCsvExporter.toggle()
             } label: {
