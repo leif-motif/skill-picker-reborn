@@ -17,6 +17,7 @@ struct CamperView: View {
     @State private var camperInfoSheet = false
     @State private var importSkillSheet = false
     @State private var multiCamperSelectAlert = false
+    @State private var preferredSkillsAlert = false
     @State private var search = ""
     var body: some View {
         VStack(){
@@ -105,14 +106,21 @@ struct CamperView: View {
             Button {
                 do {
                     try processPreferredSkills()
+                    //honestly this really should catch specific errors but whatver, i'll attribute that to yet another compiler error.
                 } catch {
-                    print("CRASH!")
+                    preferredSkillsAlert.toggle()
+                    print("\(error)")
                 }
             } label: {
                 Image(systemName: "figure.run.square.stack")
                     .foregroundColor(Color(.systemIndigo))
             }
             .help("Assign Preferred Skills")
+            .alert(isPresented: $preferredSkillsAlert) {
+                Alert(title: Text("Error!"),
+                      message: Text("There is not enough skill space to accommodate all potential campers."),
+                      dismissButton: .default(Text("Dismiss")))
+            }
             Button {
                 let panel = NSOpenPanel()
                 panel.allowsMultipleSelection = false
