@@ -82,4 +82,37 @@ func processPreferredSkills() throws {
             throw SPRError.NotEnoughSkillSpace
         }
     }
+    for p in 0...3 {
+        for camper in campers {
+            if(camper.skills[p] == "None"){
+                //first pass: try to assign a preferred skill
+                for prefSkill in camper.preferredSkills {
+                    if(prefSkill != "None" && skills[prefSkill]!.maximums[p] > skills[prefSkill]!.periods[p].count && !camper.skills.contains(prefSkill)){
+                        try! assignCamperToSkill(targetCamper: camper, skillName: prefSkill, period: p)
+                        break
+                    } else if(prefSkill == "None"){
+                        for availableSkill in Array(skills.keys).filter({!fanatics.keys.contains($0)}){
+                            if(availableSkill != "None" && skills[availableSkill]!.maximums[p] > skills[availableSkill]!.periods[p].count && !camper.skills.contains(availableSkill)){
+                                try! assignCamperToSkill(targetCamper: camper, skillName: availableSkill, period: p)
+                                break
+                            }
+                        }
+                    }
+                }
+                //second pass: try to assign an available skill
+                if(camper.skills[p] == "None"){
+                    for availableSkill in Array(skills.keys).filter({!fanatics.keys.contains($0)}){
+                        if(availableSkill != "None" && skills[availableSkill]!.maximums[p] > skills[availableSkill]!.periods[p].count && !camper.skills.contains(availableSkill)){
+                            try! assignCamperToSkill(targetCamper: camper, skillName: availableSkill, period: p)
+                            break
+                        }
+                    }
+                    //third pass: crash
+                    if(camper.skills[p] == "None"){
+                        throw SPRError.CamperCouldNotGetSkill
+                    }
+                }
+            }
+        }
+    }
 }

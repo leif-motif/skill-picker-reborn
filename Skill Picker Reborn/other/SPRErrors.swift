@@ -20,4 +20,5 @@ enum SPRError: Error {
     case ReallyBadName
     case NoSkills
     case NotEnoughSkillSpace
+    case CamperCouldNotGetSkill
 }
