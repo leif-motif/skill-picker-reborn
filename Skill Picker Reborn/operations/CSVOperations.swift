@@ -89,3 +89,31 @@ func campersFromCSV(csv: [Substring]) throws {
         try createCamper(newCamper: try! Camper(fName: fName, lName: lName, cabin: cabinName, preferredSkills: preferredSkills, fanatic: fanatic))
     }
 }
+
+func cabinListToCSV(cabinName: String) throws -> String {
+    return ""
+}
+
+func camperListToCSV() -> String {
+    var csv = "Name,Cabin,Skill 1,Skill 2,Skill 3, Skill 4"
+    for camper in campers.sorted(using: KeyPathComparator(\Camper.lName)) {
+        csv += "\n\(camper.fName) \(camper.lName),\(camper.cabin),\(camper.skills[0]),\(camper.skills[1]),\(camper.skills[2]),\(camper.skills[3])"
+    }
+    return csv
+}
+
+func leaderListToCSV() -> String {
+    var csv = "Leader,Skill 1,Skill 2,Skill 3, Skill 4"
+    for leader in leaders.sorted(using: KeyPathComparator(\Leader.lName)) {
+        csv += "\n\(leader.fName) \(leader.lName),\(leader.cabin),\(leader.skills[0]),\(leader.skills[1]),\(leader.skills[2]),\(leader.skills[3])"
+    }
+    return csv
+}
+
+func skillListToCSV(skillName: String, skillPeriod: Int) throws -> String {
+    return ""
+}
+
+func fanaticListToCSV(fanaticName: String) throws -> String {
+    return ""
+}

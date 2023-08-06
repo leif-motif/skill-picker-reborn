@@ -150,7 +150,7 @@ struct CamperView: View {
                 .foregroundColor(Color(.systemBlue))
             }
             .help("Export Schedule for all Campers")
-            .fileExporter(isPresented: $showCsvExporter, document: CSVFile(initialText: "i,like,big\nbutts,and,i\ncan,not,lie,"),
+            .fileExporter(isPresented: $showCsvExporter, document: CSVFile(initialText: camperListToCSV()),
                           contentType: .csv, defaultFilename: "Campers") { result in
                 switch result {
                 case .success(let url):
