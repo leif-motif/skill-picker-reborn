@@ -84,7 +84,7 @@ func campersFromCSV(csv: [Substring]) throws {
             preferredSkills.remove(at: 5)
         }
         while(preferredSkills.count < (fanatic == "None" ? 6 : 5)){
-            preferredSkills.append("")
+            preferredSkills.append("None")
         }
         try createCamper(newCamper: try! Camper(fName: fName, lName: lName, cabin: cabinName, preferredSkills: preferredSkills, fanatic: fanatic))
     }

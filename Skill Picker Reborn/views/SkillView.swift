@@ -127,7 +127,7 @@ struct SkillView: View {
                         if(selectedSkill == "None"){
                             skillErrorAlert.toggle()
                         } else if(fanatics.keys.contains(selectedSkill)){
-                            try! removeCamperFromFanatic(camperSelection: selectedCamper, fanaticName: selectedSkill, newSixthPreferredSkill: "")
+                            try! removeCamperFromFanatic(camperSelection: selectedCamper, fanaticName: selectedSkill, newSixthPreferredSkill: "None")
                         } else {
                             try! removeCamperFromSkill(camperSelection: selectedCamper, skillName: selectedSkill, period: selectedPeriod)
                         }
@@ -144,7 +144,7 @@ struct SkillView: View {
                         if(selectedSkill == "None"){
                             skillErrorAlert.toggle()
                         } else if(fanatics.keys.contains(selectedSkill)){
-                            try! removeCamperFromFanatic(camperSelection: selectedCamper, fanaticName: selectedSkill, newSixthPreferredSkill: "")
+                            try! removeCamperFromFanatic(camperSelection: selectedCamper, fanaticName: selectedSkill, newSixthPreferredSkill: "None")
                         } else {
                             try! removeCamperFromSkill(camperSelection: selectedCamper, skillName: selectedSkill, period: selectedPeriod)
                         }
