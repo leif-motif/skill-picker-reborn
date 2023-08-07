@@ -18,28 +18,25 @@ struct AddFanaticView: View {
     var body: some View {
         Form {
             TextField("Name:", text: $iName)
-                .padding(.all)
+                .padding(.bottom)
             Toggle(isOn: $firstSkill) {
                 Text("First Skill:")
             }
-            .padding(.horizontal)
             .toggleStyle(.switch)
             Toggle(isOn: $secondSkill) {
                 Text("Second Skill:")
             }
-            .padding(.horizontal)
             .toggleStyle(.switch)
             Toggle(isOn: $thirdSkill) {
                 Text("Third Skill:")
             }
-            .padding(.horizontal)
             .toggleStyle(.switch)
             Toggle(isOn: $fourthSkill) {
                 Text("Fourth Skill:")
             }
             .toggleStyle(.switch)
-            .padding([.bottom,.horizontal])
             HStack {
+                Spacer()
                 Button("Cancel") {
                     dismiss()
                 }
@@ -47,9 +44,13 @@ struct AddFanaticView: View {
                     createFanatic(newFanatic: try! Fanatic(name: iName, activePeriods: [firstSkill,secondSkill,thirdSkill,fourthSkill]), data: data)
                     dismiss()
                 }
+                .buttonStyle(.borderedProminent)
+                .tint(.blue)
             }
-            .padding([.bottom,.trailing])
+            .padding(.top)
         }
+        .frame(width: 250, height: 200)
+        .padding()
     }
 }
 
