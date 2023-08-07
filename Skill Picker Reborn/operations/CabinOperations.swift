@@ -12,11 +12,15 @@ func createCabin(cabinName: String, targetSenior: Leader, targetJunior: Leader, 
     if(targetSenior.cabin != "Unassigned"){
         data.cabins[targetSenior.cabin]!.senior = nullSenior
     }
-    targetSenior.cabin = cabinName
+    if(targetSenior != nullSenior){
+        targetSenior.cabin = cabinName
+    }
     if(targetJunior.cabin != "Unassigned"){
         data.cabins[targetJunior.cabin]!.junior = nullJunior
     }
-    targetJunior.cabin = cabinName
+    if(targetJunior != nullJunior){
+        targetJunior.cabin = cabinName
+    }
     data.cabins[cabinName] = try! Cabin(name: cabinName, senior: targetSenior, junior: targetJunior)
 }
 
