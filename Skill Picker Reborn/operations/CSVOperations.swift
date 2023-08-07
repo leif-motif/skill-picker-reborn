@@ -110,10 +110,33 @@ func leaderListToCSV(data: CampData) -> String {
     return csv
 }
 
-func skillListToCSV(skillName: String, skillPeriod: Int, data: CampData) throws -> String {
-    return ""
+func skillListToCSV(skillName: String, skillPeriod: Int, data: CampData) -> String {
+    var csv = "\(skillName),Skill \(skillPeriod+1)\nLeaders,Name,Cabin"
+    for leader in data.skills[skillName]!.leaders[skillPeriod].sorted(using: KeyPathComparator(\Leader.lName)) {
+        csv += "\n,\(leader.fName) \(leader.lName),\(leader.cabin)"
+    }
+    csv += "\nCampers"
+    for camper in data.skills[skillName]!.periods[skillPeriod].sorted(using: KeyPathComparator(\Camper.cabin)) {
+        csv += ",\(camper.fName) \(camper.lName),\(camper.cabin)\n"
+    }
+    return csv
 }
 
-func fanaticListToCSV(fanaticName: String, data: CampData) throws -> String {
-    return ""
+func fanaticListToCSV(fanaticName: String, data: CampData) -> String {
+    var p: Int?
+    for i in 0...3 {
+        if(data.fanatics[fanaticName]!.activePeriods[i]){
+            p = i
+            break
+        }
+    }
+    var csv = "\(fanaticName)\nLeaders,Name,Cabin"
+    for leader in data.skills[fanaticName]!.leaders[p!].sorted(using: KeyPathComparator(\Leader.lName)) {
+        csv += "\n,\(leader.fName) \(leader.lName),\(leader.cabin)"
+    }
+    csv += "\nCampers"
+    for camper in data.skills[fanaticName]!.periods[p!].sorted(using: KeyPathComparator(\Camper.cabin)) {
+        csv += ",\(camper.fName) \(camper.lName),\(camper.cabin)\n"
+    }
+    return csv
 }

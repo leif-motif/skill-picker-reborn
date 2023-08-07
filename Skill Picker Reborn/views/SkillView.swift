@@ -16,6 +16,7 @@ struct SkillView: View {
     @State private var camperSortOrder = [KeyPathComparator(\Camper.lName)]
     @State private var leaderSortOrder = [KeyPathComparator(\Leader.lName)]
     @State private var csvInput: [Substring] = [""]
+    @State private var csvExport = ""
     @State private var showFanaticCsvExporter = false
     @State private var showSkillCsvExporter = false
     @State private var addSkillSheet = false
@@ -26,6 +27,7 @@ struct SkillView: View {
     @State private var assignFanaticCamperSheet = false
     @State private var importSkillSheet = false
     @State private var skillErrorAlert = false
+    @State private var exportSkillAlert = false
     @State private var search = ""
     var body: some View {
         VStack {
@@ -230,16 +232,33 @@ struct SkillView: View {
             .help("Import CSV")
             Button {
                 if(data.fanatics.keys.contains(selectedSkill)){
-                    showFanaticCsvExporter.toggle()
+                    var p: Int?
+                    for i in 0...3 {
+                        if(data.fanatics[selectedSkill]!.activePeriods[i]){
+                            p = i
+                            break
+                        }
+                    }
+                    if(data.skills[selectedSkill]!.periods[p!].count != 0 && data.skills[selectedSkill]!.leaders[p!].count != 0){
+                        csvExport = fanaticListToCSV(fanaticName: selectedSkill, data: data)
+                        showFanaticCsvExporter.toggle()
+                    } else {
+                        exportSkillAlert.toggle()
+                    }
                 } else {
-                    showSkillCsvExporter.toggle()
+                    if(data.skills[selectedSkill]!.periods[selectedPeriod].count != 0 && data.skills[selectedSkill]!.leaders[selectedPeriod].count != 0){
+                        csvExport = skillListToCSV(skillName: selectedSkill, skillPeriod: selectedPeriod, data: data)
+                        showSkillCsvExporter.toggle()
+                    } else {
+                        exportSkillAlert.toggle()
+                    }
                 }
             } label: {
                 Image(systemName: "arrow.up.doc.on.clipboard")
                 .foregroundColor(Color(.systemBlue))
             }
             .help("Export Skill Schedule")
-            .fileExporter(isPresented: $showFanaticCsvExporter, document: CSVFile(initialText: try! fanaticListToCSV(fanaticName: selectedSkill, data: data)),
+            .fileExporter(isPresented: $showFanaticCsvExporter, document: CSVFile(initialText: csvExport),
                           contentType: .csv, defaultFilename: selectedSkill) { result in
                 switch result {
                 case .success(let url):
@@ -247,6 +266,11 @@ struct SkillView: View {
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
+            }
+            .alert(isPresented: $exportSkillAlert) {
+                Alert(title: Text("Error!"),
+                      message: Text("Cannot export skill; there must be both leaders and campers assigned to the skill for export."),
+                      dismissButton: .default(Text("Dismiss")))
             }
             Picker("Skill", selection: $selectedSkill){
                 ForEach(Array(data.skills.keys).sorted(), id: \.self){
@@ -304,9 +328,7 @@ struct SkillView: View {
         }
         //Somehow, you can't have more than one file exporter in a single view.
         //WHY?
-        .fileExporter(isPresented: $showSkillCsvExporter, document: CSVFile(initialText: try! skillListToCSV(skillName: selectedSkill,
-                                                                                                             skillPeriod: selectedPeriod,
-                                                                                                             data: data)),
+        .fileExporter(isPresented: $showSkillCsvExporter, document: CSVFile(initialText: csvExport),
                       contentType: .csv, defaultFilename: selectedSkill+" - Skill "+String(selectedPeriod+1)) { result in
             switch result {
             case .success(let url):
