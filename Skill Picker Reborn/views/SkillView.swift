@@ -68,11 +68,13 @@ struct SkillView: View {
                         } else {
                             try! removeLeaderFromSkill(leaderSelection: selectedLeader, skillName: selectedSkill, period: selectedPeriod, data: data)
                         }
+                        data.objectWillChange.send()
                     } label: {
                         Label("Remove", systemImage: "trash")
                     }
                     Button(role: .destructive) {
                         deleteLeader(leaderSelection: selectedLeader, data: data)
+                        data.objectWillChange.send()
                     } label: {
                         Label("Delete", systemImage: "trash")
                     }
@@ -85,11 +87,13 @@ struct SkillView: View {
                         } else {
                             try! removeLeaderFromSkill(leaderSelection: selectedLeader, skillName: selectedSkill, period: selectedPeriod, data: data)
                         }
+                        data.objectWillChange.send()
                     } label: {
                         Label("Remove Selection", systemImage: "trash")
                     }
                     Button(role: .destructive) {
                         deleteLeader(leaderSelection: selectedLeader, data: data)
+                        data.objectWillChange.send()
                     } label: {
                         Label("Delete Selection", systemImage: "trash")
                     }
@@ -119,6 +123,7 @@ struct SkillView: View {
                         } else {
                             assignSkillCamperSheet.toggle()
                         }
+                        data.objectWillChange.send()
                     } label: {
                         Label("Assign Camper to Skill...", systemImage: "plus")
                     }
@@ -136,11 +141,13 @@ struct SkillView: View {
                         } else {
                             try! removeCamperFromSkill(camperSelection: selectedCamper, skillName: selectedSkill, period: selectedPeriod, data: data)
                         }
+                        data.objectWillChange.send()
                     } label: {
                         Label("Remove", systemImage: "trash")
                     }
                     Button(role: .destructive) {
                         deleteCamper(camperSelection: selectedCamper, data: data)
+                        data.objectWillChange.send()
                     } label: {
                         Label("Delete", systemImage: "trash")
                     }
@@ -153,11 +160,13 @@ struct SkillView: View {
                         } else {
                             try! removeCamperFromSkill(camperSelection: selectedCamper, skillName: selectedSkill, period: selectedPeriod, data: data)
                         }
+                        data.objectWillChange.send()
                     } label: {
                         Label("Remove Selection", systemImage: "trash")
                     }
                     Button(role: .destructive) {
                         deleteCamper(camperSelection: selectedCamper, data: data)
+                        data.objectWillChange.send()
                     } label: {
                         Label("Delete Selection", systemImage: "trash")
                     }
