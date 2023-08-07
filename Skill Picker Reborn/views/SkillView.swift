@@ -16,6 +16,7 @@ struct SkillView: View {
     @State private var camperSortOrder = [KeyPathComparator(\Camper.lName)]
     @State private var leaderSortOrder = [KeyPathComparator(\Leader.lName)]
     @State private var csvInput: [Substring] = [""]
+    @State private var showFanaticCsvExporter = false
     @State private var showSkillCsvExporter = false
     @State private var addSkillSheet = false
     @State private var assignSkillLeaderSheet = false
@@ -228,16 +229,18 @@ struct SkillView: View {
             }
             .help("Import CSV")
             Button {
-                showSkillCsvExporter.toggle()
+                if(data.fanatics.keys.contains(selectedSkill)){
+                    showFanaticCsvExporter.toggle()
+                } else {
+                    showSkillCsvExporter.toggle()
+                }
             } label: {
                 Image(systemName: "arrow.up.doc.on.clipboard")
                 .foregroundColor(Color(.systemBlue))
             }
             .help("Export Skill Schedule")
-            .fileExporter(isPresented: $showSkillCsvExporter, document: CSVFile(initialText: try! skillListToCSV(skillName: selectedSkill,
-                                                                                                                 skillPeriod: selectedPeriod,
-                                                                                                                 data: data)),
-                          contentType: .csv, defaultFilename: selectedSkill+" - Skill"+String(selectedPeriod+1)) { result in
+            .fileExporter(isPresented: $showFanaticCsvExporter, document: CSVFile(initialText: try! fanaticListToCSV(fanaticName: selectedSkill, data: data)),
+                          contentType: .csv, defaultFilename: selectedSkill) { result in
                 switch result {
                 case .success(let url):
                     print("Saved to \(url)")
@@ -298,6 +301,19 @@ struct SkillView: View {
             Alert(title: Text("Error!"),
                   message: Text("Cannot perform desired operation on skill."),
                   dismissButton: .default(Text("Dismiss")))
+        }
+        //Somehow, you can't have more than one file exporter in a single view.
+        //WHY?
+        .fileExporter(isPresented: $showSkillCsvExporter, document: CSVFile(initialText: try! skillListToCSV(skillName: selectedSkill,
+                                                                                                             skillPeriod: selectedPeriod,
+                                                                                                             data: data)),
+                      contentType: .csv, defaultFilename: selectedSkill+" - Skill "+String(selectedPeriod+1)) { result in
+            switch result {
+            case .success(let url):
+                print("Saved to \(url)")
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
         }
     }
 }
