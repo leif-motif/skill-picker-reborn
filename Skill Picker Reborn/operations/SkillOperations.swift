@@ -25,6 +25,14 @@ func deleteSkill(skillName: String, data: CampData) throws {
             }
         }
     }
+    for camper in data.campers {
+        for i in 0...(camper.preferredSkills.count-1){
+            if(camper.preferredSkills[i] == skillName){
+                camper.preferredSkills.remove(at: i)
+                camper.preferredSkills.append("None")
+            }
+        }
+    }
     data.skills.removeValue(forKey: skillName)
 }
 
