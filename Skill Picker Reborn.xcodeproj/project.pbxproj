@@ -27,6 +27,7 @@
 		293A19832A74DE4400B4B015 /* SPRErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293A19822A74DE4400B4B015 /* SPRErrors.swift */; };
 		293A19852A74E1C400B4B015 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293A19842A74E1C400B4B015 /* Extensions.swift */; };
 		293A19872A74E37C00B4B015 /* MasterData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293A19862A74E37C00B4B015 /* MasterData.swift */; };
+		29633AFB2A815ED100DF0FF4 /* AssignCabinCamperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29633AFA2A815ED100DF0FF4 /* AssignCabinCamperView.swift */; };
 		29708D912A6F88370090E369 /* Leader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29708D902A6F88370090E369 /* Leader.swift */; };
 		29708D932A6F88E30090E369 /* Camper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29708D922A6F88E30090E369 /* Camper.swift */; };
 		29708D952A6F999F0090E369 /* CamperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29708D942A6F999F0090E369 /* CamperView.swift */; };
@@ -88,6 +89,7 @@
 		293A19822A74DE4400B4B015 /* SPRErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPRErrors.swift; sourceTree = "<group>"; };
 		293A19842A74E1C400B4B015 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		293A19862A74E37C00B4B015 /* MasterData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterData.swift; sourceTree = "<group>"; };
+		29633AFA2A815ED100DF0FF4 /* AssignCabinCamperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignCabinCamperView.swift; sourceTree = "<group>"; };
 		29708D902A6F88370090E369 /* Leader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Leader.swift; sourceTree = "<group>"; };
 		29708D922A6F88E30090E369 /* Camper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camper.swift; sourceTree = "<group>"; };
 		29708D942A6F999F0090E369 /* CamperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamperView.swift; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 			children = (
 				2974B6C52A6ECB6A00EB063B /* ContentView.swift */,
 				29154B272A70274400CE8CAC /* CabinView.swift */,
+				29633AFA2A815ED100DF0FF4 /* AssignCabinCamperView.swift */,
 				2971FDBD2A71D6F1007DD484 /* AddCabinView.swift */,
 				291CC57C2A72C2B9001D422C /* ModifyCabinLeadersView.swift */,
 				29708D942A6F999F0090E369 /* CamperView.swift */,
@@ -419,6 +422,7 @@
 				29154B262A70269000CE8CAC /* LeaderView.swift in Sources */,
 				2974B6C62A6ECB6A00EB063B /* ContentView.swift in Sources */,
 				290240112A6EDB7200F747D7 /* Skill.swift in Sources */,
+				29633AFB2A815ED100DF0FF4 /* AssignCabinCamperView.swift in Sources */,
 				2970DFA62A7412C400D2A71F /* Fanatic.swift in Sources */,
 				2971FDBE2A71D6F1007DD484 /* AddCabinView.swift in Sources */,
 				291CC57F2A72C2E2001D422C /* CabinOperations.swift in Sources */,

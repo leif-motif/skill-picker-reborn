@@ -15,8 +15,10 @@ struct CabinView: View {
     @State private var csvInput: [Substring] = [""]
     @State private var addCabinSheet = false
     @State private var modifyCabinLeadersSheet = false
+    @State private var assignCabinCamperSheet = false
     @State private var importSkillSheet = false
     @State private var unassignedCabinAlert = false
+    @State private var noCampersAlert = false
     @State private var search = ""
     var body: some View {
         VStack {
@@ -45,9 +47,18 @@ struct CabinView: View {
             .contextMenu(forSelectionType: Camper.ID.self) { items in
                 if items.isEmpty {
                     Button {
-                        //assign camper with this cabin
+                        if(data.campers.count > 0){
+                            assignCabinCamperSheet.toggle()
+                        } else {
+                            noCampersAlert.toggle()
+                        }
                     } label: {
                         Label("Assign Camper to Cabin...", systemImage: "plus")
+                    }
+                    .alert(isPresented: $noCampersAlert){
+                        Alert(title: Text("Error!"),
+                              message: Text("There are no campers in the system to assign to the cabin."),
+                              dismissButton: .default(Text("Dismiss")))
                     }
                 } else if items.count == 1 {
                     /*Button {
@@ -111,6 +122,11 @@ struct CabinView: View {
                     .foregroundColor(Color(.systemOrange))
             }
             .help("Edit Cabin Leaders")
+            .alert(isPresented: $unassignedCabinAlert){
+                Alert(title: Text("Error!"),
+                      message: Text("Cannot modify/delete the \"Unassigned\" cabin."),
+                      dismissButton: .default(Text("Dismiss")))
+            }
             Button {
                 let panel = NSOpenPanel()
                 panel.allowsMultipleSelection = false
@@ -148,28 +164,31 @@ struct CabinView: View {
             TextField("Search... ", text: $search)
                 .frame(width: 100)
         }
-        .sheet(isPresented: $addCabinSheet) {
-        } content: {
+        .sheet(isPresented: $addCabinSheet, onDismiss: {
+            data.objectWillChange.send()
+        }, content: {
             AddCabinView()
-        }
-        .sheet(isPresented: $modifyCabinLeadersSheet) {
-        } content: {
+        })
+        .sheet(isPresented: $modifyCabinLeadersSheet, onDismiss: {
+            data.objectWillChange.send()
+        }, content: {
             ModifyCabinLeadersView(targetCabin: selectedCabin)
-        }
+        })
+        .sheet(isPresented: $assignCabinCamperSheet, onDismiss: {
+            data.objectWillChange.send()
+        }, content: {
+            AssignCabinCamperView(targetCabin: selectedCabin)
+        })
         .sheet(isPresented: $importSkillSheet, onDismiss: {
             if(isImporting){
                 cabinsFromCSV(csv: csvInput, data: data)
                 try! campersFromCSV(csv: csvInput, data: data)
                 isImporting = false
             }
+            data.objectWillChange.send()
         }, content: {
             try! ImportSkillView()
         })
-        .alert(isPresented: $unassignedCabinAlert) {
-            Alert(title: Text("Error!"),
-                  message: Text("Cannot modify/delete the \"Unassigned\" cabin."),
-                  dismissButton: .default(Text("Dismiss")))
-        }
     }
 }
 
