@@ -36,7 +36,6 @@ struct ImportSkillView: View {
             }
             .padding([.top,.horizontal])
             if(selectedSkill == "this is an empty selection"){
-                //Spacer()
             } else if(!importSkillList[selectedSkill]!){
                 //The only reason I am not displaying the number "0" outright is because the values in the TextFields won't update unless their unbinded value is shown somewhere.
                 //I HATE THE SWIFT COMPILER I HATE THE SWIFT COMPILER I HATE THE SWIFT COMPILER
@@ -52,7 +51,6 @@ struct ImportSkillView: View {
                             EmptyView()
                         }
                         .labelsHidden()
-                        //Text(String(skillMaximums[selectedSkill]![0]))
                     }
                 }
                 .padding(.horizontal)

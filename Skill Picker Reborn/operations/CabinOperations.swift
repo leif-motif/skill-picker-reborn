@@ -48,7 +48,9 @@ func changeCabinLeaders(cabinName: String, targetSenior: Leader, targetJunior: L
 }
 
 func assignCamperToCabin(targetCamper: Camper, cabinName: String, data: CampData){
-    
+    data.cabins[targetCamper.cabin]!.campers.removeAll(where: {$0 == targetCamper})
+    targetCamper.cabin = cabinName
+    data.cabins[cabinName]!.campers.append(targetCamper)
 }
 
 func removeCamperFromCabin(camperSelection: Set<Camper.ID>, data: CampData){

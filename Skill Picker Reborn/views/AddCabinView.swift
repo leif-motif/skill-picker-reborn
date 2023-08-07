@@ -48,7 +48,6 @@ struct AddCabinView: View {
                 Button("Create Cabin"){
                     if(iName == ""){
                         nameAlert.toggle()
-                    //gets the first element of the leader array where the selection's first and last names are equal to the element's first and last names
                     } else if(seniorSelection == nullSenior.id && juniorSelection == nullJunior.id){
                         createCabin(cabinName: iName, targetSenior: nullSenior, targetJunior: nullJunior, data: data)
                         dismiss()
