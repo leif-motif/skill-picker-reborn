@@ -229,6 +229,7 @@ struct SkillView: View {
                     Text($0).tag($0)
                 }
             }
+            .frame(width: 170)
             Picker("Period", selection: $selectedPeriod){
                 ForEach(0...3, id: \.self){
                     Text("Skill "+String($0+1)).tag($0)
