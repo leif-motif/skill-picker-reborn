@@ -38,12 +38,13 @@ struct SkillView: View {
             }
             .frame(height: 85)
             .onChange(of: leaderSortOrder){
+                data.objectWillChange.send()
                 data.skills[selectedSkill]!.leaders[selectedPeriod].sort(using: $0)
             }
             .contextMenu(forSelectionType: Leader.ID.self) { items in
                 if items.isEmpty {
                     Button {
-                        if(data.skills[selectedSkill]!.maximums[selectedPeriod] == 0){
+                        if(data.skills[selectedSkill]!.maximums[selectedPeriod] == 0 || data.leaders.count == 0){
                             skillErrorAlert.toggle()
                         } else if(data.fanatics.keys.contains(selectedSkill)){
                             assignFanaticLeaderSheet.toggle()
@@ -105,12 +106,13 @@ struct SkillView: View {
                 TableColumn("Cabin",value: \.cabin)
             }
             .onChange(of: camperSortOrder){
+                data.objectWillChange.send()
                 data.skills[selectedSkill]!.periods[selectedPeriod].sort(using: $0)
             }
             .contextMenu(forSelectionType: Camper.ID.self) { items in
                 if items.isEmpty {
                     Button {
-                        if(data.skills[selectedSkill]!.periods[selectedPeriod].count >= data.skills[selectedSkill]!.maximums[selectedPeriod]){
+                        if(data.skills[selectedSkill]!.periods[selectedPeriod].count >= data.skills[selectedSkill]!.maximums[selectedPeriod] || data.campers.count == 0){
                             skillErrorAlert.toggle()
                         } else if(data.fanatics.keys.contains(selectedSkill)){
                             assignFanaticCamperSheet.toggle()
@@ -181,11 +183,13 @@ struct SkillView: View {
                 if(selectedSkill == "None"){
                     skillErrorAlert.toggle()
                 } else {
+                    data.objectWillChange.send()
                     if(data.fanatics.keys.contains(selectedSkill)){
                         try! deleteFanatic(fanaticName: selectedSkill, data: data)
                     } else {
                         try! deleteSkill(skillName: selectedSkill, data: data)
                     }
+                    selectedSkill = "None"
                 }
             } label: {
                 Image(systemName: "calendar.badge.minus")
