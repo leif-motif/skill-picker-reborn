@@ -110,10 +110,10 @@ func leaderListToCSV(data: CampData) -> String {
     return csv
 }
 
-func skillListToCSV(skillName: String, skillPeriod: Int) throws -> String {
+func skillListToCSV(skillName: String, skillPeriod: Int, data: CampData) throws -> String {
     return ""
 }
 
-func fanaticListToCSV(fanaticName: String) throws -> String {
+func fanaticListToCSV(fanaticName: String, data: CampData) throws -> String {
     return ""
 }

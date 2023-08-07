@@ -16,6 +16,7 @@ struct SkillView: View {
     @State private var camperSortOrder = [KeyPathComparator(\Camper.lName)]
     @State private var leaderSortOrder = [KeyPathComparator(\Leader.lName)]
     @State private var csvInput: [Substring] = [""]
+    @State private var showSkillCsvExporter = false
     @State private var addSkillSheet = false
     @State private var assignSkillLeaderSheet = false
     @State private var assignSkillCamperSheet = false
@@ -227,12 +228,23 @@ struct SkillView: View {
             }
             .help("Import CSV")
             Button {
-                //export schedule
+                showSkillCsvExporter.toggle()
             } label: {
                 Image(systemName: "arrow.up.doc.on.clipboard")
                 .foregroundColor(Color(.systemBlue))
             }
             .help("Export Skill Schedule")
+            .fileExporter(isPresented: $showSkillCsvExporter, document: CSVFile(initialText: try! skillListToCSV(skillName: selectedSkill,
+                                                                                                            skillPeriod: selectedPeriod,
+                                                                                                            data: data)),
+                          contentType: .csv, defaultFilename: selectedSkill+" - Skill"+String(selectedPeriod+1)) { result in
+                switch result {
+                case .success(let url):
+                    print("Saved to \(url)")
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
             Picker("Skill", selection: $selectedSkill){
                 ForEach(Array(data.skills.keys).sorted(), id: \.self){
                     Text($0).tag($0)
