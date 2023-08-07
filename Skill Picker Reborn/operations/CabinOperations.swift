@@ -41,8 +41,10 @@ func changeCabinLeaders(cabinName: String, targetSenior: Leader, targetJunior: L
     if(data.cabins[cabinName]!.junior.id != nullJunior.id){
         data.cabins[cabinName]!.junior.cabin = "Unassigned"
     }
+    data.cabins[targetSenior.cabin]!.senior = nullSenior
     data.cabins[cabinName]!.senior = targetSenior
     targetSenior.cabin = cabinName
+    data.cabins[targetJunior.cabin]!.junior = nullJunior
     data.cabins[cabinName]!.junior = targetJunior
     targetJunior.cabin = cabinName
 }
