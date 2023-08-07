@@ -56,7 +56,9 @@ struct CamperView: View {
                     }
                 } else if items.count == 1 {
                     Button {
-                        camperInfoSheet.toggle()
+                        if(selectedCamper.count == 1){
+                            camperInfoSheet.toggle()
+                        }
                     } label: {
                         Label("Information...", systemImage: "person.text.rectangle")
                     }
