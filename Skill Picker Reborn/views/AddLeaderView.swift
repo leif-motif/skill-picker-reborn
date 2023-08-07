@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AddLeaderView: View {
+    @EnvironmentObject private var data: CampData
     @State private var iFName = ""
     @State private var iLName = ""
     @State private var isSenior = false
@@ -21,7 +22,7 @@ struct AddLeaderView: View {
             TextField("Last Name:", text: $iLName)
                 .padding(.horizontal)
             Picker("Cabin", selection: $selectedCabin) {
-                ForEach(Array(cabins.keys).sorted(), id: \.self){
+                ForEach(Array(data.cabins.keys).sorted(), id: \.self){
                     Text($0).tag($0)
                 }
             }
@@ -40,7 +41,7 @@ struct AddLeaderView: View {
                     if(iFName == "" || iLName == ""){
                         nameAlert.toggle()
                     } else {
-                        createLeader(newLeader: try! Leader(fName: iFName, lName: iLName, cabin: selectedCabin, senior: isSenior))
+                        createLeader(newLeader: try! Leader(fName: iFName, lName: iLName, cabin: selectedCabin, senior: isSenior), data: data)
                         dismiss()
                     }
                 }

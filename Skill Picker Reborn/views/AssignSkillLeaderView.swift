@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AssignSkillLeaderView: View {
+    @EnvironmentObject private var data: CampData
     private var targetSkill: String
     private var skillPeriod: Int
     @State private var selectedLeader = UUID()
@@ -16,9 +17,9 @@ struct AssignSkillLeaderView: View {
     var body: some View {
         Form {
             Picker("Leader:", selection: $selectedLeader){
-                ForEach(0...(leaders.count-1), id: \.self){
-                    if(leaders[$0].skills[skillPeriod] != targetSkill){
-                        Text(leaders[$0].fName+" "+leaders[$0].lName).tag(leaders[$0].id)
+                ForEach(0...(data.leaders.count-1), id: \.self){
+                    if(data.leaders[$0].skills[skillPeriod] != targetSkill){
+                        Text(data.leaders[$0].fName+" "+data.leaders[$0].lName).tag(data.leaders[$0].id)
                     }
                 }
             }
@@ -29,10 +30,11 @@ struct AssignSkillLeaderView: View {
                     dismiss()
                 }
                 Button("Assign Leader") {
-                    let targetLeader: Leader? = leaders.first(where: {$0.id == selectedLeader})
+                    let targetLeader: Leader? = data.leaders.first(where: {$0.id == selectedLeader})
                     if(targetLeader != nil){
                         assignLeaderToSkill(targetLeader: targetLeader!,
-                                            skillName: targetSkill, period: skillPeriod)
+                                            skillName: targetSkill, period: skillPeriod,
+                                            data: data)
                         dismiss()
                     } else {
                         noneLeaderAlert.toggle()

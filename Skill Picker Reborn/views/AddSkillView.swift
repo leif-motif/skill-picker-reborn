@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AddSkillView: View {
+    @EnvironmentObject private var data: CampData
     @State private var iName = ""
     @State private var maximums = [1, 1, 1 ,1]
     @State private var nameAlert = false
@@ -78,7 +79,7 @@ struct AddSkillView: View {
                                 maximums[i] = 20
                             }
                         }
-                        createSkill(newSkill: try! Skill(name: iName, maximums: maximums))
+                        createSkill(newSkill: try! Skill(name: iName, maximums: maximums), data: data)
                         dismiss()
                     }
                 }

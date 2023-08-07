@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CabinView: View {
+    @EnvironmentObject private var data: CampData
     @State private var selectedCabin: String = "Unassigned"
     @State private var selectedCamper = Set<Camper.ID>()
     @State private var sortOrder = [KeyPathComparator(\Camper.lName)]
@@ -19,13 +20,13 @@ struct CabinView: View {
     @State private var search = ""
     var body: some View {
         VStack {
-            Text(try! AttributedString(markdown: "**Senior:** "+cabins[selectedCabin]!.senior.fName+" "+cabins[selectedCabin]!.senior.lName))
+            Text(try! AttributedString(markdown: "**Senior:** "+data.cabins[selectedCabin]!.senior.fName+" "+data.cabins[selectedCabin]!.senior.lName))
                 .font(.title2)
                 .padding(.top,10)
                 .padding(.bottom,2)
-            Text(try! AttributedString(markdown: "**Junior:** "+cabins[selectedCabin]!.junior.fName+" "+cabins[selectedCabin]!.junior.lName))
+            Text(try! AttributedString(markdown: "**Junior:** "+data.cabins[selectedCabin]!.junior.fName+" "+data.cabins[selectedCabin]!.junior.lName))
                 .font(.title2)
-            Table(cabins[selectedCabin]!.campers, selection: $selectedCamper, sortOrder: $sortOrder){
+            Table(data.cabins[selectedCabin]!.campers, selection: $selectedCamper, sortOrder: $sortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 //see comment in LeaderView.swift
@@ -38,7 +39,7 @@ struct CabinView: View {
                 TableColumn("Skill 4",value: \.skills[3])
             }
             .onChange(of: sortOrder){
-                cabins[selectedCabin]!.campers.sort(using: $0)
+                data.cabins[selectedCabin]!.campers.sort(using: $0)
             }
             .contextMenu(forSelectionType: Camper.ID.self) { items in
                 if items.isEmpty {
@@ -54,23 +55,23 @@ struct CabinView: View {
                      Label("Info/Edit...", systemImage: "pencil.line")
                      }*/
                     Button(role: .destructive) {
-                        removeCamperFromCabin(camperSelection: selectedCamper)
+                        removeCamperFromCabin(camperSelection: selectedCamper, data: data)
                     } label: {
                         Label("Remove", systemImage: "trash")
                     }
                     Button(role: .destructive) {
-                        deleteCamper(camperSelection: selectedCamper)
+                        deleteCamper(camperSelection: selectedCamper, data: data)
                     } label: {
                         Label("Delete", systemImage: "trash")
                     }
                 } else {
                     Button(role: .destructive) {
-                        removeCamperFromCabin(camperSelection: selectedCamper)
+                        removeCamperFromCabin(camperSelection: selectedCamper, data: data)
                     } label: {
                         Label("Remove Selection", systemImage: "trash")
                     }
                     Button(role: .destructive) {
-                        deleteCamper(camperSelection: selectedCamper)
+                        deleteCamper(camperSelection: selectedCamper, data: data)
                     } label: {
                         Label("Delete Selection", systemImage: "trash")
                     }
@@ -89,7 +90,7 @@ struct CabinView: View {
                 if(selectedCabin == "Unassigned"){
                     unassignedCabinAlert.toggle()
                 } else {
-                    try! deleteCabin(targetCabin: selectedCabin)
+                    try! deleteCabin(targetCabin: selectedCabin, data: data)
                 }
             } label: {
                 Image(systemName: "minus.square")
@@ -136,7 +137,7 @@ struct CabinView: View {
             }
             .help("Export Cabin Schedule")
             Picker("Cabin", selection: $selectedCabin) {
-                ForEach(Array(cabins.keys).sorted(), id: \.self){
+                ForEach(Array(data.cabins.keys).sorted(), id: \.self){
                     Text($0).tag($0)
                 }
             }
@@ -154,8 +155,8 @@ struct CabinView: View {
         }
         .sheet(isPresented: $importSkillSheet, onDismiss: {
             if(isImporting){
-                cabinsFromCSV(csv: csvInput)
-                try! campersFromCSV(csv: csvInput)
+                cabinsFromCSV(csv: csvInput, data: data)
+                try! campersFromCSV(csv: csvInput, data: data)
                 isImporting = false
             }
         }, content: {

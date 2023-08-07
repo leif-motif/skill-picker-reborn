@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AddCabinView: View {
+    @EnvironmentObject private var data: CampData
     @State private var iName = ""
     @State private var seniorSelection = nullSenior.id
     @State private var juniorSelection = nullJunior.id
@@ -19,10 +20,10 @@ struct AddCabinView: View {
                 .padding([.top,.horizontal])
             Picker("Senior", selection: $seniorSelection) {
                 Text("None").tag(nullSenior.id)
-                if(leaders.count > 0){
-                    ForEach(0...(leaders.count-1), id: \.self){
-                        if(leaders[$0].senior){
-                            Text(leaders[$0].fName+" "+leaders[$0].lName).tag(leaders[$0].id)
+                if(data.leaders.count > 0){
+                    ForEach(0...(data.leaders.count-1), id: \.self){
+                        if(data.leaders[$0].senior){
+                            Text(data.leaders[$0].fName+" "+data.leaders[$0].lName).tag(data.leaders[$0].id)
                         }
                     }
                 }
@@ -30,10 +31,10 @@ struct AddCabinView: View {
             .padding([.top,.horizontal])
             Picker("Junior", selection: $juniorSelection) {
                 Text("None").tag(nullJunior.id)
-                if(leaders.count > 0){
-                    ForEach(0...(leaders.count-1), id: \.self){
-                        if(!leaders[$0].senior){
-                            Text(leaders[$0].fName+" "+leaders[$0].lName).tag(leaders[$0].id)
+                if(data.leaders.count > 0){
+                    ForEach(0...(data.leaders.count-1), id: \.self){
+                        if(!data.leaders[$0].senior){
+                            Text(data.leaders[$0].fName+" "+data.leaders[$0].lName).tag(data.leaders[$0].id)
                         }
                     }
                 }
@@ -49,22 +50,23 @@ struct AddCabinView: View {
                         nameAlert.toggle()
                     //gets the first element of the leader array where the selection's first and last names are equal to the element's first and last names
                     } else if(seniorSelection == nullSenior.id && juniorSelection == nullJunior.id){
-                        createCabin(cabinName: iName, targetSenior: nullSenior, targetJunior: nullJunior)
+                        createCabin(cabinName: iName, targetSenior: nullSenior, targetJunior: nullJunior, data: data)
                         dismiss()
                     } else if(seniorSelection == nullSenior.id){
                         createCabin(cabinName: iName,
                                     targetSenior: nullSenior,
-                                    targetJunior: leaders.first(where: {$0.id == juniorSelection})!)
+                                    targetJunior: data.leaders.first(where: {$0.id == juniorSelection})!, data: data)
                         dismiss()
                     } else if(juniorSelection == nullJunior.id){
                         createCabin(cabinName: iName,
-                                    targetSenior: leaders.first(where: {$0.id == seniorSelection})!,
-                                    targetJunior: nullJunior)
+                                    targetSenior: data.leaders.first(where: {$0.id == seniorSelection})!,
+                                    targetJunior: nullJunior, data: data)
                         dismiss()
                     } else {
                         createCabin(cabinName: iName,
-                                    targetSenior: leaders.first(where: {$0.id == seniorSelection})!,
-                                    targetJunior: leaders.first(where: {$0.id == juniorSelection})!)
+                                    targetSenior: data.leaders.first(where: {$0.id == seniorSelection})!,
+                                    targetJunior: data.leaders.first(where: {$0.id == juniorSelection})!,
+                                    data: data)
                         dismiss()
                     }
                 }

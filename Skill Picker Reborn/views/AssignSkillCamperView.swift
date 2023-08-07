@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AssignSkillCamperView: View {
+    @EnvironmentObject private var data: CampData
     private var targetSkill: String
     private var skillPeriod: Int
     @State private var selectedCamper = UUID()
@@ -16,9 +17,9 @@ struct AssignSkillCamperView: View {
     var body: some View {
         Form {
             Picker("Camper:", selection: $selectedCamper){
-                ForEach(0...(campers.count-1), id: \.self){
-                    if(campers[$0].skills[skillPeriod] != targetSkill){
-                        Text(campers[$0].fName+" "+campers[$0].lName).tag(campers[$0].id)
+                ForEach(0...(data.campers.count-1), id: \.self){
+                    if(data.campers[$0].skills[skillPeriod] != targetSkill){
+                        Text(data.campers[$0].fName+" "+data.campers[$0].lName).tag(data.campers[$0].id)
                     }
                 }
             }
@@ -29,10 +30,11 @@ struct AssignSkillCamperView: View {
                     dismiss()
                 }
                 Button("Assign Camper") {
-                    let targetCamper: Camper? = campers.first(where: {$0.id == selectedCamper})
+                    let targetCamper: Camper? = data.campers.first(where: {$0.id == selectedCamper})
                     if(targetCamper != nil){
                         try! assignCamperToSkill(targetCamper: targetCamper!,
-                                                 skillName: targetSkill, period: skillPeriod)
+                                                 skillName: targetSkill, period: skillPeriod,
+                                                 data: data)
                         dismiss()
                     } else {
                         noneCamperAlert.toggle()

@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct CamperInfoView: View {
-    private var inputCamper: Camper
+    @EnvironmentObject private var data: CampData
+    @State private var inputCamper: Camper = try! Camper(fName: "", lName: "", cabin: "", preferredSkills: ["","","","",""], fanatic: "")
     private let numbers = ["One","Two","Three","Four","Five","Six"]
+    private var camperSelection: Set<Camper.ID>
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
@@ -39,12 +41,16 @@ struct CamperInfoView: View {
             }
             .padding()
         }
+        .onAppear(perform: {actualInit()})
+    }
+    func actualInit(){
+        self.inputCamper = data.campers.first(where: {$0.id == camperSelection.first})!
     }
     init(camperSelection: Set<Camper.ID>) throws {
         if(camperSelection.count != 1){
             throw SPRError.EmptySelection
         }
-        self.inputCamper = campers.first(where: {$0.id == camperSelection.first})!
+        self.camperSelection = camperSelection
     }
 }
 

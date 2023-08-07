@@ -34,12 +34,13 @@ struct ContentView: View {
 }
 
 struct NullView: View {
+    @EnvironmentObject private var data: CampData
     var body: some View {
         Text("This app is from [this repository.](https://github.com/leif-motif/skill-picker-reborn)")
         Text("Check it out, or begin working.")
         .toolbar {
             Button {
-                createTestingDataPlus()
+                createTestingDataPlus(data: data)
             } label: {
                 Image(systemName: "testtube.2")
                     .foregroundColor(Color(.systemCyan))

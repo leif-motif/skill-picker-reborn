@@ -9,6 +9,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct CamperView: View {
+    @EnvironmentObject private var data: CampData
     @State private var sortOrder = [KeyPathComparator(\Camper.lName)]
     @State private var selectedCamper = Set<Camper.ID>()
     @State private var csvInput: [Substring] = [""]
@@ -22,7 +23,7 @@ struct CamperView: View {
     @State private var search = ""
     var body: some View {
         VStack(){
-            Table(campers, selection: $selectedCamper, sortOrder: $sortOrder){
+            Table(data.campers, selection: $selectedCamper, sortOrder: $sortOrder){
                 TableColumn("First Name",value: \.fName)
                     .width(min: 80, ideal: 80)
                 TableColumn("Last Name",value: \.lName)
@@ -44,7 +45,7 @@ struct CamperView: View {
                     .width(min: 80, ideal: 80)
             }
             .onChange(of: sortOrder){
-                campers.sort(using: $0)
+                data.campers.sort(using: $0)
             }
             .contextMenu(forSelectionType: Camper.ID.self) { items in
                 if items.isEmpty {
@@ -60,7 +61,7 @@ struct CamperView: View {
                         Label("Information...", systemImage: "person.text.rectangle")
                     }
                     Button(role: .destructive) {
-                        deleteCamper(camperSelection: selectedCamper)
+                        deleteCamper(camperSelection: selectedCamper, data: data)
                     } label: {
                         Label("Delete", systemImage: "trash")
                     }
@@ -71,7 +72,7 @@ struct CamperView: View {
                         Label("Information...", systemImage: "person.text.rectangle")
                     }
                     Button(role: .destructive) {
-                        deleteCamper(camperSelection: selectedCamper)
+                        deleteCamper(camperSelection: selectedCamper, data: data)
                     } label: {
                         Label("Delete Selection", systemImage: "trash")
                     }
@@ -87,7 +88,7 @@ struct CamperView: View {
             }
             .help("Add Camper")
             Button {
-                deleteCamper(camperSelection: selectedCamper)
+                deleteCamper(camperSelection: selectedCamper, data: data)
             } label: {
                 Image(systemName:"person.badge.minus")
                     .foregroundColor(Color(.systemRed))
@@ -106,7 +107,8 @@ struct CamperView: View {
             .help("Get Camper Info")
             Button {
                 do {
-                    try processPreferredSkills()
+                    try processPreferredSkills(data: data)
+                    data.objectWillChange.send()
                     //honestly this really should catch specific errors but whatver, i'll attribute that to yet another compiler error.
                 } catch {
                     preferredSkillsAlert.toggle()
@@ -150,7 +152,7 @@ struct CamperView: View {
                 .foregroundColor(Color(.systemBlue))
             }
             .help("Export Schedule for all Campers")
-            .fileExporter(isPresented: $showCsvExporter, document: CSVFile(initialText: camperListToCSV()),
+            .fileExporter(isPresented: $showCsvExporter, document: CSVFile(initialText: camperListToCSV(data: data)),
                           contentType: .csv, defaultFilename: "Campers") { result in
                 switch result {
                 case .success(let url):
@@ -172,8 +174,8 @@ struct CamperView: View {
         }
         .sheet(isPresented: $importSkillSheet, onDismiss: {
             if(isImporting){
-                cabinsFromCSV(csv: csvInput)
-                try! campersFromCSV(csv: csvInput)
+                cabinsFromCSV(csv: csvInput, data: data)
+                try! campersFromCSV(csv: csvInput, data: data)
                 isImporting = false
             }
         }, content: {

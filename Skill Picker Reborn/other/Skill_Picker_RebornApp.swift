@@ -12,6 +12,7 @@ struct Skill_Picker_RebornApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(CampData())
         }
     }
 }

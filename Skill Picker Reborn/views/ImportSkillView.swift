@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ImportSkillView: View {
+    @EnvironmentObject private var data: CampData
     @State private var selectedSkill: String = "this is an empty selection"
     //I love you, ChatGPT.
     @State private var skillMaximums: [String:[Int]] = importSkillList.reduce(into: [String:[Int]]()){ (result, element) in
@@ -120,7 +121,7 @@ struct ImportSkillView: View {
                 Button("Import Skills") {
                     for skill in Array(importSkillList.keys) {
                         if(importSkillList[skill]!){
-                            createFanatic(newFanatic: try! Fanatic(name: skill, activePeriods: fanaticPeriods[skill]!))
+                            createFanatic(newFanatic: try! Fanatic(name: skill, activePeriods: fanaticPeriods[skill]!), data: data)
                         } else {
                             for i in 0...3 {
                                 if(skillMaximums[skill]![i] < 0){
@@ -129,7 +130,7 @@ struct ImportSkillView: View {
                                     skillMaximums[skill]![i] = 20
                                 }
                             }
-                            createSkill(newSkill: try! Skill(name: skill, maximums: skillMaximums[skill]!))
+                            createSkill(newSkill: try! Skill(name: skill, maximums: skillMaximums[skill]!), data: data)
                         }
                     }
                     isImporting = true

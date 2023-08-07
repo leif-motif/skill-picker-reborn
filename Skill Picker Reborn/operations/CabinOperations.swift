@@ -7,55 +7,53 @@
 
 import Foundation
 
-func createCabin(cabinName: String, targetSenior: Leader, targetJunior: Leader){
-    //IF THERE ARE REFERENCE ERRORS, LOOK HERE FOR WHERE EVERYTHING WENT WRONG.
-    
+func createCabin(cabinName: String, targetSenior: Leader, targetJunior: Leader, data: CampData){
     //if leaders are already assigned to a cabin, replace their place in that cabin with the null leader
     if(targetSenior.cabin != "Unassigned"){
-        cabins[targetSenior.cabin]!.senior = nullSenior
+        data.cabins[targetSenior.cabin]!.senior = nullSenior
     }
     targetSenior.cabin = cabinName
     if(targetJunior.cabin != "Unassigned"){
-        cabins[targetJunior.cabin]!.junior = nullJunior
+        data.cabins[targetJunior.cabin]!.junior = nullJunior
     }
     targetJunior.cabin = cabinName
-    cabins[cabinName] = try! Cabin(name: cabinName, senior: targetSenior, junior: targetJunior)
+    data.cabins[cabinName] = try! Cabin(name: cabinName, senior: targetSenior, junior: targetJunior)
 }
 
-func deleteCabin(targetCabin: String) throws {
+func deleteCabin(targetCabin: String, data: CampData) throws {
     if(targetCabin == "Unassigned"){
         throw SPRError.RefusingDelete
     }
-    for camper in campers.filter({$0.cabin == targetCabin}) {
+    for camper in data.campers.filter({$0.cabin == targetCabin}) {
         camper.cabin = "Unassigned"
     }
-    for leader in leaders.filter({$0.cabin == targetCabin}) {
+    for leader in data.leaders.filter({$0.cabin == targetCabin}) {
         leader.cabin = "Unassigned"
     }
-    cabins.removeValue(forKey: targetCabin)
+    data.cabins.removeValue(forKey: targetCabin)
 }
 
-func changeCabinLeaders(cabinName: String, targetSenior: Leader, targetJunior: Leader){
+func changeCabinLeaders(cabinName: String, targetSenior: Leader, targetJunior: Leader, data: CampData){
     //if the current cabin's leader is not the null leader, move them to the unassigned cabin
-    if(cabins[cabinName]!.senior.id != nullSenior.id){
-        cabins[cabinName]!.senior.cabin = "Unassigned"
+    if(data.cabins[cabinName]!.senior.id != nullSenior.id){
+        data.cabins[cabinName]!.senior.cabin = "Unassigned"
     }
-    if(cabins[cabinName]!.junior.id != nullJunior.id){
-        cabins[cabinName]!.junior.cabin = "Unassigned"
+    if(data.cabins[cabinName]!.junior.id != nullJunior.id){
+        data.cabins[cabinName]!.junior.cabin = "Unassigned"
     }
-    cabins[cabinName]!.senior = targetSenior
+    data.cabins[cabinName]!.senior = targetSenior
     targetSenior.cabin = cabinName
-    cabins[cabinName]!.junior = targetJunior
+    data.cabins[cabinName]!.junior = targetJunior
     targetJunior.cabin = cabinName
 }
 
-func assignCamperToCabin(targetCamper: Camper, cabinName: String){
+func assignCamperToCabin(targetCamper: Camper, cabinName: String, data: CampData){
     
 }
 
-func removeCamperFromCabin(camperSelection: Set<Camper.ID>){
+func removeCamperFromCabin(camperSelection: Set<Camper.ID>, data: CampData){
     for targetCamper in camperSelection {
-        cabins[campers.first(where: {$0.id == targetCamper})!.cabin]!.campers.removeAll(where: {$0.id == targetCamper})
-        campers.first(where: {$0.id == targetCamper})!.cabin = "Unassigned"
+        data.cabins[data.campers.first(where: {$0.id == targetCamper})!.cabin]!.campers.removeAll(where: {$0.id == targetCamper})
+        data.campers.first(where: {$0.id == targetCamper})!.cabin = "Unassigned"
     }
 }

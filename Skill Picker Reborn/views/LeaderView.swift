@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct LeaderView: View {
+    @EnvironmentObject private var data: CampData
     @State private var sortOrder = [KeyPathComparator(\Leader.lName)]
     @State private var selectedLeader = Set<Leader.ID>()
     @State private var addLeaderSheet = false
     @State private var search = ""
     var body: some View {
         VStack(){
-            Table(leaders, selection: $selectedLeader, sortOrder: $sortOrder){
+            Table(data.leaders, selection: $selectedLeader, sortOrder: $sortOrder){
                 TableColumn("First Name",value: \.fName)
                     .width(min: 80, ideal: 80)
                 TableColumn("Last Name",value: \.lName)
@@ -36,7 +37,7 @@ struct LeaderView: View {
                     .width(min: 80, ideal: 80)
             }
             .onChange(of: sortOrder){
-                leaders.sort(using: $0)
+                data.leaders.sort(using: $0)
             }
             .contextMenu(forSelectionType: Leader.ID.self) { items in
               if items.isEmpty {
@@ -52,13 +53,13 @@ struct LeaderView: View {
                   Label("Info/Edit...", systemImage: "pencil.line")
                 }*/
                 Button(role: .destructive) {
-                    deleteLeader(leaderSelection: selectedLeader)
+                    deleteLeader(leaderSelection: selectedLeader, data: data)
                 } label: {
                   Label("Delete", systemImage: "trash")
                 }
               } else {
                 Button(role: .destructive) {
-                    deleteLeader(leaderSelection: selectedLeader)
+                    deleteLeader(leaderSelection: selectedLeader, data: data)
                 } label: {
                   Label("Delete Selection", systemImage: "trash")
                 }
@@ -74,7 +75,7 @@ struct LeaderView: View {
             }
             .help("Add Leader")
             Button {
-                deleteLeader(leaderSelection: selectedLeader)
+                deleteLeader(leaderSelection: selectedLeader, data: data)
             } label: {
                 Image(systemName:"person.badge.minus")
                     .foregroundColor(Color(.systemRed))

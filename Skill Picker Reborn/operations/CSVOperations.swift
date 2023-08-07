@@ -7,7 +7,7 @@
 
 import Foundation
 
-func cabinsFromCSV(csv: [Substring]){
+func cabinsFromCSV(csv: [Substring], data: CampData){
     var cabinIndex: Int?
     var cabinNames: [Substring] = []
     for x in 0...(csv[0].collumns.count-1){
@@ -23,7 +23,7 @@ func cabinsFromCSV(csv: [Substring]){
     }
     cabinNames.sort()
     for name in cabinNames {
-        createCabin(cabinName: String(name), targetSenior: nullSenior, targetJunior: nullJunior)
+        createCabin(cabinName: String(name), targetSenior: nullSenior, targetJunior: nullJunior, data: data)
     }
 }
 
@@ -46,7 +46,7 @@ func skillListFromCSV(csv: [Substring]) -> [String:Bool] {
     return isFanatic
 }
 
-func campersFromCSV(csv: [Substring]) throws {
+func campersFromCSV(csv: [Substring], data: CampData) throws {
     let numbers = ["1","2","3","4","5","6"]
     var fName: String
     var lName: String
@@ -86,7 +86,7 @@ func campersFromCSV(csv: [Substring]) throws {
         while(preferredSkills.count < (fanatic == "None" ? 6 : 5)){
             preferredSkills.append("None")
         }
-        try createCamper(newCamper: try! Camper(fName: fName, lName: lName, cabin: cabinName, preferredSkills: preferredSkills, fanatic: fanatic))
+        try createCamper(newCamper: try! Camper(fName: fName, lName: lName, cabin: cabinName, preferredSkills: preferredSkills, fanatic: fanatic), data: data)
     }
 }
 
@@ -94,17 +94,17 @@ func cabinListToCSV(cabinName: String) throws -> String {
     return ""
 }
 
-func camperListToCSV() -> String {
+func camperListToCSV(data: CampData) -> String {
     var csv = "Name,Cabin,Skill 1,Skill 2,Skill 3, Skill 4"
-    for camper in campers.sorted(using: KeyPathComparator(\Camper.lName)) {
+    for camper in data.campers.sorted(using: KeyPathComparator(\Camper.lName)) {
         csv += "\n\(camper.fName) \(camper.lName),\(camper.cabin),\(camper.skills[0]),\(camper.skills[1]),\(camper.skills[2]),\(camper.skills[3])"
     }
     return csv
 }
 
-func leaderListToCSV() -> String {
+func leaderListToCSV(data: CampData) -> String {
     var csv = "Leader,Skill 1,Skill 2,Skill 3, Skill 4"
-    for leader in leaders.sorted(using: KeyPathComparator(\Leader.lName)) {
+    for leader in data.leaders.sorted(using: KeyPathComparator(\Leader.lName)) {
         csv += "\n\(leader.fName) \(leader.lName),\(leader.cabin),\(leader.skills[0]),\(leader.skills[1]),\(leader.skills[2]),\(leader.skills[3])"
     }
     return csv

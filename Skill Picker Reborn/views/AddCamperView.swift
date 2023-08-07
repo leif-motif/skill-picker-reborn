@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AddCamperView: View {
+    @EnvironmentObject private var data: CampData
     @State private var iFName = ""
     @State private var iLName = ""
     @State private var selectedCabin = "Unassigned"
@@ -21,13 +22,13 @@ struct AddCamperView: View {
             TextField("First Name:",text: $iFName)
             TextField("Last Name:",text: $iLName)
             Picker("Cabin:", selection: $selectedCabin) {
-                ForEach(Array(cabins.keys).sorted(), id: \.self){
+                ForEach(Array(data.cabins.keys).sorted(), id: \.self){
                     Text($0).tag($0)
                 }
             }
             Picker("Fanatic:", selection: $fanaticSelection){
                 Text("None").tag("None")
-                ForEach(Array(fanatics.keys).sorted(), id: \.self){
+                ForEach(Array(data.fanatics.keys).sorted(), id: \.self){
                     Text($0).tag($0)
                 }
             }
@@ -36,32 +37,32 @@ struct AddCamperView: View {
                 .bold()
             Group {
                 Picker("First:", selection: $preferredSkills[0]){
-                    ForEach(Array(skills.keys).sorted().filter({!fanatics.keys.contains($0)}), id: \.self){
+                    ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
                         Text($0).tag($0)
                     }
                 }
                 Picker("Second:", selection: $preferredSkills[1]){
-                    ForEach(Array(skills.keys).sorted().filter({!fanatics.keys.contains($0)}), id: \.self){
+                    ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
                         Text($0).tag($0)
                     }
                 }
                 Picker("Third:", selection: $preferredSkills[2]){
-                    ForEach(Array(skills.keys).sorted().filter({!fanatics.keys.contains($0)}), id: \.self){
+                    ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
                         Text($0).tag($0)
                     }
                 }
                 Picker("Fourth:", selection: $preferredSkills[3]){
-                    ForEach(Array(skills.keys).sorted().filter({!fanatics.keys.contains($0)}), id: \.self){
+                    ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
                         Text($0).tag($0)
                     }
                 }
                 Picker("Fifth:", selection: $preferredSkills[4]){
-                    ForEach(Array(skills.keys).sorted().filter({!fanatics.keys.contains($0)}), id: \.self){
+                    ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
                         Text($0).tag($0)
                     }
                 }
                 Picker("Sixth:", selection: $preferredSkills[5]){
-                    ForEach(Array(skills.keys).sorted().filter({!fanatics.keys.contains($0)}), id: \.self){
+                    ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
                         Text($0).tag($0)
                     }
                 }
@@ -86,7 +87,7 @@ struct AddCamperView: View {
                         while(preferredSkills.count < (fanaticSelection == "None" ? 6 : 5)){
                             preferredSkills.append("None")
                         }
-                        try! createCamper(newCamper: try! Camper(fName: iFName, lName: iLName, cabin: selectedCabin, preferredSkills: preferredSkills, fanatic: fanaticSelection))
+                        try! createCamper(newCamper: try! Camper(fName: iFName, lName: iLName, cabin: selectedCabin, preferredSkills: preferredSkills, fanatic: fanaticSelection), data: data)
                         dismiss()
                     }
                 }

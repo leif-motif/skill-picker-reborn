@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SkillView: View {
+    @EnvironmentObject private var data: CampData
     @State private var selectedSkill: String = "None"
     @State private var selectedPeriod: Int = 0
     @State private var selectedCamper = Set<Camper.ID>()
@@ -30,21 +31,21 @@ struct SkillView: View {
                 .font(.title)
                 .bold()
                 .padding(.top, 10)
-            Table(skills[selectedSkill]!.leaders[selectedPeriod], selection: $selectedLeader, sortOrder: $leaderSortOrder){
+            Table(data.skills[selectedSkill]!.leaders[selectedPeriod], selection: $selectedLeader, sortOrder: $leaderSortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 TableColumn("Cabin",value: \.cabin)
             }
             .frame(height: 85)
             .onChange(of: leaderSortOrder){
-                skills[selectedSkill]!.leaders[selectedPeriod].sort(using: $0)
+                data.skills[selectedSkill]!.leaders[selectedPeriod].sort(using: $0)
             }
             .contextMenu(forSelectionType: Leader.ID.self) { items in
                 if items.isEmpty {
                     Button {
-                        if(skills[selectedSkill]!.maximums[selectedPeriod] == 0){
+                        if(data.skills[selectedSkill]!.maximums[selectedPeriod] == 0){
                             skillErrorAlert.toggle()
-                        } else if(fanatics.keys.contains(selectedSkill)){
+                        } else if(data.fanatics.keys.contains(selectedSkill)){
                             assignFanaticLeaderSheet.toggle()
                         } else {
                             assignSkillLeaderSheet.toggle()
@@ -61,16 +62,16 @@ struct SkillView: View {
                     Button(role: .destructive) {
                         if(selectedSkill == "None"){
                             skillErrorAlert.toggle()
-                        } else if(fanatics.keys.contains(selectedSkill)){
-                            try! removeLeaderFromFanatic(leaderSelection: selectedLeader, fanaticName: selectedSkill)
+                        } else if(data.fanatics.keys.contains(selectedSkill)){
+                            try! removeLeaderFromFanatic(leaderSelection: selectedLeader, fanaticName: selectedSkill, data: data)
                         } else {
-                            try! removeLeaderFromSkill(leaderSelection: selectedLeader, skillName: selectedSkill, period: selectedPeriod)
+                            try! removeLeaderFromSkill(leaderSelection: selectedLeader, skillName: selectedSkill, period: selectedPeriod, data: data)
                         }
                     } label: {
                         Label("Remove", systemImage: "trash")
                     }
                     Button(role: .destructive) {
-                        deleteLeader(leaderSelection: selectedLeader)
+                        deleteLeader(leaderSelection: selectedLeader, data: data)
                     } label: {
                         Label("Delete", systemImage: "trash")
                     }
@@ -78,40 +79,40 @@ struct SkillView: View {
                     Button(role: .destructive) {
                         if(selectedSkill == "None"){
                             skillErrorAlert.toggle()
-                        } else if(fanatics.keys.contains(selectedSkill)){
-                            try! removeLeaderFromFanatic(leaderSelection: selectedLeader, fanaticName: selectedSkill)
+                        } else if(data.fanatics.keys.contains(selectedSkill)){
+                            try! removeLeaderFromFanatic(leaderSelection: selectedLeader, fanaticName: selectedSkill, data: data)
                         } else {
-                            try! removeLeaderFromSkill(leaderSelection: selectedLeader, skillName: selectedSkill, period: selectedPeriod)
+                            try! removeLeaderFromSkill(leaderSelection: selectedLeader, skillName: selectedSkill, period: selectedPeriod, data: data)
                         }
                     } label: {
                         Label("Remove Selection", systemImage: "trash")
                     }
                     Button(role: .destructive) {
-                        deleteLeader(leaderSelection: selectedLeader)
+                        deleteLeader(leaderSelection: selectedLeader, data: data)
                     } label: {
                         Label("Delete Selection", systemImage: "trash")
                     }
                 }
             }
-            @State var currentSkillCount = skills[selectedSkill]!.periods[selectedPeriod].count
-            @State var currentSkillMax = skills[selectedSkill]!.maximums[selectedPeriod]
+            @State var currentSkillCount = data.skills[selectedSkill]!.periods[selectedPeriod].count
+            @State var currentSkillMax = data.skills[selectedSkill]!.maximums[selectedPeriod]
             Text("Campers ("+String(currentSkillCount)+"/"+String(currentSkillMax)+")")
                 .font(.title)
                 .bold()
-            Table(skills[selectedSkill]!.periods[selectedPeriod], selection: $selectedCamper, sortOrder: $camperSortOrder){
+            Table(data.skills[selectedSkill]!.periods[selectedPeriod], selection: $selectedCamper, sortOrder: $camperSortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 TableColumn("Cabin",value: \.cabin)
             }
             .onChange(of: camperSortOrder){
-                skills[selectedSkill]!.periods[selectedPeriod].sort(using: $0)
+                data.skills[selectedSkill]!.periods[selectedPeriod].sort(using: $0)
             }
             .contextMenu(forSelectionType: Camper.ID.self) { items in
                 if items.isEmpty {
                     Button {
-                        if(skills[selectedSkill]!.periods[selectedPeriod].count >= skills[selectedSkill]!.maximums[selectedPeriod]){
+                        if(data.skills[selectedSkill]!.periods[selectedPeriod].count >= data.skills[selectedSkill]!.maximums[selectedPeriod]){
                             skillErrorAlert.toggle()
-                        } else if(fanatics.keys.contains(selectedSkill)){
+                        } else if(data.fanatics.keys.contains(selectedSkill)){
                             assignFanaticCamperSheet.toggle()
                         } else {
                             assignSkillCamperSheet.toggle()
@@ -128,16 +129,16 @@ struct SkillView: View {
                     Button(role: .destructive) {
                         if(selectedSkill == "None"){
                             skillErrorAlert.toggle()
-                        } else if(fanatics.keys.contains(selectedSkill)){
-                            try! removeCamperFromFanatic(camperSelection: selectedCamper, fanaticName: selectedSkill, newSixthPreferredSkill: "None")
+                        } else if(data.fanatics.keys.contains(selectedSkill)){
+                            try! removeCamperFromFanatic(camperSelection: selectedCamper, fanaticName: selectedSkill, newSixthPreferredSkill: "None", data: data)
                         } else {
-                            try! removeCamperFromSkill(camperSelection: selectedCamper, skillName: selectedSkill, period: selectedPeriod)
+                            try! removeCamperFromSkill(camperSelection: selectedCamper, skillName: selectedSkill, period: selectedPeriod, data: data)
                         }
                     } label: {
                         Label("Remove", systemImage: "trash")
                     }
                     Button(role: .destructive) {
-                        deleteCamper(camperSelection: selectedCamper)
+                        deleteCamper(camperSelection: selectedCamper, data: data)
                     } label: {
                         Label("Delete", systemImage: "trash")
                     }
@@ -145,16 +146,16 @@ struct SkillView: View {
                     Button(role: .destructive) {
                         if(selectedSkill == "None"){
                             skillErrorAlert.toggle()
-                        } else if(fanatics.keys.contains(selectedSkill)){
-                            try! removeCamperFromFanatic(camperSelection: selectedCamper, fanaticName: selectedSkill, newSixthPreferredSkill: "None")
+                        } else if(data.fanatics.keys.contains(selectedSkill)){
+                            try! removeCamperFromFanatic(camperSelection: selectedCamper, fanaticName: selectedSkill, newSixthPreferredSkill: "None", data: data)
                         } else {
-                            try! removeCamperFromSkill(camperSelection: selectedCamper, skillName: selectedSkill, period: selectedPeriod)
+                            try! removeCamperFromSkill(camperSelection: selectedCamper, skillName: selectedSkill, period: selectedPeriod, data: data)
                         }
                     } label: {
                         Label("Remove Selection", systemImage: "trash")
                     }
                     Button(role: .destructive) {
-                        deleteCamper(camperSelection: selectedCamper)
+                        deleteCamper(camperSelection: selectedCamper, data: data)
                     } label: {
                         Label("Delete Selection", systemImage: "trash")
                     }
@@ -180,10 +181,10 @@ struct SkillView: View {
                 if(selectedSkill == "None"){
                     skillErrorAlert.toggle()
                 } else {
-                    if(fanatics.keys.contains(selectedSkill)){
-                        try! deleteFanatic(fanaticName: selectedSkill)
+                    if(data.fanatics.keys.contains(selectedSkill)){
+                        try! deleteFanatic(fanaticName: selectedSkill, data: data)
                     } else {
-                        try! deleteSkill(skillName: selectedSkill)
+                        try! deleteSkill(skillName: selectedSkill, data: data)
                     }
                 }
             } label: {
@@ -220,7 +221,7 @@ struct SkillView: View {
             }
             .help("Export Skill Schedule")
             Picker("Skill", selection: $selectedSkill){
-                ForEach(Array(skills.keys).sorted(), id: \.self){
+                ForEach(Array(data.skills.keys).sorted(), id: \.self){
                     Text($0).tag($0)
                 }
             }
@@ -258,8 +259,8 @@ struct SkillView: View {
         }
         .sheet(isPresented: $importSkillSheet, onDismiss: {
             if(isImporting){
-                cabinsFromCSV(csv: csvInput)
-                try! campersFromCSV(csv: csvInput)
+                cabinsFromCSV(csv: csvInput, data: data)
+                try! campersFromCSV(csv: csvInput, data: data)
                 isImporting = false
             }
         }, content: {

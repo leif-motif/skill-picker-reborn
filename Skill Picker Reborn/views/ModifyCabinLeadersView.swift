@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ModifyCabinLeadersView: View {
+    @EnvironmentObject private var data: CampData
     @State private var seniorSelection = nullSenior.id
     @State private var juniorSelection = nullJunior.id
     private var targetCabin: String
@@ -16,10 +17,10 @@ struct ModifyCabinLeadersView: View {
         Form {
             Picker("Senior", selection: $seniorSelection) {
                 Text("None").tag(nullSenior.id)
-                if(leaders.count > 0){
-                    ForEach(0...(leaders.count-1), id: \.self){
-                        if(leaders[$0].senior){
-                            Text(leaders[$0].fName+" "+leaders[$0].lName).tag(leaders[$0].id)
+                if(data.leaders.count > 0){
+                    ForEach(0...(data.leaders.count-1), id: \.self){
+                        if(data.leaders[$0].senior){
+                            Text(data.leaders[$0].fName+" "+data.leaders[$0].lName).tag(data.leaders[$0].id)
                         }
                     }
                 }
@@ -27,10 +28,10 @@ struct ModifyCabinLeadersView: View {
             .padding([.top,.horizontal])
             Picker("Junior", selection: $juniorSelection) {
                 Text("None").tag(nullJunior.id)
-                if(leaders.count > 0){
-                    ForEach(0...(leaders.count-1), id: \.self){
-                        if(!leaders[$0].senior){
-                            Text(leaders[$0].fName+" "+leaders[$0].lName).tag(leaders[$0].id)
+                if(data.leaders.count > 0){
+                    ForEach(0...(data.leaders.count-1), id: \.self){
+                        if(!data.leaders[$0].senior){
+                            Text(data.leaders[$0].fName+" "+data.leaders[$0].lName).tag(data.leaders[$0].id)
                         }
                     }
                 }
@@ -43,19 +44,19 @@ struct ModifyCabinLeadersView: View {
                 }
                 Button("Change Cabin Leaders") {
                     if(seniorSelection == nullSenior.id && juniorSelection == nullJunior.id){
-                        changeCabinLeaders(cabinName: targetCabin, targetSenior: nullSenior, targetJunior: nullJunior)
+                        changeCabinLeaders(cabinName: targetCabin, targetSenior: nullSenior, targetJunior: nullJunior, data: data)
                     } else if(seniorSelection == nullSenior.id){
                         changeCabinLeaders(cabinName: targetCabin,
                                            targetSenior: nullSenior,
-                                           targetJunior: leaders.first(where: {$0.id == juniorSelection})!)
+                                           targetJunior: data.leaders.first(where: {$0.id == juniorSelection})!, data: data)
                     } else if(juniorSelection == nullJunior.id){
                         changeCabinLeaders(cabinName: targetCabin,
-                                           targetSenior: leaders.first(where: {$0.id == seniorSelection})!,
-                                           targetJunior: nullJunior)
+                                           targetSenior: data.leaders.first(where: {$0.id == seniorSelection})!,
+                                           targetJunior: nullJunior, data: data)
                     } else {
                         changeCabinLeaders(cabinName: targetCabin,
-                                           targetSenior: leaders.first(where: {$0.id == seniorSelection})!,
-                                           targetJunior: leaders.first(where: {$0.id == juniorSelection})!)
+                                           targetSenior: data.leaders.first(where: {$0.id == seniorSelection})!,
+                                           targetJunior: data.leaders.first(where: {$0.id == juniorSelection})!, data: data)
                     }
                     dismiss()
                 }

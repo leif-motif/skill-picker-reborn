@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AddFanaticView: View {
+    @EnvironmentObject private var data: CampData
     @State private var iName = ""
     @State private var firstSkill = false
     @State private var secondSkill = false
@@ -43,7 +44,7 @@ struct AddFanaticView: View {
                     dismiss()
                 }
                 Button("Add Fanatic") {
-                    createFanatic(newFanatic: try! Fanatic(name: iName, activePeriods: [firstSkill,secondSkill,thirdSkill,fourthSkill]))
+                    createFanatic(newFanatic: try! Fanatic(name: iName, activePeriods: [firstSkill,secondSkill,thirdSkill,fourthSkill]), data: data)
                     dismiss()
                 }
             }
