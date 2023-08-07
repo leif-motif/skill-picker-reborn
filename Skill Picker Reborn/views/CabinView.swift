@@ -39,6 +39,7 @@ struct CabinView: View {
                 TableColumn("Skill 4",value: \.skills[3])
             }
             .onChange(of: sortOrder){
+                data.objectWillChange.send()
                 data.cabins[selectedCabin]!.campers.sort(using: $0)
             }
             .contextMenu(forSelectionType: Camper.ID.self) { items in
@@ -90,7 +91,9 @@ struct CabinView: View {
                 if(selectedCabin == "Unassigned"){
                     unassignedCabinAlert.toggle()
                 } else {
+                    data.objectWillChange.send()
                     try! deleteCabin(targetCabin: selectedCabin, data: data)
+                    selectedCabin = "Unassigned"
                 }
             } label: {
                 Image(systemName: "minus.square")
