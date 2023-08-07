@@ -103,7 +103,7 @@ func camperListToCSV(data: CampData) -> String {
 }
 
 func leaderListToCSV(data: CampData) -> String {
-    var csv = "Leader,Skill 1,Skill 2,Skill 3, Skill 4"
+    var csv = "Leader,Cabin,Skill 1,Skill 2,Skill 3, Skill 4"
     for leader in data.leaders.sorted(using: KeyPathComparator(\Leader.lName)) {
         csv += "\n\(leader.fName) \(leader.lName),\(leader.cabin),\(leader.skills[0]),\(leader.skills[1]),\(leader.skills[2]),\(leader.skills[3])"
     }

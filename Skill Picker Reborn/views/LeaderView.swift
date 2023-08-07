@@ -11,6 +11,7 @@ struct LeaderView: View {
     @EnvironmentObject private var data: CampData
     @State private var sortOrder = [KeyPathComparator(\Leader.lName)]
     @State private var selectedLeader = Set<Leader.ID>()
+    @State private var showCsvExporter = false
     @State private var addLeaderSheet = false
     @State private var search = ""
     var body: some View {
@@ -89,12 +90,21 @@ struct LeaderView: View {
             }
             .help("Edit Leader")*/
             Button {
-                //export schedule for all leaders
+                showCsvExporter.toggle()
             } label: {
                 Image(systemName: "arrow.up.doc.on.clipboard")
                 .foregroundColor(Color(.systemBlue))
             }
             .help("Export Schedule for all Leaders")
+            .fileExporter(isPresented: $showCsvExporter, document: CSVFile(initialText: leaderListToCSV(data: data)),
+                          contentType: .csv, defaultFilename: "Leaders") { result in
+                switch result {
+                case .success(let url):
+                    print("Saved to \(url)")
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
             //This search bar STILL doesn't work.
             TextField("Search...", text: $search)
                 .frame(width: 100)
