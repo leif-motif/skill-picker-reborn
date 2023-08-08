@@ -10,28 +10,25 @@ import SwiftUI
 struct AddFanaticView: View {
     @EnvironmentObject private var data: CampData
     @State private var iName = ""
-    @State private var firstSkill = false
-    @State private var secondSkill = false
-    @State private var thirdSkill = false
-    @State private var fourthSkill = false
+    @State private var activePeriods = [false,false,false,false]
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
             TextField("Name:", text: $iName)
                 .padding(.bottom)
-            Toggle(isOn: $firstSkill) {
+            Toggle(isOn: $activePeriods[0]){
                 Text("First Skill:")
             }
             .toggleStyle(.switch)
-            Toggle(isOn: $secondSkill) {
+            Toggle(isOn: $activePeriods[1]){
                 Text("Second Skill:")
             }
             .toggleStyle(.switch)
-            Toggle(isOn: $thirdSkill) {
+            Toggle(isOn: $activePeriods[2]){
                 Text("Third Skill:")
             }
             .toggleStyle(.switch)
-            Toggle(isOn: $fourthSkill) {
+            Toggle(isOn: $activePeriods[3]){
                 Text("Fourth Skill:")
             }
             .toggleStyle(.switch)
@@ -41,9 +38,10 @@ struct AddFanaticView: View {
                     dismiss()
                 }
                 Button("Add Fanatic") {
-                    createFanatic(newFanatic: try! Fanatic(name: iName, activePeriods: [firstSkill,secondSkill,thirdSkill,fourthSkill]), data: data)
+                    createFanatic(newFanatic: try! Fanatic(name: iName, activePeriods: activePeriods), data: data)
                     dismiss()
                 }
+                .disabled(iName == "" || data.skills.keys.contains(iName) || activePeriods == [false,false,false,false])
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
             }
@@ -57,5 +55,6 @@ struct AddFanaticView: View {
 struct AddFanaticView_Previews: PreviewProvider {
     static var previews: some View {
         AddFanaticView()
+            .environmentObject(CampData())
     }
 }
