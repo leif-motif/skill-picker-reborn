@@ -12,12 +12,11 @@ struct AddCabinView: View {
     @State private var iName = ""
     @State private var seniorSelection = UUID()
     @State private var juniorSelection = UUID()
-    @State private var nameAlert = false
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
             TextField("Name:",text: $iName)
-                .padding([.top,.horizontal])
+                .padding(.bottom)
             Picker("Senior", selection: $seniorSelection) {
                 Text("None").tag(data.nullSenior.id)
                 if(data.leaders.count > 0){
@@ -28,7 +27,6 @@ struct AddCabinView: View {
                     }
                 }
             }
-            .padding([.top,.horizontal])
             Picker("Junior", selection: $juniorSelection) {
                 Text("None").tag(data.nullJunior.id)
                 if(data.leaders.count > 0){
@@ -39,16 +37,14 @@ struct AddCabinView: View {
                     }
                 }
             }
-            .padding([.horizontal])
+            .padding(.bottom)
             HStack {
                 Spacer()
                 Button("Cancel") {
                     dismiss()
                 }
                 Button("Create Cabin"){
-                    if(iName == ""){
-                        nameAlert.toggle()
-                    } else if(seniorSelection == data.nullSenior.id && juniorSelection == data.nullJunior.id){
+                    if(seniorSelection == data.nullSenior.id && juniorSelection == data.nullJunior.id){
                         createCabin(cabinName: iName, targetSenior: data.nullSenior, targetJunior: data.nullJunior, data: data)
                         dismiss()
                     } else if(seniorSelection == data.nullSenior.id){
@@ -71,14 +67,10 @@ struct AddCabinView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
+                .disabled(iName == "" || data.cabins.keys.contains(iName))
             }
-            .alert(isPresented: $nameAlert){
-                Alert(title: Text("Error!"),
-                      message: Text("You must provide a first and last name for the leader."),
-                      dismissButton: .default(Text("Dismiss")))
-            }
-            .padding([.vertical,.trailing])
         }
+        .padding()
         .frame(width: 250, height: 170)
         .onAppear(perform: {
             seniorSelection = data.nullSenior.id
