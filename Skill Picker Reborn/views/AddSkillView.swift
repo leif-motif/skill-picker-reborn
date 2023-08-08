@@ -11,8 +11,7 @@ struct AddSkillView: View {
     @EnvironmentObject private var data: CampData
     @State private var iName = ""
     @State private var maximums = [1, 1, 1 ,1]
-    @State private var nameAlert = false
-    private let range = 0...20
+    private let range = 0...255
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
@@ -68,30 +67,22 @@ struct AddSkillView: View {
                     dismiss()
                 }
                 Button("Add Skill") {
-                    if(iName == ""){
-                        nameAlert.toggle()
-                    } else {
-                        //There's probably a better way to do this but I no longer care.
-                        for i in 0...3 {
-                            if(maximums[i] < 0){
-                                maximums[i] = 0
-                            } else if(maximums[i] > 20){
-                                maximums[i] = 20
-                            }
+                    //There's probably a better way to do this but I no longer care.
+                    for i in 0...3 {
+                        if(maximums[i] < 0){
+                            maximums[i] = 0
+                        } else if(maximums[i] > 255){
+                            maximums[i] = 255
                         }
-                        createSkill(newSkill: try! Skill(name: iName, maximums: maximums), data: data)
-                        dismiss()
                     }
+                    createSkill(newSkill: try! Skill(name: iName, maximums: maximums), data: data)
+                    dismiss()
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
+                .disabled(iName == "" || data.skills.keys.contains(iName) || maximums == [0,0,0,0])
             }
             .padding(.top)
-        }
-        .alert(isPresented: $nameAlert){
-            Alert(title: Text("Error!"),
-                  message: Text("You must provide a name for the skill."),
-                  dismissButton: .default(Text("Dismiss")))
         }
         .padding()
         .frame(width: 300, height: 270)
@@ -101,5 +92,6 @@ struct AddSkillView: View {
 struct AddSkillView_Previews: PreviewProvider {
     static var previews: some View {
         AddSkillView()
+            .environmentObject(CampData())
     }
 }
