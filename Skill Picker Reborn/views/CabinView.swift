@@ -15,7 +15,7 @@ struct CabinView: View {
     @State private var csvInput: [Substring] = [""]
     @State private var showCsvExporter = false
     @State private var addCabinSheet = false
-    @State private var modifyCabinLeadersSheet = false
+    @State private var modifyCabinSheet = false
     @State private var assignCabinCamperSheet = false
     @State private var importSkillSheet = false
     @State private var unassignedCabinAlert = false
@@ -117,13 +117,13 @@ struct CabinView: View {
                 if(selectedCabin == "Unassigned"){
                     unassignedCabinAlert.toggle()
                 } else {
-                    modifyCabinLeadersSheet.toggle()
+                    modifyCabinSheet.toggle()
                 }
             } label: {
-                Image(systemName: "person.2.badge.gearshape")
+                Image(systemName: "square.and.pencil")
                     .foregroundColor(Color(.systemOrange))
             }
-            .help("Edit Cabin Leaders")
+            .help("Edit Cabin")
             .alert(isPresented: $unassignedCabinAlert){
                 Alert(title: Text("Error!"),
                       message: Text("Cannot modify/delete the \"Unassigned\" cabin."),
@@ -189,10 +189,10 @@ struct CabinView: View {
         }, content: {
             AddCabinView()
         })
-        .sheet(isPresented: $modifyCabinLeadersSheet, onDismiss: {
+        .sheet(isPresented: $modifyCabinSheet, onDismiss: {
             data.objectWillChange.send()
         }, content: {
-            ModifyCabinLeadersView(targetCabin: selectedCabin)
+            ModifyCabinView(targetCabin: selectedCabin)
         })
         .sheet(isPresented: $assignCabinCamperSheet, onDismiss: {
             data.objectWillChange.send()

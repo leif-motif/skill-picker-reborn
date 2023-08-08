@@ -1,5 +1,5 @@
 //
-//  ModifyCabinLeadersView.swift
+//  ModifyCabinView.swift
 //  Skill Picker Reborn
 //
 //  Created by Leif Benson on 2023-07-27.
@@ -7,14 +7,17 @@
 
 import SwiftUI
 
-struct ModifyCabinLeadersView: View {
+struct ModifyCabinView: View {
     @EnvironmentObject private var data: CampData
+    @State private var newName: String = ""
     @State private var seniorSelection = nullSenior.id
     @State private var juniorSelection = nullJunior.id
     private var targetCabin: String
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
+            TextField("Name:", text: $newName)
+                .padding(.bottom)
             Picker("Senior", selection: $seniorSelection) {
                 Text("None").tag(nullSenior.id)
                 if(data.leaders.count > 0){
@@ -25,7 +28,6 @@ struct ModifyCabinLeadersView: View {
                     }
                 }
             }
-            .padding([.top,.horizontal])
             Picker("Junior", selection: $juniorSelection) {
                 Text("None").tag(nullJunior.id)
                 if(data.leaders.count > 0){
@@ -36,13 +38,12 @@ struct ModifyCabinLeadersView: View {
                     }
                 }
             }
-            .padding([.bottom,.horizontal])
             HStack {
                 Spacer()
                 Button("Cancel") {
                     dismiss()
                 }
-                Button("Change Cabin Leaders") {
+                Button("Save Changes") {
                     if(seniorSelection == nullSenior.id && juniorSelection == nullJunior.id){
                         changeCabinLeaders(cabinName: targetCabin, targetSenior: nullSenior, targetJunior: nullJunior, data: data)
                     } else if(seniorSelection == nullSenior.id){
@@ -63,17 +64,23 @@ struct ModifyCabinLeadersView: View {
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
             }
-            .padding([.bottom,.trailing])
+            .padding(.top)
         }
-        .frame(width: 310, height: 120)
+        .padding()
+        .frame(width: 270)
+        .onAppear(perform: {
+            newName = targetCabin
+            seniorSelection = data.cabins[targetCabin]!.senior.id
+            juniorSelection = data.cabins[targetCabin]!.junior.id
+        })
     }
     init(targetCabin: String) {
         self.targetCabin = targetCabin
     }
 }
 
-struct ModifyCabinLeadersView_Previews: PreviewProvider {
+struct ModifyCabinView_Previews: PreviewProvider {
     static var previews: some View {
-        ModifyCabinLeadersView(targetCabin: "This is a cabin.")
+        ModifyCabinView(targetCabin: "This is a cabin.")
     }
 }

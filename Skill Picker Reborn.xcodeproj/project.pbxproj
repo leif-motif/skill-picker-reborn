@@ -19,7 +19,7 @@
 		29154B302A706EDC00CE8CAC /* TestsThatNeedToGo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29154B2F2A706EDC00CE8CAC /* TestsThatNeedToGo.swift */; };
 		291CC5792A72C1E0001D422C /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 291CC5782A72C1E0001D422C /* LICENSE.txt */; };
 		291CC57B2A72C262001D422C /* AddLeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291CC57A2A72C262001D422C /* AddLeaderView.swift */; };
-		291CC57D2A72C2B9001D422C /* ModifyCabinLeadersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291CC57C2A72C2B9001D422C /* ModifyCabinLeadersView.swift */; };
+		291CC57D2A72C2B9001D422C /* ModifyCabinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291CC57C2A72C2B9001D422C /* ModifyCabinView.swift */; };
 		291CC57F2A72C2E2001D422C /* CabinOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291CC57E2A72C2E2001D422C /* CabinOperations.swift */; };
 		291CC5812A72C2F2001D422C /* LeaderOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291CC5802A72C2F2001D422C /* LeaderOperations.swift */; };
 		291CC5832A72C312001D422C /* SkillOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291CC5822A72C312001D422C /* SkillOperations.swift */; };
@@ -81,7 +81,7 @@
 		29154B2F2A706EDC00CE8CAC /* TestsThatNeedToGo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsThatNeedToGo.swift; sourceTree = "<group>"; };
 		291CC5782A72C1E0001D422C /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		291CC57A2A72C262001D422C /* AddLeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLeaderView.swift; sourceTree = "<group>"; };
-		291CC57C2A72C2B9001D422C /* ModifyCabinLeadersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyCabinLeadersView.swift; sourceTree = "<group>"; };
+		291CC57C2A72C2B9001D422C /* ModifyCabinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyCabinView.swift; sourceTree = "<group>"; };
 		291CC57E2A72C2E2001D422C /* CabinOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CabinOperations.swift; sourceTree = "<group>"; };
 		291CC5802A72C2F2001D422C /* LeaderOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderOperations.swift; sourceTree = "<group>"; };
 		291CC5822A72C312001D422C /* SkillOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillOperations.swift; sourceTree = "<group>"; };
@@ -212,7 +212,7 @@
 				29154B272A70274400CE8CAC /* CabinView.swift */,
 				29633AFA2A815ED100DF0FF4 /* AssignCabinCamperView.swift */,
 				2971FDBD2A71D6F1007DD484 /* AddCabinView.swift */,
-				291CC57C2A72C2B9001D422C /* ModifyCabinLeadersView.swift */,
+				291CC57C2A72C2B9001D422C /* ModifyCabinView.swift */,
 				29708D942A6F999F0090E369 /* CamperView.swift */,
 				29A4EF172A70F3EB00B034E7 /* AddCamperView.swift */,
 				290F78D02A798612007F7D1E /* CamperInfoView.swift */,
@@ -427,7 +427,7 @@
 				2971FDBE2A71D6F1007DD484 /* AddCabinView.swift in Sources */,
 				291CC57F2A72C2E2001D422C /* CabinOperations.swift in Sources */,
 				29154B2A2A7027B300CE8CAC /* SkillView.swift in Sources */,
-				291CC57D2A72C2B9001D422C /* ModifyCabinLeadersView.swift in Sources */,
+				291CC57D2A72C2B9001D422C /* ModifyCabinView.swift in Sources */,
 				2974B6EF2A6ECBA900EB063B /* Human.swift in Sources */,
 				290F78C72A787E11007F7D1E /* AssignFanaticCamperView.swift in Sources */,
 				29708D952A6F999F0090E369 /* CamperView.swift in Sources */,
