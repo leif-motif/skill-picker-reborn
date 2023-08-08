@@ -9,14 +9,15 @@ import SwiftUI
 
 struct ModifyCabinView: View {
     @EnvironmentObject private var data: CampData
-    @State private var newName: String = ""
+    @State private var iName: String = ""
+    private var editing: Bool
     @State private var seniorSelection = UUID()
     @State private var juniorSelection = UUID()
     private var targetCabin: String
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
-            TextField("Name:", text: $newName)
+            TextField("Name:", text: $iName)
                 .padding(.bottom)
             Picker("Senior:", selection: $seniorSelection) {
                 Text("None").tag(data.nullSenior.id)
@@ -43,49 +44,82 @@ struct ModifyCabinView: View {
                 Button("Cancel") {
                     dismiss()
                 }
-                Button("Save Changes") {
-                    if(seniorSelection == data.nullSenior.id && juniorSelection == data.nullJunior.id){
-                        changeCabinLeaders(cabinName: targetCabin, targetSenior: data.nullSenior, targetJunior: data.nullJunior, data: data)
-                    } else if(seniorSelection == data.nullSenior.id){
-                        changeCabinLeaders(cabinName: targetCabin,
-                                           targetSenior: data.nullSenior,
-                                           targetJunior: data.leaders.first(where: {$0.id == juniorSelection})!, data: data)
-                    } else if(juniorSelection == data.nullJunior.id){
-                        changeCabinLeaders(cabinName: targetCabin,
-                                           targetSenior: data.leaders.first(where: {$0.id == seniorSelection})!,
-                                           targetJunior: data.nullJunior, data: data)
-                    } else {
-                        changeCabinLeaders(cabinName: targetCabin,
-                                           targetSenior: data.leaders.first(where: {$0.id == seniorSelection})!,
-                                           targetJunior: data.leaders.first(where: {$0.id == juniorSelection})!, data: data)
+                if(editing){
+                    Button("Save Changes") {
+                        if(seniorSelection == data.nullSenior.id && juniorSelection == data.nullJunior.id){
+                            changeCabinLeaders(cabinName: targetCabin, targetSenior: data.nullSenior, targetJunior: data.nullJunior, data: data)
+                        } else if(seniorSelection == data.nullSenior.id){
+                            changeCabinLeaders(cabinName: targetCabin,
+                                               targetSenior: data.nullSenior,
+                                               targetJunior: data.leaders.first(where: {$0.id == juniorSelection})!, data: data)
+                        } else if(juniorSelection == data.nullJunior.id){
+                            changeCabinLeaders(cabinName: targetCabin,
+                                               targetSenior: data.leaders.first(where: {$0.id == seniorSelection})!,
+                                               targetJunior: data.nullJunior, data: data)
+                        } else {
+                            changeCabinLeaders(cabinName: targetCabin,
+                                               targetSenior: data.leaders.first(where: {$0.id == seniorSelection})!,
+                                               targetJunior: data.leaders.first(where: {$0.id == juniorSelection})!, data: data)
+                        }
+                        if(iName != targetCabin){
+                            renameCabin(oldCabin: targetCabin, newCabin: iName, data: data)
+                            data.selectedCabin = iName
+                        }
+                        dismiss()
                     }
-                    if(newName != targetCabin){
-                        renameCabin(oldCabin: targetCabin, newCabin: newName, data: data)
-                        data.selectedCabin = newName
+                    .disabled(iName == "" || (data.cabins.keys.contains(iName) && iName != targetCabin))
+                    .buttonStyle(.borderedProminent)
+                    .tint(.blue)
+                } else {
+                    Button("Create Cabin"){
+                        if(seniorSelection == data.nullSenior.id && juniorSelection == data.nullJunior.id){
+                            createCabin(cabinName: iName, targetSenior: data.nullSenior, targetJunior: data.nullJunior, data: data)
+                        } else if(seniorSelection == data.nullSenior.id){
+                            createCabin(cabinName: iName,
+                                        targetSenior: data.nullSenior,
+                                        targetJunior: data.leaders.first(where: {$0.id == juniorSelection})!, data: data)
+                        } else if(juniorSelection == data.nullJunior.id){
+                            createCabin(cabinName: iName,
+                                        targetSenior: data.leaders.first(where: {$0.id == seniorSelection})!,
+                                        targetJunior: data.nullJunior, data: data)
+                        } else {
+                            createCabin(cabinName: iName,
+                                        targetSenior: data.leaders.first(where: {$0.id == seniorSelection})!,
+                                        targetJunior: data.leaders.first(where: {$0.id == juniorSelection})!,
+                                        data: data)
+                        }
+                        data.selectedCabin = iName
+                        dismiss()
                     }
-                    dismiss()
+                    .buttonStyle(.borderedProminent)
+                    .tint(.blue)
+                    .disabled(iName == "" || data.cabins.keys.contains(iName))
                 }
-                .disabled(newName == "" || (data.cabins.keys.contains(newName) && newName != targetCabin))
-                .buttonStyle(.borderedProminent)
-                .tint(.blue)
             }
             .padding(.top)
         }
         .padding()
         .frame(width: 270)
         .onAppear(perform: {
-            newName = targetCabin
-            seniorSelection = data.cabins[targetCabin]!.senior.id
-            juniorSelection = data.cabins[targetCabin]!.junior.id
+            iName = targetCabin
+            if(editing){
+                seniorSelection = data.cabins[targetCabin]!.senior.id
+                juniorSelection = data.cabins[targetCabin]!.junior.id
+            } else {
+                seniorSelection = data.nullSenior.id
+                juniorSelection = data.nullJunior.id
+            }
         })
     }
-    init(targetCabin: String) {
+    init(targetCabin: String = "") {
         self.targetCabin = targetCabin
+        self.editing = targetCabin != ""
     }
 }
 
 struct ModifyCabinView_Previews: PreviewProvider {
     static var previews: some View {
-        ModifyCabinView(targetCabin: "This is a cabin.")
+        ModifyCabinView()
+            .environmentObject(CampData())
     }
 }

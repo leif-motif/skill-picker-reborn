@@ -190,7 +190,7 @@ struct CabinView: View {
         .sheet(isPresented: $addCabinSheet, onDismiss: {
             data.objectWillChange.send()
         }, content: {
-            AddCabinView()
+            ModifyCabinView()
         })
         .sheet(isPresented: $assignCabinCamperSheet, onDismiss: {
             data.objectWillChange.send()
