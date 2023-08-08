@@ -13,12 +13,14 @@ struct CabinView: View {
     @State private var selectedCamper = Set<Camper.ID>()
     @State private var sortOrder = [KeyPathComparator(\Camper.lName)]
     @State private var csvInput: [Substring] = [""]
+    @State private var showCsvExporter = false
     @State private var addCabinSheet = false
     @State private var modifyCabinLeadersSheet = false
     @State private var assignCabinCamperSheet = false
     @State private var importSkillSheet = false
     @State private var unassignedCabinAlert = false
     @State private var noCampersAlert = false
+    @State private var exportCabinAlert = false
     @State private var search = ""
     var body: some View {
         VStack {
@@ -149,12 +151,30 @@ struct CabinView: View {
             }
             .help("Import CSV")
             Button {
-                //export cabin schedule
+                if(data.cabins[selectedCabin]!.campers.count > 0){
+                    showCsvExporter.toggle()
+                } else {
+                    exportCabinAlert.toggle()
+                }
             } label: {
                 Image(systemName: "arrow.up.doc.on.clipboard")
                     .foregroundColor(Color(.systemBlue))
             }
             .help("Export Cabin Schedule")
+            .fileExporter(isPresented: $showCsvExporter, document: CSVFile(initialText: cabinListToCSV(cabinName: selectedCabin, data: data)),
+                          contentType: .csv, defaultFilename: selectedCabin) { result in
+                switch result {
+                case .success(let url):
+                    print("Saved to \(url)")
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+            .alert(isPresented: $exportCabinAlert){
+                Alert(title: Text("Error!"),
+                      message: Text("Cannot export a schedule for a cabin that has no campers."),
+                      dismissButton: .default(Text("Dismiss")))
+            }
             Picker("Cabin", selection: $selectedCabin) {
                 ForEach(Array(data.cabins.keys).sorted(), id: \.self){
                     Text($0).tag($0)

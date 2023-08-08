@@ -90,8 +90,15 @@ func campersFromCSV(csv: [Substring], data: CampData) throws {
     }
 }
 
-func cabinListToCSV(cabinName: String) throws -> String {
-    return ""
+func cabinListToCSV(cabinName: String, data: CampData) -> String {
+    let cabin = data.cabins[cabinName]!
+    var csv = "\(cabinName)\n,Name,Skill 1,Skill 2,Skill 3,Skill 4\n"
+    csv += "Senior,\(cabin.senior.fName) \(cabin.senior.lName),\(cabin.senior.skills[0]),\(cabin.senior.skills[1]),\(cabin.senior.skills[2]),\(cabin.senior.skills[3])\n"
+    csv += "Junior,\(cabin.junior.fName) \(cabin.junior.lName),\(cabin.junior.skills[0]),\(cabin.junior.skills[1]),\(cabin.junior.skills[2]),\(cabin.junior.skills[3])\nCampers,"
+    for camper in cabin.campers.sorted(using: KeyPathComparator(\Camper.lName)) {
+        csv += "\(camper.fName) \(camper.lName),\(camper.skills[0]),\(camper.skills[1]),\(camper.skills[2]),\(camper.skills[3])\n,"
+    }
+    return csv
 }
 
 func camperListToCSV(data: CampData) -> String {
