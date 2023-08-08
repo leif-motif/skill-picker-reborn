@@ -10,15 +10,15 @@ import Foundation
 func createCabin(cabinName: String, targetSenior: Leader, targetJunior: Leader, data: CampData){
     //if leaders are already assigned to a cabin, replace their place in that cabin with the null leader
     if(targetSenior.cabin != "Unassigned"){
-        data.cabins[targetSenior.cabin]!.senior = nullSenior
+        data.cabins[targetSenior.cabin]!.senior = data.nullSenior
     }
-    if(targetSenior != nullSenior){
+    if(targetSenior != data.nullSenior){
         targetSenior.cabin = cabinName
     }
     if(targetJunior.cabin != "Unassigned"){
-        data.cabins[targetJunior.cabin]!.junior = nullJunior
+        data.cabins[targetJunior.cabin]!.junior = data.nullJunior
     }
-    if(targetJunior != nullJunior){
+    if(targetJunior != data.nullJunior){
         targetJunior.cabin = cabinName
     }
     data.cabins[cabinName] = try! Cabin(name: cabinName, senior: targetSenior, junior: targetJunior)
@@ -27,10 +27,10 @@ func createCabin(cabinName: String, targetSenior: Leader, targetJunior: Leader, 
 func renameCabin(oldCabin: String, newCabin: String, data: CampData){
     data.cabins[newCabin] = data.cabins[oldCabin]
     data.cabins.removeValue(forKey: oldCabin)
-    if(data.cabins[newCabin]!.senior != nullJunior){
+    if(data.cabins[newCabin]!.senior != data.nullJunior){
         data.cabins[newCabin]!.senior.cabin = newCabin
     }
-    if(data.cabins[newCabin]!.junior != nullJunior){
+    if(data.cabins[newCabin]!.junior != data.nullJunior){
         data.cabins[newCabin]!.junior.cabin = newCabin
     }
     for camper in data.cabins[newCabin]!.campers {
@@ -53,16 +53,16 @@ func deleteCabin(targetCabin: String, data: CampData) throws {
 
 func changeCabinLeaders(cabinName: String, targetSenior: Leader, targetJunior: Leader, data: CampData){
     //if the current cabin's leader is not the null leader, move them to the unassigned cabin
-    if(data.cabins[cabinName]!.senior.id != nullSenior.id){
+    if(data.cabins[cabinName]!.senior.id != data.nullSenior.id){
         data.cabins[cabinName]!.senior.cabin = "Unassigned"
     }
-    if(data.cabins[cabinName]!.junior.id != nullJunior.id){
+    if(data.cabins[cabinName]!.junior.id != data.nullJunior.id){
         data.cabins[cabinName]!.junior.cabin = "Unassigned"
     }
-    data.cabins[targetSenior.cabin]!.senior = nullSenior
+    data.cabins[targetSenior.cabin]!.senior = data.nullSenior
     data.cabins[cabinName]!.senior = targetSenior
     targetSenior.cabin = cabinName
-    data.cabins[targetJunior.cabin]!.junior = nullJunior
+    data.cabins[targetJunior.cabin]!.junior = data.nullJunior
     data.cabins[cabinName]!.junior = targetJunior
     targetJunior.cabin = cabinName
 }

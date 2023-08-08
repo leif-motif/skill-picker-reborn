@@ -8,35 +8,25 @@
 import SwiftUI
 
 struct ImportSkillView: View {
-    @EnvironmentObject private var data: CampData
+    private var data: CampData
     @State private var selectedSkill: String = "this is an empty selection"
     //I love you, ChatGPT.
-    @State private var skillMaximums: [String:[Int]] = importSkillList.reduce(into: [String:[Int]]()){ (result, element) in
-        let (key, value) = element
-        if(!value){
-            result[key] = [1, 1, 1, 1]
-        }
-    }
-    @State private var fanaticPeriods: [String:[Bool]] = importSkillList.reduce(into: [String:[Bool]]()){ (result, element) in
-        let (key, value) = element
-        if(value){
-            result[key] = [false, false, false, false]
-        }
-    }
+    @State private var skillMaximums: [String:[Int]] = [:]
+    @State private var fanaticPeriods: [String:[Bool]] = [:]
     private let range = 0...20
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
             VStack(alignment: .leading){
                 Picker("Skill:", selection: $selectedSkill){
-                    ForEach(Array(importSkillList.keys), id: \.self){
+                    ForEach(Array(data.importSkillList.keys), id: \.self){
                         Text($0).tag($0)
                     }
                 }
             }
             .padding([.top,.horizontal])
             if(selectedSkill == "this is an empty selection"){
-            } else if(!importSkillList[selectedSkill]!){
+            } else if(!data.importSkillList[selectedSkill]!){
                 //The only reason I am not displaying the number "0" outright is because the values in the TextFields won't update unless their unbinded value is shown somewhere.
                 //I HATE THE SWIFT COMPILER I HATE THE SWIFT COMPILER I HATE THE SWIFT COMPILER
                 Text("To make a skill not run during a skill period, set the size to "+String((skillMaximums[selectedSkill]![0]/skillMaximums[selectedSkill]![0])-1)+".")
@@ -87,7 +77,7 @@ struct ImportSkillView: View {
                     }
                 }
                 .padding(.horizontal)
-            } else if(importSkillList[selectedSkill]!){
+            } else if(data.importSkillList[selectedSkill]!){
                 //fanatic
                 Toggle(isOn: Binding($fanaticPeriods[selectedSkill])![0]){
                     Text("First Skill:")
@@ -117,8 +107,8 @@ struct ImportSkillView: View {
                     dismiss()
                 }
                 Button("Import Skills") {
-                    for skill in Array(importSkillList.keys) {
-                        if(importSkillList[skill]!){
+                    for skill in Array(data.importSkillList.keys) {
+                        if(data.importSkillList[skill]!){
                             createFanatic(newFanatic: try! Fanatic(name: skill, activePeriods: fanaticPeriods[skill]!), data: data)
                         } else {
                             for i in 0...3 {
@@ -131,7 +121,7 @@ struct ImportSkillView: View {
                             createSkill(newSkill: try! Skill(name: skill, maximums: skillMaximums[skill]!), data: data)
                         }
                     }
-                    isImporting = true
+                    data.isImporting = true
                     dismiss()
                 }
                 .buttonStyle(.borderedProminent)
@@ -140,16 +130,31 @@ struct ImportSkillView: View {
             .padding([.bottom,.trailing])
         }
         .frame(width: 360, height: 255)
+        .onAppear(perform: {
+            skillMaximums = data.importSkillList.reduce(into: [String:[Int]]()){ (result, element) in
+                let (key, value) = element
+                if(!value){
+                    result[key] = [1, 1, 1, 1]
+                }
+            }
+            fanaticPeriods = data.importSkillList.reduce(into: [String:[Bool]]()){ (result, element) in
+                let (key, value) = element
+                if(value){
+                    result[key] = [false, false, false, false]
+                }
+            }
+        })
     }
-    init() throws {
-        if(importSkillList == [:]){
+    init(data: CampData) throws {
+        self.data = data
+        if(data.importSkillList == [:]){
             throw SPRError.EmptySelection
         }
     }
 }
 
-struct ImportSkillView_Previews: PreviewProvider {
+/*struct ImportSkillView_Previews: PreviewProvider {
     static var previews: some View {
         try! ImportSkillView()
     }
-}
+}*/

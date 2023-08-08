@@ -26,7 +26,7 @@
 		291F0BCD2A746DA900C73BCD /* FanaticOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F0BCC2A746DA900C73BCD /* FanaticOperations.swift */; };
 		293A19832A74DE4400B4B015 /* SPRErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293A19822A74DE4400B4B015 /* SPRErrors.swift */; };
 		293A19852A74E1C400B4B015 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293A19842A74E1C400B4B015 /* Extensions.swift */; };
-		293A19872A74E37C00B4B015 /* MasterData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293A19862A74E37C00B4B015 /* MasterData.swift */; };
+		293A19872A74E37C00B4B015 /* CampData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293A19862A74E37C00B4B015 /* CampData.swift */; };
 		29633AFB2A815ED100DF0FF4 /* AssignCabinCamperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29633AFA2A815ED100DF0FF4 /* AssignCabinCamperView.swift */; };
 		29708D912A6F88370090E369 /* Leader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29708D902A6F88370090E369 /* Leader.swift */; };
 		29708D932A6F88E30090E369 /* Camper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29708D922A6F88E30090E369 /* Camper.swift */; };
@@ -88,7 +88,7 @@
 		291F0BCC2A746DA900C73BCD /* FanaticOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FanaticOperations.swift; sourceTree = "<group>"; };
 		293A19822A74DE4400B4B015 /* SPRErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPRErrors.swift; sourceTree = "<group>"; };
 		293A19842A74E1C400B4B015 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		293A19862A74E37C00B4B015 /* MasterData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterData.swift; sourceTree = "<group>"; };
+		293A19862A74E37C00B4B015 /* CampData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampData.swift; sourceTree = "<group>"; };
 		29633AFA2A815ED100DF0FF4 /* AssignCabinCamperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignCabinCamperView.swift; sourceTree = "<group>"; };
 		29708D902A6F88370090E369 /* Leader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Leader.swift; sourceTree = "<group>"; };
 		29708D922A6F88E30090E369 /* Camper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camper.swift; sourceTree = "<group>"; };
@@ -233,6 +233,7 @@
 		29E0D1E42A76347C00C068A9 /* models */ = {
 			isa = PBXGroup;
 			children = (
+				293A19862A74E37C00B4B015 /* CampData.swift */,
 				29154B2B2A704CBE00CE8CAC /* Cabin.swift */,
 				29708D922A6F88E30090E369 /* Camper.swift */,
 				29708D902A6F88370090E369 /* Leader.swift */,
@@ -261,7 +262,6 @@
 			children = (
 				2974B6C32A6ECB6A00EB063B /* Skill_Picker_RebornApp.swift */,
 				293A19842A74E1C400B4B015 /* Extensions.swift */,
-				293A19862A74E37C00B4B015 /* MasterData.swift */,
 				293A19822A74DE4400B4B015 /* SPRErrors.swift */,
 				29154B2F2A706EDC00CE8CAC /* TestsThatNeedToGo.swift */,
 			);
@@ -401,7 +401,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2971FDC22A721F49007DD484 /* AddSkillView.swift in Sources */,
-				293A19872A74E37C00B4B015 /* MasterData.swift in Sources */,
+				293A19872A74E37C00B4B015 /* CampData.swift in Sources */,
 				29154B302A706EDC00CE8CAC /* TestsThatNeedToGo.swift in Sources */,
 				29E0D1E82A775E5E00C068A9 /* AssignSkillLeaderView.swift in Sources */,
 				2971FDC42A7233BE007DD484 /* AddFanaticView.swift in Sources */,

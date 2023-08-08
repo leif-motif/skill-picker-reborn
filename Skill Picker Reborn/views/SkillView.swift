@@ -213,7 +213,7 @@ struct SkillView: View {
                 if panel.runModal() == .OK {
                     do {
                         csvInput = try String(contentsOf: panel.url!).lines
-                        importSkillList = skillListFromCSV(csv: csvInput)
+                        data.importSkillList = skillListFromCSV(csv: csvInput)
                         importSkillSheet.toggle()
                     } catch {
                         //I have really no idea what this does.
@@ -307,13 +307,13 @@ struct SkillView: View {
             AssignFanaticCamperView(targetFanatic: data.selectedSkill)
         }
         .sheet(isPresented: $importSkillSheet, onDismiss: {
-            if(isImporting){
+            if(data.isImporting){
                 cabinsFromCSV(csv: csvInput, data: data)
                 try! campersFromCSV(csv: csvInput, data: data)
-                isImporting = false
+                data.isImporting = false
             }
         }, content: {
-            try! ImportSkillView()
+            try! ImportSkillView(data: data)
         })
         //Somehow, you can't have more than one alerts in a single view.
         //WHY?

@@ -23,7 +23,7 @@ func cabinsFromCSV(csv: [Substring], data: CampData){
     }
     cabinNames.sort()
     for name in cabinNames {
-        createCabin(cabinName: String(name), targetSenior: nullSenior, targetJunior: nullJunior, data: data)
+        createCabin(cabinName: String(name), targetSenior: data.nullSenior, targetJunior: data.nullJunior, data: data)
     }
 }
 

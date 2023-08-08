@@ -7,15 +7,15 @@
 
 import Foundation
 
-let nullSenior = try! Leader(fName: "null", lName: "senior", cabin: "Unassigned", senior: true)
-let nullJunior = try! Leader(fName: "null", lName: "junior", cabin: "Unassigned", senior: false)
-
 class CampData: ObservableObject {
     @Published var campers: [Camper]
     @Published var leaders: [Leader]
     @Published var cabins: [String:Cabin]
     @Published var skills: [String:Skill]
     @Published var fanatics: [String:Fanatic]
+    
+    let nullSenior: Leader
+    let nullJunior: Leader
     
     @Published var selectedCabin: String
     @Published var cabinCamperSortOrder: [KeyPathComparator<Camper>]
@@ -26,14 +26,17 @@ class CampData: ObservableObject {
     @Published var skillCamperSortOrder: [KeyPathComparator<Camper>]
     @Published var skillLeaderSortOrder: [KeyPathComparator<Leader>]
     
-    init(campers: [Camper] = [], leaders: [Leader] = [],
-         cabins: [String:Cabin] = ["Unassigned": try! Cabin(name: "Unassigned", senior: nullSenior, junior: nullJunior, campers: [])],
-         skills: [String:Skill] = ["None": try! Skill(name: "None", maximums: [255,255,255,255])], fanatics: [String:Fanatic] = [:]){
-        self.campers = campers
-        self.leaders = leaders
-        self.cabins = cabins
-        self.skills = skills
-        self.fanatics = fanatics
+    @Published var importSkillList: [String:Bool]
+    @Published var isImporting: Bool
+    
+    init(){
+        self.campers = []
+        self.leaders = []
+        self.nullSenior = try! Leader(fName: "null", lName: "senior", cabin: "Unassigned", senior: true)
+        self.nullJunior = try! Leader(fName: "null", lName: "junior", cabin: "Unassigned", senior: false)
+        self.cabins = ["Unassigned": try! Cabin(name: "Unassigned", senior: self.nullSenior, junior: self.nullJunior, campers: [])]
+        self.skills = ["None": try! Skill(name: "None", maximums: [255,255,255,255])]
+        self.fanatics = [:]
         self.selectedCabin = "Unassigned"
         self.cabinCamperSortOrder = [KeyPathComparator(\Camper.lName)]
         self.camperSortOrder = [KeyPathComparator(\Camper.lName)]
@@ -42,9 +45,7 @@ class CampData: ObservableObject {
         self.selectedPeriod = 0
         self.skillCamperSortOrder = [KeyPathComparator(\Camper.lName)]
         self.skillLeaderSortOrder = [KeyPathComparator(\Leader.lName)]
+        self.importSkillList = [:]
+        self.isImporting = false
     }
 }
-
-//There is little reason why I should have to resort to doing this.
-var importSkillList: [String:Bool] = [:]
-var isImporting = false

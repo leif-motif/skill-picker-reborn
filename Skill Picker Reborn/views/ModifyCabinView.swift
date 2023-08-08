@@ -10,8 +10,8 @@ import SwiftUI
 struct ModifyCabinView: View {
     @EnvironmentObject private var data: CampData
     @State private var newName: String = ""
-    @State private var seniorSelection = nullSenior.id
-    @State private var juniorSelection = nullJunior.id
+    @State private var seniorSelection = UUID()
+    @State private var juniorSelection = UUID()
     private var targetCabin: String
     @Environment(\.dismiss) var dismiss
     var body: some View {
@@ -19,7 +19,7 @@ struct ModifyCabinView: View {
             TextField("Name:", text: $newName)
                 .padding(.bottom)
             Picker("Senior", selection: $seniorSelection) {
-                Text("None").tag(nullSenior.id)
+                Text("None").tag(data.nullSenior.id)
                 if(data.leaders.count > 0){
                     ForEach(0...(data.leaders.count-1), id: \.self){
                         if(data.leaders[$0].senior){
@@ -29,7 +29,7 @@ struct ModifyCabinView: View {
                 }
             }
             Picker("Junior", selection: $juniorSelection) {
-                Text("None").tag(nullJunior.id)
+                Text("None").tag(data.nullJunior.id)
                 if(data.leaders.count > 0){
                     ForEach(0...(data.leaders.count-1), id: \.self){
                         if(!data.leaders[$0].senior){
@@ -44,16 +44,16 @@ struct ModifyCabinView: View {
                     dismiss()
                 }
                 Button("Save Changes") {
-                    if(seniorSelection == nullSenior.id && juniorSelection == nullJunior.id){
-                        changeCabinLeaders(cabinName: targetCabin, targetSenior: nullSenior, targetJunior: nullJunior, data: data)
-                    } else if(seniorSelection == nullSenior.id){
+                    if(seniorSelection == data.nullSenior.id && juniorSelection == data.nullJunior.id){
+                        changeCabinLeaders(cabinName: targetCabin, targetSenior: data.nullSenior, targetJunior: data.nullJunior, data: data)
+                    } else if(seniorSelection == data.nullSenior.id){
                         changeCabinLeaders(cabinName: targetCabin,
-                                           targetSenior: nullSenior,
+                                           targetSenior: data.nullSenior,
                                            targetJunior: data.leaders.first(where: {$0.id == juniorSelection})!, data: data)
-                    } else if(juniorSelection == nullJunior.id){
+                    } else if(juniorSelection == data.nullJunior.id){
                         changeCabinLeaders(cabinName: targetCabin,
                                            targetSenior: data.leaders.first(where: {$0.id == seniorSelection})!,
-                                           targetJunior: nullJunior, data: data)
+                                           targetJunior: data.nullJunior, data: data)
                     } else {
                         changeCabinLeaders(cabinName: targetCabin,
                                            targetSenior: data.leaders.first(where: {$0.id == seniorSelection})!,

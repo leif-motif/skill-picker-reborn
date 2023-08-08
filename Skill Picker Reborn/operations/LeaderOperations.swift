@@ -11,13 +11,13 @@ func createLeader(newLeader: Leader, data: CampData){
     data.leaders.append(newLeader)
     if(newLeader.senior){
         //if this new leader is going to be assigned a cabin and the cabin leader at that cabin is not the null leader
-        if(newLeader.cabin != "Unassigned" && data.cabins[newLeader.cabin]!.senior.id != nullSenior.id){
+        if(newLeader.cabin != "Unassigned" && data.cabins[newLeader.cabin]!.senior.id != data.nullSenior.id){
             //set the old leader's cabin as unassigned
             data.cabins[newLeader.cabin]!.senior.cabin = "Unassigned"
         }
         data.cabins[newLeader.cabin]!.senior = newLeader
     } else {
-        if(newLeader.cabin != "Unassigned" && data.cabins[newLeader.cabin]!.junior.id != nullJunior.id){
+        if(newLeader.cabin != "Unassigned" && data.cabins[newLeader.cabin]!.junior.id != data.nullJunior.id){
             data.cabins[newLeader.cabin]!.junior.cabin = "Unassigned"
         }
         data.cabins[newLeader.cabin]!.junior = newLeader
@@ -33,9 +33,9 @@ func deleteLeader(leaderSelection: Set<Leader.ID>, data: CampData){
         //remove leader from cabin if not unassigned
         if(data.leaders.first(where: {$0.id == leaderID})!.cabin != "Unassigned"){
             if(data.leaders.first(where: {$0.id == leaderID})!.senior){
-                data.cabins[data.leaders.first(where: {$0.id == leaderID})!.cabin]!.senior = nullSenior
+                data.cabins[data.leaders.first(where: {$0.id == leaderID})!.cabin]!.senior = data.nullSenior
             } else {
-                data.cabins[data.leaders.first(where: {$0.id == leaderID})!.cabin]!.junior = nullJunior
+                data.cabins[data.leaders.first(where: {$0.id == leaderID})!.cabin]!.junior = data.nullJunior
             }
         }
         //remove leader from skills

@@ -10,8 +10,8 @@ import SwiftUI
 struct AddCabinView: View {
     @EnvironmentObject private var data: CampData
     @State private var iName = ""
-    @State private var seniorSelection = nullSenior.id
-    @State private var juniorSelection = nullJunior.id
+    @State private var seniorSelection = UUID()
+    @State private var juniorSelection = UUID()
     @State private var nameAlert = false
     @Environment(\.dismiss) var dismiss
     var body: some View {
@@ -19,7 +19,7 @@ struct AddCabinView: View {
             TextField("Name:",text: $iName)
                 .padding([.top,.horizontal])
             Picker("Senior", selection: $seniorSelection) {
-                Text("None").tag(nullSenior.id)
+                Text("None").tag(data.nullSenior.id)
                 if(data.leaders.count > 0){
                     ForEach(0...(data.leaders.count-1), id: \.self){
                         if(data.leaders[$0].senior){
@@ -30,7 +30,7 @@ struct AddCabinView: View {
             }
             .padding([.top,.horizontal])
             Picker("Junior", selection: $juniorSelection) {
-                Text("None").tag(nullJunior.id)
+                Text("None").tag(data.nullJunior.id)
                 if(data.leaders.count > 0){
                     ForEach(0...(data.leaders.count-1), id: \.self){
                         if(!data.leaders[$0].senior){
@@ -48,18 +48,18 @@ struct AddCabinView: View {
                 Button("Create Cabin"){
                     if(iName == ""){
                         nameAlert.toggle()
-                    } else if(seniorSelection == nullSenior.id && juniorSelection == nullJunior.id){
-                        createCabin(cabinName: iName, targetSenior: nullSenior, targetJunior: nullJunior, data: data)
+                    } else if(seniorSelection == data.nullSenior.id && juniorSelection == data.nullJunior.id){
+                        createCabin(cabinName: iName, targetSenior: data.nullSenior, targetJunior: data.nullJunior, data: data)
                         dismiss()
-                    } else if(seniorSelection == nullSenior.id){
+                    } else if(seniorSelection == data.nullSenior.id){
                         createCabin(cabinName: iName,
-                                    targetSenior: nullSenior,
+                                    targetSenior: data.nullSenior,
                                     targetJunior: data.leaders.first(where: {$0.id == juniorSelection})!, data: data)
                         dismiss()
-                    } else if(juniorSelection == nullJunior.id){
+                    } else if(juniorSelection == data.nullJunior.id){
                         createCabin(cabinName: iName,
                                     targetSenior: data.leaders.first(where: {$0.id == seniorSelection})!,
-                                    targetJunior: nullJunior, data: data)
+                                    targetJunior: data.nullJunior, data: data)
                         dismiss()
                     } else {
                         createCabin(cabinName: iName,
@@ -80,6 +80,10 @@ struct AddCabinView: View {
             .padding([.vertical,.trailing])
         }
         .frame(width: 250, height: 170)
+        .onAppear(perform: {
+            seniorSelection = data.nullSenior.id
+            juniorSelection = data.nullJunior.id
+        })
     }
 }
 

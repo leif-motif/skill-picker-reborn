@@ -140,7 +140,7 @@ struct CabinView: View {
                 if panel.runModal() == .OK {
                     do {
                         csvInput = try String(contentsOf: panel.url!).lines
-                        importSkillList = skillListFromCSV(csv: csvInput)
+                        data.importSkillList = skillListFromCSV(csv: csvInput)
                         importSkillSheet.toggle()
                     } catch {
                         //I have really no idea what this does.
@@ -198,14 +198,14 @@ struct CabinView: View {
             AssignCabinCamperView(targetCabin: data.selectedCabin)
         })
         .sheet(isPresented: $importSkillSheet, onDismiss: {
-            if(isImporting){
+            if(data.isImporting){
                 cabinsFromCSV(csv: csvInput, data: data)
                 try! campersFromCSV(csv: csvInput, data: data)
-                isImporting = false
+                data.isImporting = false
             }
             data.objectWillChange.send()
         }, content: {
-            try! ImportSkillView()
+            try! ImportSkillView(data: data)
         })
     }
 }
