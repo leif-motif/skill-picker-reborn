@@ -14,8 +14,6 @@ struct AddCamperView: View {
     @State private var selectedCabin = "Unassigned"
     @State private var preferredSkills = ["None","None","None","None","None","None"]
     @State private var fanaticSelection = "None"
-    @State private var nameAlert = false
-    @State private var skillAlert = false
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
@@ -74,33 +72,24 @@ struct AddCamperView: View {
                     dismiss()
                 }
                 Button("Create Camper"){
-                    if(iFName == "" || iLName == ""){
-                        nameAlert.toggle()
-                    } else {
-                        preferredSkills.removeAll(where: {$0 == "None"})
-                        if(preferredSkills != preferredSkills.uniqued()){
-                            preferredSkills = preferredSkills.uniqued()
-                        }
-                        if(fanaticSelection != "None" && preferredSkills.count == 6){
-                            preferredSkills.remove(at: 5)
-                        }
-                        while(preferredSkills.count < (fanaticSelection == "None" ? 6 : 5)){
-                            preferredSkills.append("None")
-                        }
-                        try! createCamper(newCamper: try! Camper(fName: iFName, lName: iLName, cabin: selectedCabin, preferredSkills: preferredSkills, fanatic: fanaticSelection), data: data)
-                        dismiss()
+                    preferredSkills.removeAll(where: {$0 == "None"})
+                    if(preferredSkills != preferredSkills.uniqued()){
+                        preferredSkills = preferredSkills.uniqued()
                     }
+                    if(fanaticSelection != "None" && preferredSkills.count == 6){
+                        preferredSkills.remove(at: 5)
+                    }
+                    while(preferredSkills.count < (fanaticSelection == "None" ? 6 : 5)){
+                        preferredSkills.append("None")
+                    }
+                    try! createCamper(newCamper: try! Camper(fName: iFName, lName: iLName, cabin: selectedCabin, preferredSkills: preferredSkills, fanatic: fanaticSelection), data: data)
+                    dismiss()
                 }
-                
+                .disabled(iFName == "" || iLName == "")
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
             }
             .padding(.top)
-        }
-        .alert(isPresented: $nameAlert){
-            Alert(title: Text("Error!"),
-                  message: Text("You must provide a first and last name for the camper."),
-                  dismissButton: .default(Text("Dismiss")))
         }
         .frame(width: 300, height: 370)
         .padding()
