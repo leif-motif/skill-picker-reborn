@@ -16,7 +16,6 @@ struct CabinView: View {
     @State private var modifyCabinSheet = false
     @State private var assignCabinCamperSheet = false
     @State private var importSkillSheet = false
-    @State private var unassignedCabinAlert = false
     @State private var noCampersAlert = false
     @State private var exportCabinAlert = false
     @State private var search = ""
@@ -99,39 +98,28 @@ struct CabinView: View {
             }
             .help("Add Cabin")
             Button {
-                if(data.selectedCabin == "Unassigned"){
-                    unassignedCabinAlert.toggle()
-                } else {
-                    data.objectWillChange.send()
-                    try! deleteCabin(targetCabin: data.selectedCabin, data: data)
-                    data.selectedCabin = "Unassigned"
-                }
+                data.objectWillChange.send()
+                try! deleteCabin(targetCabin: data.selectedCabin, data: data)
+                data.selectedCabin = "Unassigned"
             } label: {
                 Image(systemName: "minus.square")
-                    .foregroundColor(Color(.systemRed))
+                    .foregroundColor(data.selectedCabin == "Unassigned" ? Color(.systemGray) : Color(.systemRed))
             }
             .help("Delete Cabin")
+            .disabled(data.selectedCabin == "Unassigned")
             Button {
-                if(data.selectedCabin == "Unassigned"){
-                    unassignedCabinAlert.toggle()
-                } else {
-                    modifyCabinSheet.toggle()
-                }
+                modifyCabinSheet.toggle()
             } label: {
                 Image(systemName: "square.and.pencil")
-                    .foregroundColor(Color(.systemOrange))
+                    .foregroundColor(data.selectedCabin == "Unassigned" ? Color(.systemGray) : Color(.systemOrange))
             }
             .help("Edit Cabin")
+            .disabled(data.selectedCabin == "Unassigned")
             .sheet(isPresented: $modifyCabinSheet, onDismiss: {
                 data.objectWillChange.send()
             }, content: {
                 ModifyCabinView(targetCabin: data.selectedCabin)
             })
-            .alert(isPresented: $unassignedCabinAlert){
-                Alert(title: Text("Error!"),
-                      message: Text("Cannot modify/delete the \"Unassigned\" cabin."),
-                      dismissButton: .default(Text("Dismiss")))
-            }
             Button {
                 let panel = NSOpenPanel()
                 panel.allowsMultipleSelection = false
