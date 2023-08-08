@@ -9,42 +9,131 @@ import SwiftUI
 
 struct CamperInfoView: View {
     @EnvironmentObject private var data: CampData
-    @State private var inputCamper: Camper = try! Camper(fName: "", lName: "", cabin: "", preferredSkills: ["","","","",""], fanatic: "")
-    private let numbers = ["One","Two","Three","Four","Five","Six"]
+    @State private var targetCamper: Camper = try! Camper(fName: "", lName: "", cabin: "", preferredSkills: ["None","None","None","None","None","None"], fanatic: "None")
+    @State private var newFirstName = ""
+    @State private var newLastName = ""
+    @State private var newCabin = ""
+    @State private var newFanatic = ""
+    @State private var newPreferredSkills = ["None","None","None","None","None","None"]
+    @State private var duplicateSkillsAlert = false
     private var camperSelection: Set<Camper.ID>
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
-            Text(try! AttributedString(markdown: "**Name:** "+inputCamper.fName+" "+inputCamper.lName))
-                .padding([.top,.horizontal])
-            Text(try! AttributedString(markdown: "**Cabin:** "+inputCamper.cabin))
-                .padding(.horizontal)
-            Text(try! AttributedString(markdown: "**Fanatic:** "+inputCamper.fanatic))
-                .padding(.horizontal)
+            TextField("First Name:",text: $newFirstName)
+            TextField("Last Name:",text: $newLastName)
+            Picker("Cabin:", selection: $newCabin) {
+                ForEach(Array(data.cabins.keys).sorted(), id: \.self){
+                    Text($0).tag($0)
+                }
+            }
+            Picker("Fanatic:", selection: $newFanatic){
+                Text("None").tag("None")
+                ForEach(Array(data.fanatics.keys).sorted(), id: \.self){
+                    Text($0).tag($0)
+                }
+            }
+            .padding(.bottom)
             Text("Skills:")
                 .bold()
-                .padding([.top,.horizontal])
-            ForEach(0...3, id: \.self){
-                Text(try! AttributedString(markdown: "**Skill "+numbers[$0]+":** "+inputCamper.skills[$0]))
-                    .padding(.horizontal)
+                .padding(.bottom, 1)
+            Group {
+                LabeledContent {
+                    Text(targetCamper.skills[0])
+                } label: {
+                    Text("Skill One:")
+                        .bold()
+                }
+                .padding(.bottom, 2)
+                LabeledContent {
+                    Text(targetCamper.skills[1])
+                } label: {
+                    Text("Skill Two:")
+                        .bold()
+                }
+                .padding(.bottom, 2)
+                LabeledContent {
+                    Text(targetCamper.skills[2])
+                } label: {
+                    Text("Skill Three:")
+                        .bold()
+                }
+                .padding(.bottom, 2)
+                LabeledContent {
+                    Text(targetCamper.skills[3])
+                } label: {
+                    Text("Skill Four:")
+                        .bold()
+                }
             }
             Text("Preferred Skills:")
                 .bold()
-                .padding([.top,.horizontal])
-            //if the camper isn't in fanatic, go for six skills, otherwise do five
-            ForEach(0...(inputCamper.fanatic == "None" ? 5 : 4), id: \.self){
-                Text(try! AttributedString(markdown: "**"+numbers[$0]+":** "+inputCamper.preferredSkills[$0]))
-                    .padding(.horizontal)
+                .padding(.top, 8)
+            Group {
+                Picker("First:", selection: $newPreferredSkills[0]){
+                    ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
+                        Text($0).tag($0)
+                    }
+                }
+                Picker("Second:", selection: $newPreferredSkills[1]){
+                    ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
+                        Text($0).tag($0)
+                    }
+                }
+                Picker("Third:", selection: $newPreferredSkills[2]){
+                    ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
+                        Text($0).tag($0)
+                    }
+                }
+                Picker("Fourth:", selection: $newPreferredSkills[3]){
+                    ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
+                        Text($0).tag($0)
+                    }
+                }
+                Picker("Fifth:", selection: $newPreferredSkills[4]){
+                    ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
+                        Text($0).tag($0)
+                    }
+                }
+                Picker("Sixth:", selection: $newPreferredSkills[5]){
+                    ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
+                        Text($0).tag($0)
+                    }
+                }
+                .disabled(newFanatic != "None")
             }
-            Button("Dismiss") {
-                dismiss()
+            HStack {
+                Spacer()
+                Button("Dismiss") {
+                    dismiss()
+                }
+                Button("Save Changes") {
+                    dismiss()
+                }
+                .disabled(newFirstName == "" || newLastName == "")
+                .buttonStyle(.borderedProminent)
+                .tint(.blue)
+                .alert(isPresented: $duplicateSkillsAlert) {
+                    Alert(title: Text("Error!"),
+                          message: Text("Duplicate preferred skills found. All duplicates have been removed."),
+                          dismissButton: .default(Text("Dismiss")))
+                }
             }
-            .padding()
+            .padding(.top)
         }
-        .onAppear(perform: {actualInit()})
-    }
-    func actualInit(){
-        self.inputCamper = data.campers.first(where: {$0.id == camperSelection.first})!
+        .padding()
+        .frame(width: 300, height: 540)
+        .onAppear(perform: {
+            targetCamper = data.campers.first(where: {$0.id == camperSelection.first})!
+            newFirstName = targetCamper.fName
+            newLastName = targetCamper.lName
+            newCabin = targetCamper.cabin
+            newFanatic = targetCamper.fanatic
+            newPreferredSkills = targetCamper.preferredSkills
+            if(targetCamper.fanatic != "None"){
+                newPreferredSkills.append("None")
+            }
+        })
     }
     init(camperSelection: Set<Camper.ID>) throws {
         if(camperSelection.count != 1){
