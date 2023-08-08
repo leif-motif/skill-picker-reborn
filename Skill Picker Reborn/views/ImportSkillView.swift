@@ -10,10 +10,9 @@ import SwiftUI
 struct ImportSkillView: View {
     private var data: CampData
     @State private var selectedSkill: String = "this is an empty selection"
-    //I love you, ChatGPT.
     @State private var skillMaximums: [String:[Int]] = [:]
     @State private var fanaticPeriods: [String:[Bool]] = [:]
-    private let range = 0...20
+    private let range = 0...255
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
@@ -24,15 +23,13 @@ struct ImportSkillView: View {
                     }
                 }
             }
-            .padding([.top,.horizontal])
             if(selectedSkill == "this is an empty selection"){
             } else if(!data.importSkillList[selectedSkill]!){
                 //The only reason I am not displaying the number "0" outright is because the values in the TextFields won't update unless their unbinded value is shown somewhere.
                 //I HATE THE SWIFT COMPILER I HATE THE SWIFT COMPILER I HATE THE SWIFT COMPILER
-                Text("To make a skill not run during a skill period, set the size to "+String((skillMaximums[selectedSkill]![0]/skillMaximums[selectedSkill]![0])-1)+".")
+                Text("To make a skill not run during a skill period, set the size to "+String((skillMaximums[selectedSkill]![0]-skillMaximums[selectedSkill]![0]))+".")
                     .bold()
                     .frame(width: 150, alignment: .center)
-                    .padding(.trailing)
                 VStack(alignment: .leading) {
                     HStack {
                         TextField("First Skill Size:", value: Binding($skillMaximums[selectedSkill])![0], formatter: NumberFormatter())
@@ -43,7 +40,6 @@ struct ImportSkillView: View {
                         .labelsHidden()
                     }
                 }
-                .padding(.horizontal)
                 VStack(alignment: .leading) {
                     HStack {
                         TextField("Second Skill Size:", value: Binding($skillMaximums[selectedSkill])![1], formatter: NumberFormatter())
@@ -54,7 +50,6 @@ struct ImportSkillView: View {
                         .labelsHidden()
                     }
                 }
-                .padding(.horizontal)
                 VStack(alignment: .leading) {
                     HStack {
                         TextField("Third Skill Size:", value: Binding($skillMaximums[selectedSkill])![2], formatter: NumberFormatter())
@@ -65,7 +60,6 @@ struct ImportSkillView: View {
                         .labelsHidden()
                     }
                 }
-                .padding(.horizontal)
                 VStack(alignment: .leading) {
                     HStack {
                         TextField("Fourth Skill Size:", value: Binding($skillMaximums[selectedSkill])![3], formatter: NumberFormatter())
@@ -76,29 +70,24 @@ struct ImportSkillView: View {
                         .labelsHidden()
                     }
                 }
-                .padding(.horizontal)
             } else if(data.importSkillList[selectedSkill]!){
                 //fanatic
                 Toggle(isOn: Binding($fanaticPeriods[selectedSkill])![0]){
                     Text("First Skill:")
                 }
-                .padding(.horizontal)
                 .toggleStyle(.switch)
                 Toggle(isOn: Binding($fanaticPeriods[selectedSkill])![1]){
                     Text("Second Skill:")
                 }
-                .padding(.horizontal)
                 .toggleStyle(.switch)
                 Toggle(isOn: Binding($fanaticPeriods[selectedSkill])![2]){
                     Text("Third Skill:")
                 }
-                .padding(.horizontal)
                 .toggleStyle(.switch)
                 Toggle(isOn: Binding($fanaticPeriods[selectedSkill])![3]){
                     Text("Fourth Skill:")
                 }
                 .toggleStyle(.switch)
-                .padding([.bottom,.horizontal])
             }
             Spacer()
             HStack {
@@ -114,8 +103,8 @@ struct ImportSkillView: View {
                             for i in 0...3 {
                                 if(skillMaximums[skill]![i] < 0){
                                     skillMaximums[skill]![i] = 0
-                                } else if(skillMaximums[skill]![i] > 20){
-                                    skillMaximums[skill]![i] = 20
+                                } else if(skillMaximums[skill]![i] > 255){
+                                    skillMaximums[skill]![i] = 255
                                 }
                             }
                             createSkill(newSkill: try! Skill(name: skill, maximums: skillMaximums[skill]!), data: data)
@@ -126,11 +115,13 @@ struct ImportSkillView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
+                .disabled(skillMaximums.values.contains([0,0,0,0]) || fanaticPeriods.values.contains([false,false,false,false]))
             }
-            .padding([.bottom,.trailing])
         }
-        .frame(width: 360, height: 255)
+        .padding()
+        .frame(width: 360, height: 260)
         .onAppear(perform: {
+            //I love you, ChatGPT.
             skillMaximums = data.importSkillList.reduce(into: [String:[Int]]()){ (result, element) in
                 let (key, value) = element
                 if(!value){
