@@ -14,6 +14,7 @@ struct AddCamperView: View {
     @State private var selectedCabin = "Unassigned"
     @State private var preferredSkills = ["None","None","None","None","None","None"]
     @State private var fanaticSelection = "None"
+    @State private var duplicateSkillsAlert = false
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
@@ -75,19 +76,29 @@ struct AddCamperView: View {
                     preferredSkills.removeAll(where: {$0 == "None"})
                     if(preferredSkills != preferredSkills.uniqued()){
                         preferredSkills = preferredSkills.uniqued()
+                        while(preferredSkills.count < 6){
+                            preferredSkills.append("None")
+                        }
+                        duplicateSkillsAlert.toggle()
+                    } else {
+                        if(fanaticSelection != "None" && preferredSkills.count == 6){
+                            preferredSkills.remove(at: 5)
+                        }
+                        while(preferredSkills.count < (fanaticSelection == "None" ? 6 : 5)){
+                            preferredSkills.append("None")
+                        }
+                        try! createCamper(newCamper: try! Camper(fName: iFName, lName: iLName, cabin: selectedCabin, preferredSkills: preferredSkills, fanatic: fanaticSelection), data: data)
+                        dismiss()
                     }
-                    if(fanaticSelection != "None" && preferredSkills.count == 6){
-                        preferredSkills.remove(at: 5)
-                    }
-                    while(preferredSkills.count < (fanaticSelection == "None" ? 6 : 5)){
-                        preferredSkills.append("None")
-                    }
-                    try! createCamper(newCamper: try! Camper(fName: iFName, lName: iLName, cabin: selectedCabin, preferredSkills: preferredSkills, fanatic: fanaticSelection), data: data)
-                    dismiss()
                 }
                 .disabled(iFName == "" || iLName == "")
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
+                .alert(isPresented: $duplicateSkillsAlert) {
+                    Alert(title: Text("Error!"),
+                          message: Text("Duplicate preferred skills found. All duplicates have been removed."),
+                          dismissButton: .default(Text("Dismiss")))
+                }
             }
             .padding(.top)
         }
@@ -99,5 +110,6 @@ struct AddCamperView: View {
 struct AddCamperView_Previews: PreviewProvider {
     static var previews: some View {
         AddCamperView()
+            .environmentObject(CampData())
     }
 }
