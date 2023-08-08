@@ -24,6 +24,20 @@ func createCabin(cabinName: String, targetSenior: Leader, targetJunior: Leader, 
     data.cabins[cabinName] = try! Cabin(name: cabinName, senior: targetSenior, junior: targetJunior)
 }
 
+func renameCabin(oldCabin: String, newCabin: String, data: CampData){
+    data.cabins[newCabin] = data.cabins[oldCabin]
+    data.cabins.removeValue(forKey: oldCabin)
+    if(data.cabins[newCabin]!.senior != nullJunior){
+        data.cabins[newCabin]!.senior.cabin = newCabin
+    }
+    if(data.cabins[newCabin]!.junior != nullJunior){
+        data.cabins[newCabin]!.junior.cabin = newCabin
+    }
+    for camper in data.cabins[newCabin]!.campers {
+        camper.cabin = newCabin
+    }
+}
+
 func deleteCabin(targetCabin: String, data: CampData) throws {
     if(targetCabin == "Unassigned"){
         throw SPRError.RefusingDelete

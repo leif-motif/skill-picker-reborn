@@ -59,6 +59,10 @@ struct ModifyCabinView: View {
                                            targetSenior: data.leaders.first(where: {$0.id == seniorSelection})!,
                                            targetJunior: data.leaders.first(where: {$0.id == juniorSelection})!, data: data)
                     }
+                    if(newName != targetCabin){
+                        renameCabin(oldCabin: targetCabin, newCabin: newName, data: data)
+                        data.selectedCabin = newName
+                    }
                     dismiss()
                 }
                 .buttonStyle(.borderedProminent)

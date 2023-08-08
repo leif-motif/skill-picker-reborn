@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CabinView: View {
     @EnvironmentObject private var data: CampData
-    @State private var selectedCabin: String = "Unassigned"
     @State private var selectedCamper = Set<Camper.ID>()
     @State private var sortOrder = [KeyPathComparator(\Camper.lName)]
     @State private var csvInput: [Substring] = [""]
@@ -24,13 +23,13 @@ struct CabinView: View {
     @State private var search = ""
     var body: some View {
         VStack {
-            Text(try! AttributedString(markdown: "**Senior:** "+data.cabins[selectedCabin]!.senior.fName+" "+data.cabins[selectedCabin]!.senior.lName))
+            Text(try! AttributedString(markdown: "**Senior:** "+data.cabins[data.selectedCabin]!.senior.fName+" "+data.cabins[data.selectedCabin]!.senior.lName))
                 .font(.title2)
                 .padding(.top,10)
                 .padding(.bottom,2)
-            Text(try! AttributedString(markdown: "**Junior:** "+data.cabins[selectedCabin]!.junior.fName+" "+data.cabins[selectedCabin]!.junior.lName))
+            Text(try! AttributedString(markdown: "**Junior:** "+data.cabins[data.selectedCabin]!.junior.fName+" "+data.cabins[data.selectedCabin]!.junior.lName))
                 .font(.title2)
-            Table(data.cabins[selectedCabin]!.campers, selection: $selectedCamper, sortOrder: $sortOrder){
+            Table(data.cabins[data.selectedCabin]!.campers, selection: $selectedCamper, sortOrder: $sortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 //see comment in LeaderView.swift
@@ -44,7 +43,7 @@ struct CabinView: View {
             }
             .onChange(of: sortOrder){
                 data.objectWillChange.send()
-                data.cabins[selectedCabin]!.campers.sort(using: $0)
+                data.cabins[data.selectedCabin]!.campers.sort(using: $0)
             }
             .contextMenu(forSelectionType: Camper.ID.self) { items in
                 if items.isEmpty {
@@ -101,12 +100,12 @@ struct CabinView: View {
             }
             .help("Add Cabin")
             Button {
-                if(selectedCabin == "Unassigned"){
+                if(data.selectedCabin == "Unassigned"){
                     unassignedCabinAlert.toggle()
                 } else {
                     data.objectWillChange.send()
-                    try! deleteCabin(targetCabin: selectedCabin, data: data)
-                    selectedCabin = "Unassigned"
+                    try! deleteCabin(targetCabin: data.selectedCabin, data: data)
+                    data.selectedCabin = "Unassigned"
                 }
             } label: {
                 Image(systemName: "minus.square")
@@ -114,7 +113,7 @@ struct CabinView: View {
             }
             .help("Delete Cabin")
             Button {
-                if(selectedCabin == "Unassigned"){
+                if(data.selectedCabin == "Unassigned"){
                     unassignedCabinAlert.toggle()
                 } else {
                     modifyCabinSheet.toggle()
@@ -124,6 +123,11 @@ struct CabinView: View {
                     .foregroundColor(Color(.systemOrange))
             }
             .help("Edit Cabin")
+            .sheet(isPresented: $modifyCabinSheet, onDismiss: {
+                data.objectWillChange.send()
+            }, content: {
+                ModifyCabinView(targetCabin: data.selectedCabin)
+            })
             .alert(isPresented: $unassignedCabinAlert){
                 Alert(title: Text("Error!"),
                       message: Text("Cannot modify/delete the \"Unassigned\" cabin."),
@@ -151,7 +155,7 @@ struct CabinView: View {
             }
             .help("Import CSV")
             Button {
-                if(data.cabins[selectedCabin]!.campers.count > 0){
+                if(data.cabins[data.selectedCabin]!.campers.count > 0){
                     showCsvExporter.toggle()
                 } else {
                     exportCabinAlert.toggle()
@@ -161,8 +165,8 @@ struct CabinView: View {
                     .foregroundColor(Color(.systemBlue))
             }
             .help("Export Cabin Schedule")
-            .fileExporter(isPresented: $showCsvExporter, document: CSVFile(initialText: cabinListToCSV(cabinName: selectedCabin, data: data)),
-                          contentType: .csv, defaultFilename: selectedCabin) { result in
+            .fileExporter(isPresented: $showCsvExporter, document: CSVFile(initialText: cabinListToCSV(cabinName: data.selectedCabin, data: data)),
+                          contentType: .csv, defaultFilename: data.selectedCabin) { result in
                 switch result {
                 case .success(let url):
                     print("Saved to \(url)")
@@ -175,7 +179,7 @@ struct CabinView: View {
                       message: Text("Cannot export a schedule for a cabin that has no campers."),
                       dismissButton: .default(Text("Dismiss")))
             }
-            Picker("Cabin", selection: $selectedCabin) {
+            Picker("Cabin", selection: $data.selectedCabin) {
                 ForEach(Array(data.cabins.keys).sorted(), id: \.self){
                     Text($0).tag($0)
                 }
@@ -189,15 +193,10 @@ struct CabinView: View {
         }, content: {
             AddCabinView()
         })
-        .sheet(isPresented: $modifyCabinSheet, onDismiss: {
-            data.objectWillChange.send()
-        }, content: {
-            ModifyCabinView(targetCabin: selectedCabin)
-        })
         .sheet(isPresented: $assignCabinCamperSheet, onDismiss: {
             data.objectWillChange.send()
         }, content: {
-            AssignCabinCamperView(targetCabin: selectedCabin)
+            AssignCabinCamperView(targetCabin: data.selectedCabin)
         })
         .sheet(isPresented: $importSkillSheet, onDismiss: {
             if(isImporting){

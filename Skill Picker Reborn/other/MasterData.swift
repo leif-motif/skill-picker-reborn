@@ -17,6 +17,8 @@ class CampData: ObservableObject {
     @Published var skills: [String:Skill]
     @Published var fanatics: [String:Fanatic]
     
+    @Published var selectedCabin: String
+    
     init(campers: [Camper] = [], leaders: [Leader] = [],
          cabins: [String:Cabin] = ["Unassigned": try! Cabin(name: "Unassigned", senior: nullSenior, junior: nullJunior, campers: [])],
          skills: [String:Skill] = ["None": try! Skill(name: "None", maximums: [255,255,255,255])], fanatics: [String:Fanatic] = [:]){
@@ -25,6 +27,7 @@ class CampData: ObservableObject {
         self.cabins = cabins
         self.skills = skills
         self.fanatics = fanatics
+        self.selectedCabin = "Unassigned"
     }
 }
 
