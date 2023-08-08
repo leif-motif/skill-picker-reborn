@@ -17,7 +17,6 @@ struct CamperView: View {
     @State private var addCamperSheet = false
     @State private var camperInfoSheet = false
     @State private var importSkillSheet = false
-    @State private var multiCamperSelectAlert = false
     @State private var preferredSkillsAlert = false
     @State private var search = ""
     var body: some View {
@@ -90,22 +89,21 @@ struct CamperView: View {
             .help("Add Camper")
             Button {
                 deleteCamper(camperSelection: selectedCamper, data: data)
+                selectedCamper = []
             } label: {
                 Image(systemName:"person.badge.minus")
-                    .foregroundColor(Color(.systemRed))
+                    .foregroundColor(selectedCamper.count == 0 ? Color(.systemGray) : Color(.systemRed))
             }
             .help("Delete Camper")
+            .disabled(selectedCamper.count == 0)
             Button {
-                if(selectedCamper.count == 1){
-                    camperInfoSheet.toggle()
-                } else if(selectedCamper.count > 1){
-                    multiCamperSelectAlert.toggle()
-                }
+                camperInfoSheet.toggle()
             } label: {
                 Image(systemName:"person.text.rectangle")
-                    .foregroundColor(Color(.systemOrange))
+                    .foregroundColor(selectedCamper.count != 1 ? Color(.systemGray) : Color(.systemOrange))
             }
             .help("Get Camper Info")
+            .disabled(selectedCamper.count != 1)
             Button {
                 do {
                     try processPreferredSkills(data: data)
@@ -182,11 +180,6 @@ struct CamperView: View {
         }, content: {
             try! ImportSkillView(data: data)
         })
-        .alert(isPresented: $multiCamperSelectAlert) {
-            Alert(title: Text("Error!"),
-                  message: Text("Cannot view the information of multiple campers at the same time."),
-                  dismissButton: .default(Text("Dismiss")))
-        }
     }
 }
 
