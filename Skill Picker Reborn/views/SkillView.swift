@@ -9,12 +9,8 @@ import SwiftUI
 
 struct SkillView: View {
     @EnvironmentObject private var data: CampData
-    @State private var selectedSkill: String = "None"
-    @State private var selectedPeriod: Int = 0
     @State private var selectedCamper = Set<Camper.ID>()
     @State private var selectedLeader = Set<Leader.ID>()
-    @State private var camperSortOrder = [KeyPathComparator(\Camper.lName)]
-    @State private var leaderSortOrder = [KeyPathComparator(\Leader.lName)]
     @State private var csvInput: [Substring] = [""]
     @State private var csvExport = ""
     @State private var showFanaticCsvExporter = false
@@ -35,22 +31,22 @@ struct SkillView: View {
                 .font(.title)
                 .bold()
                 .padding(.top, 10)
-            Table(data.skills[selectedSkill]!.leaders[selectedPeriod], selection: $selectedLeader, sortOrder: $leaderSortOrder){
+            Table(data.skills[data.selectedSkill]!.leaders[data.selectedPeriod], selection: $selectedLeader, sortOrder: $data.skillLeaderSortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 TableColumn("Cabin",value: \.cabin)
             }
             .frame(height: 85)
-            .onChange(of: leaderSortOrder){
+            .onChange(of: data.skillLeaderSortOrder){
                 data.objectWillChange.send()
-                data.skills[selectedSkill]!.leaders[selectedPeriod].sort(using: $0)
+                data.skills[data.selectedSkill]!.leaders[data.selectedPeriod].sort(using: $0)
             }
             .contextMenu(forSelectionType: Leader.ID.self) { items in
                 if items.isEmpty {
                     Button {
-                        if(data.skills[selectedSkill]!.maximums[selectedPeriod] == 0 || data.leaders.count == 0){
+                        if(data.skills[data.selectedSkill]!.maximums[data.selectedPeriod] == 0 || data.leaders.count == 0){
                             skillErrorAlert.toggle()
-                        } else if(data.fanatics.keys.contains(selectedSkill)){
+                        } else if(data.fanatics.keys.contains(data.selectedSkill)){
                             assignFanaticLeaderSheet.toggle()
                         } else {
                             assignSkillLeaderSheet.toggle()
@@ -65,12 +61,12 @@ struct SkillView: View {
                      Label("Info/Edit...", systemImage: "pencil.line")
                      }*/
                     Button(role: .destructive) {
-                        if(selectedSkill == "None"){
+                        if(data.selectedSkill == "None"){
                             skillErrorAlert.toggle()
-                        } else if(data.fanatics.keys.contains(selectedSkill)){
-                            try! removeLeaderFromFanatic(leaderSelection: selectedLeader, fanaticName: selectedSkill, data: data)
+                        } else if(data.fanatics.keys.contains(data.selectedSkill)){
+                            try! removeLeaderFromFanatic(leaderSelection: selectedLeader, fanaticName: data.selectedSkill, data: data)
                         } else {
-                            try! removeLeaderFromSkill(leaderSelection: selectedLeader, skillName: selectedSkill, period: selectedPeriod, data: data)
+                            try! removeLeaderFromSkill(leaderSelection: selectedLeader, skillName: data.selectedSkill, period: data.selectedPeriod, data: data)
                         }
                         data.objectWillChange.send()
                     } label: {
@@ -84,12 +80,12 @@ struct SkillView: View {
                     }
                 } else {
                     Button(role: .destructive) {
-                        if(selectedSkill == "None"){
+                        if(data.selectedSkill == "None"){
                             skillErrorAlert.toggle()
-                        } else if(data.fanatics.keys.contains(selectedSkill)){
-                            try! removeLeaderFromFanatic(leaderSelection: selectedLeader, fanaticName: selectedSkill, data: data)
+                        } else if(data.fanatics.keys.contains(data.selectedSkill)){
+                            try! removeLeaderFromFanatic(leaderSelection: selectedLeader, fanaticName: data.selectedSkill, data: data)
                         } else {
-                            try! removeLeaderFromSkill(leaderSelection: selectedLeader, skillName: selectedSkill, period: selectedPeriod, data: data)
+                            try! removeLeaderFromSkill(leaderSelection: selectedLeader, skillName: data.selectedSkill, period: data.selectedPeriod, data: data)
                         }
                         data.objectWillChange.send()
                     } label: {
@@ -103,26 +99,26 @@ struct SkillView: View {
                     }
                 }
             }
-            @State var currentSkillCount = data.skills[selectedSkill]!.periods[selectedPeriod].count
-            @State var currentSkillMax = data.skills[selectedSkill]!.maximums[selectedPeriod]
+            @State var currentSkillCount = data.skills[data.selectedSkill]!.periods[data.selectedPeriod].count
+            @State var currentSkillMax = data.skills[data.selectedSkill]!.maximums[data.selectedPeriod]
             Text("Campers ("+String(currentSkillCount)+"/"+String(currentSkillMax)+")")
                 .font(.title)
                 .bold()
-            Table(data.skills[selectedSkill]!.periods[selectedPeriod], selection: $selectedCamper, sortOrder: $camperSortOrder){
+            Table(data.skills[data.selectedSkill]!.periods[data.selectedPeriod], selection: $selectedCamper, sortOrder: $data.skillCamperSortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 TableColumn("Cabin",value: \.cabin)
             }
-            .onChange(of: camperSortOrder){
+            .onChange(of: data.skillCamperSortOrder){
                 data.objectWillChange.send()
-                data.skills[selectedSkill]!.periods[selectedPeriod].sort(using: $0)
+                data.skills[data.selectedSkill]!.periods[data.selectedPeriod].sort(using: $0)
             }
             .contextMenu(forSelectionType: Camper.ID.self) { items in
                 if items.isEmpty {
                     Button {
-                        if(data.skills[selectedSkill]!.periods[selectedPeriod].count >= data.skills[selectedSkill]!.maximums[selectedPeriod] || data.campers.count == 0){
+                        if(data.skills[data.selectedSkill]!.periods[data.selectedPeriod].count >= data.skills[data.selectedSkill]!.maximums[data.selectedPeriod] || data.campers.count == 0){
                             skillErrorAlert.toggle()
-                        } else if(data.fanatics.keys.contains(selectedSkill)){
+                        } else if(data.fanatics.keys.contains(data.selectedSkill)){
                             assignFanaticCamperSheet.toggle()
                         } else {
                             assignSkillCamperSheet.toggle()
@@ -138,12 +134,12 @@ struct SkillView: View {
                      Label("Info/Edit...", systemImage: "pencil.line")
                      }*/
                     Button(role: .destructive) {
-                        if(selectedSkill == "None"){
+                        if(data.selectedSkill == "None"){
                             skillErrorAlert.toggle()
-                        } else if(data.fanatics.keys.contains(selectedSkill)){
-                            try! removeCamperFromFanatic(camperSelection: selectedCamper, fanaticName: selectedSkill, newSixthPreferredSkill: "None", data: data)
+                        } else if(data.fanatics.keys.contains(data.selectedSkill)){
+                            try! removeCamperFromFanatic(camperSelection: selectedCamper, fanaticName: data.selectedSkill, newSixthPreferredSkill: "None", data: data)
                         } else {
-                            try! removeCamperFromSkill(camperSelection: selectedCamper, skillName: selectedSkill, period: selectedPeriod, data: data)
+                            try! removeCamperFromSkill(camperSelection: selectedCamper, skillName: data.selectedSkill, period: data.selectedPeriod, data: data)
                         }
                         data.objectWillChange.send()
                     } label: {
@@ -157,12 +153,12 @@ struct SkillView: View {
                     }
                 } else {
                     Button(role: .destructive) {
-                        if(selectedSkill == "None"){
+                        if(data.selectedSkill == "None"){
                             skillErrorAlert.toggle()
-                        } else if(data.fanatics.keys.contains(selectedSkill)){
-                            try! removeCamperFromFanatic(camperSelection: selectedCamper, fanaticName: selectedSkill, newSixthPreferredSkill: "None", data: data)
+                        } else if(data.fanatics.keys.contains(data.selectedSkill)){
+                            try! removeCamperFromFanatic(camperSelection: selectedCamper, fanaticName: data.selectedSkill, newSixthPreferredSkill: "None", data: data)
                         } else {
-                            try! removeCamperFromSkill(camperSelection: selectedCamper, skillName: selectedSkill, period: selectedPeriod, data: data)
+                            try! removeCamperFromSkill(camperSelection: selectedCamper, skillName: data.selectedSkill, period: data.selectedPeriod, data: data)
                         }
                         data.objectWillChange.send()
                     } label: {
@@ -193,16 +189,16 @@ struct SkillView: View {
             }
             .help("Add Fanatic")
             Button {
-                if(selectedSkill == "None"){
+                if(data.selectedSkill == "None"){
                     skillErrorAlert.toggle()
                 } else {
                     data.objectWillChange.send()
-                    if(data.fanatics.keys.contains(selectedSkill)){
-                        try! deleteFanatic(fanaticName: selectedSkill, data: data)
+                    if(data.fanatics.keys.contains(data.selectedSkill)){
+                        try! deleteFanatic(fanaticName: data.selectedSkill, data: data)
                     } else {
-                        try! deleteSkill(skillName: selectedSkill, data: data)
+                        try! deleteSkill(skillName: data.selectedSkill, data: data)
                     }
-                    selectedSkill = "None"
+                    data.selectedSkill = "None"
                 }
             } label: {
                 Image(systemName: "calendar.badge.minus")
@@ -231,23 +227,23 @@ struct SkillView: View {
             }
             .help("Import CSV")
             Button {
-                if(data.fanatics.keys.contains(selectedSkill)){
+                if(data.fanatics.keys.contains(data.selectedSkill)){
                     var p: Int?
                     for i in 0...3 {
-                        if(data.fanatics[selectedSkill]!.activePeriods[i]){
+                        if(data.fanatics[data.selectedSkill]!.activePeriods[i]){
                             p = i
                             break
                         }
                     }
-                    if(data.skills[selectedSkill]!.periods[p!].count != 0 && data.skills[selectedSkill]!.leaders[p!].count != 0){
-                        csvExport = fanaticListToCSV(fanaticName: selectedSkill, data: data)
+                    if(data.skills[data.selectedSkill]!.periods[p!].count != 0 && data.skills[data.selectedSkill]!.leaders[p!].count != 0){
+                        csvExport = fanaticListToCSV(fanaticName: data.selectedSkill, data: data)
                         showFanaticCsvExporter.toggle()
                     } else {
                         exportSkillAlert.toggle()
                     }
                 } else {
-                    if(data.skills[selectedSkill]!.periods[selectedPeriod].count != 0 && data.skills[selectedSkill]!.leaders[selectedPeriod].count != 0){
-                        csvExport = skillListToCSV(skillName: selectedSkill, skillPeriod: selectedPeriod, data: data)
+                    if(data.skills[data.selectedSkill]!.periods[data.selectedPeriod].count != 0 && data.skills[data.selectedSkill]!.leaders[data.selectedPeriod].count != 0){
+                        csvExport = skillListToCSV(skillName: data.selectedSkill, skillPeriod: data.selectedPeriod, data: data)
                         showSkillCsvExporter.toggle()
                     } else {
                         exportSkillAlert.toggle()
@@ -259,7 +255,7 @@ struct SkillView: View {
             }
             .help("Export Skill Schedule")
             .fileExporter(isPresented: $showFanaticCsvExporter, document: CSVFile(initialText: csvExport),
-                          contentType: .csv, defaultFilename: selectedSkill) { result in
+                          contentType: .csv, defaultFilename: data.selectedSkill) { result in
                 switch result {
                 case .success(let url):
                     print("Saved to \(url)")
@@ -272,13 +268,13 @@ struct SkillView: View {
                       message: Text("Cannot export skill; there must be both leaders and campers assigned to the skill for export."),
                       dismissButton: .default(Text("Dismiss")))
             }
-            Picker("Skill", selection: $selectedSkill){
+            Picker("Skill", selection: $data.selectedSkill){
                 ForEach(Array(data.skills.keys).sorted(), id: \.self){
                     Text($0).tag($0)
                 }
             }
             .frame(width: 170)
-            Picker("Period", selection: $selectedPeriod){
+            Picker("Period", selection: $data.selectedPeriod){
                 ForEach(0...3, id: \.self){
                     Text("Skill "+String($0+1)).tag($0)
                 }
@@ -292,11 +288,11 @@ struct SkillView: View {
         }
         .sheet(isPresented: $assignSkillLeaderSheet) {
         } content: {
-            AssignSkillLeaderView(targetSkill: selectedSkill, skillPeriod: selectedPeriod)
+            AssignSkillLeaderView(targetSkill: data.selectedSkill, skillPeriod: data.selectedPeriod)
         }
         .sheet(isPresented: $assignSkillCamperSheet) {
         } content: {
-            AssignSkillCamperView(targetSkill: selectedSkill, skillPeriod: selectedPeriod)
+            AssignSkillCamperView(targetSkill: data.selectedSkill, skillPeriod: data.selectedPeriod)
         }
         .sheet(isPresented: $addFanaticSheet) {
         } content: {
@@ -304,11 +300,11 @@ struct SkillView: View {
         }
         .sheet(isPresented: $assignFanaticLeaderSheet) {
         } content: {
-            AssignFanaticLeaderView(targetFanatic: selectedSkill)
+            AssignFanaticLeaderView(targetFanatic: data.selectedSkill)
         }
         .sheet(isPresented: $assignFanaticCamperSheet) {
         } content: {
-            AssignFanaticCamperView(targetFanatic: selectedSkill)
+            AssignFanaticCamperView(targetFanatic: data.selectedSkill)
         }
         .sheet(isPresented: $importSkillSheet, onDismiss: {
             if(isImporting){
@@ -329,7 +325,7 @@ struct SkillView: View {
         //Somehow, you can't have more than one file exporter in a single view.
         //WHY?
         .fileExporter(isPresented: $showSkillCsvExporter, document: CSVFile(initialText: csvExport),
-                      contentType: .csv, defaultFilename: selectedSkill+" - Skill "+String(selectedPeriod+1)) { result in
+                      contentType: .csv, defaultFilename: data.selectedSkill+" - Skill "+String(data.selectedPeriod+1)) { result in
             switch result {
             case .success(let url):
                 print("Saved to \(url)")

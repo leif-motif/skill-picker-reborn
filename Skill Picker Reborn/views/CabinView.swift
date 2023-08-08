@@ -10,7 +10,6 @@ import SwiftUI
 struct CabinView: View {
     @EnvironmentObject private var data: CampData
     @State private var selectedCamper = Set<Camper.ID>()
-    @State private var sortOrder = [KeyPathComparator(\Camper.lName)]
     @State private var csvInput: [Substring] = [""]
     @State private var showCsvExporter = false
     @State private var addCabinSheet = false
@@ -29,7 +28,7 @@ struct CabinView: View {
                 .padding(.bottom,2)
             Text(try! AttributedString(markdown: "**Junior:** "+data.cabins[data.selectedCabin]!.junior.fName+" "+data.cabins[data.selectedCabin]!.junior.lName))
                 .font(.title2)
-            Table(data.cabins[data.selectedCabin]!.campers, selection: $selectedCamper, sortOrder: $sortOrder){
+            Table(data.cabins[data.selectedCabin]!.campers, selection: $selectedCamper, sortOrder: $data.cabinCamperSortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 //see comment in LeaderView.swift
@@ -41,7 +40,7 @@ struct CabinView: View {
                 TableColumn("Skill 3",value: \.skills[2])
                 TableColumn("Skill 4",value: \.skills[3])
             }
-            .onChange(of: sortOrder){
+            .onChange(of: data.cabinCamperSortOrder){
                 data.objectWillChange.send()
                 data.cabins[data.selectedCabin]!.campers.sort(using: $0)
             }

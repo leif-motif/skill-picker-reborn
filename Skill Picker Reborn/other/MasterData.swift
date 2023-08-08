@@ -18,6 +18,13 @@ class CampData: ObservableObject {
     @Published var fanatics: [String:Fanatic]
     
     @Published var selectedCabin: String
+    @Published var cabinCamperSortOrder: [KeyPathComparator<Camper>]
+    @Published var camperSortOrder: [KeyPathComparator<Camper>]
+    @Published var leaderSortOrder: [KeyPathComparator<Leader>]
+    @Published var selectedSkill: String
+    @Published var selectedPeriod: Int
+    @Published var skillCamperSortOrder: [KeyPathComparator<Camper>]
+    @Published var skillLeaderSortOrder: [KeyPathComparator<Leader>]
     
     init(campers: [Camper] = [], leaders: [Leader] = [],
          cabins: [String:Cabin] = ["Unassigned": try! Cabin(name: "Unassigned", senior: nullSenior, junior: nullJunior, campers: [])],
@@ -28,6 +35,13 @@ class CampData: ObservableObject {
         self.skills = skills
         self.fanatics = fanatics
         self.selectedCabin = "Unassigned"
+        self.cabinCamperSortOrder = [KeyPathComparator(\Camper.lName)]
+        self.camperSortOrder = [KeyPathComparator(\Camper.lName)]
+        self.leaderSortOrder = [KeyPathComparator(\Leader.lName)]
+        self.selectedSkill = "None"
+        self.selectedPeriod = 0
+        self.skillCamperSortOrder = [KeyPathComparator(\Camper.lName)]
+        self.skillLeaderSortOrder = [KeyPathComparator(\Leader.lName)]
     }
 }
 

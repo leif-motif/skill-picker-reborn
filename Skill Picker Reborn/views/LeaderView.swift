@@ -9,14 +9,13 @@ import SwiftUI
 
 struct LeaderView: View {
     @EnvironmentObject private var data: CampData
-    @State private var sortOrder = [KeyPathComparator(\Leader.lName)]
     @State private var selectedLeader = Set<Leader.ID>()
     @State private var showCsvExporter = false
     @State private var addLeaderSheet = false
     @State private var search = ""
     var body: some View {
         VStack(){
-            Table(data.leaders, selection: $selectedLeader, sortOrder: $sortOrder){
+            Table(data.leaders, selection: $selectedLeader, sortOrder: $data.leaderSortOrder){
                 TableColumn("First Name",value: \.fName)
                     .width(min: 80, ideal: 80)
                 TableColumn("Last Name",value: \.lName)
@@ -37,7 +36,7 @@ struct LeaderView: View {
                 TableColumn("Skill 4",value: \.skills[3])
                     .width(min: 80, ideal: 80)
             }
-            .onChange(of: sortOrder){
+            .onChange(of: data.leaderSortOrder){
                 data.leaders.sort(using: $0)
             }
             .contextMenu(forSelectionType: Leader.ID.self) { items in

@@ -10,7 +10,6 @@ import UniformTypeIdentifiers
 
 struct CamperView: View {
     @EnvironmentObject private var data: CampData
-    @State private var sortOrder = [KeyPathComparator(\Camper.lName)]
     @State private var selectedCamper = Set<Camper.ID>()
     @State private var csvInput: [Substring] = [""]
     @State private var showFileChooser = false
@@ -23,7 +22,7 @@ struct CamperView: View {
     @State private var search = ""
     var body: some View {
         VStack(){
-            Table(data.campers, selection: $selectedCamper, sortOrder: $sortOrder){
+            Table(data.campers, selection: $selectedCamper, sortOrder: $data.camperSortOrder){
                 TableColumn("First Name",value: \.fName)
                     .width(min: 80, ideal: 80)
                 TableColumn("Last Name",value: \.lName)
@@ -44,7 +43,7 @@ struct CamperView: View {
                 TableColumn("Skill 4",value: \.skills[3])
                     .width(min: 80, ideal: 80)
             }
-            .onChange(of: sortOrder){
+            .onChange(of: data.camperSortOrder){
                 data.campers.sort(using: $0)
             }
             .contextMenu(forSelectionType: Camper.ID.self) { items in
