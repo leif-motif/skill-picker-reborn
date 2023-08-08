@@ -18,7 +18,7 @@ struct ModifyCabinView: View {
         Form {
             TextField("Name:", text: $newName)
                 .padding(.bottom)
-            Picker("Senior", selection: $seniorSelection) {
+            Picker("Senior:", selection: $seniorSelection) {
                 Text("None").tag(data.nullSenior.id)
                 if(data.leaders.count > 0){
                     ForEach(0...(data.leaders.count-1), id: \.self){
@@ -28,7 +28,7 @@ struct ModifyCabinView: View {
                     }
                 }
             }
-            Picker("Junior", selection: $juniorSelection) {
+            Picker("Junior:", selection: $juniorSelection) {
                 Text("None").tag(data.nullJunior.id)
                 if(data.leaders.count > 0){
                     ForEach(0...(data.leaders.count-1), id: \.self){
@@ -65,6 +65,7 @@ struct ModifyCabinView: View {
                     }
                     dismiss()
                 }
+                .disabled(newName == "" || (data.cabins.keys.contains(newName) && newName != targetCabin))
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
             }
