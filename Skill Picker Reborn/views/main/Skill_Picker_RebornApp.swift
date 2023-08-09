@@ -1,5 +1,5 @@
 /*
- * Cabin.swift
+ * Skill_Picker_RebornApp.swift
  * This file is part of Skill Picker Reborn
  *
  * Copyright (C) 2023 Ranger Lake Bible Camp
@@ -18,25 +18,14 @@
  * along with Skill Picker Reborn; if not, see <https://www.gnu.org/licenses/>.
  */
 
-import Foundation
+import SwiftUI
 
-class Cabin {
-    var name: String
-    var senior: Leader
-    var junior: Leader
-    var campers: [Camper]
-    init(name: String, senior: Leader, junior: Leader, campers: [Camper] = []) throws {
-        self.name = name
-        if(!senior.senior){
-            throw SPRError.NotASenior
-        } else {
-            self.senior = senior
+@main
+struct Skill_Picker_RebornApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+                .environmentObject(CampData())
         }
-        if(junior.senior){
-            throw SPRError.NotAJunior
-        } else {
-            self.junior = junior
-        }
-        self.campers = campers
     }
 }

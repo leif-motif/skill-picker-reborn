@@ -17,7 +17,7 @@
 		29154B2A2A7027B300CE8CAC /* SkillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29154B292A7027B300CE8CAC /* SkillView.swift */; };
 		29154B2C2A704CBE00CE8CAC /* Cabin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29154B2B2A704CBE00CE8CAC /* Cabin.swift */; };
 		29154B302A706EDC00CE8CAC /* TestsThatNeedToGo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29154B2F2A706EDC00CE8CAC /* TestsThatNeedToGo.swift */; };
-		291CC5792A72C1E0001D422C /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 291CC5782A72C1E0001D422C /* LICENSE.txt */; };
+		291CC5792A72C1E0001D422C /* COPYING in Resources */ = {isa = PBXBuildFile; fileRef = 291CC5782A72C1E0001D422C /* COPYING */; };
 		291CC57B2A72C262001D422C /* AddLeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291CC57A2A72C262001D422C /* AddLeaderView.swift */; };
 		291CC57D2A72C2B9001D422C /* ModifyCabinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291CC57C2A72C2B9001D422C /* ModifyCabinView.swift */; };
 		291CC57F2A72C2E2001D422C /* CabinOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291CC57E2A72C2E2001D422C /* CabinOperations.swift */; };
@@ -78,7 +78,7 @@
 		29154B292A7027B300CE8CAC /* SkillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillView.swift; sourceTree = "<group>"; };
 		29154B2B2A704CBE00CE8CAC /* Cabin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cabin.swift; sourceTree = "<group>"; };
 		29154B2F2A706EDC00CE8CAC /* TestsThatNeedToGo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsThatNeedToGo.swift; sourceTree = "<group>"; };
-		291CC5782A72C1E0001D422C /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		291CC5782A72C1E0001D422C /* COPYING */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
 		291CC57A2A72C262001D422C /* AddLeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLeaderView.swift; sourceTree = "<group>"; };
 		291CC57C2A72C2B9001D422C /* ModifyCabinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyCabinView.swift; sourceTree = "<group>"; };
 		291CC57E2A72C2E2001D422C /* CabinOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CabinOperations.swift; sourceTree = "<group>"; };
@@ -144,7 +144,7 @@
 		2974B6B72A6ECB6A00EB063B = {
 			isa = PBXGroup;
 			children = (
-				291CC5782A72C1E0001D422C /* LICENSE.txt */,
+				291CC5782A72C1E0001D422C /* COPYING */,
 				2971FDBF2A71F9CD007DD484 /* README.md */,
 				29A4EF162A70C4E900B034E7 /* Skill-Picker-Reborn-Info.plist */,
 				2974B6C22A6ECB6A00EB063B /* Skill Picker Reborn */,
@@ -170,7 +170,6 @@
 				29E0D1E42A76347C00C068A9 /* models */,
 				29E0D1E52A76348F00C068A9 /* operations */,
 				29E0D1E32A76346600C068A9 /* views */,
-				29E0D1E62A76353B00C068A9 /* other */,
 				2974B6C72A6ECB6D00EB063B /* Assets.xcassets */,
 				2974B6CC2A6ECB6D00EB063B /* Skill_Picker_Reborn.entitlements */,
 				2974B6C92A6ECB6D00EB063B /* Preview Content */,
@@ -203,18 +202,47 @@
 			path = "Skill Picker RebornUITests";
 			sourceTree = "<group>";
 		};
-		29E0D1E32A76346600C068A9 /* views */ = {
+		29BFB0332A83FFF0006725D6 /* main */ = {
 			isa = PBXGroup;
 			children = (
+				2974B6C32A6ECB6A00EB063B /* Skill_Picker_RebornApp.swift */,
 				2974B6C52A6ECB6A00EB063B /* ContentView.swift */,
+			);
+			path = main;
+			sourceTree = "<group>";
+		};
+		29BFB0342A84002B006725D6 /* cabin */ = {
+			isa = PBXGroup;
+			children = (
 				29154B272A70274400CE8CAC /* CabinView.swift */,
 				29633AFA2A815ED100DF0FF4 /* AssignCabinCamperView.swift */,
 				291CC57C2A72C2B9001D422C /* ModifyCabinView.swift */,
+			);
+			path = cabin;
+			sourceTree = "<group>";
+		};
+		29BFB0352A84007D006725D6 /* camper */ = {
+			isa = PBXGroup;
+			children = (
 				29708D942A6F999F0090E369 /* CamperView.swift */,
 				29A4EF172A70F3EB00B034E7 /* AddCamperView.swift */,
 				290F78D02A798612007F7D1E /* CamperInfoView.swift */,
+			);
+			path = camper;
+			sourceTree = "<group>";
+		};
+		29BFB0362A840129006725D6 /* leader */ = {
+			isa = PBXGroup;
+			children = (
 				29154B252A70269000CE8CAC /* LeaderView.swift */,
 				291CC57A2A72C262001D422C /* AddLeaderView.swift */,
+			);
+			path = leader;
+			sourceTree = "<group>";
+		};
+		29BFB0372A840185006725D6 /* skill */ = {
+			isa = PBXGroup;
+			children = (
 				29154B292A7027B300CE8CAC /* SkillView.swift */,
 				2971FDC12A721F49007DD484 /* AddSkillView.swift */,
 				29B4BE0A2A7B0EF800FBE06B /* ImportSkillView.swift */,
@@ -223,6 +251,18 @@
 				2971FDC32A7233BE007DD484 /* AddFanaticView.swift */,
 				290F78C42A787AE6007F7D1E /* AssignFanaticLeaderView.swift */,
 				290F78C62A787E11007F7D1E /* AssignFanaticCamperView.swift */,
+			);
+			path = skill;
+			sourceTree = "<group>";
+		};
+		29E0D1E32A76346600C068A9 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				29BFB0332A83FFF0006725D6 /* main */,
+				29BFB0342A84002B006725D6 /* cabin */,
+				29BFB0352A84007D006725D6 /* camper */,
+				29BFB0362A840129006725D6 /* leader */,
+				29BFB0372A840185006725D6 /* skill */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -237,6 +277,9 @@
 				290240102A6EDB7200F747D7 /* Skill.swift */,
 				2970DFA52A7412C400D2A71F /* Fanatic.swift */,
 				2974B6EE2A6ECBA800EB063B /* Human.swift */,
+				293A19842A74E1C400B4B015 /* Extensions.swift */,
+				293A19822A74DE4400B4B015 /* SPRErrors.swift */,
+				29154B2F2A706EDC00CE8CAC /* TestsThatNeedToGo.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -252,17 +295,6 @@
 				290F78CE2A7963F6007F7D1E /* CSVOperations.swift */,
 			);
 			path = operations;
-			sourceTree = "<group>";
-		};
-		29E0D1E62A76353B00C068A9 /* other */ = {
-			isa = PBXGroup;
-			children = (
-				2974B6C32A6ECB6A00EB063B /* Skill_Picker_RebornApp.swift */,
-				293A19842A74E1C400B4B015 /* Extensions.swift */,
-				293A19822A74DE4400B4B015 /* SPRErrors.swift */,
-				29154B2F2A706EDC00CE8CAC /* TestsThatNeedToGo.swift */,
-			);
-			path = other;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -369,7 +401,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				291CC5792A72C1E0001D422C /* LICENSE.txt in Resources */,
+				291CC5792A72C1E0001D422C /* COPYING in Resources */,
 				2971FDC02A71F9CD007DD484 /* README.md in Resources */,
 				2974B6CB2A6ECB6D00EB063B /* Preview Assets.xcassets in Resources */,
 				2974B6C82A6ECB6D00EB063B /* Assets.xcassets in Resources */,
