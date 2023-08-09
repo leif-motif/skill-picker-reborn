@@ -68,9 +68,7 @@ struct SkillView: View {
                      Label("Info/Edit...", systemImage: "pencil.line")
                      }*/
                     Button(role: .destructive) {
-                        if(data.selectedSkill == "None"){
-                            skillErrorAlert.toggle()
-                        } else if(data.fanatics.keys.contains(data.selectedSkill)){
+                        if(data.fanatics.keys.contains(data.selectedSkill)){
                             try! removeLeaderFromFanatic(leaderSelection: selectedLeader, fanaticName: data.selectedSkill, data: data)
                         } else {
                             try! removeLeaderFromSkill(leaderSelection: selectedLeader, skillName: data.selectedSkill, period: data.selectedPeriod, data: data)
@@ -79,6 +77,7 @@ struct SkillView: View {
                     } label: {
                         Label("Remove", systemImage: "trash")
                     }
+                    .disabled(data.selectedSkill == "None")
                     Button(role: .destructive) {
                         deleteLeader(leaderSelection: selectedLeader, data: data)
                         data.objectWillChange.send()
@@ -87,9 +86,7 @@ struct SkillView: View {
                     }
                 } else {
                     Button(role: .destructive) {
-                        if(data.selectedSkill == "None"){
-                            skillErrorAlert.toggle()
-                        } else if(data.fanatics.keys.contains(data.selectedSkill)){
+                        if(data.fanatics.keys.contains(data.selectedSkill)){
                             try! removeLeaderFromFanatic(leaderSelection: selectedLeader, fanaticName: data.selectedSkill, data: data)
                         } else {
                             try! removeLeaderFromSkill(leaderSelection: selectedLeader, skillName: data.selectedSkill, period: data.selectedPeriod, data: data)
@@ -98,6 +95,7 @@ struct SkillView: View {
                     } label: {
                         Label("Remove Selection", systemImage: "trash")
                     }
+                    .disabled(data.selectedSkill == "None")
                     Button(role: .destructive) {
                         deleteLeader(leaderSelection: selectedLeader, data: data)
                         data.objectWillChange.send()
@@ -141,9 +139,7 @@ struct SkillView: View {
                      Label("Info/Edit...", systemImage: "pencil.line")
                      }*/
                     Button(role: .destructive) {
-                        if(data.selectedSkill == "None"){
-                            skillErrorAlert.toggle()
-                        } else if(data.fanatics.keys.contains(data.selectedSkill)){
+                        if(data.fanatics.keys.contains(data.selectedSkill)){
                             try! removeCamperFromFanatic(camperSelection: selectedCamper, fanaticName: data.selectedSkill, newSixthPreferredSkill: "None", data: data)
                         } else {
                             try! removeCamperFromSkill(camperSelection: selectedCamper, skillName: data.selectedSkill, period: data.selectedPeriod, data: data)
@@ -152,6 +148,7 @@ struct SkillView: View {
                     } label: {
                         Label("Remove", systemImage: "trash")
                     }
+                    .disabled(data.selectedSkill == "None")
                     Button(role: .destructive) {
                         deleteCamper(camperSelection: selectedCamper, data: data)
                         data.objectWillChange.send()
@@ -160,9 +157,7 @@ struct SkillView: View {
                     }
                 } else {
                     Button(role: .destructive) {
-                        if(data.selectedSkill == "None"){
-                            skillErrorAlert.toggle()
-                        } else if(data.fanatics.keys.contains(data.selectedSkill)){
+                        if(data.fanatics.keys.contains(data.selectedSkill)){
                             try! removeCamperFromFanatic(camperSelection: selectedCamper, fanaticName: data.selectedSkill, newSixthPreferredSkill: "None", data: data)
                         } else {
                             try! removeCamperFromSkill(camperSelection: selectedCamper, skillName: data.selectedSkill, period: data.selectedPeriod, data: data)
@@ -171,6 +166,7 @@ struct SkillView: View {
                     } label: {
                         Label("Remove Selection", systemImage: "trash")
                     }
+                    .disabled(data.selectedSkill == "None")
                     Button(role: .destructive) {
                         deleteCamper(camperSelection: selectedCamper, data: data)
                         data.objectWillChange.send()
@@ -196,22 +192,19 @@ struct SkillView: View {
             }
             .help("Add Fanatic")
             Button {
-                if(data.selectedSkill == "None"){
-                    skillErrorAlert.toggle()
+                data.objectWillChange.send()
+                if(data.fanatics.keys.contains(data.selectedSkill)){
+                    try! deleteFanatic(fanaticName: data.selectedSkill, data: data)
                 } else {
-                    data.objectWillChange.send()
-                    if(data.fanatics.keys.contains(data.selectedSkill)){
-                        try! deleteFanatic(fanaticName: data.selectedSkill, data: data)
-                    } else {
-                        try! deleteSkill(skillName: data.selectedSkill, data: data)
-                    }
-                    data.selectedSkill = "None"
+                    try! deleteSkill(skillName: data.selectedSkill, data: data)
                 }
+                data.selectedSkill = "None"
             } label: {
                 Image(systemName: "calendar.badge.minus")
-                    .foregroundColor(Color(.systemRed))
+                    .foregroundColor(data.selectedSkill == "None" ? Color(.systemGray) : Color(.systemRed))
             }
             .help("Remove Skill/Fanatic")
+            .disabled(data.selectedSkill == "None")
             Button {
                 let panel = NSOpenPanel()
                 panel.allowsMultipleSelection = false
