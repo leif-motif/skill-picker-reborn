@@ -32,7 +32,6 @@ struct SkillView: View {
     @State private var assignSkillLeaderSheet = false
     @State private var assignSkillCamperSheet = false
     @State private var addFanaticSheet = false
-    @State private var assignFanaticLeaderSheet = false
     @State private var assignFanaticCamperSheet = false
     @State private var importSkillSheet = false
     @State private var skillErrorAlert = false
@@ -57,16 +56,11 @@ struct SkillView: View {
             .contextMenu(forSelectionType: Leader.ID.self) { items in
                 if items.isEmpty {
                     Button {
-                        if(data.skills[data.selectedSkill]!.maximums[data.selectedPeriod] == 0 || data.leaders.count == 0){
-                            skillErrorAlert.toggle()
-                        } else if(data.fanatics.keys.contains(data.selectedSkill)){
-                            assignFanaticLeaderSheet.toggle()
-                        } else {
-                            assignSkillLeaderSheet.toggle()
-                        }
+                        assignSkillLeaderSheet.toggle()
                     } label: {
                         Label("Assign Leader to Skill...", systemImage: "plus")
                     }
+                    .disabled(data.skills[data.selectedSkill]!.maximums[data.selectedPeriod] == 0 || data.leaders.count == data.skills[data.selectedSkill]!.leaders[data.selectedPeriod].count)
                 } else if items.count == 1 {
                     /*Button {
                      
@@ -299,10 +293,11 @@ struct SkillView: View {
         } content: {
             AddSkillView()
         }
-        .sheet(isPresented: $assignSkillLeaderSheet) {
-        } content: {
+        .sheet(isPresented: $assignSkillLeaderSheet, onDismiss: {
+            data.objectWillChange.send()
+        }, content: {
             AssignSkillLeaderView(targetSkill: data.selectedSkill, skillPeriod: data.selectedPeriod)
-        }
+        })
         .sheet(isPresented: $assignSkillCamperSheet) {
         } content: {
             AssignSkillCamperView(targetSkill: data.selectedSkill, skillPeriod: data.selectedPeriod)
@@ -310,10 +305,6 @@ struct SkillView: View {
         .sheet(isPresented: $addFanaticSheet) {
         } content: {
             AddFanaticView()
-        }
-        .sheet(isPresented: $assignFanaticLeaderSheet) {
-        } content: {
-            AssignFanaticLeaderView(targetFanatic: data.selectedSkill)
         }
         .sheet(isPresented: $assignFanaticCamperSheet) {
         } content: {

@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		290240112A6EDB7200F747D7 /* Skill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290240102A6EDB7200F747D7 /* Skill.swift */; };
-		290F78C52A787AE6007F7D1E /* AssignFanaticLeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290F78C42A787AE6007F7D1E /* AssignFanaticLeaderView.swift */; };
 		290F78C72A787E11007F7D1E /* AssignFanaticCamperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290F78C62A787E11007F7D1E /* AssignFanaticCamperView.swift */; };
 		290F78CF2A7963F6007F7D1E /* CSVOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290F78CE2A7963F6007F7D1E /* CSVOperations.swift */; };
 		290F78D12A798612007F7D1E /* CamperInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290F78D02A798612007F7D1E /* CamperInfoView.swift */; };
@@ -69,7 +68,6 @@
 
 /* Begin PBXFileReference section */
 		290240102A6EDB7200F747D7 /* Skill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skill.swift; sourceTree = "<group>"; };
-		290F78C42A787AE6007F7D1E /* AssignFanaticLeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignFanaticLeaderView.swift; sourceTree = "<group>"; };
 		290F78C62A787E11007F7D1E /* AssignFanaticCamperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignFanaticCamperView.swift; sourceTree = "<group>"; };
 		290F78CE2A7963F6007F7D1E /* CSVOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVOperations.swift; sourceTree = "<group>"; };
 		290F78D02A798612007F7D1E /* CamperInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamperInfoView.swift; sourceTree = "<group>"; };
@@ -249,7 +247,6 @@
 				29E0D1E72A775E5E00C068A9 /* AssignSkillLeaderView.swift */,
 				29E0D1E92A7801DE00C068A9 /* AssignSkillCamperView.swift */,
 				2971FDC32A7233BE007DD484 /* AddFanaticView.swift */,
-				290F78C42A787AE6007F7D1E /* AssignFanaticLeaderView.swift */,
 				290F78C62A787E11007F7D1E /* AssignFanaticCamperView.swift */,
 			);
 			path = skill;
@@ -442,7 +439,6 @@
 				29154B2C2A704CBE00CE8CAC /* Cabin.swift in Sources */,
 				293A19852A74E1C400B4B015 /* Extensions.swift in Sources */,
 				29708D912A6F88370090E369 /* Leader.swift in Sources */,
-				290F78C52A787AE6007F7D1E /* AssignFanaticLeaderView.swift in Sources */,
 				29A4EF182A70F3EB00B034E7 /* AddCamperView.swift in Sources */,
 				290F78D12A798612007F7D1E /* CamperInfoView.swift in Sources */,
 				29708D932A6F88E30090E369 /* Camper.swift in Sources */,
