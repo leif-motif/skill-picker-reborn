@@ -25,6 +25,7 @@ struct LeaderView: View {
     @State private var selectedLeader = Set<Leader.ID>()
     @State private var showCsvExporter = false
     @State private var addLeaderSheet = false
+    @State private var leaderInfoSheet = false
     @State private var search = ""
     var body: some View {
         VStack(){
@@ -87,20 +88,26 @@ struct LeaderView: View {
                     .foregroundColor(Color(.systemGreen))
             }
             .help("Add Leader")
+            .sheet(isPresented: $addLeaderSheet) {
+            } content: {
+                AddLeaderView()
+            }
             Button {
                 deleteLeader(leaderSelection: selectedLeader, data: data)
             } label: {
                 Image(systemName:"person.badge.minus")
-                    .foregroundColor(Color(.systemRed))
+                    .foregroundColor(selectedLeader.count == 0 ? Color(.systemGray) : Color(.systemRed))
             }
             .help("Delete Leader")
-            /*Button {
-                
+            .disabled(selectedLeader.count == 0)
+            Button {
+                leaderInfoSheet.toggle()
             } label: {
-                Image(systemName:"pencil.line")
-                    .foregroundColor(Color(.systemOrange))
+                Image(systemName:"person.text.rectangle")
+                    .foregroundColor(selectedLeader.count != 1 ? Color(.systemGray) : Color(.systemOrange))
             }
-            .help("Edit Leader")*/
+            .help("Get Camper Info")
+            .disabled(selectedLeader.count != 1)
             Button {
                 showCsvExporter.toggle()
             } label: {
@@ -121,9 +128,9 @@ struct LeaderView: View {
             TextField("Search...", text: $search)
                 .frame(width: 100)
         }
-        .sheet(isPresented: $addLeaderSheet) {
+        .sheet(isPresented: $leaderInfoSheet) {
         } content: {
-            AddLeaderView()
+            //try! LeaderInfoView(leaderSelection: selectedLeader)
         }
     }
 }
