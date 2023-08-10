@@ -70,7 +70,7 @@ func assignCamperToFanatic(targetCamper: Camper, fanaticName: String, data: Camp
     }
     for i in 0...3 {
         if(data.fanatics[fanaticName]!.activePeriods[i]){
-            data.skills[targetCamper.skills[i]]!.leaders[i].removeAll(where: {$0 == targetCamper})
+            data.skills[targetCamper.skills[i]]!.periods[i].removeAll(where: {$0 == targetCamper})
             targetCamper.skills[i] = fanaticName
             data.skills[fanaticName]!.periods[i].append(targetCamper)
         }
