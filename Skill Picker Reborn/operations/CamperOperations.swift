@@ -54,3 +54,28 @@ func deleteCamper(camperSelection: Set<Camper.ID>, data: CampData){
         data.campers.removeAll(where: {$0.id == camperID})
     }
 }
+
+func prefSkillPercentage(targetCamper: Camper) -> String {
+    var topFour: [String] = Array(targetCamper.preferredSkills[0...3])
+    topFour.removeAll(where: {$0 == "None"})
+    var nonFanatics = targetCamper.skills
+    nonFanatics.removeAll(where: {$0 == targetCamper.fanatic})
+    nonFanatics.removeAll(where: {$0 == "None"})
+    if(topFour == [] || nonFanatics == []){
+        return "N/A"
+    } else {
+        let fmt = NumberFormatter()
+        fmt.numberStyle = .percent
+        fmt.minimumIntegerDigits = 1
+        fmt.maximumIntegerDigits = 3
+        fmt.minimumFractionDigits = 0
+        fmt.maximumFractionDigits = 0
+        var prefSkillsNum = 0
+        for skill in topFour {
+            if(nonFanatics.contains(skill)){
+                prefSkillsNum += 1
+            }
+        }
+        return fmt.string(from: NSNumber(value: Float(prefSkillsNum)/Float(nonFanatics.count > topFour.count ? topFour.count : nonFanatics.count)))!
+    }
+}

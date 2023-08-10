@@ -41,6 +41,10 @@ struct CamperView: View {
                     .width(min: 80, ideal: 80)
                 TableColumn("Cabin",value: \.cabin)
                     .width(min: 80, ideal: 80)
+                TableColumn("Skill%"){ camper in
+                    Text(prefSkillPercentage(targetCamper: camper))
+                }
+                    .width(min: 40, ideal: 40)
                 //see comment in LeaderView.swift
                 //ForEach(0...3, id: \.self){
                 //    TableColumn("Skill "+String($0+1),value: \.skills[$0])
