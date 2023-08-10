@@ -45,6 +45,7 @@
 		29A4EF182A70F3EB00B034E7 /* AddCamperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A4EF172A70F3EB00B034E7 /* AddCamperView.swift */; };
 		29B4BE0B2A7B0EF800FBE06B /* ImportSkillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B4BE0A2A7B0EF800FBE06B /* ImportSkillView.swift */; };
 		29BFB0392A847E06006725D6 /* LeaderInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BFB0382A847E06006725D6 /* LeaderInfoView.swift */; };
+		29CF31412A855EFB002EA2F8 /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CF31402A855EFB002EA2F8 /* StartView.swift */; };
 		29E0D1E82A775E5E00C068A9 /* AssignSkillLeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E0D1E72A775E5E00C068A9 /* AssignSkillLeaderView.swift */; };
 		29E0D1EA2A7801DE00C068A9 /* AssignSkillCamperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E0D1E92A7801DE00C068A9 /* AssignSkillCamperView.swift */; };
 /* End PBXBuildFile section */
@@ -110,6 +111,7 @@
 		29A4EF172A70F3EB00B034E7 /* AddCamperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCamperView.swift; sourceTree = "<group>"; };
 		29B4BE0A2A7B0EF800FBE06B /* ImportSkillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportSkillView.swift; sourceTree = "<group>"; };
 		29BFB0382A847E06006725D6 /* LeaderInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderInfoView.swift; sourceTree = "<group>"; };
+		29CF31402A855EFB002EA2F8 /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
 		29E0D1E72A775E5E00C068A9 /* AssignSkillLeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignSkillLeaderView.swift; sourceTree = "<group>"; };
 		29E0D1E92A7801DE00C068A9 /* AssignSkillCamperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignSkillCamperView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -205,6 +207,7 @@
 			children = (
 				2974B6C32A6ECB6A00EB063B /* Skill_Picker_RebornApp.swift */,
 				2974B6C52A6ECB6A00EB063B /* ContentView.swift */,
+				29CF31402A855EFB002EA2F8 /* StartView.swift */,
 			);
 			path = main;
 			sourceTree = "<group>";
@@ -443,6 +446,7 @@
 				29A4EF182A70F3EB00B034E7 /* AddCamperView.swift in Sources */,
 				290F78D12A798612007F7D1E /* CamperInfoView.swift in Sources */,
 				29708D932A6F88E30090E369 /* Camper.swift in Sources */,
+				29CF31412A855EFB002EA2F8 /* StartView.swift in Sources */,
 				293A19832A74DE4400B4B015 /* SPRErrors.swift in Sources */,
 				29E0D1EA2A7801DE00C068A9 /* AssignSkillCamperView.swift in Sources */,
 				29154B262A70269000CE8CAC /* LeaderView.swift in Sources */,
