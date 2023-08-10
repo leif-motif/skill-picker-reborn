@@ -79,11 +79,6 @@ struct CamperView: View {
                         Label("Delete", systemImage: "trash")
                     }
                 } else {
-                    Button {
-                        camperInfoSheet.toggle()
-                    } label: {
-                        Label("Information...", systemImage: "person.text.rectangle")
-                    }
                     Button(role: .destructive) {
                         deleteCamper(camperSelection: selectedCamper, data: data)
                     } label: {
@@ -180,10 +175,11 @@ struct CamperView: View {
         } content: {
             AddCamperView()
         }
-        .sheet(isPresented: $camperInfoSheet) {
-        } content: {
+        .sheet(isPresented: $camperInfoSheet, onDismiss: {
+            data.objectWillChange.send()
+        }, content: {
             try! CamperInfoView(camperSelection: selectedCamper)
-        }
+        })
         .sheet(isPresented: $importSkillSheet, onDismiss: {
             if(data.isImporting){
                 cabinsFromCSV(csv: csvInput, data: data)

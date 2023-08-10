@@ -29,6 +29,7 @@ struct CamperInfoView: View {
     @State private var newFanatic = ""
     @State private var newPreferredSkills = ["None","None","None","None","None","None"]
     @State private var duplicateSkillsAlert = false
+    @State private var blank = "LMAO THIS REALLY SHOULDN'T PICK ANYTHING"
     private var camperSelection: Set<Camper.ID>
     @Environment(\.dismiss) var dismiss
     var body: some View {
@@ -108,12 +109,18 @@ struct CamperInfoView: View {
                         Text($0).tag($0)
                     }
                 }
-                Picker("Sixth:", selection: $newPreferredSkills[5]){
-                    ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
-                        Text($0).tag($0)
+                if(newFanatic == "None"){
+                    Picker("Sixth:", selection: $newPreferredSkills[5]){
+                        ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
+                            Text($0).tag($0)
+                        }
                     }
+                } else {
+                    Picker("Sixth:", selection: $blank){
+                        Text("LALALALA").tag("LALALALA")
+                    }
+                    .disabled(true)
                 }
-                .disabled(newFanatic != "None")
             }
             HStack {
                 Spacer()
@@ -121,7 +128,56 @@ struct CamperInfoView: View {
                     dismiss()
                 }
                 Button("Save Changes") {
-                    dismiss()
+                    if(newFanatic != "None"){
+                        newPreferredSkills.remove(at: 5)
+                    }
+                    //still in a fanatic or still NOT in fanatic and preferred skills haven't changed
+                    if(targetCamper.preferredSkills == newPreferredSkills){
+                        targetCamper.fName = newFirstName
+                        targetCamper.lName = newLastName
+                        if(targetCamper.cabin != newCabin){
+                            removeCamperFromCabin(camperSelection: camperSelection, data: data)
+                            assignCamperToCabin(targetCamper: targetCamper, cabinName: newCabin, data: data)
+                        }
+                        if(targetCamper.fanatic != newFanatic){
+                            try! removeCamperFromFanatic(camperSelection: camperSelection, fanaticName: targetCamper.fanatic, newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST.", data: data)
+                            try! assignCamperToFanatic(targetCamper: targetCamper, fanaticName: newFanatic, data: data)
+                        }
+                        dismiss()
+                    //changing fanatic status or preferred skills have changed
+                    } else {
+                        newPreferredSkills.removeAll(where: {$0 == "None"})
+                        if(newPreferredSkills != newPreferredSkills.uniqued()){
+                            newPreferredSkills = newPreferredSkills.uniqued()
+                            while(newPreferredSkills.count < 6){
+                                newPreferredSkills.append("None")
+                            }
+                            duplicateSkillsAlert.toggle()
+                        } else {
+                            targetCamper.fName = newFirstName
+                            targetCamper.lName = newLastName
+                            if(targetCamper.cabin != newCabin){
+                                removeCamperFromCabin(camperSelection: camperSelection, data: data)
+                                assignCamperToCabin(targetCamper: targetCamper, cabinName: newCabin, data: data)
+                            }
+                            if(newFanatic != "None" && newPreferredSkills.count == 6){
+                                newPreferredSkills.remove(at: 5)
+                            }
+                            while(newPreferredSkills.count < (newFanatic == "None" ? 6 : 5)){
+                                newPreferredSkills.append("None")
+                            }
+                            if(targetCamper.fanatic == "None" && newFanatic != "None"){
+                                try! assignCamperToFanatic(targetCamper: targetCamper, fanaticName: newFanatic, data: data)
+                            } else if(targetCamper.fanatic != "None" && newFanatic == "None"){
+                                try! removeCamperFromFanatic(camperSelection: camperSelection, fanaticName: targetCamper.fanatic, newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST", data: data)
+                            } else if(targetCamper.fanatic != newFanatic && targetCamper.fanatic != "None" && newFanatic != "None"){
+                                try! removeCamperFromFanatic(camperSelection: camperSelection, fanaticName: targetCamper.fanatic, newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST", data: data)
+                                try! assignCamperToFanatic(targetCamper: targetCamper, fanaticName: newFanatic, data: data)
+                            }
+                            targetCamper.preferredSkills = newPreferredSkills
+                            dismiss()
+                        }
+                    }
                 }
                 .disabled(newFirstName == "" || newLastName == "")
                 .buttonStyle(.borderedProminent)
