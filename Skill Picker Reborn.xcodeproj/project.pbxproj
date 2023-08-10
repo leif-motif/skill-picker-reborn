@@ -45,6 +45,7 @@
 		2974B6EF2A6ECBA900EB063B /* Human.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2974B6EE2A6ECBA800EB063B /* Human.swift */; };
 		29A4EF182A70F3EB00B034E7 /* AddCamperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A4EF172A70F3EB00B034E7 /* AddCamperView.swift */; };
 		29B4BE0B2A7B0EF800FBE06B /* ImportSkillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B4BE0A2A7B0EF800FBE06B /* ImportSkillView.swift */; };
+		29BFB0392A847E06006725D6 /* LeaderInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BFB0382A847E06006725D6 /* LeaderInfoView.swift */; };
 		29E0D1E82A775E5E00C068A9 /* AssignSkillLeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E0D1E72A775E5E00C068A9 /* AssignSkillLeaderView.swift */; };
 		29E0D1EA2A7801DE00C068A9 /* AssignSkillCamperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E0D1E92A7801DE00C068A9 /* AssignSkillCamperView.swift */; };
 /* End PBXBuildFile section */
@@ -110,6 +111,7 @@
 		29A4EF162A70C4E900B034E7 /* Skill-Picker-Reborn-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Skill-Picker-Reborn-Info.plist"; sourceTree = SOURCE_ROOT; };
 		29A4EF172A70F3EB00B034E7 /* AddCamperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCamperView.swift; sourceTree = "<group>"; };
 		29B4BE0A2A7B0EF800FBE06B /* ImportSkillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportSkillView.swift; sourceTree = "<group>"; };
+		29BFB0382A847E06006725D6 /* LeaderInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderInfoView.swift; sourceTree = "<group>"; };
 		29E0D1E72A775E5E00C068A9 /* AssignSkillLeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignSkillLeaderView.swift; sourceTree = "<group>"; };
 		29E0D1E92A7801DE00C068A9 /* AssignSkillCamperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignSkillCamperView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -234,6 +236,7 @@
 			children = (
 				29154B252A70269000CE8CAC /* LeaderView.swift */,
 				291CC57A2A72C262001D422C /* AddLeaderView.swift */,
+				29BFB0382A847E06006725D6 /* LeaderInfoView.swift */,
 			);
 			path = leader;
 			sourceTree = "<group>";
@@ -437,6 +440,7 @@
 				2971FDC62A72B616007DD484 /* CamperOperations.swift in Sources */,
 				29154B282A70274400CE8CAC /* CabinView.swift in Sources */,
 				29154B2C2A704CBE00CE8CAC /* Cabin.swift in Sources */,
+				29BFB0392A847E06006725D6 /* LeaderInfoView.swift in Sources */,
 				293A19852A74E1C400B4B015 /* Extensions.swift in Sources */,
 				29708D912A6F88370090E369 /* Leader.swift in Sources */,
 				29A4EF182A70F3EB00B034E7 /* AddCamperView.swift in Sources */,

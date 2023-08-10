@@ -130,7 +130,7 @@ struct LeaderView: View {
         }
         .sheet(isPresented: $leaderInfoSheet) {
         } content: {
-            //try! LeaderInfoView(leaderSelection: selectedLeader)
+            try! LeaderInfoView(leaderSelection: selectedLeader)
         }
     }
 }
