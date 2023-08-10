@@ -42,7 +42,7 @@ struct AssignSkillCamperView: View {
             } else {
                 Picker("Camper:", selection: $selectedCamper){
                     ForEach(0...(data.campers.count-1), id: \.self){
-                        if(data.campers[$0].skills[skillPeriod] != targetSkill){
+                        if(data.campers[$0].skills[skillPeriod] != targetSkill && !data.fanatics.keys.contains(data.campers[$0].skills[skillPeriod])){
                             Text(data.campers[$0].fName+" "+data.campers[$0].lName).tag(data.campers[$0].id)
                         }
                     }
@@ -57,7 +57,9 @@ struct AssignSkillCamperView: View {
                 Button("Assign Camper") {
                     if(isFanatic){
                         if(data.campers.first(where: {$0.id == selectedCamper})!.fanatic != "None"){
-                            try! removeCamperFromFanatic(camperSelection: [selectedCamper], fanaticName: data.campers.first(where: {$0.id == selectedCamper})!.fanatic, newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST", data: data)
+                            try! removeCamperFromFanatic(camperSelection: [selectedCamper],
+                                                         fanaticName: data.campers.first(where: {$0.id == selectedCamper})!.fanatic,
+                                                         newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST", data: data)
                         }
                         try! assignCamperToFanatic(targetCamper: data.campers.first(where: {$0.id == selectedCamper})!,
                                                    fanaticName: targetSkill,
