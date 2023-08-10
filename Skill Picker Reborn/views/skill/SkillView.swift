@@ -32,7 +32,6 @@ struct SkillView: View {
     @State private var assignSkillLeaderSheet = false
     @State private var assignSkillCamperSheet = false
     @State private var addFanaticSheet = false
-    @State private var assignFanaticCamperSheet = false
     @State private var importSkillSheet = false
     @State private var skillErrorAlert = false
     @State private var exportSkillAlert = false
@@ -123,8 +122,6 @@ struct SkillView: View {
                     Button {
                         if(data.skills[data.selectedSkill]!.periods[data.selectedPeriod].count >= data.skills[data.selectedSkill]!.maximums[data.selectedPeriod] || data.campers.count == 0){
                             skillErrorAlert.toggle()
-                        } else if(data.fanatics.keys.contains(data.selectedSkill)){
-                            assignFanaticCamperSheet.toggle()
                         } else {
                             assignSkillCamperSheet.toggle()
                         }
@@ -291,17 +288,14 @@ struct SkillView: View {
         }, content: {
             AssignSkillLeaderView(targetSkill: data.selectedSkill, skillPeriod: data.selectedPeriod)
         })
-        .sheet(isPresented: $assignSkillCamperSheet) {
-        } content: {
+        .sheet(isPresented: $assignSkillCamperSheet, onDismiss: {
+            data.objectWillChange.send()
+        }, content: {
             AssignSkillCamperView(targetSkill: data.selectedSkill, skillPeriod: data.selectedPeriod)
-        }
+        })
         .sheet(isPresented: $addFanaticSheet) {
         } content: {
             AddFanaticView()
-        }
-        .sheet(isPresented: $assignFanaticCamperSheet) {
-        } content: {
-            AssignFanaticCamperView(targetFanatic: data.selectedSkill)
         }
         .sheet(isPresented: $importSkillSheet, onDismiss: {
             if(data.isImporting){
