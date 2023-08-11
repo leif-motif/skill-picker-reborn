@@ -103,36 +103,17 @@ func processPreferredSkills(data: CampData) throws {
             throw SPRError.NotEnoughSkillSpace
         }
     }
-    for p in 0...3 {
-        for camper in data.campers {
-            if(camper.skills[p] == "None"){
-                //first pass: try to assign a preferred skill
-                for prefSkill in camper.preferredSkills {
-                    if(prefSkill != "None" && data.skills[prefSkill]!.maximums[p] > data.skills[prefSkill]!.periods[p].count && !camper.skills.contains(prefSkill)){
+    for camper in data.campers {
+        for prefSkill in camper.preferredSkills {
+            if(camper.skills.contains("None")){
+                for p in 0...3 {
+                    if(camper.skills[p] == "None" && prefSkill != "None" && data.skills[prefSkill]!.maximums[p] > data.skills[prefSkill]!.periods[p].count){
                         try! assignCamperToSkill(targetCamper: camper, skillName: prefSkill, period: p, data: data)
                         break
-                    } else if(prefSkill == "None"){
-                        for availableSkill in Array(data.skills.keys).filter({!data.fanatics.keys.contains($0)}){
-                            if(availableSkill != "None" && data.skills[availableSkill]!.maximums[p] > data.skills[availableSkill]!.periods[p].count && !camper.skills.contains(availableSkill)){
-                                try! assignCamperToSkill(targetCamper: camper, skillName: availableSkill, period: p, data: data)
-                                break
-                            }
-                        }
                     }
                 }
-                //second pass: try to assign an available skill
-                if(camper.skills[p] == "None"){
-                    for availableSkill in Array(data.skills.keys).filter({!data.fanatics.keys.contains($0)}){
-                        if(availableSkill != "None" && data.skills[availableSkill]!.maximums[p] > data.skills[availableSkill]!.periods[p].count && !camper.skills.contains(availableSkill)){
-                            try! assignCamperToSkill(targetCamper: camper, skillName: availableSkill, period: p, data: data)
-                            break
-                        }
-                    }
-                    //third pass: crash
-                    if(camper.skills[p] == "None"){
-                        throw SPRError.CamperCouldNotGetSkill
-                    }
-                }
+            } else {
+                break
             }
         }
     }
