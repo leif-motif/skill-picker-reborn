@@ -75,7 +75,7 @@ struct CamperView: View {
                             camperInfoSheet.toggle()
                         }
                     } label: {
-                        Label("Information...", systemImage: "person.text.rectangle")
+                        Label("Info/Edit...", systemImage: "person.text.rectangle")
                     }
                     Button(role: .destructive) {
                         deleteCamper(camperSelection: selectedCamper, data: data)

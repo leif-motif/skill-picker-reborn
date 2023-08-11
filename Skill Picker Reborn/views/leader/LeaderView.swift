@@ -54,30 +54,32 @@ struct LeaderView: View {
                 data.leaders.sort(using: $0)
             }
             .contextMenu(forSelectionType: Leader.ID.self) { items in
-              if items.isEmpty {
-                Button {
-                    addLeaderSheet.toggle()
-                } label: {
-                  Label("New Leader...", systemImage: "plus")
+                if items.isEmpty {
+                    Button {
+                        addLeaderSheet.toggle()
+                    } label: {
+                        Label("New Leader...", systemImage: "plus")
+                    }
+                } else if items.count == 1 {
+                    Button {
+                        if(selectedLeader.count == 1){
+                            leaderInfoSheet.toggle()
+                        }
+                    } label: {
+                        Label("Info/Edit...", systemImage: "pencil.line")
+                    }
+                    Button(role: .destructive) {
+                        deleteLeader(leaderSelection: selectedLeader, data: data)
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                    }
+                } else {
+                    Button(role: .destructive) {
+                        deleteLeader(leaderSelection: selectedLeader, data: data)
+                    } label: {
+                        Label("Delete Selection", systemImage: "trash")
+                    }
                 }
-              } else if items.count == 1 {
-                /*Button {
-                    
-                } label: {
-                  Label("Info/Edit...", systemImage: "pencil.line")
-                }*/
-                Button(role: .destructive) {
-                    deleteLeader(leaderSelection: selectedLeader, data: data)
-                } label: {
-                  Label("Delete", systemImage: "trash")
-                }
-              } else {
-                Button(role: .destructive) {
-                    deleteLeader(leaderSelection: selectedLeader, data: data)
-                } label: {
-                  Label("Delete Selection", systemImage: "trash")
-                }
-              }
             }
         }
         .toolbar {
