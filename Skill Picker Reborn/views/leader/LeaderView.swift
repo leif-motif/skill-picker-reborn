@@ -128,10 +128,11 @@ struct LeaderView: View {
             TextField("Search...", text: $search)
                 .frame(width: 100)
         }
-        .sheet(isPresented: $leaderInfoSheet) {
-        } content: {
+        .sheet(isPresented: $leaderInfoSheet, onDismiss: {
+            data.objectWillChange.send()
+        }, content: {
             try! LeaderInfoView(leaderSelection: selectedLeader)
-        }
+        })
     }
 }
 

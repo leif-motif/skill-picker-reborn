@@ -27,7 +27,7 @@ struct LeaderInfoView: View {
     @State private var newLastName = ""
     @State private var newCabin = ""
     @State private var newSkills = ["None","None","None","None"]
-    @State private var newSenior = false
+    @State private var seniorStatus = false
     private var leaderSelection: Set<Leader.ID>
     @Environment(\.dismiss) var dismiss
     var body: some View {
@@ -39,9 +39,10 @@ struct LeaderInfoView: View {
                     Text($0).tag($0)
                 }
             }
-            Toggle(isOn: $newSenior){
+            Toggle(isOn: $seniorStatus){
                 Text("Senior:")
             }
+            .disabled(true)
             .toggleStyle(.switch)
             .padding(.bottom)
             Text("Skills:")
@@ -76,6 +77,23 @@ struct LeaderInfoView: View {
                     dismiss()
                 }
                 Button("Save Changes") {
+                    targetLeader.fName = newFirstName
+                    targetLeader.lName = newLastName
+                    if(targetLeader.cabin != newCabin && targetLeader.senior){
+                        data.cabins[targetLeader.cabin]!.senior = data.nullSenior
+                        data.cabins[newCabin]!.senior.cabin = "Unassigned"
+                        targetLeader.cabin = newCabin
+                        if(newCabin != "Unassigned"){
+                            data.cabins[newCabin]!.senior = targetLeader
+                        }
+                    } else if(targetLeader.cabin != newCabin && !targetLeader.senior){
+                        data.cabins[targetLeader.cabin]!.junior = data.nullJunior
+                        data.cabins[newCabin]!.junior.cabin = "Unassigned"
+                        targetLeader.cabin = newCabin
+                        if(newCabin != "Unassigned"){
+                            data.cabins[newCabin]!.junior = targetLeader
+                        }
+                    }
                     dismiss()
                 }
                 .disabled(newFirstName == "" || newLastName == "")
@@ -92,7 +110,7 @@ struct LeaderInfoView: View {
             newLastName = targetLeader.lName
             newCabin = targetLeader.cabin
             newSkills = targetLeader.skills
-            newSenior = targetLeader.senior
+            seniorStatus = targetLeader.senior
         })
     }
     init(leaderSelection: Set<Leader.ID>) throws {
