@@ -79,6 +79,14 @@ struct LeaderInfoView: View {
                 Button("Save Changes") {
                     targetLeader.fName = newFirstName
                     targetLeader.lName = newLastName
+                    for i in 0...3 {
+                        if(targetLeader.skills[i] != newSkills[i] && targetLeader.skills[i] != "None"){
+                            try! removeLeaderFromSkill(leaderSelection: [targetLeader.id], skillName: targetLeader.skills[i], period: i, data: data)
+                        }
+                        if(targetLeader.skills[i] != newSkills[i] && newSkills[i] != "None"){
+                            assignLeaderToSkill(targetLeader: targetLeader, skillName: newSkills[i], period: i, data: data)
+                        }
+                    }
                     if(targetLeader.cabin != newCabin && targetLeader.senior){
                         data.cabins[targetLeader.cabin]!.senior = data.nullSenior
                         data.cabins[newCabin]!.senior.cabin = "Unassigned"
