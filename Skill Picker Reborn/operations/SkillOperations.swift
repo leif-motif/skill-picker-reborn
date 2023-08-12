@@ -87,6 +87,19 @@ func removeCamperFromSkill(camperSelection: Set<Camper.ID>, skillName: String, p
     }
 }
 
+func clearAllCamperSkills(data: CampData){
+    for skill in data.skills.keys {
+        if(!data.fanatics.keys.contains(skill)){
+            for i in 0...3 {
+                for camper in data.skills[skill]!.periods[i] {
+                    camper.skills[i] = "None"
+                }
+                data.skills[skill]!.periods[i] = []
+            }
+        }
+    }
+}
+
 func processPreferredSkills(data: CampData) throws {
     if(data.skills.count == 1){
         throw SPRError.NoSkills

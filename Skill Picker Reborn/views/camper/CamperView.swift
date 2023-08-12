@@ -136,6 +136,14 @@ struct CamperView: View {
                       dismissButton: .default(Text("Dismiss")))
             }
             Button {
+                data.objectWillChange.send()
+                clearAllCamperSkills(data: data)
+            } label: {
+                Image(systemName: "person.2.gobackward")
+                    .foregroundColor(Color(.systemRed))
+            }
+            .help("Clear All Skills")
+            Button {
                 let panel = NSOpenPanel()
                 panel.allowsMultipleSelection = false
                 panel.canChooseDirectories = false
