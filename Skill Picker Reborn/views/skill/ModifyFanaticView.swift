@@ -1,5 +1,5 @@
 /*
- * AddFanaticView.swift
+ * ModifyFanaticView.swift
  * This file is part of Skill Picker Reborn
  *
  * Copyright (C) 2023 Ranger Lake Bible Camp
@@ -20,10 +20,12 @@
 
 import SwiftUI
 
-struct AddFanaticView: View {
+struct ModifyFanaticView: View {
     @EnvironmentObject private var data: CampData
     @State private var iName = ""
     @State private var activePeriods = [false,false,false,false]
+    private var targetFanatic: String
+    private var editing: Bool
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
@@ -50,24 +52,43 @@ struct AddFanaticView: View {
                 Button("Cancel") {
                     dismiss()
                 }
-                Button("Add Fanatic") {
-                    createFanatic(newFanatic: try! Fanatic(name: iName, activePeriods: activePeriods), data: data)
-                    dismiss()
+                if(editing){
+                    Button("Save Changes"){
+                        dismiss()
+                    }
+                    .disabled(iName == "" || (data.skills.keys.contains(iName) && iName != targetFanatic) || activePeriods == [false,false,false,false])
+                    .buttonStyle(.borderedProminent)
+                    .tint(.blue)
+                } else {
+                    Button("Add Fanatic") {
+                        createFanatic(newFanatic: try! Fanatic(name: iName, activePeriods: activePeriods), data: data)
+                        dismiss()
+                    }
+                    .disabled(iName == "" || data.skills.keys.contains(iName) || activePeriods == [false,false,false,false])
+                    .buttonStyle(.borderedProminent)
+                    .tint(.blue)
                 }
-                .disabled(iName == "" || data.skills.keys.contains(iName) || activePeriods == [false,false,false,false])
-                .buttonStyle(.borderedProminent)
-                .tint(.blue)
             }
             .padding(.top)
         }
-        .frame(width: 250, height: 200)
         .padding()
+        .frame(width: editing ? 300 : 280, height: 250)
+        .onAppear(perform: {
+            iName = targetFanatic
+            if(editing){
+                activePeriods = data.fanatics[targetFanatic]!.activePeriods
+            }
+        })
+    }
+    init(targetFanatic: String = ""){
+        self.targetFanatic = targetFanatic
+        self.editing = targetFanatic != ""
     }
 }
 
-struct AddFanaticView_Previews: PreviewProvider {
+struct ModifyFanaticView_Previews: PreviewProvider {
     static var previews: some View {
-        AddFanaticView()
+        ModifyFanaticView()
             .environmentObject(CampData())
     }
 }

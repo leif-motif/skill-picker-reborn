@@ -197,7 +197,7 @@ struct SkillView: View {
             .help("Add Fanatic")
             .sheet(isPresented: $addFanaticSheet){
             } content: {
-                AddFanaticView()
+                ModifyFanaticView()
             }
             Button {
                 data.objectWillChange.send()
@@ -227,7 +227,7 @@ struct SkillView: View {
             .sheet(isPresented: $editFanaticSheet, onDismiss: {
                 data.objectWillChange.send()
             }, content: {
-                EditFanaticView(targetFanatic: data.selectedSkill)
+                ModifyFanaticView(targetFanatic: data.selectedSkill)
             })
             .sheet(isPresented: $editSkillSheet, onDismiss: {
                 data.objectWillChange.send()
