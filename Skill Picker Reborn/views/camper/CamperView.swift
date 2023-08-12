@@ -182,6 +182,7 @@ struct CamperView: View {
             }
             TextField("Search...", text: $search)
                 .frame(width: 100)
+                .disabled(true)
         }
         .sheet(isPresented: $addCamperSheet) {
         } content: {

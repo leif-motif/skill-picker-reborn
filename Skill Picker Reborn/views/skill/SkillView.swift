@@ -278,6 +278,7 @@ struct SkillView: View {
             }
             TextField("Search...", text: $search)
                 .frame(width: 100)
+                .disabled(true)
         }
         .sheet(isPresented: $addSkillSheet) {
         } content: {

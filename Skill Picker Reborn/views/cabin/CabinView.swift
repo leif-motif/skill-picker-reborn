@@ -187,6 +187,7 @@ struct CabinView: View {
             //This search bar STILL doesn't work.
             TextField("Search... ", text: $search)
                 .frame(width: 100)
+                .disabled(true)
         }
         .sheet(isPresented: $addCabinSheet, onDismiss: {
             data.objectWillChange.send()

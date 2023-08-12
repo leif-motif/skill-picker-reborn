@@ -129,6 +129,7 @@ struct LeaderView: View {
             //This search bar STILL doesn't work.
             TextField("Search...", text: $search)
                 .frame(width: 100)
+                .disabled(true)
         }
         .sheet(isPresented: $leaderInfoSheet, onDismiss: {
             data.objectWillChange.send()
