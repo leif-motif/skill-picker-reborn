@@ -20,10 +20,10 @@
 
 import Foundation
 class Skill {
-    let name: String
+    var name: String
     var periods: [[Camper]]
     var leaders: [[Leader]]
-    let maximums: [Int]
+    var maximums: [Int]
     init(name: String, periods: [[Camper]] = [[],[],[],[]], leaders: [[Leader]] = [[],[],[],[]], maximums: [Int]) throws {
         self.name = name
         if(periods.count != 4){

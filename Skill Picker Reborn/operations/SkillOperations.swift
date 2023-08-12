@@ -25,11 +25,31 @@ func createSkill(newSkill: Skill, data: CampData){
 }
 
 func renameSkill(oldName: String, newName: String, data: CampData) throws {
-    if(oldName == "None" || newName == "None"){
+    if(oldName == "None"){
         throw SPRError.NoneSkillRefusal
     }
     if(data.skills.keys.contains(newName)){
         throw SPRError.DuplicateSkillName
+    }
+    for camper in data.campers {
+        for i in 0...(camper.preferredSkills.count-1){
+            if(camper.preferredSkills[i] == oldName){
+                camper.preferredSkills[i] = newName
+            }
+        }
+        for i in 0...3 {
+            if(camper.skills[i] == oldName){
+                camper.skills[i] = newName
+            }
+        }
+    }
+    data.skills[newName] = data.skills[oldName]
+    data.skills.removeValue(forKey: oldName)
+    data.skills[newName]!.name = newName
+    for i in 0...3 {
+        for leader in data.skills[newName]!.leaders[i] {
+            leader.skills[i] = newName
+        }
     }
 }
 
