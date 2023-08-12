@@ -1,5 +1,5 @@
 /*
- * AddSkillView.swift
+ * ModifySkillView.swift
  * This file is part of Skill Picker Reborn
  *
  * Copyright (C) 2023 Ranger Lake Bible Camp
@@ -20,11 +20,13 @@
 
 import SwiftUI
 
-struct AddSkillView: View {
+struct ModifySkillView: View {
     @EnvironmentObject private var data: CampData
     @State private var iName = ""
     @State private var maximums = [1, 1, 1 ,1]
     private let range = 0...255
+    private var targetSkill: String
+    private var editing = false
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
@@ -79,32 +81,54 @@ struct AddSkillView: View {
                 Button("Cancel") {
                     dismiss()
                 }
-                Button("Add Skill") {
-                    //There's probably a better way to do this but I no longer care.
-                    for i in 0...3 {
-                        if(maximums[i] < 0){
-                            maximums[i] = 0
-                        } else if(maximums[i] > 255){
-                            maximums[i] = 255
-                        }
+                if(editing){
+                    Button("Save Changes"){
+                        dismiss()
                     }
-                    createSkill(newSkill: try! Skill(name: iName, maximums: maximums), data: data)
-                    dismiss()
+                    .buttonStyle(.borderedProminent)
+                    .tint(.blue)
+                    .disabled(iName == "" || (data.skills.keys.contains(iName) && iName != targetSkill) || maximums == [0,0,0,0])
+                } else {
+                    Button("Add Skill") {
+                        //There's probably a better way to do this but I no longer care.
+                        for i in 0...3 {
+                            if(maximums[i] < 0){
+                                maximums[i] = 0
+                            } else if(maximums[i] > 255){
+                                maximums[i] = 255
+                            }
+                        }
+                        createSkill(newSkill: try! Skill(name: iName, maximums: maximums), data: data)
+                        dismiss()
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(.blue)
+                    .disabled(iName == "" || data.skills.keys.contains(iName) || maximums == [0,0,0,0])
                 }
-                .buttonStyle(.borderedProminent)
-                .tint(.blue)
-                .disabled(iName == "" || data.skills.keys.contains(iName) || maximums == [0,0,0,0])
             }
             .padding(.top)
         }
         .padding()
-        .frame(width: 300, height: 270)
+        .frame(width: editing ? 330 : 300, height: 270)
+        .onAppear(perform: {
+            iName = targetSkill
+            if(editing){
+                maximums = data.skills[targetSkill]!.maximums
+            }
+        })
+    }
+    init(targetSkill: String = "") throws {
+        if(targetSkill == "None"){
+            throw SPRError.NoneSkillRefusal
+        }
+        self.targetSkill = targetSkill
+        self.editing = targetSkill != ""
     }
 }
 
-struct AddSkillView_Previews: PreviewProvider {
+struct ModifySkillView_Previews: PreviewProvider {
     static var previews: some View {
-        AddSkillView()
+        try! ModifySkillView()
             .environmentObject(CampData())
     }
 }

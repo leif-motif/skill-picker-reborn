@@ -186,7 +186,7 @@ struct SkillView: View {
             .help("Add Skill")
             .sheet(isPresented: $addSkillSheet){
             } content: {
-                AddSkillView()
+                try! ModifySkillView()
             }
             Button {
                 addFanaticSheet.toggle()
@@ -215,9 +215,9 @@ struct SkillView: View {
             .disabled(data.selectedSkill == "None")
             Button {
                 if(data.fanatics.keys.contains(data.selectedSkill)){
-                    //edit fanatic
+                    editFanaticSheet.toggle()
                 } else {
-                    //edit skill
+                    editSkillSheet.toggle()
                 }
             } label: {
                 Image(systemName: "pencil.line")
@@ -232,7 +232,7 @@ struct SkillView: View {
             .sheet(isPresented: $editSkillSheet, onDismiss: {
                 data.objectWillChange.send()
             }, content: {
-                try! EditSkillView(targetSkill: data.selectedSkill)
+                try! ModifySkillView(targetSkill: data.selectedSkill)
             })
             Button {
                 let panel = NSOpenPanel()

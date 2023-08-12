@@ -26,14 +26,13 @@
 		293A19852A74E1C400B4B015 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293A19842A74E1C400B4B015 /* Extensions.swift */; };
 		293A19872A74E37C00B4B015 /* CampData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293A19862A74E37C00B4B015 /* CampData.swift */; };
 		29633AFB2A815ED100DF0FF4 /* AssignCabinCamperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29633AFA2A815ED100DF0FF4 /* AssignCabinCamperView.swift */; };
-		296856012A87304000367DB5 /* EditSkillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296856002A87304000367DB5 /* EditSkillView.swift */; };
 		296856032A87382900367DB5 /* EditFanaticView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296856022A87382900367DB5 /* EditFanaticView.swift */; };
 		29708D912A6F88370090E369 /* Leader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29708D902A6F88370090E369 /* Leader.swift */; };
 		29708D932A6F88E30090E369 /* Camper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29708D922A6F88E30090E369 /* Camper.swift */; };
 		29708D952A6F999F0090E369 /* CamperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29708D942A6F999F0090E369 /* CamperView.swift */; };
 		2970DFA62A7412C400D2A71F /* Fanatic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2970DFA52A7412C400D2A71F /* Fanatic.swift */; };
 		2971FDC02A71F9CD007DD484 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 2971FDBF2A71F9CD007DD484 /* README.md */; };
-		2971FDC22A721F49007DD484 /* AddSkillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2971FDC12A721F49007DD484 /* AddSkillView.swift */; };
+		2971FDC22A721F49007DD484 /* ModifySkillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2971FDC12A721F49007DD484 /* ModifySkillView.swift */; };
 		2971FDC42A7233BE007DD484 /* AddFanaticView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2971FDC32A7233BE007DD484 /* AddFanaticView.swift */; };
 		2971FDC62A72B616007DD484 /* CamperOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2971FDC52A72B616007DD484 /* CamperOperations.swift */; };
 		2974B6C42A6ECB6A00EB063B /* Skill_Picker_RebornApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2974B6C32A6ECB6A00EB063B /* Skill_Picker_RebornApp.swift */; };
@@ -89,14 +88,13 @@
 		293A19842A74E1C400B4B015 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		293A19862A74E37C00B4B015 /* CampData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampData.swift; sourceTree = "<group>"; };
 		29633AFA2A815ED100DF0FF4 /* AssignCabinCamperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignCabinCamperView.swift; sourceTree = "<group>"; };
-		296856002A87304000367DB5 /* EditSkillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSkillView.swift; sourceTree = "<group>"; };
 		296856022A87382900367DB5 /* EditFanaticView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditFanaticView.swift; sourceTree = "<group>"; };
 		29708D902A6F88370090E369 /* Leader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Leader.swift; sourceTree = "<group>"; };
 		29708D922A6F88E30090E369 /* Camper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camper.swift; sourceTree = "<group>"; };
 		29708D942A6F999F0090E369 /* CamperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamperView.swift; sourceTree = "<group>"; };
 		2970DFA52A7412C400D2A71F /* Fanatic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fanatic.swift; sourceTree = "<group>"; };
 		2971FDBF2A71F9CD007DD484 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
-		2971FDC12A721F49007DD484 /* AddSkillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSkillView.swift; sourceTree = "<group>"; };
+		2971FDC12A721F49007DD484 /* ModifySkillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifySkillView.swift; sourceTree = "<group>"; };
 		2971FDC32A7233BE007DD484 /* AddFanaticView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFanaticView.swift; sourceTree = "<group>"; };
 		2971FDC52A72B616007DD484 /* CamperOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamperOperations.swift; sourceTree = "<group>"; };
 		2974B6C02A6ECB6A00EB063B /* Skill Picker Reborn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Skill Picker Reborn.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -250,9 +248,8 @@
 			isa = PBXGroup;
 			children = (
 				29154B292A7027B300CE8CAC /* SkillView.swift */,
-				2971FDC12A721F49007DD484 /* AddSkillView.swift */,
+				2971FDC12A721F49007DD484 /* ModifySkillView.swift */,
 				2971FDC32A7233BE007DD484 /* AddFanaticView.swift */,
-				296856002A87304000367DB5 /* EditSkillView.swift */,
 				296856022A87382900367DB5 /* EditFanaticView.swift */,
 				29B4BE0A2A7B0EF800FBE06B /* ImportSkillView.swift */,
 				29E0D1E72A775E5E00C068A9 /* AssignSkillLeaderView.swift */,
@@ -435,7 +432,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2971FDC22A721F49007DD484 /* AddSkillView.swift in Sources */,
+				2971FDC22A721F49007DD484 /* ModifySkillView.swift in Sources */,
 				293A19872A74E37C00B4B015 /* CampData.swift in Sources */,
 				29154B302A706EDC00CE8CAC /* TestsThatNeedToGo.swift in Sources */,
 				29E0D1E82A775E5E00C068A9 /* AssignSkillLeaderView.swift in Sources */,
@@ -468,7 +465,6 @@
 				290F78CF2A7963F6007F7D1E /* CSVOperations.swift in Sources */,
 				291CC5812A72C2F2001D422C /* LeaderOperations.swift in Sources */,
 				29B4BE0B2A7B0EF800FBE06B /* ImportSkillView.swift in Sources */,
-				296856012A87304000367DB5 /* EditSkillView.swift in Sources */,
 				2974B6C42A6ECB6A00EB063B /* Skill_Picker_RebornApp.swift in Sources */,
 				296856032A87382900367DB5 /* EditFanaticView.swift in Sources */,
 			);
