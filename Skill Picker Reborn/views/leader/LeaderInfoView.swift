@@ -48,25 +48,25 @@ struct LeaderInfoView: View {
             Text("Skills:")
                 .bold()
             Picker("Skill 1:", selection: $newSkills[0]){
-                ForEach(Array(data.skills.keys).sorted(), id: \.self){
+                ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
                     Text($0).tag($0)
                 }
             }
             .disabled(data.fanatics.keys.contains(newSkills[0]))
             Picker("Skill 2:", selection: $newSkills[1]){
-                ForEach(Array(data.skills.keys).sorted(), id: \.self){
+                ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
                     Text($0).tag($0)
                 }
             }
             .disabled(data.fanatics.keys.contains(newSkills[1]))
             Picker("Skill 3:", selection: $newSkills[2]){
-                ForEach(Array(data.skills.keys).sorted(), id: \.self){
+                ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
                     Text($0).tag($0)
                 }
             }
             .disabled(data.fanatics.keys.contains(newSkills[2]))
             Picker("Skill 4:", selection: $newSkills[3]){
-                ForEach(Array(data.skills.keys).sorted(), id: \.self){
+                ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
                     Text($0).tag($0)
                 }
             }
