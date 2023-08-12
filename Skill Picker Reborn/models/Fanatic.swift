@@ -21,8 +21,8 @@
 import Foundation
 
 class Fanatic {
-    let name: String
-    let activePeriods: [Bool]
+    var name: String
+    var activePeriods: [Bool]
     init(name: String, activePeriods: [Bool]) throws {
         self.name = name
         if(activePeriods.count != 4){

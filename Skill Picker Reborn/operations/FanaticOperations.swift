@@ -29,7 +29,27 @@ func createFanatic(newFanatic: Fanatic, data: CampData){
 }
 
 func renameFanatic(oldName: String, newName: String, data: CampData) throws {
-    
+    for i in 0...3 {
+        for camper in data.skills[oldName]!.periods[i] {
+            if(camper.skills[i] == oldName){
+                camper.skills[i] = newName
+            }
+            camper.fanatic = newName
+        }
+    }
+    for i in 0...3 {
+        for leader in data.skills[oldName]!.leaders[i] {
+            if(leader.skills[i] == oldName){
+                leader.skills[i] = newName
+            }
+        }
+    }
+    data.skills[newName] = data.skills[oldName]
+    data.skills.removeValue(forKey: oldName)
+    data.skills[newName]!.name = newName
+    data.fanatics[newName] = data.fanatics[oldName]
+    data.fanatics.removeValue(forKey: oldName)
+    data.fanatics[newName]!.name = newName
 }
 
 func changeFanaticPeriods(targetFanatic: String, newPeriods: [Bool], data: CampData){

@@ -54,6 +54,10 @@ struct ModifyFanaticView: View {
                 }
                 if(editing){
                     Button("Save Changes"){
+                        if(iName != targetFanatic){
+                            try! renameFanatic(oldName: targetFanatic, newName: iName, data: data)
+                            data.selectedSkill = iName
+                        }
                         dismiss()
                     }
                     .disabled(iName == "" || (data.skills.keys.contains(iName) && iName != targetFanatic) || activePeriods == [false,false,false,false])
