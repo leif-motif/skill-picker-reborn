@@ -203,6 +203,17 @@ struct SkillView: View {
             .help("Remove Skill/Fanatic")
             .disabled(data.selectedSkill == "None")
             Button {
+                if(data.fanatics.keys.contains(data.selectedSkill)){
+                    //edit fanatic
+                } else {
+                    //edit skill
+                }
+            } label: {
+                Image(systemName: "pencil.line")
+                    .foregroundColor(data.selectedSkill == "None" ? Color(.systemGray) : Color(.systemOrange))
+            }
+            .disabled(data.selectedSkill == "None")
+            Button {
                 let panel = NSOpenPanel()
                 panel.allowsMultipleSelection = false
                 panel.canChooseDirectories = false
@@ -270,7 +281,7 @@ struct SkillView: View {
                     Text($0).tag($0)
                 }
             }
-            .frame(width: 170)
+            .frame(width: 120)
             Picker("Period", selection: $data.selectedPeriod){
                 ForEach(0...3, id: \.self){
                     Text("Skill "+String($0+1)).tag($0)
