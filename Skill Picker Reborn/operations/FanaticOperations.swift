@@ -28,6 +28,14 @@ func createFanatic(newFanatic: Fanatic, data: CampData){
                                                                                 newFanatic.activePeriods[3] ? 255 : 0])
 }
 
+func renameFanatic(oldName: String, newName: String, data: CampData) throws {
+    
+}
+
+func changeFanaticPeriods(targetFanatic: String, newPeriods: [Bool], data: CampData){
+    
+}
+
 func deleteFanatic(fanaticName: String, data: CampData) throws {
     if(fanaticName == "None"){
         throw SPRError.NoneSkillRefusal

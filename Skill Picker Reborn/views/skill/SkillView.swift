@@ -29,9 +29,11 @@ struct SkillView: View {
     @State private var showFanaticCsvExporter = false
     @State private var showSkillCsvExporter = false
     @State private var addSkillSheet = false
+    @State private var addFanaticSheet = false
+    @State private var editSkillSheet = false
+    @State private var editFanaticSheet = false
     @State private var assignSkillLeaderSheet = false
     @State private var assignSkillCamperSheet = false
-    @State private var addFanaticSheet = false
     @State private var importSkillSheet = false
     @State private var skillErrorAlert = false
     @State private var exportSkillAlert = false
@@ -181,6 +183,10 @@ struct SkillView: View {
                     .foregroundColor(Color(.systemGreen))
             }
             .help("Add Skill")
+            .sheet(isPresented: $addSkillSheet){
+            } content: {
+                AddSkillView()
+            }
             Button {
                 addFanaticSheet.toggle()
             } label: {
@@ -188,6 +194,10 @@ struct SkillView: View {
                     .foregroundColor(Color(.systemGreen))
             }
             .help("Add Fanatic")
+            .sheet(isPresented: $addFanaticSheet){
+            } content: {
+                AddFanaticView()
+            }
             Button {
                 data.objectWillChange.send()
                 if(data.fanatics.keys.contains(data.selectedSkill)){
@@ -213,6 +223,16 @@ struct SkillView: View {
                     .foregroundColor(data.selectedSkill == "None" ? Color(.systemGray) : Color(.systemOrange))
             }
             .disabled(data.selectedSkill == "None")
+            .sheet(isPresented: $editFanaticSheet, onDismiss: {
+                data.objectWillChange.send()
+            }, content: {
+                EditFanaticView(targetFanatic: data.selectedSkill)
+            })
+            .sheet(isPresented: $editSkillSheet, onDismiss: {
+                data.objectWillChange.send()
+            }, content: {
+                try! EditSkillView(targetSkill: data.selectedSkill)
+            })
             Button {
                 let panel = NSOpenPanel()
                 panel.allowsMultipleSelection = false
@@ -234,6 +254,15 @@ struct SkillView: View {
                     .foregroundColor(Color(.systemBlue))
             }
             .help("Import CSV")
+            .sheet(isPresented: $importSkillSheet, onDismiss: {
+                if(data.isImporting){
+                    cabinsFromCSV(csv: csvInput, data: data)
+                    try! campersFromCSV(csv: csvInput, data: data)
+                    data.isImporting = false
+                }
+            }, content: {
+                try! ImportSkillView(data: data)
+            })
             Button {
                 if(data.fanatics.keys.contains(data.selectedSkill)){
                     var p: Int?
@@ -291,10 +320,6 @@ struct SkillView: View {
                 .frame(width: 100)
                 .disabled(true)
         }
-        .sheet(isPresented: $addSkillSheet) {
-        } content: {
-            AddSkillView()
-        }
         .sheet(isPresented: $assignSkillLeaderSheet, onDismiss: {
             data.objectWillChange.send()
         }, content: {
@@ -304,19 +329,6 @@ struct SkillView: View {
             data.objectWillChange.send()
         }, content: {
             AssignSkillCamperView(targetSkill: data.selectedSkill, skillPeriod: data.selectedPeriod)
-        })
-        .sheet(isPresented: $addFanaticSheet) {
-        } content: {
-            AddFanaticView()
-        }
-        .sheet(isPresented: $importSkillSheet, onDismiss: {
-            if(data.isImporting){
-                cabinsFromCSV(csv: csvInput, data: data)
-                try! campersFromCSV(csv: csvInput, data: data)
-                data.isImporting = false
-            }
-        }, content: {
-            try! ImportSkillView(data: data)
         })
         //Somehow, you can't have more than one alerts in a single view.
         //WHY?

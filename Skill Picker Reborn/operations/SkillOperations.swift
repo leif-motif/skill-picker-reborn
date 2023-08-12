@@ -24,6 +24,15 @@ func createSkill(newSkill: Skill, data: CampData){
     data.skills[newSkill.name] = newSkill
 }
 
+func renameSkill(oldName: String, newName: String, data: CampData) throws {
+    if(oldName == "None" || newName == "None"){
+        throw SPRError.NoneSkillRefusal
+    }
+    if(data.skills.keys.contains(newName)){
+        throw SPRError.DuplicateSkillName
+    }
+}
+
 func deleteSkill(skillName: String, data: CampData) throws {
     if(skillName == "None"){
         throw SPRError.RefusingDelete

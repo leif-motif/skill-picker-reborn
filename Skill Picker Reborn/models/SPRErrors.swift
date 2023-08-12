@@ -34,4 +34,6 @@ enum SPRError: Error {
     case NoSkills
     case NotEnoughSkillSpace
     case CamperCouldNotGetSkill
+    case DuplicateSkillName
+    case SkillIsFanatic
 }
