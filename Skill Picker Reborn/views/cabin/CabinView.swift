@@ -113,6 +113,11 @@ struct CabinView: View {
                     .foregroundColor(Color(.systemGreen))
             }
             .help("Add Cabin")
+            .sheet(isPresented: $addCabinSheet, onDismiss: {
+                data.objectWillChange.send()
+            }, content: {
+                ModifyCabinView()
+            })
             Button {
                 data.objectWillChange.send()
                 try! deleteCabin(targetCabin: data.selectedCabin, data: data)
@@ -157,6 +162,16 @@ struct CabinView: View {
                     .foregroundColor(Color(.systemBlue))
             }
             .help("Import CSV")
+            .sheet(isPresented: $importSkillSheet, onDismiss: {
+                if(data.isImporting){
+                    cabinsFromCSV(csv: csvInput, data: data)
+                    try! campersFromCSV(csv: csvInput, data: data)
+                    data.isImporting = false
+                }
+                data.objectWillChange.send()
+            }, content: {
+                try! ImportSkillView(data: data)
+            })
             Button {
                 if(data.cabins[data.selectedCabin]!.campers.count > 0){
                     showCsvExporter.toggle()
@@ -192,11 +207,6 @@ struct CabinView: View {
                 .frame(width: 100)
                 .disabled(true)
         }
-        .sheet(isPresented: $addCabinSheet, onDismiss: {
-            data.objectWillChange.send()
-        }, content: {
-            ModifyCabinView()
-        })
         .sheet(isPresented: $assignCabinCamperSheet, onDismiss: {
             data.objectWillChange.send()
         }, content: {
@@ -206,16 +216,6 @@ struct CabinView: View {
             data.objectWillChange.send()
         }, content: {
             try! CamperInfoView(camperSelection: selectedCamper)
-        })
-        .sheet(isPresented: $importSkillSheet, onDismiss: {
-            if(data.isImporting){
-                cabinsFromCSV(csv: csvInput, data: data)
-                try! campersFromCSV(csv: csvInput, data: data)
-                data.isImporting = false
-            }
-            data.objectWillChange.send()
-        }, content: {
-            try! ImportSkillView(data: data)
         })
     }
 }

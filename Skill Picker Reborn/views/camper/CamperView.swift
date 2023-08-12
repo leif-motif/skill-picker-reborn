@@ -164,6 +164,15 @@ struct CamperView: View {
                     .foregroundColor(Color(.systemBlue))
             }
             .help("Import CSV")
+            .sheet(isPresented: $importSkillSheet, onDismiss: {
+                if(data.isImporting){
+                    cabinsFromCSV(csv: csvInput, data: data)
+                    try! campersFromCSV(csv: csvInput, data: data)
+                    data.isImporting = false
+                }
+            }, content: {
+                try! ImportSkillView(data: data)
+            })
             Button {
                 showCsvExporter.toggle()
             } label: {
@@ -192,15 +201,6 @@ struct CamperView: View {
             data.objectWillChange.send()
         }, content: {
             try! CamperInfoView(camperSelection: selectedCamper)
-        })
-        .sheet(isPresented: $importSkillSheet, onDismiss: {
-            if(data.isImporting){
-                cabinsFromCSV(csv: csvInput, data: data)
-                try! campersFromCSV(csv: csvInput, data: data)
-                data.isImporting = false
-            }
-        }, content: {
-            try! ImportSkillView(data: data)
         })
     }
 }
