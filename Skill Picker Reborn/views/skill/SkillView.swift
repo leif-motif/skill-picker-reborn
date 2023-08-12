@@ -34,6 +34,8 @@ struct SkillView: View {
     @State private var editFanaticSheet = false
     @State private var assignSkillLeaderSheet = false
     @State private var assignSkillCamperSheet = false
+    @State private var camperInfoSheet = false
+    @State private var leaderInfoSheet = false
     @State private var importSkillSheet = false
     @State private var exportSkillAlert = false
     @State private var search = ""
@@ -62,11 +64,13 @@ struct SkillView: View {
                     }
                     .disabled(data.leaders.count == data.skills[data.selectedSkill]!.leaders[data.selectedPeriod].count)
                 } else if items.count == 1 {
-                    /*Button {
-                     
-                     } label: {
-                     Label("Info/Edit...", systemImage: "pencil.line")
-                     }*/
+                    Button {
+                        if(selectedLeader.count == 1){
+                            leaderInfoSheet.toggle()
+                        }
+                    } label: {
+                        Label("Info/Edit...", systemImage: "pencil.line")
+                    }
                     Button(role: .destructive) {
                         if(data.fanatics.keys.contains(data.selectedSkill)){
                             try! removeLeaderFromFanatic(leaderSelection: selectedLeader, fanaticName: data.selectedSkill, data: data)
@@ -127,11 +131,13 @@ struct SkillView: View {
                         Label("Assign Camper to Skill...", systemImage: "plus")
                     }
                 } else if items.count == 1 {
-                    /*Button {
-                     
-                     } label: {
-                     Label("Info/Edit...", systemImage: "pencil.line")
-                     }*/
+                    Button {
+                        if(selectedCamper.count == 1){
+                            camperInfoSheet.toggle()
+                        }
+                    } label: {
+                         Label("Info/Edit...", systemImage: "pencil.line")
+                    }
                     Button(role: .destructive) {
                         if(data.fanatics.keys.contains(data.selectedSkill)){
                             try! removeCamperFromFanatic(camperSelection: selectedCamper, fanaticName: data.selectedSkill, newSixthPreferredSkill: "None", data: data)
@@ -315,6 +321,16 @@ struct SkillView: View {
                 .frame(width: 100)
                 .disabled(true)
         }
+        .sheet(isPresented: $camperInfoSheet, onDismiss: {
+            data.objectWillChange.send()
+        }, content: {
+            try! CamperInfoView(camperSelection: selectedCamper)
+        })
+        .sheet(isPresented: $leaderInfoSheet, onDismiss: {
+            data.objectWillChange.send()
+        }, content: {
+            try! LeaderInfoView(leaderSelection: selectedLeader)
+        })
         .sheet(isPresented: $assignSkillLeaderSheet, onDismiss: {
             data.objectWillChange.send()
         }, content: {
