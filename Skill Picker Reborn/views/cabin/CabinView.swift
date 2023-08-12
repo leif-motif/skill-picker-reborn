@@ -28,6 +28,7 @@ struct CabinView: View {
     @State private var addCabinSheet = false
     @State private var modifyCabinSheet = false
     @State private var assignCabinCamperSheet = false
+    @State private var camperInfoSheet = false
     @State private var importSkillSheet = false
     @State private var noCampersAlert = false
     @State private var exportCabinAlert = false
@@ -73,11 +74,13 @@ struct CabinView: View {
                               dismissButton: .default(Text("Dismiss")))
                     }
                 } else if items.count == 1 {
-                    /*Button {
-                     
-                     } label: {
-                     Label("Info/Edit...", systemImage: "pencil.line")
-                     }*/
+                    Button {
+                        if(selectedCamper.count == 1){
+                            camperInfoSheet.toggle()
+                        }
+                    } label: {
+                        Label("Info/Edit...", systemImage: "pencil.line")
+                    }
                     Button(role: .destructive) {
                         removeCamperFromCabin(camperSelection: selectedCamper, data: data)
                     } label: {
@@ -198,6 +201,11 @@ struct CabinView: View {
             data.objectWillChange.send()
         }, content: {
             AssignCabinCamperView(targetCabin: data.selectedCabin)
+        })
+        .sheet(isPresented: $camperInfoSheet, onDismiss: {
+            data.objectWillChange.send()
+        }, content: {
+            try! CamperInfoView(camperSelection: selectedCamper)
         })
         .sheet(isPresented: $importSkillSheet, onDismiss: {
             if(data.isImporting){
