@@ -35,7 +35,6 @@ struct SkillView: View {
     @State private var assignSkillLeaderSheet = false
     @State private var assignSkillCamperSheet = false
     @State private var importSkillSheet = false
-    @State private var skillErrorAlert = false
     @State private var exportSkillAlert = false
     @State private var search = ""
     var body: some View {
@@ -61,7 +60,7 @@ struct SkillView: View {
                     } label: {
                         Label("Assign Leader to Skill...", systemImage: "plus")
                     }
-                    .disabled(data.skills[data.selectedSkill]!.maximums[data.selectedPeriod] == 0 || data.leaders.count == data.skills[data.selectedSkill]!.leaders[data.selectedPeriod].count)
+                    .disabled(data.leaders.count == data.skills[data.selectedSkill]!.leaders[data.selectedPeriod].count)
                 } else if items.count == 1 {
                     /*Button {
                      
@@ -110,6 +109,7 @@ struct SkillView: View {
             Text("Campers ("+String(currentSkillCount)+"/"+String(currentSkillMax)+")")
                 .font(.title)
                 .bold()
+                .foregroundColor(currentSkillCount > currentSkillMax ? Color(.systemRed) : Color.primary)
             Table(data.skills[data.selectedSkill]!.periods[data.selectedPeriod], selection: $selectedCamper, sortOrder: $data.skillCamperSortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
@@ -122,12 +122,7 @@ struct SkillView: View {
             .contextMenu(forSelectionType: Camper.ID.self) { items in
                 if items.isEmpty {
                     Button {
-                        if(data.skills[data.selectedSkill]!.periods[data.selectedPeriod].count >= data.skills[data.selectedSkill]!.maximums[data.selectedPeriod] || data.campers.count == 0){
-                            skillErrorAlert.toggle()
-                        } else {
-                            assignSkillCamperSheet.toggle()
-                        }
-                        data.objectWillChange.send()
+                        assignSkillCamperSheet.toggle()
                     } label: {
                         Label("Assign Camper to Skill...", systemImage: "plus")
                     }
@@ -330,13 +325,6 @@ struct SkillView: View {
         }, content: {
             AssignSkillCamperView(targetSkill: data.selectedSkill, skillPeriod: data.selectedPeriod)
         })
-        //Somehow, you can't have more than one alerts in a single view.
-        //WHY?
-        .alert(isPresented: $skillErrorAlert) {
-            Alert(title: Text("Error!"),
-                  message: Text("Cannot perform desired operation on skill."),
-                  dismissButton: .default(Text("Dismiss")))
-        }
         //Somehow, you can't have more than one file exporter in a single view.
         //WHY?
         .fileExporter(isPresented: $showSkillCsvExporter, document: CSVFile(initialText: csvExport),

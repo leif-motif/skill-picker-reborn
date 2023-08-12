@@ -75,14 +75,10 @@ func removeLeaderFromSkill(leaderSelection: Set<Leader.ID>, skillName: String, p
     }
 }
 
-func assignCamperToSkill(targetCamper: Camper, skillName: String, period: Int, data: CampData) throws {
-    if(data.skills[skillName]!.periods[period].count < data.skills[skillName]!.maximums[period]){
-        data.skills[targetCamper.skills[period]]!.periods[period].removeAll(where: {$0 == targetCamper})
-        data.skills[skillName]!.periods[period].append(targetCamper)
-        targetCamper.skills[period] = skillName
-    } else {
-        throw SPRError.SkillFull
-    }
+func assignCamperToSkill(targetCamper: Camper, skillName: String, period: Int, data: CampData){
+    data.skills[targetCamper.skills[period]]!.periods[period].removeAll(where: {$0 == targetCamper})
+    data.skills[skillName]!.periods[period].append(targetCamper)
+    targetCamper.skills[period] = skillName
 }
 
 func removeCamperFromSkill(camperSelection: Set<Camper.ID>, skillName: String, period: Int, data: CampData) throws {
@@ -130,7 +126,7 @@ func processPreferredSkills(data: CampData) throws {
             if(camper.skills.contains("None")){
                 for p in 0...3 {
                     if(camper.skills[p] == "None" && prefSkill != "None" && data.skills[prefSkill]!.maximums[p] > data.skills[prefSkill]!.periods[p].count){
-                        try! assignCamperToSkill(targetCamper: camper, skillName: prefSkill, period: p, data: data)
+                        assignCamperToSkill(targetCamper: camper, skillName: prefSkill, period: p, data: data)
                         break
                     }
                 }

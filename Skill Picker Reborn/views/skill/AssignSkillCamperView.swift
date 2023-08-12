@@ -65,9 +65,9 @@ struct AssignSkillCamperView: View {
                                                    fanaticName: targetSkill,
                                                    data: data)
                     } else {
-                        try! assignCamperToSkill(targetCamper: data.campers.first(where: {$0.id == selectedCamper})!,
-                                                 skillName: targetSkill, period: skillPeriod,
-                                                 data: data)
+                        assignCamperToSkill(targetCamper: data.campers.first(where: {$0.id == selectedCamper})!,
+                                            skillName: targetSkill, period: skillPeriod,
+                                            data: data)
                     }
                     dismiss()
                 }
