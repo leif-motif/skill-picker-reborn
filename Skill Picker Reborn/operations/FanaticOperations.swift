@@ -52,8 +52,50 @@ func renameFanatic(oldName: String, newName: String, data: CampData) throws {
     data.fanatics[newName]!.name = newName
 }
 
-func changeFanaticPeriods(targetFanatic: String, newPeriods: [Bool], data: CampData){
-    
+func changeFanaticPeriods(targetFanatic: String, newPeriods: [Bool], data: CampData) throws {
+    if(newPeriods.count != 4){
+        throw SPRError.InvalidSize
+    }
+    var camperFanatics: [Camper]?
+    var leaderFanatics: [Leader]?
+    //find list of campers to use
+    for i in 0...3 {
+        if(data.fanatics[targetFanatic]!.activePeriods[i]){
+            camperFanatics = data.skills[targetFanatic]!.periods[i]
+            leaderFanatics = data.skills[targetFanatic]!.leaders[i]
+        }
+        break
+    }
+    for i in 0...3 {
+        if(data.fanatics[targetFanatic]!.activePeriods[i] && !newPeriods[i]){
+            for camper in data.skills[targetFanatic]!.periods[i] {
+                camper.skills[i] = "None"
+                data.skills["None"]!.periods[i].append(camper)
+            }
+            for leader in data.skills[targetFanatic]!.leaders[i] {
+                leader.skills[i] = "None"
+                data.skills["None"]!.leaders[i].append(leader)
+            }
+            data.skills[targetFanatic]!.periods[i] = []
+            data.skills[targetFanatic]!.leaders[i] = []
+            data.skills[targetFanatic]!.maximums[i] = 0
+        } else if(!data.fanatics[targetFanatic]!.activePeriods[i] && newPeriods[i]){
+            data.skills[targetFanatic]!.maximums[i] = 255
+            for camper in camperFanatics! {
+                if(camper.skills[i] != "None"){
+                    try! removeCamperFromSkill(camperSelection: [camper.id], skillName: camper.skills[i], period: i, data: data)
+                }
+                assignCamperToSkill(targetCamper: camper, skillName: targetFanatic, period: i, data: data)
+            }
+            for leader in leaderFanatics! {
+                if(leader.skills[i] != "None"){
+                    try! removeLeaderFromSkill(leaderSelection: [leader.id], skillName: leader.skills[i], period: i, data: data)
+                }
+                assignLeaderToSkill(targetLeader: leader, skillName: targetFanatic, period: i, data: data)
+            }
+        }
+    }
+    data.fanatics[targetFanatic]!.activePeriods = newPeriods
 }
 
 func deleteFanatic(fanaticName: String, data: CampData) throws {
