@@ -32,11 +32,13 @@ struct AssignSkillLeaderView: View {
             Picker("Leader:", selection: $selectedLeader){
                 ForEach(0...(data.leaders.count-1), id: \.self){
                     if(isFanatic){
-                        if(!data.leaders[$0].skills.contains(targetSkill)){
+                        if(!data.leaders[$0].skills.contains(targetSkill) && !data.leaders[$0].skills.contains { key in
+                            data.fanatics.keys.contains(key)
+                        }){
                             Text(data.leaders[$0].fName+" "+data.leaders[$0].lName).tag(data.leaders[$0].id)
                         }
                     } else {
-                        if(data.leaders[$0].skills[skillPeriod] != targetSkill){
+                        if(data.leaders[$0].skills[skillPeriod] != targetSkill && !data.fanatics.keys.contains(data.leaders[$0].skills[skillPeriod])){
                             Text(data.leaders[$0].fName+" "+data.leaders[$0].lName).tag(data.leaders[$0].id)
                         }
                     }
