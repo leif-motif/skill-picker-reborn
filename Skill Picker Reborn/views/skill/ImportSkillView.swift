@@ -31,7 +31,7 @@ struct ImportSkillView: View {
         Form {
             VStack(alignment: .leading){
                 Picker("Skill:", selection: $selectedSkill){
-                    ForEach(Array(data.importSkillList.keys), id: \.self){
+                    ForEach(Array(data.importSkillList.keys).sorted(), id: \.self){
                         Text($0).tag($0)
                     }
                 }
