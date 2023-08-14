@@ -54,14 +54,14 @@ struct StartView: View {
                 
             }
             .help("View Software License")
-            /*Button {
+            Button {
                 createTestingDataPlus(data: data)
             } label: {
                 Image(systemName: "testtube.2")
                     .foregroundColor(data.campers.count > 0 ? Color(.systemGray) : Color(.systemCyan))
             }
             .help("Create Testing Data")
-            .disabled(data.campers.count > 0)*/
+            .disabled(data.campers.count > 0)
         }
     }
 }
