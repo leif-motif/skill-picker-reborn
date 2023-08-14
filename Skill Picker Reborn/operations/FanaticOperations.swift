@@ -166,3 +166,23 @@ func removeCamperFromFanatic(camperSelection: Set<Camper.ID>, fanaticName: Strin
     }
 }
 
+func evaluateFanatics(fanatic: String, periods: [String], data: CampData) throws -> Bool {
+    //this returns true if the camper does not contain any fanatic skills it shouldn't have
+    if(periods.count != 4){
+        throw SPRError.InvalidSize
+    }
+    if(fanatic == "None"){
+        return !periods.contains { key in
+            data.fanatics.keys.contains(key)
+        }
+    } else {
+        var valid = true
+        for i in 0...3 {
+            if(data.fanatics.keys.contains(periods[i]) && fanatic != periods[i] && !data.fanatics[fanatic]!.activePeriods[i]){
+                valid = false
+                break
+            }
+        }
+        return valid
+    }
+}

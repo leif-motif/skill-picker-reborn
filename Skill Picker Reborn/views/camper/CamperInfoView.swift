@@ -30,7 +30,7 @@ struct CamperInfoView: View {
     @State private var newSkills = ["","","",""]
     @State private var newPreferredSkills = ["None","None","None","None","None","None"]
     @State private var duplicateSkillsAlert = false
-    @State private var blank = "LMAO THIS REALLY SHOULDN'T PICK ANYTHING"
+    @State private var blank = ""
     private var camperSelection: Set<Camper.ID>
     @Environment(\.dismiss) var dismiss
     var body: some View {
@@ -58,25 +58,25 @@ struct CamperInfoView: View {
                         Text($0).tag($0)
                     }
                 }
-                .disabled(true)
+                .disabled(newFanatic != "None" && data.fanatics[newFanatic]?.activePeriods[0] ?? false)
                 Picker("Skill Two:", selection: $newSkills[1]){
                     ForEach(Array(data.skills.keys).filter({!data.fanatics.keys.contains($0)}).sorted(), id: \.self){
                         Text($0).tag($0)
                     }
                 }
-                .disabled(true)
+                .disabled(newFanatic != "None" && data.fanatics[newFanatic]?.activePeriods[1] ?? false)
                 Picker("Skill Three:", selection: $newSkills[2]){
                     ForEach(Array(data.skills.keys).filter({!data.fanatics.keys.contains($0)}).sorted(), id: \.self){
                         Text($0).tag($0)
                     }
                 }
-                .disabled(true)
+                .disabled(newFanatic != "None" && data.fanatics[newFanatic]?.activePeriods[2] ?? false)
                 Picker("Skill Four:", selection: $newSkills[3]){
                     ForEach(Array(data.skills.keys).filter({!data.fanatics.keys.contains($0)}).sorted(), id: \.self){
                         Text($0).tag($0)
                     }
                 }
-                .disabled(true)
+                .disabled(newFanatic != "None" && data.fanatics[newFanatic]?.activePeriods[3] ?? false)
             }
             Text("Preferred Skills:")
                 .bold()
@@ -115,7 +115,7 @@ struct CamperInfoView: View {
                     }
                 } else {
                     Picker("Sixth:", selection: $blank){
-                        Text("LALALALA").tag("LALALALA")
+                        Text("").tag("")
                     }
                     .disabled(true)
                 }
@@ -140,6 +140,14 @@ struct CamperInfoView: View {
                         if(targetCamper.fanatic != newFanatic){
                             try! removeCamperFromFanatic(camperSelection: camperSelection, fanaticName: targetCamper.fanatic, newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST.", data: data)
                             try! assignCamperToFanatic(targetCamper: targetCamper, fanaticName: newFanatic, data: data)
+                        }
+                        for i in 0...3 {
+                            if(targetCamper.skills[i] != newSkills[i] && targetCamper.skills[i] != "None" && !data.fanatics.keys.contains(targetCamper.skills[i])){
+                                try! removeCamperFromSkill(camperSelection: [targetCamper.id], skillName: targetCamper.skills[i], period: i, data: data)
+                            }
+                            if(targetCamper.skills[i] != newSkills[i] && newSkills[i] != "None" && !data.fanatics.keys.contains(targetCamper.skills[i])){
+                                assignCamperToSkill(targetCamper: targetCamper, skillName: newSkills[i], period: i, data: data)
+                            }
                         }
                         dismiss()
                     //changing fanatic status or preferred skills have changed
@@ -173,11 +181,19 @@ struct CamperInfoView: View {
                                 try! assignCamperToFanatic(targetCamper: targetCamper, fanaticName: newFanatic, data: data)
                             }
                             targetCamper.preferredSkills = newPreferredSkills
+                            for i in 0...3 {
+                                if(targetCamper.skills[i] != newSkills[i] && targetCamper.skills[i] != "None" && !data.fanatics.keys.contains(targetCamper.skills[i])){
+                                    try! removeCamperFromSkill(camperSelection: [targetCamper.id], skillName: targetCamper.skills[i], period: i, data: data)
+                                }
+                                if(targetCamper.skills[i] != newSkills[i] && newSkills[i] != "None" && !data.fanatics.keys.contains(targetCamper.skills[i])){
+                                    assignCamperToSkill(targetCamper: targetCamper, skillName: newSkills[i], period: i, data: data)
+                                }
+                            }
                             dismiss()
                         }
                     }
                 }
-                .disabled(newFirstName == "" || newLastName == "")
+                .disabled(try! !evaluateFanatics(fanatic: newFanatic, periods: newSkills, data: data) || newFirstName == "" || newLastName == "")
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
                 .alert(isPresented: $duplicateSkillsAlert) {
