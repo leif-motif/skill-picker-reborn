@@ -27,6 +27,7 @@ struct CamperInfoView: View {
     @State private var newLastName = ""
     @State private var newCabin = ""
     @State private var newFanatic = ""
+    @State private var newSkills = ["","","",""]
     @State private var newPreferredSkills = ["None","None","None","None","None","None"]
     @State private var duplicateSkillsAlert = false
     @State private var blank = "LMAO THIS REALLY SHOULDN'T PICK ANYTHING"
@@ -52,33 +53,30 @@ struct CamperInfoView: View {
                 .bold()
                 .padding(.bottom, 1)
             Group {
-                LabeledContent {
-                    Text(targetCamper.skills[0])
-                } label: {
-                    Text("Skill One:")
-                        .bold()
+                Picker("Skill One:", selection: $newSkills[0]){
+                    ForEach(Array(data.skills.keys).filter({!data.fanatics.keys.contains($0)}).sorted(), id: \.self){
+                        Text($0).tag($0)
+                    }
                 }
-                .padding(.bottom, 2)
-                LabeledContent {
-                    Text(targetCamper.skills[1])
-                } label: {
-                    Text("Skill Two:")
-                        .bold()
+                .disabled(true)
+                Picker("Skill Two:", selection: $newSkills[1]){
+                    ForEach(Array(data.skills.keys).filter({!data.fanatics.keys.contains($0)}).sorted(), id: \.self){
+                        Text($0).tag($0)
+                    }
                 }
-                .padding(.bottom, 2)
-                LabeledContent {
-                    Text(targetCamper.skills[2])
-                } label: {
-                    Text("Skill Three:")
-                        .bold()
+                .disabled(true)
+                Picker("Skill Three:", selection: $newSkills[2]){
+                    ForEach(Array(data.skills.keys).filter({!data.fanatics.keys.contains($0)}).sorted(), id: \.self){
+                        Text($0).tag($0)
+                    }
                 }
-                .padding(.bottom, 2)
-                LabeledContent {
-                    Text(targetCamper.skills[3])
-                } label: {
-                    Text("Skill Four:")
-                        .bold()
+                .disabled(true)
+                Picker("Skill Four:", selection: $newSkills[3]){
+                    ForEach(Array(data.skills.keys).filter({!data.fanatics.keys.contains($0)}).sorted(), id: \.self){
+                        Text($0).tag($0)
+                    }
                 }
+                .disabled(true)
             }
             Text("Preferred Skills:")
                 .bold()
@@ -191,13 +189,14 @@ struct CamperInfoView: View {
             .padding(.top)
         }
         .padding()
-        .frame(width: 300, height: 540)
+        .frame(width: 300, height: 550)
         .onAppear(perform: {
             targetCamper = data.campers.first(where: {$0.id == camperSelection.first})!
             newFirstName = targetCamper.fName
             newLastName = targetCamper.lName
             newCabin = targetCamper.cabin
             newFanatic = targetCamper.fanatic
+            newSkills = targetCamper.skills
             newPreferredSkills = targetCamper.preferredSkills
             if(targetCamper.fanatic != "None"){
                 newPreferredSkills.append("None")
