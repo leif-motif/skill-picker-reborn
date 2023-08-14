@@ -54,6 +54,7 @@ struct StartView: View {
                 
             }
             .help("View Software License")
+            #if DEBUG
             Button {
                 createTestingDataPlus(data: data)
             } label: {
@@ -62,6 +63,7 @@ struct StartView: View {
             }
             .help("Create Testing Data")
             .disabled(data.campers.count > 0)
+            #endif
         }
     }
 }
