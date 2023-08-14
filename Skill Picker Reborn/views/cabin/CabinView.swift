@@ -30,8 +30,10 @@ struct CabinView: View {
     @State private var assignCabinCamperSheet = false
     @State private var camperInfoSheet = false
     @State private var importSkillSheet = false
-    @State private var noCampersAlert = false
     @State private var exportCabinAlert = false
+    @State private var removeCamperConfirm = false
+    @State private var deleteCamperConfirm = false
+    @State private var deleteCabinConfirm = false
     @State private var search = ""
     var body: some View {
         VStack {
@@ -60,19 +62,11 @@ struct CabinView: View {
             .contextMenu(forSelectionType: Camper.ID.self) { items in
                 if items.isEmpty {
                     Button {
-                        if(data.campers.count > 0){
-                            assignCabinCamperSheet.toggle()
-                        } else {
-                            noCampersAlert.toggle()
-                        }
+                        assignCabinCamperSheet.toggle()
                     } label: {
                         Label("Assign Camper to Cabin...", systemImage: "plus")
                     }
-                    .alert(isPresented: $noCampersAlert){
-                        Alert(title: Text("Error!"),
-                              message: Text("There are no campers in the system to assign to the cabin."),
-                              dismissButton: .default(Text("Dismiss")))
-                    }
+                    .disabled(data.campers.count == 0)
                 } else if items.count == 1 {
                     Button {
                         if(selectedCamper.count == 1){
@@ -82,23 +76,23 @@ struct CabinView: View {
                         Label("Info/Edit...", systemImage: "pencil.line")
                     }
                     Button(role: .destructive) {
-                        removeCamperFromCabin(camperSelection: selectedCamper, data: data)
+                        removeCamperConfirm.toggle()
                     } label: {
                         Label("Remove", systemImage: "trash")
                     }
                     Button(role: .destructive) {
-                        deleteCamper(camperSelection: selectedCamper, data: data)
+                        deleteCamperConfirm.toggle()
                     } label: {
                         Label("Delete", systemImage: "trash")
                     }
                 } else {
                     Button(role: .destructive) {
-                        removeCamperFromCabin(camperSelection: selectedCamper, data: data)
+                        removeCamperConfirm.toggle()
                     } label: {
                         Label("Remove Selection", systemImage: "trash")
                     }
                     Button(role: .destructive) {
-                        deleteCamper(camperSelection: selectedCamper, data: data)
+                        deleteCamperConfirm.toggle()
                     } label: {
                         Label("Delete Selection", systemImage: "trash")
                     }
@@ -118,16 +112,37 @@ struct CabinView: View {
             }, content: {
                 ModifyCabinView()
             })
+            //i KNOW this shouldn't be here but blah blah blah can't have more than one alerts in a single view
+            .alert(isPresented: $deleteCamperConfirm){
+                Alert(
+                    title: Text("Confirm"),
+                    message: Text("Are you sure you want to delete the selected camper(s)?"),
+                    primaryButton: .default(Text("Delete")){
+                        deleteCamper(camperSelection: selectedCamper, data: data)
+                    },
+                    secondaryButton: .cancel()
+                )
+            }
             Button {
-                data.objectWillChange.send()
-                try! deleteCabin(targetCabin: data.selectedCabin, data: data)
-                data.selectedCabin = "Unassigned"
+                deleteCabinConfirm.toggle()
             } label: {
                 Image(systemName: "minus.square")
                     .foregroundColor(data.selectedCabin == "Unassigned" ? Color(.systemGray) : Color(.systemRed))
             }
             .help("Delete Cabin")
             .disabled(data.selectedCabin == "Unassigned")
+            .alert(isPresented: $deleteCabinConfirm){
+                Alert(
+                    title: Text("Confirm"),
+                    message: Text("Are you sure you want to delete the current cabin?"),
+                    primaryButton: .default(Text("Delete")){
+                        data.objectWillChange.send()
+                        try! deleteCabin(targetCabin: data.selectedCabin, data: data)
+                        data.selectedCabin = "Unassigned"
+                    },
+                    secondaryButton: .cancel()
+                )
+            }
             Button {
                 modifyCabinSheet.toggle()
             } label: {
@@ -217,6 +232,16 @@ struct CabinView: View {
         }, content: {
             try! CamperInfoView(camperSelection: selectedCamper)
         })
+        .alert(isPresented: $removeCamperConfirm){
+            Alert(
+                title: Text("Confirm"),
+                message: Text("Are you sure you want to remove the selected camper(s) from this cabin?"),
+                primaryButton: .default(Text("Remove")){
+                    removeCamperFromCabin(camperSelection: selectedCamper, data: data)
+                },
+                secondaryButton: .cancel()
+            )
+        }
     }
 }
 
