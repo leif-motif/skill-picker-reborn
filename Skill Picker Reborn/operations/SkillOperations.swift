@@ -141,17 +141,17 @@ func processPreferredSkills(data: CampData) throws {
             throw SPRError.NotEnoughSkillSpace
         }
     }
-    for camper in data.campers {
-        for prefSkill in camper.preferredSkills {
-            if(camper.skills.contains("None")){
-                for p in 0...3 {
-                    if(camper.skills[p] == "None" && prefSkill != "None" && data.skills[prefSkill]!.maximums[p] > data.skills[prefSkill]!.periods[p].count){
-                        assignCamperToSkill(targetCamper: camper, skillName: prefSkill, period: p, data: data)
-                        break
+    for p in 0...5 {
+        for camper in data.campers {
+            if(camper.skills.contains("None") && (camper.fanatic == "None" || p != 5)){
+                if(camper.preferredSkills[p] != "None"){
+                    for i in 0...3 {
+                        if(camper.skills[i] == "None" && data.skills[camper.preferredSkills[p]]!.maximums[i] > data.skills[camper.preferredSkills[p]]!.periods[i].count){
+                            assignCamperToSkill(targetCamper: camper, skillName: camper.preferredSkills[p], period: i, data: data)
+                            break
+                        }
                     }
                 }
-            } else {
-                break
             }
         }
     }
