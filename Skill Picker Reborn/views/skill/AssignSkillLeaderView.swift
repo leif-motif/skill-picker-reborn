@@ -25,26 +25,13 @@ struct AssignSkillLeaderView: View {
     @State private var isFanatic: Bool = false
     private let targetSkill: String
     private let skillPeriod: Int
-    @State private var selectedLeader = UUID()
+    @State private var leaderInput = ""
+    @State private var leaderIDs: [String:UUID] = [:]
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
-            Picker("Leader:", selection: $selectedLeader){
-                ForEach(0...(data.leaders.count-1), id: \.self){
-                    if(isFanatic){
-                        if(!data.leaders[$0].skills.contains(targetSkill) && !data.leaders[$0].skills.contains { key in
-                            data.fanatics.keys.contains(key)
-                        }){
-                            Text(data.leaders[$0].fName+" "+data.leaders[$0].lName).tag(data.leaders[$0].id)
-                        }
-                    } else {
-                        if(data.leaders[$0].skills[skillPeriod] != targetSkill && !data.fanatics.keys.contains(data.leaders[$0].skills[skillPeriod])){
-                            Text(data.leaders[$0].fName+" "+data.leaders[$0].lName).tag(data.leaders[$0].id)
-                        }
-                    }
-                }
-            }
-            .padding()
+            TextField("Leader:", text: $leaderInput)
+                .padding(.bottom)
             HStack {
                 Spacer()
                 Button("Cancel") {
@@ -52,11 +39,11 @@ struct AssignSkillLeaderView: View {
                 }
                 Button("Assign Leader") {
                     if(isFanatic){
-                        try! assignLeaderToFanatic(targetLeader: data.leaders.first(where: {$0.id == selectedLeader})!,
+                        try! assignLeaderToFanatic(targetLeader: data.leaders.first(where: {$0.id == leaderIDs[leaderInput.lowercased()]})!,
                                                    fanaticName: targetSkill,
                                                    data: data)
                     } else {
-                        assignLeaderToSkill(targetLeader: data.leaders.first(where: {$0.id == selectedLeader})!,
+                        assignLeaderToSkill(targetLeader: data.leaders.first(where: {$0.id == leaderIDs[leaderInput.lowercased()]})!,
                                             skillName: targetSkill, period: skillPeriod,
                                             data: data)
                     }
@@ -64,13 +51,29 @@ struct AssignSkillLeaderView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
-                .disabled(data.leaders.first(where: {$0.id == selectedLeader}) == nil)
+                .disabled(!leaderIDs.keys.contains(leaderInput.lowercased()))
             }
-            .padding([.bottom,.trailing])
         }
+        .padding()
         .frame(width: 270, height: 90)
         .onAppear(perform: {
             isFanatic = data.fanatics.keys.contains(self.targetSkill)
+            if(isFanatic){
+                for leader in data.leaders {
+                    if(!leader.skills.contains(targetSkill) && !leader.skills.contains { key in
+                        data.fanatics.keys.contains(key)
+                    }){
+                        leaderIDs[leader.fName.lowercased()+" "+leader.lName.lowercased()] = leader.id
+                    }
+                }
+                print(leaderIDs)
+            } else {
+                for leader in data.leaders {
+                    if(leader.skills[skillPeriod] != targetSkill && !data.fanatics.keys.contains(leader.skills[skillPeriod])){
+                        leaderIDs[leader.fName.lowercased()+" "+leader.lName.lowercased()] = leader.id
+                    }
+                }
+            }
         })
     }
     init(targetSkill: String, skillPeriod: Int) {
