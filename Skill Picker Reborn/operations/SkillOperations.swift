@@ -145,11 +145,26 @@ func processPreferredSkills(data: CampData) throws {
         for camper in data.campers {
             if(camper.skills.contains("None") && (camper.fanatic == "None" || p != 5)){
                 if(camper.preferredSkills[p] != "None"){
+                    var skillCaps: [Int?] = [nil,nil,nil,nil]
                     for i in 0...3 {
                         if(camper.skills[i] == "None" && data.skills[camper.preferredSkills[p]]!.maximums[i] > data.skills[camper.preferredSkills[p]]!.periods[i].count){
-                            assignCamperToSkill(targetCamper: camper, skillName: camper.preferredSkills[p], period: i, data: data)
-                            break
+                            skillCaps[i] = data.skills[camper.preferredSkills[p]]!.periods[i].count
                         }
+                    }
+                    if(skillCaps != [nil,nil,nil,nil]){
+                        var highestCount: Int = Int.min
+                        var highestCountIndexes: [Int] = []
+                        for (index, value) in skillCaps.enumerated() {
+                            if let intValue = value {
+                                if intValue > highestCount {
+                                    highestCount = intValue
+                                    highestCountIndexes = [index]
+                                } else if intValue == highestCount {
+                                    highestCountIndexes.append(index)
+                                }
+                            }
+                        }
+                        assignCamperToSkill(targetCamper: camper, skillName: camper.preferredSkills[p], period: highestCountIndexes[Int.random(in: 0..<highestCountIndexes.count)], data: data)
                     }
                 }
             }
