@@ -193,7 +193,8 @@ struct CamperInfoView: View {
                         }
                     }
                 }
-                .disabled(try! !evaluateFanatics(fanatic: newFanatic, periods: newSkills, data: data) || newFirstName == "" || newLastName == "")
+                .disabled(try! !evaluateFanatics(fanatic: newFanatic, periods: newSkills, data: data) || newFirstName == "" || newLastName == "" ||
+                          (targetCamper.fName != newFirstName && targetCamper.lName != newLastName && !humanIsUnique(fName: newFirstName, lName: newLastName, humanArray: data.campers)))
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
                 .alert(isPresented: $duplicateSkillsAlert) {

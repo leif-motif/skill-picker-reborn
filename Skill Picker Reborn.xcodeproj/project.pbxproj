@@ -10,6 +10,7 @@
 		290240112A6EDB7200F747D7 /* Skill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290240102A6EDB7200F747D7 /* Skill.swift */; };
 		290F78CF2A7963F6007F7D1E /* CSVOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290F78CE2A7963F6007F7D1E /* CSVOperations.swift */; };
 		290F78D12A798612007F7D1E /* CamperInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290F78D02A798612007F7D1E /* CamperInfoView.swift */; };
+		2911051D2A8BFCB5005B6AA1 /* HumanOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2911051C2A8BFCB5005B6AA1 /* HumanOperations.swift */; };
 		29154B262A70269000CE8CAC /* LeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29154B252A70269000CE8CAC /* LeaderView.swift */; };
 		29154B282A70274400CE8CAC /* CabinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29154B272A70274400CE8CAC /* CabinView.swift */; };
 		29154B2A2A7027B300CE8CAC /* SkillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29154B292A7027B300CE8CAC /* SkillView.swift */; };
@@ -71,6 +72,7 @@
 		290240102A6EDB7200F747D7 /* Skill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skill.swift; sourceTree = "<group>"; };
 		290F78CE2A7963F6007F7D1E /* CSVOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVOperations.swift; sourceTree = "<group>"; };
 		290F78D02A798612007F7D1E /* CamperInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamperInfoView.swift; sourceTree = "<group>"; };
+		2911051C2A8BFCB5005B6AA1 /* HumanOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HumanOperations.swift; sourceTree = "<group>"; };
 		29154B252A70269000CE8CAC /* LeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderView.swift; sourceTree = "<group>"; };
 		29154B272A70274400CE8CAC /* CabinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CabinView.swift; sourceTree = "<group>"; };
 		29154B292A7027B300CE8CAC /* SkillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillView.swift; sourceTree = "<group>"; };
@@ -288,6 +290,7 @@
 			isa = PBXGroup;
 			children = (
 				291CC57E2A72C2E2001D422C /* CabinOperations.swift */,
+				2911051C2A8BFCB5005B6AA1 /* HumanOperations.swift */,
 				2971FDC52A72B616007DD484 /* CamperOperations.swift */,
 				291CC5802A72C2F2001D422C /* LeaderOperations.swift */,
 				291CC5822A72C312001D422C /* SkillOperations.swift */,
@@ -448,6 +451,7 @@
 				29708D932A6F88E30090E369 /* Camper.swift in Sources */,
 				29CF31412A855EFB002EA2F8 /* StartView.swift in Sources */,
 				293A19832A74DE4400B4B015 /* SPRErrors.swift in Sources */,
+				2911051D2A8BFCB5005B6AA1 /* HumanOperations.swift in Sources */,
 				29E0D1EA2A7801DE00C068A9 /* AssignSkillCamperView.swift in Sources */,
 				29154B262A70269000CE8CAC /* LeaderView.swift in Sources */,
 				2974B6C62A6ECB6A00EB063B /* ContentView.swift in Sources */,

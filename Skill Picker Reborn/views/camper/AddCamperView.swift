@@ -104,7 +104,8 @@ struct AddCamperView: View {
                         dismiss()
                     }
                 }
-                .disabled(iFName == "" || iLName == "")
+                .disabled(iFName == "" || iLName == "" || !humanIsUnique(fName: iFName, lName: iLName, humanArray: data.campers))
+                
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
                 .alert(isPresented: $duplicateSkillsAlert) {
