@@ -28,10 +28,9 @@ struct AssignCabinCamperView: View {
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
-            //PLEASE REPLACE THIS WITH A COMBO BOX!!!!!!!
+            //this really should be replaced with something better but Apple is stupid.
             TextField("Camper:", text: $camperInput)
                 .padding(.bottom)
-            //thank you for your time.
             HStack {
                 Spacer()
                 Button("Cancel") {
@@ -49,7 +48,7 @@ struct AssignCabinCamperView: View {
         .padding()
         .frame(width: 290, height: 90)
         .onAppear(perform: {
-            for camper in data.campers.sorted(by: {$0.lName < $1.lName}) {
+            for camper in data.campers/*.sorted(by: {$0.lName < $1.lName})*/ {
                 if(camper.cabin != targetCabin){
                     camperIDs[camper.fName+" "+camper.lName] = camper.id
                 }
