@@ -66,7 +66,6 @@ struct AssignSkillLeaderView: View {
                         leaderIDs[leader.fName.lowercased()+" "+leader.lName.lowercased()] = leader.id
                     }
                 }
-                print(leaderIDs)
             } else {
                 for leader in data.leaders {
                     if(leader.skills[skillPeriod] != targetSkill && !data.fanatics.keys.contains(leader.skills[skillPeriod])){
