@@ -37,12 +37,12 @@ struct AssignCabinCamperView: View {
                     dismiss()
                 }
                 Button("Assign Camper") {
-                    assignCamperToCabin(targetCamper: data.campers.first(where: {$0.id == camperIDs[camperInput]})!, cabinName: targetCabin, data: data)
+                    assignCamperToCabin(targetCamper: data.campers.first(where: {$0.id == camperIDs[camperInput.lowercased()]})!, cabinName: targetCabin, data: data)
                     dismiss()
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
-                .disabled(!camperIDs.keys.contains(camperInput))
+                .disabled(!camperIDs.keys.contains(camperInput.lowercased()))
             }
         }
         .padding()
@@ -50,7 +50,7 @@ struct AssignCabinCamperView: View {
         .onAppear(perform: {
             for camper in data.campers/*.sorted(by: {$0.lName < $1.lName})*/ {
                 if(camper.cabin != targetCabin){
-                    camperIDs[camper.fName+" "+camper.lName] = camper.id
+                    camperIDs[camper.fName.lowercased()+" "+camper.lName.lowercased()] = camper.id
                 }
             }
             print(camperIDs)
