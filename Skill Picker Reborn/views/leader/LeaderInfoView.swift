@@ -104,7 +104,8 @@ struct LeaderInfoView: View {
                     }
                     dismiss()
                 }
-                .disabled(newFirstName == "" || newLastName == "")
+                .disabled(newFirstName == "" || newLastName == "" ||
+                          (targetLeader.fName != newFirstName && targetLeader.lName != newLastName && !humanIsUnique(fName: newFirstName, lName: newLastName, humanArray: data.leaders)))
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
             }

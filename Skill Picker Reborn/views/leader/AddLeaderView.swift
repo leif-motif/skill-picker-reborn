@@ -52,7 +52,7 @@ struct AddLeaderView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
-                .disabled(iFName == "" || iLName == "")
+                .disabled(iFName == "" || iLName == "" || !humanIsUnique(fName: iFName, lName: iLName, humanArray: data.leaders))
             }
         }
         .frame(width: 255, height: 150)
