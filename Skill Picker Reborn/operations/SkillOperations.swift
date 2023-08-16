@@ -171,3 +171,11 @@ func processPreferredSkills(data: CampData) throws {
         }
     }
 }
+
+func skillIsOverMax(oldSkill: String, newSkill: String, skillPeriod: Int, data: CampData) -> Bool {
+    if(data.fanatics.keys.contains(newSkill) || newSkill == "None" || newSkill == ""){
+        return false
+    } else {
+        return data.skills[newSkill]!.maximums[skillPeriod] < data.skills[newSkill]!.periods[skillPeriod].count+(oldSkill == newSkill ? 0 : 1)
+    }
+}

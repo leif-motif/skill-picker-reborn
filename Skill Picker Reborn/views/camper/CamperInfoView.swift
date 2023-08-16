@@ -58,24 +58,28 @@ struct CamperInfoView: View {
                         Text($0).tag($0)
                     }
                 }
+                .foregroundColor(skillIsOverMax(oldSkill: targetCamper.skills[0], newSkill: newSkills[0], skillPeriod: 0, data: data) ? Color(.systemRed) : Color.primary)
                 .disabled(newFanatic != "None" && data.fanatics[newFanatic]?.activePeriods[0] ?? false)
                 Picker("Skill Two:", selection: $newSkills[1]){
                     ForEach(Array(data.skills.keys).filter({!data.fanatics.keys.contains($0)}).sorted(), id: \.self){
                         Text($0).tag($0)
                     }
                 }
+                .foregroundColor(skillIsOverMax(oldSkill: targetCamper.skills[1], newSkill: newSkills[1], skillPeriod: 1, data: data) ? Color(.systemRed) : Color.primary)
                 .disabled(newFanatic != "None" && data.fanatics[newFanatic]?.activePeriods[1] ?? false)
                 Picker("Skill Three:", selection: $newSkills[2]){
                     ForEach(Array(data.skills.keys).filter({!data.fanatics.keys.contains($0)}).sorted(), id: \.self){
                         Text($0).tag($0)
                     }
                 }
+                .foregroundColor(skillIsOverMax(oldSkill: targetCamper.skills[2], newSkill: newSkills[2], skillPeriod: 2, data: data) ? Color(.systemRed) : Color.primary)
                 .disabled(newFanatic != "None" && data.fanatics[newFanatic]?.activePeriods[2] ?? false)
                 Picker("Skill Four:", selection: $newSkills[3]){
                     ForEach(Array(data.skills.keys).filter({!data.fanatics.keys.contains($0)}).sorted(), id: \.self){
                         Text($0).tag($0)
                     }
                 }
+                .foregroundColor(skillIsOverMax(oldSkill: targetCamper.skills[3], newSkill: newSkills[3], skillPeriod: 3, data: data) ? Color(.systemRed) : Color.primary)
                 .disabled(newFanatic != "None" && data.fanatics[newFanatic]?.activePeriods[3] ?? false)
             }
             Text("Preferred Skills:")
