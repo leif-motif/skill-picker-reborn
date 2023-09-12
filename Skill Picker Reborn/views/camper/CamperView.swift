@@ -208,5 +208,6 @@ struct CamperView: View {
 struct CamperView_Previews: PreviewProvider {
     static var previews: some View {
         CamperView()
+            .environmentObject(CampData())
     }
 }

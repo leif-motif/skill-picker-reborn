@@ -88,8 +88,10 @@ struct AssignSkillCamperView: View {
     }
 }
 
+/*this keeps crashing?
 struct AssignSkillCamperView_Previews: PreviewProvider {
     static var previews: some View {
         AssignSkillCamperView(targetSkill: "Test", skillPeriod: 0)
+            .environmentObject(CampData())
     }
-}
+}*/

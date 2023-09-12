@@ -142,5 +142,6 @@ struct LeaderView: View {
 struct LeaderView_Previews: PreviewProvider {
     static var previews: some View {
         LeaderView()
+            .environmentObject(CampData())
     }
 }

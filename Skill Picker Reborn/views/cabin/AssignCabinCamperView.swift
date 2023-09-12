@@ -64,5 +64,6 @@ struct AssignCabinCamperView: View {
 struct AssignCabinCamperView_Previews: PreviewProvider {
     static var previews: some View {
         AssignCabinCamperView(targetCabin: "A")
+            .environmentObject(CampData())
     }
 }

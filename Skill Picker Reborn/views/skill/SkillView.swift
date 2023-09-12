@@ -355,8 +355,10 @@ struct SkillView: View {
     }
 }
 
+/*this is WAY too complex for previewing
 struct SkillView_Previews: PreviewProvider {
     static var previews: some View {
         SkillView()
+            .environmentObject(CampData())
     }
-}
+}*/

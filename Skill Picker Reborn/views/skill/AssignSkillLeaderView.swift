@@ -84,5 +84,6 @@ struct AssignSkillLeaderView: View {
 struct AssignSkillLeaderView_Previews: PreviewProvider {
     static var previews: some View {
         AssignSkillLeaderView(targetSkill: "Test", skillPeriod: 0)
+            .environmentObject(CampData())
     }
 }

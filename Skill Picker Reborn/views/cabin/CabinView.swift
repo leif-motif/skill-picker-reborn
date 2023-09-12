@@ -248,5 +248,6 @@ struct CabinView: View {
 struct CabinView_Previews: PreviewProvider {
     static var previews: some View {
         CabinView()
+            .environmentObject(CampData())
     }
 }
