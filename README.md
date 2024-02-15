@@ -13,10 +13,20 @@ Supports macOS Ventura and up (macOS 13+). Skill Picker Reborn should support bo
 4. Go to System Preferences, go to Privacy & Security, and scroll to near the bottom. You will see something about being unable to open Skill Picker Reborn because it was from an unidentified developer. Click "Open Anyway," and confirm that you wish to open the app.
 
 # Status
-**Active development.** Currently being worked on as a side project with more improvements being added, so I don't really have much of a hard schedule for when this will be 100% complete, but I am aiming for the end of this summer.
+**Temporary inactivity.** This was intended to be completed by the end of summer 2023. Development will continue in May of this year, with a complete release by the end of June.
+
+# TODO:
+- General UI improvements (i.e, quick camper reassignment)
+- Table context menu fixes
+- Camper assignment algorithm fix (complete but not in release)
+- Undo/Redo(?)
+- Saving/reloading of state
 
 # Bugs, Suggestions and Contributing
 If you come across any bugs in the app, have any requests, suggestions or criticisms, open an issue on this page and I will try and address it when I can. I will accept any pull requests if it makes the app work better, look better, or run faster.
 
 # Windows?
-No. <sup><sub>(Ok, maybe, if enough people ask. But not right now.)</sub></sup>
+No.
+
+# Linux?
+No.
