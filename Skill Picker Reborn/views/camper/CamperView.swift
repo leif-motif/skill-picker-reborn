@@ -197,6 +197,7 @@ struct CamperView: View {
                     print(error.localizedDescription)
                 }
             }
+            //TODO: implement search bar
             TextField("Search...", text: $search)
                 .frame(width: 100)
                 .disabled(true)

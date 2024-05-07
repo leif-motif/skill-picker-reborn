@@ -334,6 +334,7 @@ struct SkillView: View {
                     Text("Skill "+String($0+1)).tag($0)
                 }
             }
+            //TODO: implement search bar
             TextField("Search...", text: $search)
                 .frame(width: 100)
                 .disabled(true)

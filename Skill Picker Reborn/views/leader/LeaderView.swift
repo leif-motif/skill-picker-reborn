@@ -134,7 +134,7 @@ struct LeaderView: View {
                     print(error.localizedDescription)
                 }
             }
-            //This search bar STILL doesn't work.
+            //TODO: implement search bar
             TextField("Search...", text: $search)
                 .frame(width: 100)
                 .disabled(true)
