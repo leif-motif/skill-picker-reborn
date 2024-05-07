@@ -24,30 +24,21 @@ struct AssignSkillCamperView: View {
     @EnvironmentObject private var data: CampData
     private var targetSkill: String
     private var skillPeriod: Int
-    @State private var selectedCamper = UUID()
+    @State private var camperInput = ""
+    @State private var camperIDs: [String:UUID] = [:]
     @State private var isFanatic: Bool = false
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
             if(isFanatic){
-                Picker("Camper:", selection: $selectedCamper){
-                    ForEach(0...(data.campers.count-1), id: \.self){
-                        if(data.campers[$0].fanatic != targetSkill){
-                            Text(data.campers[$0].fName+" "+data.campers[$0].lName).tag(data.campers[$0].id)
-                        }
-                    }
-                }
+                TextField("Camper:", text: $camperInput)
                 Text("Warning: This will remove the\ncamper's sixth preferred skill.")
                     .bold()
+                    .padding(.bottom)
             } else {
-                Picker("Camper:", selection: $selectedCamper){
-                    ForEach(0...(data.campers.count-1), id: \.self){
-                        if(data.campers[$0].skills[skillPeriod] != targetSkill && !data.fanatics.keys.contains(data.campers[$0].skills[skillPeriod])){
-                            Text(data.campers[$0].fName+" "+data.campers[$0].lName).tag(data.campers[$0].id)
-                        }
-                    }
-                }
-                .padding(.bottom)
+                //I HATE THE SWIFT COMPILER- this should NOT be done more than once but whatever
+                TextField("Camper:", text: $camperInput)
+                    .padding(.bottom)
             }
             HStack {
                 Spacer()
@@ -56,16 +47,18 @@ struct AssignSkillCamperView: View {
                 }
                 Button("Assign Camper") {
                     if(isFanatic){
-                        if(data.campers.first(where: {$0.id == selectedCamper})!.fanatic != "None"){
-                            try! removeCamperFromFanatic(camperSelection: [selectedCamper],
-                                                         fanaticName: data.campers.first(where: {$0.id == selectedCamper})!.fanatic,
+                        //quite frankly, i thought searching for specific campers wasn't working.
+                        //and yet, when i last tested this, it is now. if anything is going wacko, it's because of this.
+                        if(data.campers.first(where: {$0.id == camperIDs[camperInput.lowercased()]})!.fanatic != "None"){
+                            try! removeCamperFromFanatic(camperSelection: [camperIDs[camperInput.lowercased()]!],
+                                                         fanaticName: data.campers.first(where: {$0.id == camperIDs[camperInput.lowercased()]})!.fanatic,
                                                          newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST", data: data)
                         }
-                        try! assignCamperToFanatic(targetCamper: data.campers.first(where: {$0.id == selectedCamper})!,
+                        try! assignCamperToFanatic(targetCamper: data.campers.first(where: {$0.id == camperIDs[camperInput.lowercased()]})!,
                                                    fanaticName: targetSkill,
                                                    data: data)
                     } else {
-                        assignCamperToSkill(targetCamper: data.campers.first(where: {$0.id == selectedCamper})!,
+                        assignCamperToSkill(targetCamper: data.campers.first(where: {$0.id == camperIDs[camperInput.lowercased()]})!,
                                             skillName: targetSkill, period: skillPeriod,
                                             data: data)
                     }
@@ -73,13 +66,28 @@ struct AssignSkillCamperView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
-                .disabled(data.campers.first(where: {$0.id == selectedCamper}) == nil)
+                .disabled(!camperIDs.keys.contains(camperInput.lowercased()))
             }
         }
         .padding()
         .frame(width: 280, height: isFanatic ? 130 : 100)
         .onAppear(perform: {
             isFanatic = data.fanatics.keys.contains(targetSkill)
+            if(isFanatic){
+                for camper in data.campers {
+                    if(!camper.skills.contains(targetSkill) && !camper.skills.contains { key in
+                        data.fanatics.keys.contains(key)
+                    }){
+                        camperIDs[camper.fName.lowercased()+" "+camper.lName.lowercased()] = camper.id
+                    }
+                }
+            } else {
+                for camper in data.campers {
+                    if(camper.skills[skillPeriod] != targetSkill && !data.fanatics.keys.contains(camper.skills[skillPeriod])){
+                        camperIDs[camper.fName.lowercased()+" "+camper.lName.lowercased()] = camper.id
+                    }
+                }
+            }
         })
     }
     init(targetSkill: String, skillPeriod: Int) {
