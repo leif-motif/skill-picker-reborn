@@ -17,7 +17,6 @@ Supports macOS Ventura and up (macOS 13+). Skill Picker Reborn should support bo
 
 # TODO:
 - General UI improvements (i.e, quick camper reassignment)
-- Table context menu fixes
 - Camper assignment algorithm fix (complete but not in release)
 - Undo/Redo(?)
 - Saving/reloading of state

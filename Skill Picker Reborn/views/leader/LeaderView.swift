@@ -81,6 +81,14 @@ struct LeaderView: View {
                     }
                 }
             }
+            //empty selection
+            .contextMenu {
+                Button {
+                    addLeaderSheet.toggle()
+                } label: {
+                    Label("New Leader...", systemImage: "plus")
+                }
+            }
         }
         .toolbar {
             Button {

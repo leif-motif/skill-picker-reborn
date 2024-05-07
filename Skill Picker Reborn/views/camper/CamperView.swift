@@ -90,6 +90,14 @@ struct CamperView: View {
                     }
                 }
             }
+            //empty selection
+            .contextMenu {
+                Button {
+                    addCamperSheet.toggle()
+                } label: {
+                    Label("New Camper...", systemImage: "plus")
+                }
+            }
         }
         .toolbar {
             Button {

@@ -108,6 +108,16 @@ struct SkillView: View {
                     }
                 }
             }
+            //for some reason, empty selections no longer work, so a second contextMenu must be added.
+            //trillion dollar company right here, folks. trillion dollar company.
+            .contextMenu(){
+                Button {
+                    assignSkillLeaderSheet.toggle()
+                } label: {
+                    Label("Assign Leader to Skill...", systemImage: "plus")
+                }
+                .disabled(data.leaders.count == data.skills[data.selectedSkill]!.leaders[data.selectedPeriod].count)
+            }
             @State var currentSkillCount = data.skills[data.selectedSkill]!.periods[data.selectedPeriod].count
             @State var currentSkillMax = data.skills[data.selectedSkill]!.maximums[data.selectedPeriod]
             Text("Campers ("+String(currentSkillCount)+"/"+String(currentSkillMax)+")")
@@ -173,6 +183,13 @@ struct SkillView: View {
                     } label: {
                         Label("Delete Selection", systemImage: "trash")
                     }
+                }
+            }
+            .contextMenu(){
+                Button {
+                    assignSkillCamperSheet.toggle()
+                } label: {
+                    Label("Assign Camper to Skill...", systemImage: "plus")
                 }
             }
         }

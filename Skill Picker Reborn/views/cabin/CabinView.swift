@@ -98,6 +98,15 @@ struct CabinView: View {
                     }
                 }
             }
+            //empty selection
+            .contextMenu {
+                Button {
+                    assignCabinCamperSheet.toggle()
+                } label: {
+                    Label("Assign Camper to Cabin...", systemImage: "plus")
+                }
+                .disabled(data.campers.count == 0)
+            }
         }
         .toolbar {
             Button {
