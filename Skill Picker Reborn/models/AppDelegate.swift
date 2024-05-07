@@ -1,5 +1,5 @@
 /*
- * Skill_Picker_RebornApp.swift
+ * AppDelegate.swift
  * This file is part of Skill Picker Reborn
  *
  * Copyright (C) 2024 Ranger Lake Bible Camp
@@ -18,20 +18,11 @@
  * along with Skill Picker Reborn; if not, see <https://www.gnu.org/licenses/>.
  */
 
-import SwiftUI
+import Foundation
+import AppKit
 
-@main
-struct Skill_Picker_RebornApp: App {
-    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-                .environmentObject(CampData())
-        }
-        .commands {
-            CommandGroup(replacing: CommandGroupPlacement.newItem){
-                //nothing!
-            }
-        }
+class AppDelegate: NSObject, NSApplicationDelegate {
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        return true
     }
 }
