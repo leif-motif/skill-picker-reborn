@@ -40,22 +40,19 @@ func createLeader(newLeader: Leader, data: CampData){
     }
 }
 
-func deleteLeader(leaderSelection: Set<Leader.ID>, data: CampData){
-    for leaderID in leaderSelection {
-        //fooLeaders.first(where: {$0.id == leaderID})
-        //remove leader from cabin if not unassigned
-        if(data.leaders.first(where: {$0.id == leaderID})!.cabin != "Unassigned"){
-            if(data.leaders.first(where: {$0.id == leaderID})!.senior){
-                data.cabins[data.leaders.first(where: {$0.id == leaderID})!.cabin]!.senior = data.nullSenior
-            } else {
-                data.cabins[data.leaders.first(where: {$0.id == leaderID})!.cabin]!.junior = data.nullJunior
-            }
+func deleteLeader(leaderID: Leader.ID, data: CampData){
+    //remove leader from cabin if not unassigned
+    if(data.leaders.first(where: {$0.id == leaderID})!.cabin != "Unassigned"){
+        if(data.leaders.first(where: {$0.id == leaderID})!.senior){
+            data.cabins[data.leaders.first(where: {$0.id == leaderID})!.cabin]!.senior = data.nullSenior
+        } else {
+            data.cabins[data.leaders.first(where: {$0.id == leaderID})!.cabin]!.junior = data.nullJunior
         }
-        //remove leader from skills
-        for i in 0...3 {
-            data.skills[data.leaders.first(where: {$0.id == leaderID})!.skills[i]]!.leaders[i].removeAll(where: {$0.id == leaderID})
-        }
-        //delete leader for good
-        data.leaders.removeAll(where: {$0.id == leaderID})
     }
+    //remove leader from skills
+    for i in 0...3 {
+        data.skills[data.leaders.first(where: {$0.id == leaderID})!.skills[i]]!.leaders[i].removeAll(where: {$0.id == leaderID})
+    }
+    //delete leader for good
+    data.leaders.removeAll(where: {$0.id == leaderID})
 }

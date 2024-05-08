@@ -50,7 +50,7 @@ struct AssignSkillCamperView: View {
                         //quite frankly, i thought searching for specific campers wasn't working.
                         //and yet, when i last tested this, it is now. if anything is going wacko, it's because of this.
                         if(data.campers.first(where: {$0.id == camperIDs[camperInput.lowercased()]})!.fanatic != "None"){
-                            try! removeCamperFromFanatic(camperSelection: [camperIDs[camperInput.lowercased()]!],
+                            try! removeCamperFromFanatic(camperID: camperIDs[camperInput.lowercased()]!,
                                                          fanaticName: data.campers.first(where: {$0.id == camperIDs[camperInput.lowercased()]})!.fanatic,
                                                          newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST", data: data)
                         }

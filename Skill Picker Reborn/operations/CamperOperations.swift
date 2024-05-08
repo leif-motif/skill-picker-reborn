@@ -42,17 +42,15 @@ func createCamper(newCamper: Camper, data: CampData) throws {
     }
 }
 
-func deleteCamper(camperSelection: Set<Camper.ID>, data: CampData){
-    for camperID in camperSelection {
-        //remove camper from cabin
-        data.cabins[data.campers.first(where: {$0.id == camperID})!.cabin]!.campers.removeAll(where: {$0.id == camperID})
-        //remove camper from skills
-        for i in 0...3 {
-            data.skills[data.campers.first(where: {$0.id == camperID})!.skills[i]]!.periods[i].removeAll(where: {$0.id == camperID})
-        }
-        //delete camper for good
-        data.campers.removeAll(where: {$0.id == camperID})
+func deleteCamper(camperID: Camper.ID, data: CampData){
+    //remove camper from cabin
+    data.cabins[data.campers.first(where: {$0.id == camperID})!.cabin]!.campers.removeAll(where: {$0.id == camperID})
+    //remove camper from skills
+    for i in 0...3 {
+        data.skills[data.campers.first(where: {$0.id == camperID})!.skills[i]]!.periods[i].removeAll(where: {$0.id == camperID})
     }
+    //delete camper for good
+    data.campers.removeAll(where: {$0.id == camperID})
 }
 
 func prefSkillPercentage(targetCamper: Camper) -> String {

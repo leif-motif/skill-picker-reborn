@@ -28,7 +28,7 @@ struct LeaderInfoView: View {
     @State private var newCabin = ""
     @State private var newSkills = ["None","None","None","None"]
     @State private var seniorStatus = false
-    private var leaderSelection: Set<Leader.ID>
+    private var leaderID: Leader.ID
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
@@ -81,7 +81,7 @@ struct LeaderInfoView: View {
                     targetLeader.lName = newLastName
                     for i in 0...3 {
                         if(targetLeader.skills[i] != newSkills[i] && targetLeader.skills[i] != "None"){
-                            try! removeLeaderFromSkill(leaderSelection: [targetLeader.id], skillName: targetLeader.skills[i], period: i, data: data)
+                            try! removeLeaderFromSkill(leaderID: targetLeader.id, skillName: targetLeader.skills[i], period: i, data: data)
                         }
                         if(targetLeader.skills[i] != newSkills[i] && newSkills[i] != "None"){
                             assignLeaderToSkill(targetLeader: targetLeader, skillName: newSkills[i], period: i, data: data)
@@ -114,7 +114,7 @@ struct LeaderInfoView: View {
         .padding()
         .frame(width: 300, height: 340)
         .onAppear(perform: {
-            targetLeader = data.leaders.first(where: {$0.id == leaderSelection.first})!
+            targetLeader = data.leaders.first(where: {$0.id == leaderID})!
             newFirstName = targetLeader.fName
             newLastName = targetLeader.lName
             newCabin = targetLeader.cabin
@@ -122,11 +122,8 @@ struct LeaderInfoView: View {
             seniorStatus = targetLeader.senior
         })
     }
-    init(leaderSelection: Set<Leader.ID>) throws {
-        if(leaderSelection.count != 1){
-            throw SPRError.EmptySelection
-        }
-        self.leaderSelection = leaderSelection
+    init(leaderID: Leader.ID){
+        self.leaderID = leaderID
     }
 }
 

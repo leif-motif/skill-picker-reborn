@@ -84,15 +84,13 @@ func assignLeaderToSkill(targetLeader: Leader, skillName: String, period: Int, d
     targetLeader.skills[period] = skillName
 }
 
-func removeLeaderFromSkill(leaderSelection: Set<Leader.ID>, skillName: String, period: Int, data: CampData) throws {
+func removeLeaderFromSkill(leaderID: Leader.ID, skillName: String, period: Int, data: CampData) throws {
     if(skillName == "None"){
         throw SPRError.RefusingDelete
     }
-    for leaderID in leaderSelection {
-        data.skills[skillName]!.leaders[period].removeAll(where: {$0.id == leaderID})
-        data.leaders.first(where: {$0.id == leaderID})!.skills[period] = "None"
-        data.skills["None"]!.leaders[period].append(data.leaders.first(where: {$0.id == leaderID})!)
-    }
+    data.skills[skillName]!.leaders[period].removeAll(where: {$0.id == leaderID})
+    data.leaders.first(where: {$0.id == leaderID})!.skills[period] = "None"
+    data.skills["None"]!.leaders[period].append(data.leaders.first(where: {$0.id == leaderID})!)
 }
 
 func assignCamperToSkill(targetCamper: Camper, skillName: String, period: Int, data: CampData){
@@ -101,15 +99,13 @@ func assignCamperToSkill(targetCamper: Camper, skillName: String, period: Int, d
     targetCamper.skills[period] = skillName
 }
 
-func removeCamperFromSkill(camperSelection: Set<Camper.ID>, skillName: String, period: Int, data: CampData) throws {
+func removeCamperFromSkill(camperID: Camper.ID, skillName: String, period: Int, data: CampData) throws {
     if(skillName == "None"){
         throw SPRError.RefusingDelete
     }
-    for camperID in camperSelection {
-        data.skills[skillName]!.periods[period].removeAll(where: {$0.id == camperID})
-        data.campers.first(where: {$0.id == camperID})!.skills[period] = "None"
-        data.skills["None"]!.periods[period].append(data.campers.first(where: {$0.id == camperID})!)
-    }
+    data.skills[skillName]!.periods[period].removeAll(where: {$0.id == camperID})
+    data.campers.first(where: {$0.id == camperID})!.skills[period] = "None"
+    data.skills["None"]!.periods[period].append(data.campers.first(where: {$0.id == camperID})!)
 }
 
 func clearAllCamperSkills(data: CampData){

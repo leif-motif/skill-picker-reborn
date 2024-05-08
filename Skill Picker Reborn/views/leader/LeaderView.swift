@@ -23,6 +23,7 @@ import SwiftUI
 struct LeaderView: View {
     @EnvironmentObject private var data: CampData
     @State private var selectedLeader = Set<Leader.ID>()
+    @State private var leaderSelectionPass = Set<Leader.ID>()
     @State private var showCsvExporter = false
     @State private var addLeaderSheet = false
     @State private var leaderInfoSheet = false
@@ -54,28 +55,29 @@ struct LeaderView: View {
                 data.leaders.sort(using: $0)
             }
             .contextMenu(forSelectionType: Leader.ID.self) { items in
-                if items.isEmpty {
+                if(selectedLeader.union(items).isEmpty){
                     Button {
                         addLeaderSheet.toggle()
                     } label: {
                         Label("New Leader...", systemImage: "plus")
                     }
-                } else if items.count == 1 {
+                } else if(selectedLeader.union(items).count == 1){
                     Button {
-                        if(selectedLeader.count == 1){
-                            leaderInfoSheet.toggle()
-                        }
+                        leaderSelectionPass = selectedLeader.union(items)
+                        leaderInfoSheet.toggle()
                     } label: {
                         Label("Info/Edit...", systemImage: "pencil.line")
                     }
                     Button(role: .destructive) {
-                        deleteLeader(leaderSelection: selectedLeader, data: data)
+                        deleteLeader(leaderID: selectedLeader.union(items).first!, data: data)
                     } label: {
                         Label("Delete", systemImage: "trash")
                     }
                 } else {
                     Button(role: .destructive) {
-                        deleteLeader(leaderSelection: selectedLeader, data: data)
+                        for leaderID in selectedLeader.union(items){
+                            deleteLeader(leaderID: leaderID, data: data)
+                        }
                     } label: {
                         Label("Delete Selection", systemImage: "trash")
                     }
@@ -103,7 +105,9 @@ struct LeaderView: View {
                 AddLeaderView()
             }
             Button {
-                deleteLeader(leaderSelection: selectedLeader, data: data)
+                for leaderID in selectedLeader {
+                    deleteLeader(leaderID: leaderID, data: data)
+                }
             } label: {
                 Image(systemName:"person.badge.minus")
                     .foregroundColor(selectedLeader.count == 0 ? Color(.systemGray) : Color(.systemRed))
@@ -142,7 +146,7 @@ struct LeaderView: View {
         .sheet(isPresented: $leaderInfoSheet, onDismiss: {
             data.objectWillChange.send()
         }, content: {
-            try! LeaderInfoView(leaderSelection: selectedLeader)
+            LeaderInfoView(leaderID: leaderSelectionPass.first!)
         })
     }
 }

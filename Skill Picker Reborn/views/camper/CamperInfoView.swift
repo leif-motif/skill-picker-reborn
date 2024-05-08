@@ -31,7 +31,7 @@ struct CamperInfoView: View {
     @State private var newPreferredSkills = ["None","None","None","None","None","None"]
     @State private var duplicateSkillsAlert = false
     @State private var blank = ""
-    private var camperSelection: Set<Camper.ID>
+    private var camperID: Camper.ID
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
@@ -138,16 +138,16 @@ struct CamperInfoView: View {
                         targetCamper.fName = newFirstName
                         targetCamper.lName = newLastName
                         if(targetCamper.cabin != newCabin){
-                            removeCamperFromCabin(camperSelection: camperSelection, data: data)
+                            removeCamperFromCabin(camperID: camperID, data: data)
                             assignCamperToCabin(targetCamper: targetCamper, cabinName: newCabin, data: data)
                         }
                         if(targetCamper.fanatic != newFanatic){
-                            try! removeCamperFromFanatic(camperSelection: camperSelection, fanaticName: targetCamper.fanatic, newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST.", data: data)
+                            try! removeCamperFromFanatic(camperID: camperID, fanaticName: targetCamper.fanatic, newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST.", data: data)
                             try! assignCamperToFanatic(targetCamper: targetCamper, fanaticName: newFanatic, data: data)
                         }
                         for i in 0...3 {
                             if(targetCamper.skills[i] != newSkills[i] && targetCamper.skills[i] != "None" && !data.fanatics.keys.contains(targetCamper.skills[i])){
-                                try! removeCamperFromSkill(camperSelection: [targetCamper.id], skillName: targetCamper.skills[i], period: i, data: data)
+                                try! removeCamperFromSkill(camperID: targetCamper.id, skillName: targetCamper.skills[i], period: i, data: data)
                             }
                             if(targetCamper.skills[i] != newSkills[i] && newSkills[i] != "None" && !data.fanatics.keys.contains(targetCamper.skills[i])){
                                 assignCamperToSkill(targetCamper: targetCamper, skillName: newSkills[i], period: i, data: data)
@@ -167,7 +167,7 @@ struct CamperInfoView: View {
                             targetCamper.fName = newFirstName
                             targetCamper.lName = newLastName
                             if(targetCamper.cabin != newCabin){
-                                removeCamperFromCabin(camperSelection: camperSelection, data: data)
+                                removeCamperFromCabin(camperID: camperID, data: data)
                                 assignCamperToCabin(targetCamper: targetCamper, cabinName: newCabin, data: data)
                             }
                             if(newFanatic != "None" && newPreferredSkills.count == 6){
@@ -179,15 +179,15 @@ struct CamperInfoView: View {
                             if(targetCamper.fanatic == "None" && newFanatic != "None"){
                                 try! assignCamperToFanatic(targetCamper: targetCamper, fanaticName: newFanatic, data: data)
                             } else if(targetCamper.fanatic != "None" && newFanatic == "None"){
-                                try! removeCamperFromFanatic(camperSelection: camperSelection, fanaticName: targetCamper.fanatic, newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST", data: data)
+                                try! removeCamperFromFanatic(camperID: camperID, fanaticName: targetCamper.fanatic, newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST", data: data)
                             } else if(targetCamper.fanatic != newFanatic && targetCamper.fanatic != "None" && newFanatic != "None"){
-                                try! removeCamperFromFanatic(camperSelection: camperSelection, fanaticName: targetCamper.fanatic, newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST", data: data)
+                                try! removeCamperFromFanatic(camperID: camperID, fanaticName: targetCamper.fanatic, newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST", data: data)
                                 try! assignCamperToFanatic(targetCamper: targetCamper, fanaticName: newFanatic, data: data)
                             }
                             targetCamper.preferredSkills = newPreferredSkills
                             for i in 0...3 {
                                 if(targetCamper.skills[i] != newSkills[i] && targetCamper.skills[i] != "None" && !data.fanatics.keys.contains(targetCamper.skills[i])){
-                                    try! removeCamperFromSkill(camperSelection: [targetCamper.id], skillName: targetCamper.skills[i], period: i, data: data)
+                                    try! removeCamperFromSkill(camperID: targetCamper.id, skillName: targetCamper.skills[i], period: i, data: data)
                                 }
                                 if(targetCamper.skills[i] != newSkills[i] && newSkills[i] != "None" && !data.fanatics.keys.contains(targetCamper.skills[i])){
                                     assignCamperToSkill(targetCamper: targetCamper, skillName: newSkills[i], period: i, data: data)
@@ -212,7 +212,7 @@ struct CamperInfoView: View {
         .padding()
         .frame(width: 300, height: 550)
         .onAppear(perform: {
-            targetCamper = data.campers.first(where: {$0.id == camperSelection.first})!
+            targetCamper = data.campers.first(where: {$0.id == camperID})!
             newFirstName = targetCamper.fName
             newLastName = targetCamper.lName
             newCabin = targetCamper.cabin
@@ -224,11 +224,8 @@ struct CamperInfoView: View {
             }
         })
     }
-    init(camperSelection: Set<Camper.ID>) throws {
-        if(camperSelection.count != 1){
-            throw SPRError.EmptySelection
-        }
-        self.camperSelection = camperSelection
+    init(camperID: Camper.ID){
+        self.camperID = camperID
     }
 }
 

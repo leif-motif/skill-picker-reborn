@@ -24,6 +24,7 @@ import UniformTypeIdentifiers
 struct CamperView: View {
     @EnvironmentObject private var data: CampData
     @State private var selectedCamper = Set<Camper.ID>()
+    @State private var camperSelectionPass = Set<Camper.ID>()
     @State private var csvInput: [Substring] = [""]
     @State private var showFileChooser = false
     @State private var showCsvExporter = false
@@ -63,28 +64,29 @@ struct CamperView: View {
                 data.campers.sort(using: $0)
             }
             .contextMenu(forSelectionType: Camper.ID.self) { items in
-                if items.isEmpty {
+                if(selectedCamper.union(items).isEmpty){
                     Button {
                         addCamperSheet.toggle()
                     } label: {
                         Label("New Camper...", systemImage: "plus")
                     }
-                } else if items.count == 1 {
+                } else if(selectedCamper.union(items).count == 1){
                     Button {
-                        if(selectedCamper.count == 1){
-                            camperInfoSheet.toggle()
-                        }
+                        camperSelectionPass = selectedCamper.union(items)
+                        camperInfoSheet.toggle()
                     } label: {
                         Label("Info/Edit...", systemImage: "person.text.rectangle")
                     }
                     Button(role: .destructive) {
-                        deleteCamper(camperSelection: selectedCamper, data: data)
+                        deleteCamper(camperID: selectedCamper.union(items).first!, data: data)
                     } label: {
                         Label("Delete", systemImage: "trash")
                     }
                 } else {
                     Button(role: .destructive) {
-                        deleteCamper(camperSelection: selectedCamper, data: data)
+                        for camperID in selectedCamper.union(items){
+                            deleteCamper(camperID: camperID, data: data)
+                        }
                     } label: {
                         Label("Delete Selection", systemImage: "trash")
                     }
@@ -108,7 +110,9 @@ struct CamperView: View {
             }
             .help("Add Camper")
             Button {
-                deleteCamper(camperSelection: selectedCamper, data: data)
+                for camperID in selectedCamper {
+                    deleteCamper(camperID: camperID, data: data)
+                }
                 selectedCamper = []
             } label: {
                 Image(systemName:"person.badge.minus")
@@ -209,7 +213,7 @@ struct CamperView: View {
         .sheet(isPresented: $camperInfoSheet, onDismiss: {
             data.objectWillChange.send()
         }, content: {
-            try! CamperInfoView(camperSelection: selectedCamper)
+            CamperInfoView(camperID: camperSelectionPass.first!)
         })
     }
 }

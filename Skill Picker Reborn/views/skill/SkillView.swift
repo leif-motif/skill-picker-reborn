@@ -23,7 +23,9 @@ import SwiftUI
 struct SkillView: View {
     @EnvironmentObject private var data: CampData
     @State private var selectedCamper = Set<Camper.ID>()
+    @State private var camperSelectionPass = Set<Camper.ID>()
     @State private var selectedLeader = Set<Leader.ID>()
+    @State private var leaderSelectionPass = Set<Leader.ID>()
     @State private var csvInput: [Substring] = [""]
     @State private var csvExport = ""
     @State private var showFanaticCsvExporter = false
@@ -56,26 +58,25 @@ struct SkillView: View {
                 data.skills[data.selectedSkill]!.leaders[data.selectedPeriod].sort(using: $0)
             }
             .contextMenu(forSelectionType: Leader.ID.self) { items in
-                if items.isEmpty {
+                if(selectedLeader.union(items).isEmpty){
                     Button {
                         assignSkillLeaderSheet.toggle()
                     } label: {
                         Label("Assign Leader to Skill...", systemImage: "plus")
                     }
                     .disabled(data.leaders.count == data.skills[data.selectedSkill]!.leaders[data.selectedPeriod].count)
-                } else if items.count == 1 {
+                } else if(selectedLeader.union(items).count == 1){
                     Button {
-                        if(selectedLeader.count == 1){
-                            leaderInfoSheet.toggle()
-                        }
+                        leaderSelectionPass = selectedLeader.union(items)
+                        leaderInfoSheet.toggle()
                     } label: {
                         Label("Info/Edit...", systemImage: "pencil.line")
                     }
                     Button(role: .destructive) {
                         if(data.fanatics.keys.contains(data.selectedSkill)){
-                            try! removeLeaderFromFanatic(leaderSelection: selectedLeader, fanaticName: data.selectedSkill, data: data)
+                            try! removeLeaderFromFanatic(leaderID: selectedLeader.union(items).first!, fanaticName: data.selectedSkill, data: data)
                         } else {
-                            try! removeLeaderFromSkill(leaderSelection: selectedLeader, skillName: data.selectedSkill, period: data.selectedPeriod, data: data)
+                            try! removeLeaderFromSkill(leaderID: selectedLeader.union(items).first!, skillName: data.selectedSkill, period: data.selectedPeriod, data: data)
                         }
                         data.objectWillChange.send()
                     } label: {
@@ -83,7 +84,7 @@ struct SkillView: View {
                     }
                     .disabled(data.selectedSkill == "None")
                     Button(role: .destructive) {
-                        deleteLeader(leaderSelection: selectedLeader, data: data)
+                        deleteLeader(leaderID: selectedLeader.union(items).first!, data: data)
                         data.objectWillChange.send()
                     } label: {
                         Label("Delete", systemImage: "trash")
@@ -91,9 +92,13 @@ struct SkillView: View {
                 } else {
                     Button(role: .destructive) {
                         if(data.fanatics.keys.contains(data.selectedSkill)){
-                            try! removeLeaderFromFanatic(leaderSelection: selectedLeader, fanaticName: data.selectedSkill, data: data)
+                            for leaderID in selectedLeader.union(items){
+                                try! removeLeaderFromFanatic(leaderID: leaderID, fanaticName: data.selectedSkill, data: data)
+                            }
                         } else {
-                            try! removeLeaderFromSkill(leaderSelection: selectedLeader, skillName: data.selectedSkill, period: data.selectedPeriod, data: data)
+                            for leaderID in selectedLeader.union(items){
+                                try! removeLeaderFromSkill(leaderID: leaderID, skillName: data.selectedSkill, period: data.selectedPeriod, data: data)
+                            }
                         }
                         data.objectWillChange.send()
                     } label: {
@@ -101,7 +106,9 @@ struct SkillView: View {
                     }
                     .disabled(data.selectedSkill == "None")
                     Button(role: .destructive) {
-                        deleteLeader(leaderSelection: selectedLeader, data: data)
+                        for leaderID in selectedLeader.union(items) {
+                            deleteLeader(leaderID: leaderID, data: data)
+                        }
                         data.objectWillChange.send()
                     } label: {
                         Label("Delete Selection", systemImage: "trash")
@@ -134,25 +141,24 @@ struct SkillView: View {
                 data.skills[data.selectedSkill]!.periods[data.selectedPeriod].sort(using: $0)
             }
             .contextMenu(forSelectionType: Camper.ID.self) { items in
-                if items.isEmpty {
+                if(selectedCamper.union(items).isEmpty){
                     Button {
                         assignSkillCamperSheet.toggle()
                     } label: {
                         Label("Assign Camper to Skill...", systemImage: "plus")
                     }
-                } else if items.count == 1 {
+                } else if(selectedCamper.union(items).count == 1){
                     Button {
-                        if(selectedCamper.count == 1){
-                            camperInfoSheet.toggle()
-                        }
+                        camperSelectionPass = selectedCamper.union(items)
+                        camperInfoSheet.toggle()
                     } label: {
                          Label("Info/Edit...", systemImage: "pencil.line")
                     }
                     Button(role: .destructive) {
                         if(data.fanatics.keys.contains(data.selectedSkill)){
-                            try! removeCamperFromFanatic(camperSelection: selectedCamper, fanaticName: data.selectedSkill, newSixthPreferredSkill: "None", data: data)
+                            try! removeCamperFromFanatic(camperID: selectedCamper.union(items).first!, fanaticName: data.selectedSkill, newSixthPreferredSkill: "None", data: data)
                         } else {
-                            try! removeCamperFromSkill(camperSelection: selectedCamper, skillName: data.selectedSkill, period: data.selectedPeriod, data: data)
+                            try! removeCamperFromSkill(camperID: selectedCamper.union(items).first!, skillName: data.selectedSkill, period: data.selectedPeriod, data: data)
                         }
                         data.objectWillChange.send()
                     } label: {
@@ -160,7 +166,7 @@ struct SkillView: View {
                     }
                     .disabled(data.selectedSkill == "None")
                     Button(role: .destructive) {
-                        deleteCamper(camperSelection: selectedCamper, data: data)
+                        deleteCamper(camperID: selectedCamper.union(items).first!, data: data)
                         data.objectWillChange.send()
                     } label: {
                         Label("Delete", systemImage: "trash")
@@ -168,9 +174,13 @@ struct SkillView: View {
                 } else {
                     Button(role: .destructive) {
                         if(data.fanatics.keys.contains(data.selectedSkill)){
-                            try! removeCamperFromFanatic(camperSelection: selectedCamper, fanaticName: data.selectedSkill, newSixthPreferredSkill: "None", data: data)
+                            for camperID in selectedCamper.union(items){
+                                try! removeCamperFromFanatic(camperID: camperID, fanaticName: data.selectedSkill, newSixthPreferredSkill: "None", data: data)
+                            }
                         } else {
-                            try! removeCamperFromSkill(camperSelection: selectedCamper, skillName: data.selectedSkill, period: data.selectedPeriod, data: data)
+                            for camperID in selectedCamper.union(items){
+                                try! removeCamperFromSkill(camperID: camperID, skillName: data.selectedSkill, period: data.selectedPeriod, data: data)
+                            }
                         }
                         data.objectWillChange.send()
                     } label: {
@@ -178,7 +188,9 @@ struct SkillView: View {
                     }
                     .disabled(data.selectedSkill == "None")
                     Button(role: .destructive) {
-                        deleteCamper(camperSelection: selectedCamper, data: data)
+                        for camperID in selectedCamper.union(items){
+                            deleteCamper(camperID: camperID, data: data)
+                        }
                         data.objectWillChange.send()
                     } label: {
                         Label("Delete Selection", systemImage: "trash")
@@ -342,12 +354,12 @@ struct SkillView: View {
         .sheet(isPresented: $camperInfoSheet, onDismiss: {
             data.objectWillChange.send()
         }, content: {
-            try! CamperInfoView(camperSelection: selectedCamper)
+            CamperInfoView(camperID: camperSelectionPass.first!)
         })
         .sheet(isPresented: $leaderInfoSheet, onDismiss: {
             data.objectWillChange.send()
         }, content: {
-            try! LeaderInfoView(leaderSelection: selectedLeader)
+            LeaderInfoView(leaderID: leaderSelectionPass.first!)
         })
         .sheet(isPresented: $assignSkillLeaderSheet, onDismiss: {
             data.objectWillChange.send()

@@ -23,6 +23,7 @@ import SwiftUI
 struct CabinView: View {
     @EnvironmentObject private var data: CampData
     @State private var selectedCamper = Set<Camper.ID>()
+    @State private var camperSelectionPass = Set<Camper.ID>()
     @State private var csvInput: [Substring] = [""]
     @State private var showCsvExporter = false
     @State private var addCabinSheet = false
@@ -60,18 +61,17 @@ struct CabinView: View {
                 data.cabins[data.selectedCabin]!.campers.sort(using: $0)
             }
             .contextMenu(forSelectionType: Camper.ID.self) { items in
-                if items.isEmpty {
+                if(selectedCamper.union(items).isEmpty){
                     Button {
                         assignCabinCamperSheet.toggle()
                     } label: {
                         Label("Assign Camper to Cabin...", systemImage: "plus")
                     }
                     .disabled(data.campers.count == 0)
-                } else if items.count == 1 {
+                } else if(selectedCamper.union(items).count == 1){
                     Button {
-                        if(selectedCamper.count == 1){
-                            camperInfoSheet.toggle()
-                        }
+                        camperSelectionPass = selectedCamper.union(items)
+                        camperInfoSheet.toggle()
                     } label: {
                         Label("Info/Edit...", systemImage: "pencil.line")
                     }
@@ -127,7 +127,9 @@ struct CabinView: View {
                     title: Text("Confirm"),
                     message: Text("Are you sure you want to delete the selected camper(s)?"),
                     primaryButton: .default(Text("Delete")){
-                        deleteCamper(camperSelection: selectedCamper, data: data)
+                        for camperID in camperSelectionPass {
+                            deleteCamper(camperID: camperID, data: data)
+                        }
                     },
                     secondaryButton: .cancel()
                 )
@@ -239,14 +241,16 @@ struct CabinView: View {
         .sheet(isPresented: $camperInfoSheet, onDismiss: {
             data.objectWillChange.send()
         }, content: {
-            try! CamperInfoView(camperSelection: selectedCamper)
+            CamperInfoView(camperID: camperSelectionPass.first!)
         })
         .alert(isPresented: $removeCamperConfirm){
             Alert(
                 title: Text("Confirm"),
                 message: Text("Are you sure you want to remove the selected camper(s) from this cabin?"),
                 primaryButton: .default(Text("Remove")){
-                    removeCamperFromCabin(camperSelection: selectedCamper, data: data)
+                    for camperID in camperSelectionPass {
+                        removeCamperFromCabin(camperID: camperID, data: data)
+                    }
                 },
                 secondaryButton: .cancel()
             )

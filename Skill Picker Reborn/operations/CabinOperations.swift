@@ -86,9 +86,7 @@ func assignCamperToCabin(targetCamper: Camper, cabinName: String, data: CampData
     data.cabins[cabinName]!.campers.append(targetCamper)
 }
 
-func removeCamperFromCabin(camperSelection: Set<Camper.ID>, data: CampData){
-    for targetCamper in camperSelection {
-        data.cabins[data.campers.first(where: {$0.id == targetCamper})!.cabin]!.campers.removeAll(where: {$0.id == targetCamper})
-        data.campers.first(where: {$0.id == targetCamper})!.cabin = "Unassigned"
-    }
+func removeCamperFromCabin(camperID: Camper.ID, data: CampData){
+    data.cabins[data.campers.first(where: {$0.id == camperID})!.cabin]!.campers.removeAll(where: {$0.id == camperID})
+    data.campers.first(where: {$0.id == camperID})!.cabin = "Unassigned"
 }
