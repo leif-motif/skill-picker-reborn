@@ -24,7 +24,7 @@ struct StartView: View {
     @EnvironmentObject private var data: CampData
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Copyright © 2023 Ranger Lake Bible Camp")
+            Text("Copyright © 2024 Ranger Lake Bible Camp")
                 .font(.title)
             Text("This program is free software: you can redistribute it and/or modify\nit under the terms of the GNU General Public License as published by\nthe Free Software Foundation, either version 3 of the License, or\n(at your option) any later version.")
                 .font(.body)
