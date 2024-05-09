@@ -23,6 +23,7 @@ import SwiftUI
 struct LeaderView: View {
     @EnvironmentObject private var data: CampData
     @State private var selectedLeader = Set<Leader.ID>()
+    #warning("TODO: fix selection passing")
     @State private var leaderSelectionPass = Set<Leader.ID>()
     @State private var showCsvExporter = false
     @State private var addLeaderSheet = false
@@ -138,7 +139,7 @@ struct LeaderView: View {
                     print(error.localizedDescription)
                 }
             }
-            //TODO: implement search bar
+            #warning("TODO: implement search bar")
             TextField("Search...", text: $search)
                 .frame(width: 100)
                 .disabled(true)

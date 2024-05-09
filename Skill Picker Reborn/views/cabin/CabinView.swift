@@ -120,12 +120,12 @@ struct CabinView: View {
                 ModifyCabinView()
             })
             //i KNOW this shouldn't be here but blah blah blah can't have more than one alerts in a single view
-            //TODO: update alert to properly use passed deletion parameter
             .alert(isPresented: $deleteCamperConfirm){
                 Alert(
                     title: Text("Confirm"),
                     message: Text("Are you sure you want to delete the selected camper(s)?"),
                     primaryButton: .default(Text("Delete")){
+                        #warning("TODO: update alert to properly use passed deletion parameter")
                         /*for camperID in camperSelectionPass {
                             deleteCamper(camperID: camperID, data: data)
                         }*/
@@ -227,7 +227,7 @@ struct CabinView: View {
                     Text($0).tag($0)
                 }
             }
-            //TODO: implement search bar
+            #warning("TODO: implement search bar")
             TextField("Search... ", text: $search)
                 .frame(width: 100)
                 .disabled(true)
@@ -242,12 +242,12 @@ struct CabinView: View {
         }, content: { x in
             CamperInfoView(camperID: x.selection.first!)
         })
-        //TODO: update alert to use properly passed deletion parameter
         .alert(isPresented: $removeCamperConfirm){
             Alert(
                 title: Text("Confirm"),
                 message: Text("Are you sure you want to remove the selected camper(s) from this cabin?"),
                 primaryButton: .default(Text("Remove")){
+                    #warning("TODO: update alert to use properly passed deletion parameter")
                     /*for camperID in camperSelectionPass {
                         removeCamperFromCabin(camperID: camperID, data: data)
                     }*/

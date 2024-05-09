@@ -24,6 +24,7 @@ import UniformTypeIdentifiers
 struct CamperView: View {
     @EnvironmentObject private var data: CampData
     @State private var selectedCamper = Set<Camper.ID>()
+    #warning("TODO: fix selection passing")
     @State private var camperSelectionPass = Set<Camper.ID>()
     @State private var csvInput: [Substring] = [""]
     @State private var showFileChooser = false
@@ -201,7 +202,7 @@ struct CamperView: View {
                     print(error.localizedDescription)
                 }
             }
-            //TODO: implement search bar
+            #warning("TODO: implement search bar")
             TextField("Search...", text: $search)
                 .frame(width: 100)
                 .disabled(true)

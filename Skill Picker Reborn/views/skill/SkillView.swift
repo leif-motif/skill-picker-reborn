@@ -23,6 +23,7 @@ import SwiftUI
 struct SkillView: View {
     @EnvironmentObject private var data: CampData
     @State private var selectedCamper = Set<Camper.ID>()
+    #warning("TODO: fix selection passing")
     @State private var camperSelectionPass = Set<Camper.ID>()
     @State private var selectedLeader = Set<Leader.ID>()
     @State private var leaderSelectionPass = Set<Leader.ID>()
@@ -346,7 +347,7 @@ struct SkillView: View {
                     Text("Skill "+String($0+1)).tag($0)
                 }
             }
-            //TODO: implement search bar
+            #warning("TODO: implement search bar")
             TextField("Search...", text: $search)
                 .frame(width: 100)
                 .disabled(true)
