@@ -39,3 +39,10 @@ class Human: Identifiable, Equatable {
         return lhs.id == rhs.id
     }
 }
+
+//ideally this should not exist, but we need it to pass this data to views
+struct HumanSelection<H: Human>: Identifiable {
+    //why does this have to be identifiable again?
+    let id = UUID()
+    let selection: Set<H.ID>
+}

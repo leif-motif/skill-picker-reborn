@@ -23,13 +23,12 @@ import SwiftUI
 struct CabinView: View {
     @EnvironmentObject private var data: CampData
     @State private var selectedCamper = Set<Camper.ID>()
-    @State private var camperSelectionPass = Set<Camper.ID>()
+    @State private var camperEditPass: HumanSelection<Camper>?
     @State private var csvInput: [Substring] = [""]
     @State private var showCsvExporter = false
     @State private var addCabinSheet = false
     @State private var modifyCabinSheet = false
     @State private var assignCabinCamperSheet = false
-    @State private var camperInfoSheet = false
     @State private var importSkillSheet = false
     @State private var exportCabinAlert = false
     @State private var removeCamperConfirm = false
@@ -70,8 +69,7 @@ struct CabinView: View {
                     .disabled(data.campers.count == 0)
                 } else if(selectedCamper.union(items).count == 1){
                     Button {
-                        camperSelectionPass = selectedCamper.union(items)
-                        camperInfoSheet.toggle()
+                        camperEditPass = HumanSelection(selection: selectedCamper.union(items))
                     } label: {
                         Label("Info/Edit...", systemImage: "pencil.line")
                     }
@@ -122,14 +120,15 @@ struct CabinView: View {
                 ModifyCabinView()
             })
             //i KNOW this shouldn't be here but blah blah blah can't have more than one alerts in a single view
+            //TODO: update alert to properly use passed deletion parameter
             .alert(isPresented: $deleteCamperConfirm){
                 Alert(
                     title: Text("Confirm"),
                     message: Text("Are you sure you want to delete the selected camper(s)?"),
                     primaryButton: .default(Text("Delete")){
-                        for camperID in camperSelectionPass {
+                        /*for camperID in camperSelectionPass {
                             deleteCamper(camperID: camperID, data: data)
-                        }
+                        }*/
                     },
                     secondaryButton: .cancel()
                 )
@@ -238,19 +237,20 @@ struct CabinView: View {
         }, content: {
             AssignCabinCamperView(targetCabin: data.selectedCabin)
         })
-        .sheet(isPresented: $camperInfoSheet, onDismiss: {
+        .sheet(item: $camperEditPass, onDismiss: {
             data.objectWillChange.send()
-        }, content: {
-            CamperInfoView(camperID: camperSelectionPass.first!)
+        }, content: { x in
+            CamperInfoView(camperID: x.selection.first!)
         })
+        //TODO: update alert to use properly passed deletion parameter
         .alert(isPresented: $removeCamperConfirm){
             Alert(
                 title: Text("Confirm"),
                 message: Text("Are you sure you want to remove the selected camper(s) from this cabin?"),
                 primaryButton: .default(Text("Remove")){
-                    for camperID in camperSelectionPass {
+                    /*for camperID in camperSelectionPass {
                         removeCamperFromCabin(camperID: camperID, data: data)
-                    }
+                    }*/
                 },
                 secondaryButton: .cancel()
             )
