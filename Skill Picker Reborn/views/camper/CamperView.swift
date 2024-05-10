@@ -24,15 +24,15 @@ import UniformTypeIdentifiers
 struct CamperView: View {
     @EnvironmentObject private var data: CampData
     @State private var selectedCamper = Set<Camper.ID>()
-    #warning("TODO: fix selection passing")
-    @State private var camperSelectionPass = Set<Camper.ID>()
+    @State private var camperEditPass: HumanSelection<Camper>?
+    @State private var camperDestPass: HumanSelection<Camper>?
     @State private var csvInput: [Substring] = [""]
     @State private var showFileChooser = false
     @State private var showCsvExporter = false
     @State private var addCamperSheet = false
-    @State private var camperInfoSheet = false
     @State private var importSkillSheet = false
     @State private var preferredSkillsAlert = false
+    @State private var deleteCamperConfirm = false
     @State private var search = ""
     var body: some View {
         VStack(){
@@ -65,31 +65,30 @@ struct CamperView: View {
                 data.campers.sort(using: $0)
             }
             .contextMenu(forSelectionType: Camper.ID.self) { items in
-                if(selectedCamper.union(items).isEmpty){
+                let camperSelectionUnion = selectedCamper.union(items)
+                if(camperSelectionUnion.isEmpty){
                     Button {
                         addCamperSheet.toggle()
                     } label: {
                         Label("New Camper...", systemImage: "plus")
                     }
-                } else if(selectedCamper.union(items).count == 1){
+                } else if(camperSelectionUnion.count == 1){
                     Button {
-                        camperSelectionPass = selectedCamper.union(items)
-                        camperInfoSheet.toggle()
+                        camperEditPass = HumanSelection(selection: camperSelectionUnion)
                     } label: {
                         Label("Info/Edit...", systemImage: "person.text.rectangle")
                     }
+                }
+                if(camperSelectionUnion.count > 0){
                     Button(role: .destructive) {
-                        deleteCamper(camperID: selectedCamper.union(items).first!, data: data)
+                        camperDestPass = HumanSelection(selection: camperSelectionUnion)
+                        deleteCamperConfirm.toggle()
                     } label: {
-                        Label("Delete", systemImage: "trash")
-                    }
-                } else {
-                    Button(role: .destructive) {
-                        for camperID in selectedCamper.union(items){
-                            deleteCamper(camperID: camperID, data: data)
+                        if(camperSelectionUnion.count == 1){
+                            Label("Delete", systemImage: "trash")
+                        } else {
+                            Label("Delete Selection", systemImage: "trash")
                         }
-                    } label: {
-                        Label("Delete Selection", systemImage: "trash")
                     }
                 }
             }
@@ -111,10 +110,8 @@ struct CamperView: View {
             }
             .help("Add Camper")
             Button {
-                for camperID in selectedCamper {
-                    deleteCamper(camperID: camperID, data: data)
-                }
-                selectedCamper = []
+                camperDestPass = HumanSelection(selection: selectedCamper)
+                deleteCamperConfirm.toggle()
             } label: {
                 Image(systemName:"person.badge.minus")
                     .foregroundColor(selectedCamper.count == 0 ? Color(.systemGray) : Color(.systemRed))
@@ -122,7 +119,7 @@ struct CamperView: View {
             .help("Delete Camper")
             .disabled(selectedCamper.count == 0)
             Button {
-                camperInfoSheet.toggle()
+                camperEditPass = HumanSelection(selection: selectedCamper)
             } label: {
                 Image(systemName:"person.text.rectangle")
                     .foregroundColor(selectedCamper.count != 1 ? Color(.systemGray) : Color(.systemOrange))
@@ -207,14 +204,35 @@ struct CamperView: View {
                 .frame(width: 100)
                 .disabled(true)
         }
+        .confirmationDialog("Confirm Deletion", isPresented: $deleteCamperConfirm, presenting: camperDestPass){ p in
+            Button(role: .cancel){
+            } label: {
+                Text("Cancel")
+            }
+            Button(role: .destructive){
+                for camperID in p.selection {
+                    deleteCamper(camperID: camperID, data: data)
+                }
+                camperDestPass = nil
+                selectedCamper = []
+            } label: {
+                Text("Remove")
+            }
+        } message: { p in
+            if(p.selection.count == 1){
+                Text("Are you sure you want to delete the selected camper?")
+            } else {
+                Text("Are you sure you want to delete "+String(p.selection.count)+" campers?")
+            }
+        }
         .sheet(isPresented: $addCamperSheet) {
         } content: {
             AddCamperView()
         }
-        .sheet(isPresented: $camperInfoSheet, onDismiss: {
+        .sheet(item: $camperEditPass, onDismiss: {
             data.objectWillChange.send()
-        }, content: {
-            CamperInfoView(camperID: camperSelectionPass.first!)
+        }, content: { x in
+            CamperInfoView(camperID: x.selection.first!)
         })
     }
 }
