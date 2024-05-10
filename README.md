@@ -4,7 +4,9 @@ A superior choice for organizing camp skills
 An app for macOS that manages and organizes a camp's campers, leaders and activites.
 
 # Supported macOS Versions
-Supports macOS Ventura and up (macOS 13+). Skill Picker Reborn should support both Intel (x86_64) and Apple Silicon (ARM) Macs.
+Versions 1.x.x and higher support macOS Ventura and up (macOS 13+).
+Versions 2.x.x and higher will not support macOS Ventura, and will instead only support the most recent version of macOS at the time of release.
+Skill Picker Reborn should support both Intel (x86_64) and Apple Silicon (ARM) Macs.
 
 # Download and Installation
 1. Download the latest release from the "Releases" tab in the sidebar or from [here.](https://github.com/leif-motif/skill-picker-reborn/releases/)
@@ -13,10 +15,9 @@ Supports macOS Ventura and up (macOS 13+). Skill Picker Reborn should support bo
 4. Go to System Preferences, go to Privacy & Security, and scroll to near the bottom. You will see something about being unable to open Skill Picker Reborn because it was from an unidentified developer. Click "Open Anyway," and confirm that you wish to open the app.
 
 # Status
-**Temporary inactivity.** This was intended to be completed by the end of summer 2023. Development will continue in May of this year, with a complete release by the end of June.
+**Active development.** This project is intended to be feature-complete at the end of June this year. After that point, the app will only be updated for maintenance, and any feature requests.
 
 # TODO:
-- General UI improvements (i.e, quick camper reassignment)
 - Camper assignment algorithm fix (complete but not in release)
 - Undo/Redo(?)
 - Saving/reloading of state
