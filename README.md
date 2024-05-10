@@ -5,7 +5,9 @@ An app for macOS that manages and organizes a camp's campers, leaders and activi
 
 # Supported macOS Versions
 Versions 1.x.x and higher support macOS Ventura and up (macOS 13+).
+
 Versions 2.x.x and higher will not support macOS Ventura, and will instead only support the most recent version of macOS at the time of release.
+
 Skill Picker Reborn should support both Intel (x86_64) and Apple Silicon (ARM) Macs.
 
 # Download and Installation
