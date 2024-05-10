@@ -23,11 +23,11 @@ import SwiftUI
 struct LeaderView: View {
     @EnvironmentObject private var data: CampData
     @State private var selectedLeader = Set<Leader.ID>()
-    #warning("TODO: fix selection passing")
-    @State private var leaderSelectionPass = Set<Leader.ID>()
+    @State private var leaderEditPass: HumanSelection<Leader>?
+    @State private var leaderDestPass: HumanSelection<Leader>?
     @State private var showCsvExporter = false
     @State private var addLeaderSheet = false
-    @State private var leaderInfoSheet = false
+    @State private var deleteLeaderConfirm = false
     @State private var search = ""
     var body: some View {
         VStack(){
@@ -56,31 +56,30 @@ struct LeaderView: View {
                 data.leaders.sort(using: $0)
             }
             .contextMenu(forSelectionType: Leader.ID.self) { items in
-                if(selectedLeader.union(items).isEmpty){
+                let leaderSelectionUnion = selectedLeader.union(items)
+                if(leaderSelectionUnion.isEmpty){
                     Button {
                         addLeaderSheet.toggle()
                     } label: {
                         Label("New Leader...", systemImage: "plus")
                     }
-                } else if(selectedLeader.union(items).count == 1){
+                } else if(leaderSelectionUnion.count == 1){
                     Button {
-                        leaderSelectionPass = selectedLeader.union(items)
-                        leaderInfoSheet.toggle()
+                        leaderEditPass = HumanSelection(selection: leaderSelectionUnion)
                     } label: {
                         Label("Info/Edit...", systemImage: "pencil.line")
                     }
+                }
+                if(leaderSelectionUnion.count > 0){
                     Button(role: .destructive) {
-                        deleteLeader(leaderID: selectedLeader.union(items).first!, data: data)
+                        leaderDestPass = HumanSelection(selection: leaderSelectionUnion)
+                        deleteLeaderConfirm.toggle()
                     } label: {
-                        Label("Delete", systemImage: "trash")
-                    }
-                } else {
-                    Button(role: .destructive) {
-                        for leaderID in selectedLeader.union(items){
-                            deleteLeader(leaderID: leaderID, data: data)
+                        if(leaderSelectionUnion.count == 1){
+                            Label("Delete", systemImage: "trash")
+                        } else {
+                            Label("Delete Selection", systemImage: "trash")
                         }
-                    } label: {
-                        Label("Delete Selection", systemImage: "trash")
                     }
                 }
             }
@@ -106,9 +105,8 @@ struct LeaderView: View {
                 AddLeaderView()
             }
             Button {
-                for leaderID in selectedLeader {
-                    deleteLeader(leaderID: leaderID, data: data)
-                }
+                leaderDestPass = HumanSelection(selection: selectedLeader)
+                deleteLeaderConfirm.toggle()
             } label: {
                 Image(systemName:"person.badge.minus")
                     .foregroundColor(selectedLeader.count == 0 ? Color(.systemGray) : Color(.systemRed))
@@ -116,12 +114,12 @@ struct LeaderView: View {
             .help("Delete Leader")
             .disabled(selectedLeader.count == 0)
             Button {
-                leaderInfoSheet.toggle()
+                leaderEditPass = HumanSelection(selection: selectedLeader)
             } label: {
                 Image(systemName:"person.text.rectangle")
                     .foregroundColor(selectedLeader.count != 1 ? Color(.systemGray) : Color(.systemOrange))
             }
-            .help("Get Camper Info")
+            .help("Get Leader Info")
             .disabled(selectedLeader.count != 1)
             Button {
                 showCsvExporter.toggle()
@@ -144,10 +142,31 @@ struct LeaderView: View {
                 .frame(width: 100)
                 .disabled(true)
         }
-        .sheet(isPresented: $leaderInfoSheet, onDismiss: {
+        .confirmationDialog("Confirm Deletion", isPresented: $deleteLeaderConfirm, presenting: leaderDestPass){ p in
+            Button(role: .cancel){
+            } label: {
+                Text("Cancel")
+            }
+            Button(role: .destructive){
+                for leaderID in p.selection {
+                    deleteLeader(leaderID: leaderID, data: data)
+                }
+                leaderDestPass = nil
+                selectedLeader = []
+            } label: {
+                Text("Remove")
+            }
+        } message: { p in
+            if(p.selection.count == 1){
+                Text("Are you sure you want to delete the selected leader?")
+            } else {
+                Text("Are you sure you want to delete "+String(p.selection.count)+" leaders?")
+            }
+        }
+        .sheet(item: $leaderEditPass, onDismiss: {
             data.objectWillChange.send()
-        }, content: {
-            LeaderInfoView(leaderID: leaderSelectionPass.first!)
+        }, content: { x in
+            LeaderInfoView(leaderID: x.selection.first!)
         })
     }
 }
