@@ -62,44 +62,41 @@ struct CabinView: View {
                 data.cabins[data.selectedCabin]!.campers.sort(using: $0)
             }
             .contextMenu(forSelectionType: Camper.ID.self) { items in
-                #warning("TODO: deal with duplicate UUIDs causing improper context menu actions")
-                if(selectedCamper.union(items).isEmpty){
+                let selectedCamperUnion = selectedCamper.union(items)
+                if(selectedCamperUnion.isEmpty){
                     Button {
                         assignCabinCamperSheet.toggle()
                     } label: {
                         Label("Assign Camper to Cabin...", systemImage: "plus")
                     }
                     .disabled(data.campers.count == 0)
-                } else if(selectedCamper.union(items).count == 1){
+                } else if(selectedCamperUnion.count == 1){
                     Button {
-                        camperEditPass = HumanSelection(selection: selectedCamper.union(items))
+                        camperEditPass = HumanSelection(selection: selectedCamperUnion)
                     } label: {
                         Label("Info/Edit...", systemImage: "pencil.line")
                     }
+                }
+                if(selectedCamperUnion.count > 0){
                     Button(role: .destructive) {
-                        camperDestPass = HumanSelection(selection: selectedCamper.union(items))
+                        camperDestPass = HumanSelection(selection: selectedCamperUnion)
                         removeCamperConfirm.toggle()
                     } label: {
-                        Label("Remove", systemImage: "trash")
+                        if(selectedCamperUnion.count == 1){
+                            Label("Remove", systemImage: "trash")
+                        } else {
+                            Label("Remove Selection", systemImage: "trash")
+                        }
                     }
                     Button(role: .destructive) {
-                        camperDestPass = HumanSelection(selection: selectedCamper.union(items))
+                        camperDestPass = HumanSelection(selection: selectedCamperUnion)
                         deleteCamperConfirm.toggle()
                     } label: {
-                        Label("Delete", systemImage: "trash")
-                    }
-                } else {
-                    Button(role: .destructive) {
-                        camperDestPass = HumanSelection(selection: selectedCamper.union(items))
-                        removeCamperConfirm.toggle()
-                    } label: {
-                        Label("Remove Selection", systemImage: "trash")
-                    }
-                    Button(role: .destructive) {
-                        camperDestPass = HumanSelection(selection: selectedCamper.union(items))
-                        deleteCamperConfirm.toggle()
-                    } label: {
-                        Label("Delete Selection", systemImage: "trash")
+                        if(selectedCamperUnion.count == 1){
+                            Label("Delete", systemImage: "trash")
+                        } else {
+                            Label("Delete Selection", systemImage: "trash")
+                        }
                     }
                 }
             }
@@ -138,6 +135,7 @@ struct CabinView: View {
                         deleteCamper(camperID: camperID, data: data)
                     }
                     camperDestPass = nil
+                    selectedCamper = []
                 } label: {
                     Text("Remove")
                 }
@@ -268,6 +266,7 @@ struct CabinView: View {
                     removeCamperFromCabin(camperID: camperID, data: data)
                 }
                 camperDestPass = nil
+                selectedCamper = []
             } label: {
                 Text("Remove")
             }
