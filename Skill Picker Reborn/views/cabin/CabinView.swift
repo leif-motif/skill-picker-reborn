@@ -24,6 +24,7 @@ struct CabinView: View {
     @EnvironmentObject private var data: CampData
     @State private var selectedCamper = Set<Camper.ID>()
     @State private var camperEditPass: HumanSelection<Camper>?
+    @State private var camperDestPass: HumanSelection<Camper>?
     @State private var csvInput: [Substring] = [""]
     @State private var showCsvExporter = false
     @State private var addCabinSheet = false
@@ -37,6 +38,7 @@ struct CabinView: View {
     @State private var search = ""
     var body: some View {
         VStack {
+            #warning("TODO: allow for editing/removal/deletion of leaders with context menu")
             Text(try! AttributedString(markdown: "**Senior:** "+data.cabins[data.selectedCabin]!.senior.fName+" "+data.cabins[data.selectedCabin]!.senior.lName))
                 .font(.title2)
                 .padding(.top,10)
@@ -60,6 +62,7 @@ struct CabinView: View {
                 data.cabins[data.selectedCabin]!.campers.sort(using: $0)
             }
             .contextMenu(forSelectionType: Camper.ID.self) { items in
+                #warning("TODO: deal with duplicate UUIDs causing improper context menu actions")
                 if(selectedCamper.union(items).isEmpty){
                     Button {
                         assignCabinCamperSheet.toggle()
@@ -74,22 +77,26 @@ struct CabinView: View {
                         Label("Info/Edit...", systemImage: "pencil.line")
                     }
                     Button(role: .destructive) {
+                        camperDestPass = HumanSelection(selection: selectedCamper.union(items))
                         removeCamperConfirm.toggle()
                     } label: {
                         Label("Remove", systemImage: "trash")
                     }
                     Button(role: .destructive) {
+                        camperDestPass = HumanSelection(selection: selectedCamper.union(items))
                         deleteCamperConfirm.toggle()
                     } label: {
                         Label("Delete", systemImage: "trash")
                     }
                 } else {
                     Button(role: .destructive) {
+                        camperDestPass = HumanSelection(selection: selectedCamper.union(items))
                         removeCamperConfirm.toggle()
                     } label: {
                         Label("Remove Selection", systemImage: "trash")
                     }
                     Button(role: .destructive) {
+                        camperDestPass = HumanSelection(selection: selectedCamper.union(items))
                         deleteCamperConfirm.toggle()
                     } label: {
                         Label("Delete Selection", systemImage: "trash")
@@ -119,19 +126,27 @@ struct CabinView: View {
             }, content: {
                 ModifyCabinView()
             })
-            //i KNOW this shouldn't be here but blah blah blah can't have more than one alerts in a single view
-            .alert(isPresented: $deleteCamperConfirm){
-                Alert(
-                    title: Text("Confirm"),
-                    message: Text("Are you sure you want to delete the selected camper(s)?"),
-                    primaryButton: .default(Text("Delete")){
-                        #warning("TODO: update alert to properly use passed deletion parameter")
-                        /*for camperID in camperSelectionPass {
-                            deleteCamper(camperID: camperID, data: data)
-                        }*/
-                    },
-                    secondaryButton: .cancel()
-                )
+            //maybe this could be put with the removal prompt, but in the previous version of this prompt,
+            //that caused bugs, so i'm keeping this here.
+            .confirmationDialog("Confirm Deletion", isPresented: $deleteCamperConfirm, presenting: camperDestPass){ p in
+                Button(role: .cancel){
+                } label: {
+                    Text("Cancel")
+                }
+                Button(role: .destructive){
+                    for camperID in p.selection {
+                        deleteCamper(camperID: camperID, data: data)
+                    }
+                    camperDestPass = nil
+                } label: {
+                    Text("Remove")
+                }
+            } message: { p in
+                if(p.selection.count == 1){
+                    Text("Are you sure you want to delete the selected camper?")
+                } else {
+                    Text("Are you sure you want to delete "+String(p.selection.count)+" campers?")
+                }
             }
             Button {
                 deleteCabinConfirm.toggle()
@@ -242,18 +257,26 @@ struct CabinView: View {
         }, content: { x in
             CamperInfoView(camperID: x.selection.first!)
         })
-        .alert(isPresented: $removeCamperConfirm){
-            Alert(
-                title: Text("Confirm"),
-                message: Text("Are you sure you want to remove the selected camper(s) from this cabin?"),
-                primaryButton: .default(Text("Remove")){
-                    #warning("TODO: update alert to use properly passed deletion parameter")
-                    /*for camperID in camperSelectionPass {
-                        removeCamperFromCabin(camperID: camperID, data: data)
-                    }*/
-                },
-                secondaryButton: .cancel()
-            )
+        .confirmationDialog("Confirm Removal", isPresented: $removeCamperConfirm, presenting: camperDestPass){ p in
+            Button(role: .cancel){
+                
+            } label: {
+                Text("Cancel")
+            }
+            Button(role: .destructive){
+                for camperID in p.selection {
+                    removeCamperFromCabin(camperID: camperID, data: data)
+                }
+                camperDestPass = nil
+            } label: {
+                Text("Remove")
+            }
+        } message: { p in
+            if(p.selection.count == 1){
+                Text("Are you sure you want to remove the selected camper from the cabin?")
+            } else {
+                Text("Are you sure you want to remove "+String(p.selection.count)+" campers from the cabin?")
+            }
         }
     }
 }
