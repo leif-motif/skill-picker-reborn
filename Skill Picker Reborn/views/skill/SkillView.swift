@@ -80,7 +80,7 @@ struct SkillView: View {
                 }
                 if(leaderSelectionUnion.count > 0){
                     Button(role: .destructive) {
-                        #warning("TODO: enable deletion and removal of campers and leaders")
+                        #warning("TODO: enable deletion and removal of leaders")
                         /*if(data.fanatics.keys.contains(data.selectedSkill)){
                             for leaderID in selectedLeader.union(items){
                                 try! removeLeaderFromFanatic(leaderID: leaderID, fanaticName: data.selectedSkill, data: data)
@@ -155,16 +155,8 @@ struct SkillView: View {
                 }
                 if(camperSelectionUnion.count > 0){
                     Button(role: .destructive) {
-                        /*if(data.fanatics.keys.contains(data.selectedSkill)){
-                            for camperID in selectedCamper.union(items){
-                                try! removeCamperFromFanatic(camperID: camperID, fanaticName: data.selectedSkill, newSixthPreferredSkill: "None", data: data)
-                            }
-                        } else {
-                            for camperID in selectedCamper.union(items){
-                                try! removeCamperFromSkill(camperID: camperID, skillName: data.selectedSkill, period: data.selectedPeriod, data: data)
-                            }
-                        }
-                        data.objectWillChange.send()*/
+                        camperDestPass = HumanSelection(selection: camperSelectionUnion)
+                        removeCamperConfirm.toggle()
                     } label: {
                         if(camperSelectionUnion.count == 1){
                             Label("Remove", systemImage: "trash")
@@ -174,10 +166,8 @@ struct SkillView: View {
                     }
                     .disabled(data.selectedSkill == "None")
                     Button(role: .destructive) {
-                        /*for camperID in selectedCamper.union(items){
-                            deleteCamper(camperID: camperID, data: data)
-                        }
-                        data.objectWillChange.send()*/
+                        camperDestPass = HumanSelection(selection: camperSelectionUnion)
+                        deleteCamperConfirm.toggle()
                     } label: {
                         if(camperSelectionUnion.count == 1){
                             Label("Delete", systemImage: "trash")
@@ -192,6 +182,56 @@ struct SkillView: View {
                     assignSkillCamperSheet.toggle()
                 } label: {
                     Label("Assign Camper to Skill...", systemImage: "plus")
+                }
+            }
+            .confirmationDialog("Confirm Removal", isPresented: $removeCamperConfirm, presenting: camperDestPass){ p in
+                Button(role: .cancel){
+                } label: {
+                    Text("Cancel")
+                }
+                Button(role: .destructive){
+                    //remove from skill
+                    if(data.fanatics.keys.contains(data.selectedSkill)){
+                        for camperID in p.selection {
+                            try! removeCamperFromFanatic(camperID: camperID, fanaticName: data.selectedSkill, newSixthPreferredSkill: "None", data: data)
+                        }
+                    } else {
+                        for camperID in p.selection {
+                            try! removeCamperFromSkill(camperID: camperID, skillName: data.selectedSkill, period: data.selectedPeriod, data: data)
+                        }
+                    }
+                    camperDestPass = nil
+                    selectedCamper = []
+                    data.objectWillChange.send()
+                } label: {
+                    Text("Remove")
+                }
+            } message: { p in
+                if(p.selection.count == 1){
+                    Text("Are you sure you want to remove the selected camper from the \(data.fanatics.keys.contains(data.selectedSkill) ? "fanatic" : "skill")?")
+                } else {
+                    Text("Are you sure you want to remove multiple campers from the \(data.fanatics.keys.contains(data.selectedSkill) ? "fanatic" : "skill")?")
+                }
+            }
+            .confirmationDialog("Confirm Deletion", isPresented: $deleteCamperConfirm, presenting: camperDestPass){ p in
+                Button(role: .cancel){
+                } label: {
+                    Text("Cancel")
+                }
+                Button(role: .destructive){
+                    for camperID in p.selection {
+                        deleteCamper(camperID: camperID, data: data)
+                    }
+                    camperDestPass = nil
+                    selectedCamper = []
+                } label: {
+                    Text("Remove")
+                }
+            } message: { p in
+                if(p.selection.count == 1){
+                    Text("Are you sure you want to delete the selected camper?")
+                } else {
+                    Text("Are you sure you want to delete "+String(p.selection.count)+" campers?")
                 }
             }
         }
