@@ -23,10 +23,11 @@ import SwiftUI
 struct SkillView: View {
     @EnvironmentObject private var data: CampData
     @State private var selectedCamper = Set<Camper.ID>()
-    #warning("TODO: fix selection passing")
-    @State private var camperSelectionPass = Set<Camper.ID>()
+    @State private var camperEditPass: HumanSelection<Camper>?
+    @State private var camperDestPass: HumanSelection<Camper>?
     @State private var selectedLeader = Set<Leader.ID>()
-    @State private var leaderSelectionPass = Set<Leader.ID>()
+    @State private var leaderEditPass: HumanSelection<Leader>?
+    @State private var leaderDestPass: HumanSelection<Leader>?
     @State private var csvInput: [Substring] = [""]
     @State private var csvExport = ""
     @State private var showFanaticCsvExporter = false
@@ -37,8 +38,11 @@ struct SkillView: View {
     @State private var editFanaticSheet = false
     @State private var assignSkillLeaderSheet = false
     @State private var assignSkillCamperSheet = false
-    @State private var camperInfoSheet = false
-    @State private var leaderInfoSheet = false
+    @State private var removeCamperConfirm = false
+    @State private var removeLeaderConfirm = false
+    @State private var deleteCamperConfirm = false
+    @State private var deleteLeaderConfirm = false
+    @State private var deleteSkillConfirm = false
     @State private var importSkillSheet = false
     @State private var exportSkillAlert = false
     @State private var search = ""
@@ -59,40 +63,25 @@ struct SkillView: View {
                 data.skills[data.selectedSkill]!.leaders[data.selectedPeriod].sort(using: $0)
             }
             .contextMenu(forSelectionType: Leader.ID.self) { items in
-                if(selectedLeader.union(items).isEmpty){
+                let leaderSelectionUnion = selectedLeader.union(items)
+                if(leaderSelectionUnion.isEmpty){
                     Button {
                         assignSkillLeaderSheet.toggle()
                     } label: {
                         Label("Assign Leader to Skill...", systemImage: "plus")
                     }
                     .disabled(data.leaders.count == data.skills[data.selectedSkill]!.leaders[data.selectedPeriod].count)
-                } else if(selectedLeader.union(items).count == 1){
+                } else if(leaderSelectionUnion.count == 1){
                     Button {
-                        leaderSelectionPass = selectedLeader.union(items)
-                        leaderInfoSheet.toggle()
+                        leaderEditPass = HumanSelection(selection: leaderSelectionUnion)
                     } label: {
                         Label("Info/Edit...", systemImage: "pencil.line")
                     }
+                }
+                if(leaderSelectionUnion.count > 0){
                     Button(role: .destructive) {
-                        if(data.fanatics.keys.contains(data.selectedSkill)){
-                            try! removeLeaderFromFanatic(leaderID: selectedLeader.union(items).first!, fanaticName: data.selectedSkill, data: data)
-                        } else {
-                            try! removeLeaderFromSkill(leaderID: selectedLeader.union(items).first!, skillName: data.selectedSkill, period: data.selectedPeriod, data: data)
-                        }
-                        data.objectWillChange.send()
-                    } label: {
-                        Label("Remove", systemImage: "trash")
-                    }
-                    .disabled(data.selectedSkill == "None")
-                    Button(role: .destructive) {
-                        deleteLeader(leaderID: selectedLeader.union(items).first!, data: data)
-                        data.objectWillChange.send()
-                    } label: {
-                        Label("Delete", systemImage: "trash")
-                    }
-                } else {
-                    Button(role: .destructive) {
-                        if(data.fanatics.keys.contains(data.selectedSkill)){
+                        #warning("TODO: enable deletion and removal of campers and leaders")
+                        /*if(data.fanatics.keys.contains(data.selectedSkill)){
                             for leaderID in selectedLeader.union(items){
                                 try! removeLeaderFromFanatic(leaderID: leaderID, fanaticName: data.selectedSkill, data: data)
                             }
@@ -101,18 +90,26 @@ struct SkillView: View {
                                 try! removeLeaderFromSkill(leaderID: leaderID, skillName: data.selectedSkill, period: data.selectedPeriod, data: data)
                             }
                         }
-                        data.objectWillChange.send()
+                        data.objectWillChange.send()*/
                     } label: {
-                        Label("Remove Selection", systemImage: "trash")
+                        if(leaderSelectionUnion.count == 1){
+                            Label("Remove", systemImage: "trash")
+                        } else {
+                            Label("Remove Selection", systemImage: "trash")
+                        }
                     }
                     .disabled(data.selectedSkill == "None")
                     Button(role: .destructive) {
-                        for leaderID in selectedLeader.union(items) {
+                        /*for leaderID in selectedLeader.union(items) {
                             deleteLeader(leaderID: leaderID, data: data)
                         }
-                        data.objectWillChange.send()
+                        data.objectWillChange.send()*/
                     } label: {
-                        Label("Delete Selection", systemImage: "trash")
+                        if(leaderSelectionUnion.count == 1){
+                            Label("Delete", systemImage: "trash")
+                        } else {
+                            Label("Delete Selection", systemImage: "trash")
+                        }
                     }
                 }
             }
@@ -142,39 +139,23 @@ struct SkillView: View {
                 data.skills[data.selectedSkill]!.periods[data.selectedPeriod].sort(using: $0)
             }
             .contextMenu(forSelectionType: Camper.ID.self) { items in
-                if(selectedCamper.union(items).isEmpty){
+                let camperSelectionUnion = selectedCamper.union(items)
+                if(camperSelectionUnion.isEmpty){
                     Button {
                         assignSkillCamperSheet.toggle()
                     } label: {
                         Label("Assign Camper to Skill...", systemImage: "plus")
                     }
-                } else if(selectedCamper.union(items).count == 1){
+                } else if(camperSelectionUnion.count == 1){
                     Button {
-                        camperSelectionPass = selectedCamper.union(items)
-                        camperInfoSheet.toggle()
+                        camperEditPass = HumanSelection(selection: camperSelectionUnion)
                     } label: {
                          Label("Info/Edit...", systemImage: "pencil.line")
                     }
+                }
+                if(camperSelectionUnion.count > 0){
                     Button(role: .destructive) {
-                        if(data.fanatics.keys.contains(data.selectedSkill)){
-                            try! removeCamperFromFanatic(camperID: selectedCamper.union(items).first!, fanaticName: data.selectedSkill, newSixthPreferredSkill: "None", data: data)
-                        } else {
-                            try! removeCamperFromSkill(camperID: selectedCamper.union(items).first!, skillName: data.selectedSkill, period: data.selectedPeriod, data: data)
-                        }
-                        data.objectWillChange.send()
-                    } label: {
-                        Label("Remove", systemImage: "trash")
-                    }
-                    .disabled(data.selectedSkill == "None")
-                    Button(role: .destructive) {
-                        deleteCamper(camperID: selectedCamper.union(items).first!, data: data)
-                        data.objectWillChange.send()
-                    } label: {
-                        Label("Delete", systemImage: "trash")
-                    }
-                } else {
-                    Button(role: .destructive) {
-                        if(data.fanatics.keys.contains(data.selectedSkill)){
+                        /*if(data.fanatics.keys.contains(data.selectedSkill)){
                             for camperID in selectedCamper.union(items){
                                 try! removeCamperFromFanatic(camperID: camperID, fanaticName: data.selectedSkill, newSixthPreferredSkill: "None", data: data)
                             }
@@ -183,18 +164,26 @@ struct SkillView: View {
                                 try! removeCamperFromSkill(camperID: camperID, skillName: data.selectedSkill, period: data.selectedPeriod, data: data)
                             }
                         }
-                        data.objectWillChange.send()
+                        data.objectWillChange.send()*/
                     } label: {
-                        Label("Remove Selection", systemImage: "trash")
+                        if(camperSelectionUnion.count == 1){
+                            Label("Remove", systemImage: "trash")
+                        } else {
+                            Label("Remove Selection", systemImage: "trash")
+                        }
                     }
                     .disabled(data.selectedSkill == "None")
                     Button(role: .destructive) {
-                        for camperID in selectedCamper.union(items){
+                        /*for camperID in selectedCamper.union(items){
                             deleteCamper(camperID: camperID, data: data)
                         }
-                        data.objectWillChange.send()
+                        data.objectWillChange.send()*/
                     } label: {
-                        Label("Delete Selection", systemImage: "trash")
+                        if(camperSelectionUnion.count == 1){
+                            Label("Delete", systemImage: "trash")
+                        } else {
+                            Label("Delete Selection", systemImage: "trash")
+                        }
                     }
                 }
             }
@@ -352,15 +341,17 @@ struct SkillView: View {
                 .frame(width: 100)
                 .disabled(true)
         }
-        .sheet(isPresented: $camperInfoSheet, onDismiss: {
+        .sheet(item: $camperEditPass, onDismiss: {
             data.objectWillChange.send()
-        }, content: {
-            CamperInfoView(camperID: camperSelectionPass.first!)
+            selectedCamper = []
+        }, content: { x in
+            CamperInfoView(camperID: x.selection.first!)
         })
-        .sheet(isPresented: $leaderInfoSheet, onDismiss: {
+        .sheet(item: $leaderEditPass, onDismiss: {
             data.objectWillChange.send()
-        }, content: {
-            LeaderInfoView(leaderID: leaderSelectionPass.first!)
+            selectedLeader = []
+        }, content: { x in
+            LeaderInfoView(leaderID: x.selection.first!)
         })
         .sheet(isPresented: $assignSkillLeaderSheet, onDismiss: {
             data.objectWillChange.send()
