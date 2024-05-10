@@ -123,29 +123,6 @@ struct CabinView: View {
             }, content: {
                 ModifyCabinView()
             })
-            //maybe this could be put with the removal prompt, but in the previous version of this prompt,
-            //that caused bugs, so i'm keeping this here.
-            .confirmationDialog("Confirm Deletion", isPresented: $deleteCamperConfirm, presenting: camperDestPass){ p in
-                Button(role: .cancel){
-                } label: {
-                    Text("Cancel")
-                }
-                Button(role: .destructive){
-                    for camperID in p.selection {
-                        deleteCamper(camperID: camperID, data: data)
-                    }
-                    camperDestPass = nil
-                    selectedCamper = []
-                } label: {
-                    Text("Remove")
-                }
-            } message: { p in
-                if(p.selection.count == 1){
-                    Text("Are you sure you want to delete the selected camper?")
-                } else {
-                    Text("Are you sure you want to delete "+String(p.selection.count)+" campers?")
-                }
-            }
             Button {
                 deleteCabinConfirm.toggle()
             } label: {
@@ -275,6 +252,27 @@ struct CabinView: View {
                 Text("Are you sure you want to remove the selected camper from the cabin?")
             } else {
                 Text("Are you sure you want to remove "+String(p.selection.count)+" campers from the cabin?")
+            }
+        }
+        .confirmationDialog("Confirm Deletion", isPresented: $deleteCamperConfirm, presenting: camperDestPass){ p in
+            Button(role: .cancel){
+            } label: {
+                Text("Cancel")
+            }
+            Button(role: .destructive){
+                for camperID in p.selection {
+                    deleteCamper(camperID: camperID, data: data)
+                }
+                camperDestPass = nil
+                selectedCamper = []
+            } label: {
+                Text("Remove")
+            }
+        } message: { p in
+            if(p.selection.count == 1){
+                Text("Are you sure you want to delete the selected camper?")
+            } else {
+                Text("Are you sure you want to delete "+String(p.selection.count)+" campers?")
             }
         }
     }
