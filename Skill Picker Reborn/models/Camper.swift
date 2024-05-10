@@ -19,6 +19,7 @@
  */
 
 import Foundation
+
 class Camper: Human {
     var preferredSkills: [String]
     var fanatic: String

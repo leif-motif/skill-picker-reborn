@@ -19,6 +19,7 @@
  */
 
 import Foundation
+
 class Skill {
     var name: String
     var periods: [[Camper]]

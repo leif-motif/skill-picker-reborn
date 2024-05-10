@@ -19,6 +19,7 @@
  */
 
 import Foundation
+
 class Leader: Human {
     let senior: Bool
     init(fName: String, lName: String, cabin: String = "Unassigned", senior: Bool, skills: [String] = ["None", "None", "None", "None"]) throws {
