@@ -107,7 +107,6 @@ struct SkillCampersView: View {
                 Text("Cancel")
             }
             Button(role: .destructive){
-                //remove from skill
                 if(data.fanatics.keys.contains(data.selectedSkill)){
                     for camperID in p.selection {
                         try! removeCamperFromFanatic(camperID: camperID, fanaticName: data.selectedSkill, newSixthPreferredSkill: "None", data: data)

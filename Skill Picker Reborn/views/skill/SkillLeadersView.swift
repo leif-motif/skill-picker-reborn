@@ -61,17 +61,8 @@ struct SkillLeadersView: View {
             }
             if(leaderSelectionUnion.count > 0){
                 Button(role: .destructive) {
-                    #warning("TODO: enable deletion and removal of leaders")
-                    /*if(data.fanatics.keys.contains(data.selectedSkill)){
-                     for leaderID in selectedLeader.union(items){
-                     try! removeLeaderFromFanatic(leaderID: leaderID, fanaticName: data.selectedSkill, data: data)
-                     }
-                     } else {
-                     for leaderID in selectedLeader.union(items){
-                     try! removeLeaderFromSkill(leaderID: leaderID, skillName: data.selectedSkill, period: data.selectedPeriod, data: data)
-                     }
-                     }
-                     data.objectWillChange.send()*/
+                    leaderDestPass = HumanSelection(selection: leaderSelectionUnion)
+                    removeLeaderConfirm.toggle()
                 } label: {
                     if(leaderSelectionUnion.count == 1){
                         Label("Remove", systemImage: "trash")
@@ -81,10 +72,8 @@ struct SkillLeadersView: View {
                 }
                 .disabled(data.selectedSkill == "None")
                 Button(role: .destructive) {
-                    /*for leaderID in selectedLeader.union(items) {
-                     deleteLeader(leaderID: leaderID, data: data)
-                     }
-                     data.objectWillChange.send()*/
+                    leaderDestPass = HumanSelection(selection: leaderSelectionUnion)
+                    deleteLeaderConfirm.toggle()
                 } label: {
                     if(leaderSelectionUnion.count == 1){
                         Label("Delete", systemImage: "trash")
@@ -115,6 +104,55 @@ struct SkillLeadersView: View {
         }, content: { x in
             LeaderInfoView(leaderID: x.selection.first!)
         })
+        .confirmationDialog("Confirm Removal", isPresented: $removeLeaderConfirm, presenting: leaderDestPass){ p in
+            Button(role: .cancel){
+            } label: {
+                Text("Cancel")
+            }
+            Button(role: .destructive){
+                if(data.fanatics.keys.contains(data.selectedSkill)){
+                    for leaderID in p.selection {
+                        try! removeLeaderFromFanatic(leaderID: leaderID, fanaticName: data.selectedSkill, data: data)
+                    }
+                } else {
+                    for leaderID in p.selection {
+                        try! removeLeaderFromSkill(leaderID: leaderID, skillName: data.selectedSkill, period: data.selectedPeriod, data: data)
+                    }
+                }
+                leaderDestPass = nil
+                selectedLeader = []
+                data.objectWillChange.send()
+            } label: {
+                Text("Remove")
+            }
+        } message: { p in
+            if(p.selection.count == 1){
+                Text("Are you sure you want to remove the selected leader from the \(data.fanatics.keys.contains(data.selectedSkill) ? "fanatic" : "skill")?")
+            } else {
+                Text("Are you sure you want to remove multiple leaders from the \(data.fanatics.keys.contains(data.selectedSkill) ? "fanatic" : "skill")?")
+            }
+        }
+        .confirmationDialog("Confirm Deletion", isPresented: $deleteLeaderConfirm, presenting: leaderDestPass){ p in
+            Button(role: .cancel){
+            } label: {
+                Text("Cancel")
+            }
+            Button(role: .destructive){
+                for leaderID in p.selection {
+                    deleteLeader(leaderID: leaderID, data: data)
+                }
+                leaderDestPass = nil
+                selectedLeader = []
+            } label: {
+                Text("Remove")
+            }
+        } message: { p in
+            if(p.selection.count == 1){
+                Text("Are you sure you want to delete the selected leader?")
+            } else {
+                Text("Are you sure you want to delete "+String(p.selection.count)+" leaders?")
+            }
+        }
     }
     init(){
         
