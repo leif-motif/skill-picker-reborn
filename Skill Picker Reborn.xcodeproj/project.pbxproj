@@ -44,6 +44,8 @@
 		2974B6E02A6ECB6E00EB063B /* Skill_Picker_RebornUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2974B6DF2A6ECB6E00EB063B /* Skill_Picker_RebornUITests.swift */; };
 		2974B6E22A6ECB6E00EB063B /* Skill_Picker_RebornUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2974B6E12A6ECB6E00EB063B /* Skill_Picker_RebornUITestsLaunchTests.swift */; };
 		2974B6EF2A6ECBA900EB063B /* Human.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2974B6EE2A6ECBA800EB063B /* Human.swift */; };
+		299A8DE32BF1657500684E01 /* SkillLeadersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299A8DE22BF1657500684E01 /* SkillLeadersView.swift */; };
+		299A8DE52BF1658700684E01 /* SkillCampersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299A8DE42BF1658700684E01 /* SkillCampersView.swift */; };
 		29A4EF182A70F3EB00B034E7 /* AddCamperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A4EF172A70F3EB00B034E7 /* AddCamperView.swift */; };
 		29B4BE0B2A7B0EF800FBE06B /* ImportSkillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B4BE0A2A7B0EF800FBE06B /* ImportSkillView.swift */; };
 		29BFB0392A847E06006725D6 /* LeaderInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BFB0382A847E06006725D6 /* LeaderInfoView.swift */; };
@@ -111,6 +113,8 @@
 		2974B6DF2A6ECB6E00EB063B /* Skill_Picker_RebornUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skill_Picker_RebornUITests.swift; sourceTree = "<group>"; };
 		2974B6E12A6ECB6E00EB063B /* Skill_Picker_RebornUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skill_Picker_RebornUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		2974B6EE2A6ECBA800EB063B /* Human.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Human.swift; sourceTree = "<group>"; };
+		299A8DE22BF1657500684E01 /* SkillLeadersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillLeadersView.swift; sourceTree = "<group>"; };
+		299A8DE42BF1658700684E01 /* SkillCampersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillCampersView.swift; sourceTree = "<group>"; };
 		29A4EF162A70C4E900B034E7 /* Skill-Picker-Reborn-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Skill-Picker-Reborn-Info.plist"; sourceTree = SOURCE_ROOT; };
 		29A4EF172A70F3EB00B034E7 /* AddCamperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCamperView.swift; sourceTree = "<group>"; };
 		29B4BE0A2A7B0EF800FBE06B /* ImportSkillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportSkillView.swift; sourceTree = "<group>"; };
@@ -250,6 +254,8 @@
 			isa = PBXGroup;
 			children = (
 				29154B292A7027B300CE8CAC /* SkillView.swift */,
+				299A8DE22BF1657500684E01 /* SkillLeadersView.swift */,
+				299A8DE42BF1658700684E01 /* SkillCampersView.swift */,
 				2971FDC12A721F49007DD484 /* ModifySkillView.swift */,
 				2971FDC32A7233BE007DD484 /* ModifyFanaticView.swift */,
 				29B4BE0A2A7B0EF800FBE06B /* ImportSkillView.swift */,
@@ -441,6 +447,7 @@
 				29E0D1E82A775E5E00C068A9 /* AssignSkillLeaderView.swift in Sources */,
 				2971FDC42A7233BE007DD484 /* ModifyFanaticView.swift in Sources */,
 				291CC57B2A72C262001D422C /* AddLeaderView.swift in Sources */,
+				299A8DE52BF1658700684E01 /* SkillCampersView.swift in Sources */,
 				291F0BCD2A746DA900C73BCD /* FanaticOperations.swift in Sources */,
 				291CC5832A72C312001D422C /* SkillOperations.swift in Sources */,
 				2971FDC62A72B616007DD484 /* CamperOperations.swift in Sources */,
@@ -452,6 +459,7 @@
 				29708D912A6F88370090E369 /* Leader.swift in Sources */,
 				29A4EF182A70F3EB00B034E7 /* AddCamperView.swift in Sources */,
 				290F78D12A798612007F7D1E /* CamperInfoView.swift in Sources */,
+				299A8DE32BF1657500684E01 /* SkillLeadersView.swift in Sources */,
 				29708D932A6F88E30090E369 /* Camper.swift in Sources */,
 				29CF31412A855EFB002EA2F8 /* StartView.swift in Sources */,
 				293A19832A74DE4400B4B015 /* SPRErrors.swift in Sources */,
