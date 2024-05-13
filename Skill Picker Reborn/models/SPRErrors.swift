@@ -36,4 +36,5 @@ enum SPRError: Error {
     case CamperCouldNotGetSkill
     case DuplicateSkillName
     case SkillIsFanatic
+    case InvalidFileFormat
 }

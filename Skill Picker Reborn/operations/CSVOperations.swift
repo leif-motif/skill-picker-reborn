@@ -40,7 +40,7 @@ func cabinsFromCSV(csv: [Substring], data: CampData){
     }
 }
 
-func skillListFromCSV(csv: [Substring]) -> [String:Bool] {
+func skillListFromCSV(csv: [Substring]) throws -> [String:Bool] {
     var isFanatic: [String:Bool] = [:]
     let lazyNumbers: [Substring] = ["1","2","3","4","5","6"]
     for x in 0...(csv[0].collumns.count-1) {
@@ -49,12 +49,18 @@ func skillListFromCSV(csv: [Substring]) -> [String:Bool] {
                 if(csv[y].collumns[x] == "TRUE"){
                     isFanatic[String(csv[0].collumns[x])] = true
                     break
-                } else if (lazyNumbers.contains(csv[y].collumns[x])){
+                } else if(lazyNumbers.contains(csv[y].collumns[x])){
                     isFanatic[String(csv[0].collumns[x])] = false
                     break
                 }
             }
+            if(!isFanatic.keys.contains(String(csv[0].collumns[x]))){
+                throw SPRError.InvalidFileFormat
+            }
         }
+    }
+    if(isFanatic == [:]){
+        throw SPRError.InvalidFileFormat
     }
     return isFanatic
 }

@@ -33,6 +33,7 @@ struct CamperView: View {
     @State private var importSkillSheet = false
     @State private var preferredSkillsAlert = false
     @State private var deleteCamperConfirm = false
+    @State private var csvErrorAlert = false
     @State private var search = ""
     var body: some View {
         VStack(){
@@ -161,8 +162,10 @@ struct CamperView: View {
                 if panel.runModal() == .OK {
                     do {
                         csvInput = try String(contentsOf: panel.url!).lines
-                        data.importSkillList = skillListFromCSV(csv: csvInput)
+                        data.importSkillList = try! skillListFromCSV(csv: csvInput)
                         importSkillSheet.toggle()
+                    } catch SPRError.InvalidFileFormat {
+                        csvErrorAlert.toggle()
                     } catch {
                         //I have really no idea what this does.
                         //It was whining about some kind of warning earlier? Wrapped \/ THAT part in String() and it shut up so idk.
@@ -234,6 +237,14 @@ struct CamperView: View {
         }, content: { x in
             CamperInfoView(camperID: x.selection.first!)
         })
+        .alert("Error!", isPresented: $csvErrorAlert){
+            Button(){
+            } label: {
+                Text("Dismiss")
+            }
+        } message: {
+            Text("The provided CSV is probably invalid. If there are any skills that no camper has set as a preferred skill, remove that skill.")
+        }
     }
 }
 
