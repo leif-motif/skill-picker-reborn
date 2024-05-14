@@ -20,7 +20,7 @@
 
 import Foundation
 
-class Skill {
+class Skill: Codable {
     var name: String
     var periods: [[Camper]]
     var leaders: [[Leader]]

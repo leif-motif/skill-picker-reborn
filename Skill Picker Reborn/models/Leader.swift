@@ -22,8 +22,29 @@ import Foundation
 
 class Leader: Human {
     let senior: Bool
+    
     init(fName: String, lName: String, cabin: String = "Unassigned", senior: Bool, skills: [String] = ["None", "None", "None", "None"]) throws {
         self.senior = senior
         try! super.init(fName: fName, lName: lName, cabin: cabin, skills: skills)
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case senior
+    }
+    
+    override func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(senior, forKey: .senior)
+        
+        let superencoder = container.superEncoder()
+        try super.encode(to: superencoder)
+    }
+    
+    required init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.senior = try container.decode(Bool.self, forKey: .senior)
+        
+        let superDecoder = try! container.superDecoder()
+        try! super.init(from: superDecoder)
     }
 }

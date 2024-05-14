@@ -23,6 +23,7 @@ import Foundation
 class Camper: Human {
     var preferredSkills: [String]
     var fanatic: String
+    
     init(fName: String, lName: String, cabin: String, preferredSkills: [String], fanatic: String, skills: [String] = ["None", "None", "None", "None"]) throws {
         self.fanatic = fanatic
         if((preferredSkills.count != 6 && fanatic == "None") || (preferredSkills.count != 5 && fanatic != "None")){
@@ -31,5 +32,28 @@ class Camper: Human {
             self.preferredSkills = preferredSkills
         }
         try! super.init(fName: fName, lName: lName, cabin: cabin, skills: skills)
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case preferredSkills = "preferred_skills"
+        case fanatic
+    }
+    
+    override func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(preferredSkills, forKey: .preferredSkills)
+        try container.encode(fanatic, forKey: .fanatic)
+        
+        let superencoder = container.superEncoder()
+        try super.encode(to: superencoder)
+    }
+    
+    required init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.preferredSkills = try container.decode([String].self, forKey: .preferredSkills)
+        self.fanatic = try container.decode(String.self, forKey: .fanatic)
+        
+        let superDecoder = try! container.superDecoder()
+        try! super.init(from: superDecoder)
     }
 }

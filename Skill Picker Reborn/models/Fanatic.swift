@@ -20,7 +20,7 @@
 
 import Foundation
 
-class Fanatic {
+class Fanatic: Codable {
     var name: String
     var activePeriods: [Bool]
     init(name: String, activePeriods: [Bool]) throws {

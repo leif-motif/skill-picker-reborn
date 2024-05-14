@@ -20,13 +20,15 @@
 
 import Foundation
 
-class Human: Identifiable, Equatable {
-    let id = UUID()
+class Human: Identifiable, Equatable, Codable {
+    let id: UUID
     var fName: String
     var lName: String
     var cabin: String
     var skills: [String]
+    
     init(fName: String, lName: String, cabin: String = "Unassigned", skills: [String] = ["None", "None", "None", "None"]) throws {
+        self.id = UUID()
         self.fName = fName
         self.lName = lName
         self.cabin = cabin
@@ -35,8 +37,26 @@ class Human: Identifiable, Equatable {
         }
         self.skills = skills
     }
+    
     static func == (lhs: Human, rhs: Human) -> Bool {
         return lhs.id == rhs.id
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case fName = "first_name"
+        case lName = "last_name"
+        case cabin
+        case skills
+    }
+    
+    required init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(UUID.self, forKey: .id)
+        self.fName = try container.decode(String.self, forKey: .fName)
+        self.lName = try container.decode(String.self, forKey: .lName)
+        self.cabin = try container.decode(String.self, forKey: .cabin)
+        self.skills = try container.decode([String].self, forKey: .skills)
     }
 }
 

@@ -23,14 +23,61 @@ import SwiftUI
 @main
 struct Skill_Picker_RebornApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @StateObject private var campData = CampData()
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(CampData())
+                .environmentObject(campData)
         }
         .commands {
             CommandGroup(replacing: CommandGroupPlacement.newItem){
                 //nothing!
+            }
+            CommandGroup(replacing: CommandGroupPlacement.saveItem){
+                Button("Save...") {
+                    let panel = NSSavePanel()
+                    #warning("TODO: change to allowedContentTypes instead")
+                    panel.allowedFileTypes = ["json"]
+                    panel.canCreateDirectories = true
+                    panel.isExtensionHidden = false
+                    panel.title = "Save your camp"
+                    panel.message = "Choose a location to save your camp to"
+                    
+                    if panel.runModal() == .OK, let url = panel.url {
+                        let encoder = JSONEncoder()
+                        do {
+                            #warning("TODO: change this to save the entire camp")
+                            let encoded = try encoder.encode(campData.campers.first!)
+                            try encoded.write(to: url)
+                        } catch {
+                            print("Failed to save app state: \(error.localizedDescription)")
+                        }
+                    }
+                }
+                .keyboardShortcut("S", modifiers: [.command])
+                Button("Load...") {
+                    let panel = NSOpenPanel()
+                    #warning("TODO: change to allowedContentTypes instead")
+                    panel.allowedFileTypes = ["json"]
+                    panel.allowsMultipleSelection = false
+                    panel.canChooseDirectories = false
+                    panel.canChooseFiles = true
+                    panel.title = "Load your camp"
+                    panel.message = "Choose a file to load your camp from"
+                    
+                    if panel.runModal() == .OK, let url = panel.url {
+                        do {
+                            let data = try Data(contentsOf: url)
+                            let decoder = JSONDecoder()
+                            #warning("TODO: change this to load the entire camp")
+                            let decoded = try decoder.decode(Camper.self, from: data)
+                            try! createCamper(newCamper: decoded, data: campData)
+                        } catch {
+                            print("Failed to load app state: \(error)")
+                        }
+                    }
+                }
+                .keyboardShortcut("O", modifiers: [.command])
             }
         }
     }

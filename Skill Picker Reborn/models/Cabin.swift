@@ -20,7 +20,7 @@
 
 import Foundation
 
-class Cabin {
+class Cabin: Codable {
     var name: String
     var senior: Leader
     var junior: Leader
