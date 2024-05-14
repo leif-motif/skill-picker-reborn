@@ -46,12 +46,16 @@ func skillListFromCSV(csv: [Substring]) throws -> [String:Bool] {
     for x in 0...(csv[0].collumns.count-1) {
         if(csv[0].collumns[x] != "Name" && csv[0].collumns[x] != "Cabin"){
             for y in 1...(csv.count-1){
-                if(csv[y].collumns[x] == "TRUE"){
+                if(csv[y].collumns[x] == ""){
+                    continue
+                } else if(csv[y].collumns[x] == "TRUE"){
                     isFanatic[String(csv[0].collumns[x])] = true
                     break
                 } else if(lazyNumbers.contains(csv[y].collumns[x])){
                     isFanatic[String(csv[0].collumns[x])] = false
                     break
+                } else {
+                    throw SPRError.InvalidFileFormat
                 }
             }
             if(!isFanatic.keys.contains(String(csv[0].collumns[x]))){
