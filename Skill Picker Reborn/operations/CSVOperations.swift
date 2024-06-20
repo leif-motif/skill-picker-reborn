@@ -37,7 +37,7 @@ func cabinsFromCSV(csv: [Substring], data: CampData){
     cabinNames.sort()
     #warning("possible group undo management needed")
     for name in cabinNames {
-        createCabin(cabinName: String(name), targetSenior: data.c.nullSenior, targetJunior: data.c.nullJunior, data: data)
+        createCabin(cabinName: String(name), targetSenior: data.c.nullSenior, targetJunior: data.c.nullJunior, data: data, usingInternally: true)
     }
 }
 

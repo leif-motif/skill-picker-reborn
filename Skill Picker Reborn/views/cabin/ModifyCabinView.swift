@@ -86,7 +86,6 @@ struct ModifyCabinView: View {
                     .tint(.blue)
                 } else {
                     Button("Create Cabin"){
-                        #warning("possible group undo management needed")
                         if(seniorSelection == data.c.nullSenior.id && juniorSelection == data.c.nullJunior.id){
                             createCabin(cabinName: iName, targetSenior: data.c.nullSenior, targetJunior: data.c.nullJunior, data: data)
                         } else if(seniorSelection == data.c.nullSenior.id){
