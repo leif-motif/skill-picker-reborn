@@ -20,9 +20,8 @@ Skill Picker Reborn should support both Intel (x86_64) and Apple Silicon (ARM) M
 **Active development.** This project is intended to be feature-complete at the end of June this year. After that point, the app will only be updated for maintenance, and any feature requests.
 
 # TODO:
-- Camper assignment algorithm fix (complete but not in release)
-- Undo/Redo(?)
-- Saving/reloading of state
+- Undo/Redo
+- Saving/reloading of state (in progress)
 
 # Bugs, Suggestions and Contributing
 If you come across any bugs in the app, have any requests, suggestions or criticisms, open an issue on this page and I will try and address it when I can. I will accept any pull requests if it makes the app work better, look better, or run faster.
