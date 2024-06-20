@@ -31,7 +31,7 @@ struct LeaderView: View {
     @State private var search = ""
     var body: some View {
         VStack(){
-            Table(data.leaders, selection: $selectedLeader, sortOrder: $data.leaderSortOrder){
+            Table(data.c.leaders, selection: $selectedLeader, sortOrder: $data.leaderSortOrder){
                 TableColumn("First Name",value: \.fName)
                     .width(min: 80, ideal: 80)
                 TableColumn("Last Name",value: \.lName)
@@ -53,7 +53,7 @@ struct LeaderView: View {
                     .width(min: 80, ideal: 80)
             }
             .onChange(of: data.leaderSortOrder){
-                data.leaders.sort(using: $0)
+                data.c.leaders.sort(using: $0)
             }
             .contextMenu(forSelectionType: Leader.ID.self) { items in
                 let leaderSelectionUnion = selectedLeader.union(items)

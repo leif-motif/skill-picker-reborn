@@ -65,7 +65,7 @@ struct SkillView: View {
             }
             Button {
                 data.objectWillChange.send()
-                if(data.fanatics.keys.contains(data.selectedSkill)){
+                if(data.c.fanatics.keys.contains(data.selectedSkill)){
                     try! deleteFanatic(fanaticName: data.selectedSkill, data: data)
                 } else {
                     try! deleteSkill(skillName: data.selectedSkill, data: data)
@@ -78,7 +78,7 @@ struct SkillView: View {
             .help("Remove Skill/Fanatic")
             .disabled(data.selectedSkill == "None")
             Button {
-                if(data.fanatics.keys.contains(data.selectedSkill)){
+                if(data.c.fanatics.keys.contains(data.selectedSkill)){
                     editFanaticSheet.toggle()
                 } else {
                     editSkillSheet.toggle()
@@ -131,22 +131,22 @@ struct SkillView: View {
                 try! ImportSkillView(data: data)
             })
             Button {
-                if(data.fanatics.keys.contains(data.selectedSkill)){
+                if(data.c.fanatics.keys.contains(data.selectedSkill)){
                     var p: Int?
                     for i in 0...3 {
-                        if(data.fanatics[data.selectedSkill]!.activePeriods[i]){
+                        if(data.c.fanatics[data.selectedSkill]!.activePeriods[i]){
                             p = i
                             break
                         }
                     }
-                    if(data.skills[data.selectedSkill]!.periods[p!].count != 0 && data.skills[data.selectedSkill]!.leaders[p!].count != 0){
+                    if(data.c.skills[data.selectedSkill]!.periods[p!].count != 0 && data.c.skills[data.selectedSkill]!.leaders[p!].count != 0){
                         csvExport = fanaticListToCSV(fanaticName: data.selectedSkill, data: data)
                         showFanaticCsvExporter.toggle()
                     } else {
                         exportSkillAlert.toggle()
                     }
                 } else {
-                    if(data.skills[data.selectedSkill]!.periods[data.selectedPeriod].count != 0 && data.skills[data.selectedSkill]!.leaders[data.selectedPeriod].count != 0){
+                    if(data.c.skills[data.selectedSkill]!.periods[data.selectedPeriod].count != 0 && data.c.skills[data.selectedSkill]!.leaders[data.selectedPeriod].count != 0){
                         csvExport = skillListToCSV(skillName: data.selectedSkill, skillPeriod: data.selectedPeriod, data: data)
                         showSkillCsvExporter.toggle()
                     } else {
@@ -173,7 +173,7 @@ struct SkillView: View {
                       dismissButton: .default(Text("Dismiss")))
             }
             Picker("Skill", selection: $data.selectedSkill){
-                ForEach(Array(data.skills.keys).sorted(), id: \.self){
+                ForEach(Array(data.c.skills.keys).sorted(), id: \.self){
                     Text($0).tag($0)
                 }
             }

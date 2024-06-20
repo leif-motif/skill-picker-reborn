@@ -22,6 +22,9 @@ import SwiftUI
 
 struct StartView: View {
     @EnvironmentObject private var data: CampData
+    #if DEBUG
+    @State private var isTesting = false
+    #endif
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Copyright © 2024 Ranger Lake Bible Camp")
@@ -57,12 +60,13 @@ struct StartView: View {
             #if DEBUG
             Button {
                 createTestingDataPlus(data: data)
+                isTesting = true
             } label: {
                 Image(systemName: "testtube.2")
-                    .foregroundColor(data.campers.count > 0 ? Color(.systemGray) : Color(.systemCyan))
+                    .foregroundColor(isTesting ? Color(.systemGray) : Color(.systemCyan))
             }
             .help("Create Testing Data")
-            .disabled(data.campers.count > 0)
+            .disabled(isTesting)
             #endif
         }
     }

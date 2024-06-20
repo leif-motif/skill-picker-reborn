@@ -37,7 +37,7 @@ struct CamperView: View {
     @State private var search = ""
     var body: some View {
         VStack(){
-            Table(data.campers, selection: $selectedCamper, sortOrder: $data.camperSortOrder){
+            Table(data.c.campers, selection: $selectedCamper, sortOrder: $data.camperSortOrder){
                 TableColumn("First Name",value: \.fName)
                     .width(min: 80, ideal: 80)
                 TableColumn("Last Name",value: \.lName)
@@ -63,7 +63,7 @@ struct CamperView: View {
                     .width(min: 80, ideal: 80)
             }
             .onChange(of: data.camperSortOrder){
-                data.campers.sort(using: $0)
+                data.c.campers.sort(using: $0)
             }
             .contextMenu(forSelectionType: Camper.ID.self) { items in
                 let camperSelectionUnion = selectedCamper.union(items)
@@ -213,6 +213,7 @@ struct CamperView: View {
                 Text("Cancel")
             }
             Button(role: .destructive){
+                #warning("possible group undo management needed")
                 for camperID in p.selection {
                     deleteCamper(camperID: camperID, data: data)
                 }

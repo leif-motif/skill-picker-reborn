@@ -38,13 +38,13 @@ struct CamperInfoView: View {
             TextField("First Name:",text: $newFirstName)
             TextField("Last Name:",text: $newLastName)
             Picker("Cabin:", selection: $newCabin) {
-                ForEach(Array(data.cabins.keys).sorted(), id: \.self){
+                ForEach(Array(data.c.cabins.keys).sorted(), id: \.self){
                     Text($0).tag($0)
                 }
             }
             Picker("Fanatic:", selection: $newFanatic){
                 Text("None").tag("None")
-                ForEach(Array(data.fanatics.keys).sorted(), id: \.self){
+                ForEach(Array(data.c.fanatics.keys).sorted(), id: \.self){
                     Text($0).tag($0)
                 }
             }
@@ -53,67 +53,69 @@ struct CamperInfoView: View {
                 .bold()
                 .padding(.bottom, 1)
             Group {
+                #warning("TODO: change this to be a ForEach")
                 Picker("Skill One:", selection: $newSkills[0]){
-                    ForEach(Array(data.skills.keys).filter({!data.fanatics.keys.contains($0)}).sorted(), id: \.self){
+                    ForEach(Array(data.c.skills.keys).filter({!data.c.fanatics.keys.contains($0)}).sorted(), id: \.self){
                         Text($0).tag($0)
                     }
                 }
-                .foregroundColor(skillIsOverMax(oldSkill: targetCamper.skills[0], newSkill: newSkills[0], skillPeriod: 0, data: data) ? Color(.systemRed) : Color.primary)
-                .disabled(newFanatic != "None" && data.fanatics[newFanatic]?.activePeriods[0] ?? false)
+                .foregroundColor(skillIsOverMax(oldSkill: targetCamper.skills[0], newSkill: newSkills[0], skillPeriod: 0, camp: data.c) ? Color(.systemRed) : Color.primary)
+                .disabled(newFanatic != "None" && data.c.fanatics[newFanatic]?.activePeriods[0] ?? false)
                 Picker("Skill Two:", selection: $newSkills[1]){
-                    ForEach(Array(data.skills.keys).filter({!data.fanatics.keys.contains($0)}).sorted(), id: \.self){
+                    ForEach(Array(data.c.skills.keys).filter({!data.c.fanatics.keys.contains($0)}).sorted(), id: \.self){
                         Text($0).tag($0)
                     }
                 }
-                .foregroundColor(skillIsOverMax(oldSkill: targetCamper.skills[1], newSkill: newSkills[1], skillPeriod: 1, data: data) ? Color(.systemRed) : Color.primary)
-                .disabled(newFanatic != "None" && data.fanatics[newFanatic]?.activePeriods[1] ?? false)
+                .foregroundColor(skillIsOverMax(oldSkill: targetCamper.skills[1], newSkill: newSkills[1], skillPeriod: 1, camp: data.c) ? Color(.systemRed) : Color.primary)
+                .disabled(newFanatic != "None" && data.c.fanatics[newFanatic]?.activePeriods[1] ?? false)
                 Picker("Skill Three:", selection: $newSkills[2]){
-                    ForEach(Array(data.skills.keys).filter({!data.fanatics.keys.contains($0)}).sorted(), id: \.self){
+                    ForEach(Array(data.c.skills.keys).filter({!data.c.fanatics.keys.contains($0)}).sorted(), id: \.self){
                         Text($0).tag($0)
                     }
                 }
-                .foregroundColor(skillIsOverMax(oldSkill: targetCamper.skills[2], newSkill: newSkills[2], skillPeriod: 2, data: data) ? Color(.systemRed) : Color.primary)
-                .disabled(newFanatic != "None" && data.fanatics[newFanatic]?.activePeriods[2] ?? false)
+                .foregroundColor(skillIsOverMax(oldSkill: targetCamper.skills[2], newSkill: newSkills[2], skillPeriod: 2, camp: data.c) ? Color(.systemRed) : Color.primary)
+                .disabled(newFanatic != "None" && data.c.fanatics[newFanatic]?.activePeriods[2] ?? false)
                 Picker("Skill Four:", selection: $newSkills[3]){
-                    ForEach(Array(data.skills.keys).filter({!data.fanatics.keys.contains($0)}).sorted(), id: \.self){
+                    ForEach(Array(data.c.skills.keys).filter({!data.c.fanatics.keys.contains($0)}).sorted(), id: \.self){
                         Text($0).tag($0)
                     }
                 }
-                .foregroundColor(skillIsOverMax(oldSkill: targetCamper.skills[3], newSkill: newSkills[3], skillPeriod: 3, data: data) ? Color(.systemRed) : Color.primary)
-                .disabled(newFanatic != "None" && data.fanatics[newFanatic]?.activePeriods[3] ?? false)
+                .foregroundColor(skillIsOverMax(oldSkill: targetCamper.skills[3], newSkill: newSkills[3], skillPeriod: 3, camp: data.c) ? Color(.systemRed) : Color.primary)
+                .disabled(newFanatic != "None" && data.c.fanatics[newFanatic]?.activePeriods[3] ?? false)
             }
             Text("Preferred Skills:")
                 .bold()
                 .padding(.top, 8)
             Group {
+                #warning("TODO: change this to be a ForEach")
                 Picker("First:", selection: $newPreferredSkills[0]){
-                    ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
+                    ForEach(Array(data.c.skills.keys).sorted().filter({!data.c.fanatics.keys.contains($0)}), id: \.self){
                         Text($0).tag($0)
                     }
                 }
                 Picker("Second:", selection: $newPreferredSkills[1]){
-                    ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
+                    ForEach(Array(data.c.skills.keys).sorted().filter({!data.c.fanatics.keys.contains($0)}), id: \.self){
                         Text($0).tag($0)
                     }
                 }
                 Picker("Third:", selection: $newPreferredSkills[2]){
-                    ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
+                    ForEach(Array(data.c.skills.keys).sorted().filter({!data.c.fanatics.keys.contains($0)}), id: \.self){
                         Text($0).tag($0)
                     }
                 }
                 Picker("Fourth:", selection: $newPreferredSkills[3]){
-                    ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
+                    ForEach(Array(data.c.skills.keys).sorted().filter({!data.c.fanatics.keys.contains($0)}), id: \.self){
                         Text($0).tag($0)
                     }
                 }
                 Picker("Fifth:", selection: $newPreferredSkills[4]){
-                    ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
+                    ForEach(Array(data.c.skills.keys).sorted().filter({!data.c.fanatics.keys.contains($0)}), id: \.self){
                         Text($0).tag($0)
                     }
                 }
                 if(newFanatic == "None"){
                     Picker("Sixth:", selection: $newPreferredSkills[5]){
-                        ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
+                        ForEach(Array(data.c.skills.keys).sorted().filter({!data.c.fanatics.keys.contains($0)}), id: \.self){
                             Text($0).tag($0)
                         }
                     }
@@ -137,6 +139,7 @@ struct CamperInfoView: View {
                     if(targetCamper.preferredSkills == newPreferredSkills){
                         targetCamper.fName = newFirstName
                         targetCamper.lName = newLastName
+                        #warning("possible group undo management needed")
                         if(targetCamper.cabin != newCabin){
                             removeCamperFromCabin(camperID: camperID, data: data)
                             assignCamperToCabin(targetCamper: targetCamper, cabinName: newCabin, data: data)
@@ -146,10 +149,10 @@ struct CamperInfoView: View {
                             try! assignCamperToFanatic(targetCamper: targetCamper, fanaticName: newFanatic, data: data)
                         }
                         for i in 0...3 {
-                            if(targetCamper.skills[i] != newSkills[i] && targetCamper.skills[i] != "None" && !data.fanatics.keys.contains(targetCamper.skills[i])){
+                            if(targetCamper.skills[i] != newSkills[i] && targetCamper.skills[i] != "None" && !data.c.fanatics.keys.contains(targetCamper.skills[i])){
                                 try! removeCamperFromSkill(camperID: targetCamper.id, skillName: targetCamper.skills[i], period: i, data: data)
                             }
-                            if(targetCamper.skills[i] != newSkills[i] && newSkills[i] != "None" && !data.fanatics.keys.contains(targetCamper.skills[i])){
+                            if(targetCamper.skills[i] != newSkills[i] && newSkills[i] != "None" && !data.c.fanatics.keys.contains(targetCamper.skills[i])){
                                 assignCamperToSkill(targetCamper: targetCamper, skillName: newSkills[i], period: i, data: data)
                             }
                         }
@@ -166,6 +169,7 @@ struct CamperInfoView: View {
                         } else {
                             targetCamper.fName = newFirstName
                             targetCamper.lName = newLastName
+                            #warning("possible group undo management needed")
                             if(targetCamper.cabin != newCabin){
                                 removeCamperFromCabin(camperID: camperID, data: data)
                                 assignCamperToCabin(targetCamper: targetCamper, cabinName: newCabin, data: data)
@@ -186,10 +190,10 @@ struct CamperInfoView: View {
                             }
                             targetCamper.preferredSkills = newPreferredSkills
                             for i in 0...3 {
-                                if(targetCamper.skills[i] != newSkills[i] && targetCamper.skills[i] != "None" && !data.fanatics.keys.contains(targetCamper.skills[i])){
+                                if(targetCamper.skills[i] != newSkills[i] && targetCamper.skills[i] != "None" && !data.c.fanatics.keys.contains(targetCamper.skills[i])){
                                     try! removeCamperFromSkill(camperID: targetCamper.id, skillName: targetCamper.skills[i], period: i, data: data)
                                 }
-                                if(targetCamper.skills[i] != newSkills[i] && newSkills[i] != "None" && !data.fanatics.keys.contains(targetCamper.skills[i])){
+                                if(targetCamper.skills[i] != newSkills[i] && newSkills[i] != "None" && !data.c.fanatics.keys.contains(targetCamper.skills[i])){
                                     assignCamperToSkill(targetCamper: targetCamper, skillName: newSkills[i], period: i, data: data)
                                 }
                             }
@@ -198,7 +202,7 @@ struct CamperInfoView: View {
                     }
                 }
                 .disabled(try! !evaluateFanatics(fanatic: newFanatic, periods: newSkills, data: data) || newFirstName == "" || newLastName == "" ||
-                          (targetCamper.fName != newFirstName && targetCamper.lName != newLastName && !humanIsUnique(fName: newFirstName, lName: newLastName, humanArray: data.campers)))
+                          (targetCamper.fName != newFirstName && targetCamper.lName != newLastName && !humanIsUnique(fName: newFirstName, lName: newLastName, humanArray: data.c.campers)))
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
                 .alert(isPresented: $duplicateSkillsAlert) {
@@ -212,7 +216,7 @@ struct CamperInfoView: View {
         .padding()
         .frame(width: 300, height: 550)
         .onAppear(perform: {
-            targetCamper = data.campers.first(where: {$0.id == camperID})!
+            targetCamper = data.c.campers.first(where: {$0.id == camperID})!
             newFirstName = targetCamper.fName
             newLastName = targetCamper.lName
             newCabin = targetCamper.cabin

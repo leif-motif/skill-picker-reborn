@@ -52,6 +52,7 @@
 		29CF31412A855EFB002EA2F8 /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CF31402A855EFB002EA2F8 /* StartView.swift */; };
 		29E0D1E82A775E5E00C068A9 /* AssignSkillLeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E0D1E72A775E5E00C068A9 /* AssignSkillLeaderView.swift */; };
 		29E0D1EA2A7801DE00C068A9 /* AssignSkillCamperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E0D1E92A7801DE00C068A9 /* AssignSkillCamperView.swift */; };
+		29F679262BF40F4100D9DD27 /* Camp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F679252BF40F4100D9DD27 /* Camp.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,6 +123,7 @@
 		29CF31402A855EFB002EA2F8 /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
 		29E0D1E72A775E5E00C068A9 /* AssignSkillLeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignSkillLeaderView.swift; sourceTree = "<group>"; };
 		29E0D1E92A7801DE00C068A9 /* AssignSkillCamperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignSkillCamperView.swift; sourceTree = "<group>"; };
+		29F679252BF40F4100D9DD27 /* Camp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -281,6 +283,7 @@
 			isa = PBXGroup;
 			children = (
 				2956EF682BE9BD8E009D74F1 /* AppDelegate.swift */,
+				29F679252BF40F4100D9DD27 /* Camp.swift */,
 				293A19862A74E37C00B4B015 /* CampData.swift */,
 				29154B2B2A704CBE00CE8CAC /* Cabin.swift */,
 				29708D922A6F88E30090E369 /* Camper.swift */,
@@ -475,6 +478,7 @@
 				291CC57D2A72C2B9001D422C /* ModifyCabinView.swift in Sources */,
 				2974B6EF2A6ECBA900EB063B /* Human.swift in Sources */,
 				29708D952A6F999F0090E369 /* CamperView.swift in Sources */,
+				29F679262BF40F4100D9DD27 /* Camp.swift in Sources */,
 				290F78CF2A7963F6007F7D1E /* CSVOperations.swift in Sources */,
 				291CC5812A72C2F2001D422C /* LeaderOperations.swift in Sources */,
 				29B4BE0B2A7B0EF800FBE06B /* ImportSkillView.swift in Sources */,

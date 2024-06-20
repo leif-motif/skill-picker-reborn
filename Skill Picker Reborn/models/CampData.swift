@@ -21,14 +21,9 @@
 import Foundation
 
 class CampData: ObservableObject {
-    @Published var campers: [Camper]
-    @Published var leaders: [Leader]
-    @Published var cabins: [String:Cabin]
-    @Published var skills: [String:Skill]
-    @Published var fanatics: [String:Fanatic]
+    @Published var c: Camp
     
-    let nullSenior: Leader
-    let nullJunior: Leader
+    let undoManager: UndoManager
     
     @Published var selectedCabin: String
     @Published var cabinCamperSortOrder: [KeyPathComparator<Camper>]
@@ -43,13 +38,10 @@ class CampData: ObservableObject {
     @Published var isImporting: Bool
     
     init(){
-        self.campers = []
-        self.leaders = []
-        self.nullSenior = try! Leader(fName: "null", lName: "senior", cabin: "Unassigned", senior: true)
-        self.nullJunior = try! Leader(fName: "null", lName: "junior", cabin: "Unassigned", senior: false)
-        self.cabins = ["Unassigned": try! Cabin(name: "Unassigned", senior: self.nullSenior, junior: self.nullJunior, campers: [])]
-        self.skills = ["None": try! Skill(name: "None", maximums: [255,255,255,255])]
-        self.fanatics = [:]
+        self.c = Camp()
+        
+        self.undoManager = UndoManager()
+        
         self.selectedCabin = "Unassigned"
         self.cabinCamperSortOrder = [KeyPathComparator(\Camper.lName)]
         self.camperSortOrder = [KeyPathComparator(\Camper.lName)]
@@ -58,6 +50,7 @@ class CampData: ObservableObject {
         self.selectedPeriod = 0
         self.skillCamperSortOrder = [KeyPathComparator(\Camper.lName)]
         self.skillLeaderSortOrder = [KeyPathComparator(\Leader.lName)]
+        
         self.importSkillList = [:]
         self.isImporting = false
     }

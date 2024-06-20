@@ -20,73 +20,132 @@
 
 import Foundation
 
-func createCabin(cabinName: String, targetSenior: Leader, targetJunior: Leader, data: CampData){
+func createCabin(cabinName: String, targetSenior: Leader, targetJunior: Leader, data: CampData, usingInternally: Bool = false){
+    if(!usingInternally){
+        data.objectWillChange.send();
+    }
     //if leaders are already assigned to a cabin, replace their place in that cabin with the null leader
     if(targetSenior.cabin != "Unassigned"){
-        data.cabins[targetSenior.cabin]!.senior = data.nullSenior
+        data.c.cabins[targetSenior.cabin]!.senior = data.c.nullSenior
     }
-    if(targetSenior != data.nullSenior){
+    if(targetSenior != data.c.nullSenior){
         targetSenior.cabin = cabinName
     }
     if(targetJunior.cabin != "Unassigned"){
-        data.cabins[targetJunior.cabin]!.junior = data.nullJunior
+        data.c.cabins[targetJunior.cabin]!.junior = data.c.nullJunior
     }
-    if(targetJunior != data.nullJunior){
+    if(targetJunior != data.c.nullJunior){
         targetJunior.cabin = cabinName
     }
-    data.cabins[cabinName] = try! Cabin(name: cabinName, senior: targetSenior, junior: targetJunior)
+    data.c.cabins[cabinName] = try! Cabin(name: cabinName, senior: targetSenior, junior: targetJunior)
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: implement undo in createCabin")
+        }
+    }
 }
 
-func renameCabin(oldCabin: String, newCabin: String, data: CampData){
-    data.cabins[newCabin] = data.cabins[oldCabin]
-    data.cabins.removeValue(forKey: oldCabin)
-    if(data.cabins[newCabin]!.senior != data.nullJunior){
-        data.cabins[newCabin]!.senior.cabin = newCabin
+func renameCabin(oldCabin: String, newCabin: String, data: CampData, usingInternally: Bool = false){
+    if(!usingInternally){
+        data.objectWillChange.send()
     }
-    if(data.cabins[newCabin]!.junior != data.nullJunior){
-        data.cabins[newCabin]!.junior.cabin = newCabin
+    
+    data.c.cabins[newCabin] = data.c.cabins[oldCabin]
+    data.c.cabins.removeValue(forKey: oldCabin)
+    if(data.c.cabins[newCabin]!.senior != data.c.nullJunior){
+        data.c.cabins[newCabin]!.senior.cabin = newCabin
     }
-    for camper in data.cabins[newCabin]!.campers {
+    if(data.c.cabins[newCabin]!.junior != data.c.nullJunior){
+        data.c.cabins[newCabin]!.junior.cabin = newCabin
+    }
+    for camper in data.c.cabins[newCabin]!.campers {
         camper.cabin = newCabin
     }
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: implement undo in renameCabin")
+        }
+    }
 }
 
-func deleteCabin(targetCabin: String, data: CampData) throws {
+func deleteCabin(targetCabin: String, data: CampData, usingInternally: Bool = false) throws {
+    if(!usingInternally){
+        data.objectWillChange.send()
+    }
+    
     if(targetCabin == "Unassigned"){
         throw SPRError.RefusingDelete
     }
-    for camper in data.campers.filter({$0.cabin == targetCabin}) {
+    for camper in data.c.campers.filter({$0.cabin == targetCabin}) {
         camper.cabin = "Unassigned"
     }
-    for leader in data.leaders.filter({$0.cabin == targetCabin}) {
+    for leader in data.c.leaders.filter({$0.cabin == targetCabin}) {
         leader.cabin = "Unassigned"
     }
-    data.cabins.removeValue(forKey: targetCabin)
+    data.c.cabins.removeValue(forKey: targetCabin)
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: implement undo in deleteCabin")
+        }
+    }
 }
 
-func changeCabinLeaders(cabinName: String, targetSenior: Leader, targetJunior: Leader, data: CampData){
+func changeCabinLeaders(cabinName: String, targetSenior: Leader, targetJunior: Leader, data: CampData, usingInternally: Bool = false){
+    if(!usingInternally){
+        data.objectWillChange.send()
+    }
+    
     //if the current cabin's leader is not the null leader, move them to the unassigned cabin
-    if(data.cabins[cabinName]!.senior.id != data.nullSenior.id){
-        data.cabins[cabinName]!.senior.cabin = "Unassigned"
+    if(data.c.cabins[cabinName]!.senior.id != data.c.nullSenior.id){
+        data.c.cabins[cabinName]!.senior.cabin = "Unassigned"
     }
-    if(data.cabins[cabinName]!.junior.id != data.nullJunior.id){
-        data.cabins[cabinName]!.junior.cabin = "Unassigned"
+    if(data.c.cabins[cabinName]!.junior.id != data.c.nullJunior.id){
+        data.c.cabins[cabinName]!.junior.cabin = "Unassigned"
     }
-    data.cabins[targetSenior.cabin]!.senior = data.nullSenior
-    data.cabins[cabinName]!.senior = targetSenior
+    data.c.cabins[targetSenior.cabin]!.senior = data.c.nullSenior
+    data.c.cabins[cabinName]!.senior = targetSenior
     targetSenior.cabin = cabinName
-    data.cabins[targetJunior.cabin]!.junior = data.nullJunior
-    data.cabins[cabinName]!.junior = targetJunior
+    data.c.cabins[targetJunior.cabin]!.junior = data.c.nullJunior
+    data.c.cabins[cabinName]!.junior = targetJunior
     targetJunior.cabin = cabinName
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: implement undo in changeCabinLeaders")
+        }
+    }
 }
 
-func assignCamperToCabin(targetCamper: Camper, cabinName: String, data: CampData){
-    data.cabins[targetCamper.cabin]!.campers.removeAll(where: {$0 == targetCamper})
+func assignCamperToCabin(targetCamper: Camper, cabinName: String, data: CampData, usingInternally: Bool = false){
+    if(!usingInternally){
+        data.objectWillChange.send()
+    }
+    
+    data.c.cabins[targetCamper.cabin]!.campers.removeAll(where: {$0 == targetCamper})
     targetCamper.cabin = cabinName
-    data.cabins[cabinName]!.campers.append(targetCamper)
+    data.c.cabins[cabinName]!.campers.append(targetCamper)
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: implement undo in assignCamperToCabin")
+        }
+    }
 }
 
-func removeCamperFromCabin(camperID: Camper.ID, data: CampData){
-    data.cabins[data.campers.first(where: {$0.id == camperID})!.cabin]!.campers.removeAll(where: {$0.id == camperID})
-    data.campers.first(where: {$0.id == camperID})!.cabin = "Unassigned"
+func removeCamperFromCabin(camperID: Camper.ID, data: CampData, usingInternally: Bool = false){
+    if(!usingInternally){
+        data.objectWillChange.send()
+    }
+    
+    data.c.cabins[data.c.campers.first(where: {$0.id == camperID})!.cabin]!.campers.removeAll(where: {$0.id == camperID})
+    data.c.campers.first(where: {$0.id == camperID})!.cabin = "Unassigned"
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: implement undo in removeCamperFromCabin")
+        }
+    }
 }

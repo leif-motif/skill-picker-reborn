@@ -20,37 +20,57 @@
 
 import Foundation
 
-func createCamper(newCamper: Camper, data: CampData) throws {
-    data.campers.append(newCamper)
-    data.cabins[newCamper.cabin]!.campers.append(newCamper)
+func createCamper(newCamper: Camper, data: CampData, usingInternally: Bool = false) throws {
+    if(!usingInternally){
+        data.objectWillChange.send()
+    }
+    
+    data.c.campers.append(newCamper)
+    data.c.cabins[newCamper.cabin]!.campers.append(newCamper)
     //apply fanatic skills if it's passed
     if(newCamper.fanatic != "None"){
         for i in 0...3 {
-            if(data.fanatics[newCamper.fanatic]!.activePeriods[i] && newCamper.skills[i] == "None"){
-                data.skills[newCamper.fanatic]!.periods[i].append(newCamper)
+            if(data.c.fanatics[newCamper.fanatic]!.activePeriods[i] && newCamper.skills[i] == "None"){
+                data.c.skills[newCamper.fanatic]!.periods[i].append(newCamper)
                 newCamper.skills[i] = newCamper.fanatic
-            } else if(data.fanatics[newCamper.fanatic]!.activePeriods[i]){
+            } else if(data.c.fanatics[newCamper.fanatic]!.activePeriods[i]){
                 throw SPRError.SkillFanaticConflict
             } else {
-                data.skills[newCamper.skills[i]]!.periods[i].append(newCamper)
+                data.c.skills[newCamper.skills[i]]!.periods[i].append(newCamper)
             }
         }
     } else {
         for i in 0...3 {
-            data.skills[newCamper.skills[i]]!.periods[i].append(newCamper)
+            data.c.skills[newCamper.skills[i]]!.periods[i].append(newCamper)
+        }
+    }
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: implement undo in createCamper")
         }
     }
 }
 
-func deleteCamper(camperID: Camper.ID, data: CampData){
+func deleteCamper(camperID: Camper.ID, data: CampData, usingInternally: Bool = false){
+    if(!usingInternally){
+        data.objectWillChange.send()
+    }
+    
     //remove camper from cabin
-    data.cabins[data.campers.first(where: {$0.id == camperID})!.cabin]!.campers.removeAll(where: {$0.id == camperID})
+    data.c.cabins[data.c.campers.first(where: {$0.id == camperID})!.cabin]!.campers.removeAll(where: {$0.id == camperID})
     //remove camper from skills
     for i in 0...3 {
-        data.skills[data.campers.first(where: {$0.id == camperID})!.skills[i]]!.periods[i].removeAll(where: {$0.id == camperID})
+        data.c.skills[data.c.campers.first(where: {$0.id == camperID})!.skills[i]]!.periods[i].removeAll(where: {$0.id == camperID})
     }
     //delete camper for good
-    data.campers.removeAll(where: {$0.id == camperID})
+    data.c.campers.removeAll(where: {$0.id == camperID})
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: implement undo in deleteCamper")
+        }
+    }
 }
 
 func prefSkillPercentage(targetCamper: Camper) -> String {

@@ -33,21 +33,21 @@ struct ModifyCabinView: View {
             TextField("Name:", text: $iName)
                 .padding(.bottom)
             Picker("Senior:", selection: $seniorSelection) {
-                Text("None").tag(data.nullSenior.id)
-                if(data.leaders.count > 0){
-                    ForEach(0...(data.leaders.count-1), id: \.self){
-                        if(data.leaders[$0].senior){
-                            Text(data.leaders[$0].fName+" "+data.leaders[$0].lName).tag(data.leaders[$0].id)
+                Text("None").tag(data.c.nullSenior.id)
+                if(data.c.leaders.count > 0){
+                    ForEach(0...(data.c.leaders.count-1), id: \.self){
+                        if(data.c.leaders[$0].senior){
+                            Text(data.c.leaders[$0].fName+" "+data.c.leaders[$0].lName).tag(data.c.leaders[$0].id)
                         }
                     }
                 }
             }
             Picker("Junior:", selection: $juniorSelection) {
-                Text("None").tag(data.nullJunior.id)
-                if(data.leaders.count > 0){
-                    ForEach(0...(data.leaders.count-1), id: \.self){
-                        if(!data.leaders[$0].senior){
-                            Text(data.leaders[$0].fName+" "+data.leaders[$0].lName).tag(data.leaders[$0].id)
+                Text("None").tag(data.c.nullJunior.id)
+                if(data.c.leaders.count > 0){
+                    ForEach(0...(data.c.leaders.count-1), id: \.self){
+                        if(!data.c.leaders[$0].senior){
+                            Text(data.c.leaders[$0].fName+" "+data.c.leaders[$0].lName).tag(data.c.leaders[$0].id)
                         }
                     }
                 }
@@ -59,20 +59,21 @@ struct ModifyCabinView: View {
                 }
                 if(editing){
                     Button("Save Changes") {
-                        if(seniorSelection == data.nullSenior.id && juniorSelection == data.nullJunior.id){
-                            changeCabinLeaders(cabinName: targetCabin, targetSenior: data.nullSenior, targetJunior: data.nullJunior, data: data)
-                        } else if(seniorSelection == data.nullSenior.id){
+                        #warning("possible group undo management needed")
+                        if(seniorSelection == data.c.nullSenior.id && juniorSelection == data.c.nullJunior.id){
+                            changeCabinLeaders(cabinName: targetCabin, targetSenior: data.c.nullSenior, targetJunior: data.c.nullJunior, data: data)
+                        } else if(seniorSelection == data.c.nullSenior.id){
                             changeCabinLeaders(cabinName: targetCabin,
-                                               targetSenior: data.nullSenior,
-                                               targetJunior: data.leaders.first(where: {$0.id == juniorSelection})!, data: data)
-                        } else if(juniorSelection == data.nullJunior.id){
+                                               targetSenior: data.c.nullSenior,
+                                               targetJunior: data.c.leaders.first(where: {$0.id == juniorSelection})!, data: data)
+                        } else if(juniorSelection == data.c.nullJunior.id){
                             changeCabinLeaders(cabinName: targetCabin,
-                                               targetSenior: data.leaders.first(where: {$0.id == seniorSelection})!,
-                                               targetJunior: data.nullJunior, data: data)
+                                               targetSenior: data.c.leaders.first(where: {$0.id == seniorSelection})!,
+                                               targetJunior: data.c.nullJunior, data: data)
                         } else {
                             changeCabinLeaders(cabinName: targetCabin,
-                                               targetSenior: data.leaders.first(where: {$0.id == seniorSelection})!,
-                                               targetJunior: data.leaders.first(where: {$0.id == juniorSelection})!, data: data)
+                                               targetSenior: data.c.leaders.first(where: {$0.id == seniorSelection})!,
+                                               targetJunior: data.c.leaders.first(where: {$0.id == juniorSelection})!, data: data)
                         }
                         if(iName != targetCabin){
                             renameCabin(oldCabin: targetCabin, newCabin: iName, data: data)
@@ -80,25 +81,26 @@ struct ModifyCabinView: View {
                         }
                         dismiss()
                     }
-                    .disabled(iName == "" || (data.cabins.keys.contains(iName) && iName != targetCabin))
+                    .disabled(iName == "" || (data.c.cabins.keys.contains(iName) && iName != targetCabin))
                     .buttonStyle(.borderedProminent)
                     .tint(.blue)
                 } else {
                     Button("Create Cabin"){
-                        if(seniorSelection == data.nullSenior.id && juniorSelection == data.nullJunior.id){
-                            createCabin(cabinName: iName, targetSenior: data.nullSenior, targetJunior: data.nullJunior, data: data)
-                        } else if(seniorSelection == data.nullSenior.id){
+                        #warning("possible group undo management needed")
+                        if(seniorSelection == data.c.nullSenior.id && juniorSelection == data.c.nullJunior.id){
+                            createCabin(cabinName: iName, targetSenior: data.c.nullSenior, targetJunior: data.c.nullJunior, data: data)
+                        } else if(seniorSelection == data.c.nullSenior.id){
                             createCabin(cabinName: iName,
-                                        targetSenior: data.nullSenior,
-                                        targetJunior: data.leaders.first(where: {$0.id == juniorSelection})!, data: data)
-                        } else if(juniorSelection == data.nullJunior.id){
+                                        targetSenior: data.c.nullSenior,
+                                        targetJunior: data.c.leaders.first(where: {$0.id == juniorSelection})!, data: data)
+                        } else if(juniorSelection == data.c.nullJunior.id){
                             createCabin(cabinName: iName,
-                                        targetSenior: data.leaders.first(where: {$0.id == seniorSelection})!,
-                                        targetJunior: data.nullJunior, data: data)
+                                        targetSenior: data.c.leaders.first(where: {$0.id == seniorSelection})!,
+                                        targetJunior: data.c.nullJunior, data: data)
                         } else {
                             createCabin(cabinName: iName,
-                                        targetSenior: data.leaders.first(where: {$0.id == seniorSelection})!,
-                                        targetJunior: data.leaders.first(where: {$0.id == juniorSelection})!,
+                                        targetSenior: data.c.leaders.first(where: {$0.id == seniorSelection})!,
+                                        targetJunior: data.c.leaders.first(where: {$0.id == juniorSelection})!,
                                         data: data)
                         }
                         data.selectedCabin = iName
@@ -106,7 +108,7 @@ struct ModifyCabinView: View {
                     }
                     .buttonStyle(.borderedProminent)
                     .tint(.blue)
-                    .disabled(iName == "" || data.cabins.keys.contains(iName))
+                    .disabled(iName == "" || data.c.cabins.keys.contains(iName))
                 }
             }
             .padding(.top)
@@ -116,11 +118,11 @@ struct ModifyCabinView: View {
         .onAppear(perform: {
             iName = targetCabin
             if(editing){
-                seniorSelection = data.cabins[targetCabin]!.senior.id
-                juniorSelection = data.cabins[targetCabin]!.junior.id
+                seniorSelection = data.c.cabins[targetCabin]!.senior.id
+                juniorSelection = data.c.cabins[targetCabin]!.junior.id
             } else {
-                seniorSelection = data.nullSenior.id
-                juniorSelection = data.nullJunior.id
+                seniorSelection = data.c.nullSenior.id
+                juniorSelection = data.c.nullJunior.id
             }
         })
     }

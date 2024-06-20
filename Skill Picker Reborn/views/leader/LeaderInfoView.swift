@@ -35,7 +35,7 @@ struct LeaderInfoView: View {
             TextField("First Name:",text: $newFirstName)
             TextField("Last Name:",text: $newLastName)
             Picker("Cabin:", selection: $newCabin) {
-                ForEach(Array(data.cabins.keys).sorted(), id: \.self){
+                ForEach(Array(data.c.cabins.keys).sorted(), id: \.self){
                     Text($0).tag($0)
                 }
             }
@@ -47,30 +47,31 @@ struct LeaderInfoView: View {
             .padding(.bottom)
             Text("Skills:")
                 .bold()
+            #warning("TODO: change this to be a ForEach")
             Picker("Skill 1:", selection: $newSkills[0]){
-                ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
+                ForEach(Array(data.c.skills.keys).sorted().filter({!data.c.fanatics.keys.contains($0)}), id: \.self){
                     Text($0).tag($0)
                 }
             }
-            .disabled(data.fanatics.keys.contains(newSkills[0]))
+            .disabled(data.c.fanatics.keys.contains(newSkills[0]))
             Picker("Skill 2:", selection: $newSkills[1]){
-                ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
+                ForEach(Array(data.c.skills.keys).sorted().filter({!data.c.fanatics.keys.contains($0)}), id: \.self){
                     Text($0).tag($0)
                 }
             }
-            .disabled(data.fanatics.keys.contains(newSkills[1]))
+            .disabled(data.c.fanatics.keys.contains(newSkills[1]))
             Picker("Skill 3:", selection: $newSkills[2]){
-                ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
+                ForEach(Array(data.c.skills.keys).sorted().filter({!data.c.fanatics.keys.contains($0)}), id: \.self){
                     Text($0).tag($0)
                 }
             }
-            .disabled(data.fanatics.keys.contains(newSkills[2]))
+            .disabled(data.c.fanatics.keys.contains(newSkills[2]))
             Picker("Skill 4:", selection: $newSkills[3]){
-                ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
+                ForEach(Array(data.c.skills.keys).sorted().filter({!data.c.fanatics.keys.contains($0)}), id: \.self){
                     Text($0).tag($0)
                 }
             }
-            .disabled(data.fanatics.keys.contains(newSkills[3]))
+            .disabled(data.c.fanatics.keys.contains(newSkills[3]))
             HStack {
                 Spacer()
                 Button("Dismiss") {
@@ -79,6 +80,7 @@ struct LeaderInfoView: View {
                 Button("Save Changes") {
                     targetLeader.fName = newFirstName
                     targetLeader.lName = newLastName
+                    #warning("undo management needed")
                     for i in 0...3 {
                         if(targetLeader.skills[i] != newSkills[i] && targetLeader.skills[i] != "None"){
                             try! removeLeaderFromSkill(leaderID: targetLeader.id, skillName: targetLeader.skills[i], period: i, data: data)
@@ -88,24 +90,24 @@ struct LeaderInfoView: View {
                         }
                     }
                     if(targetLeader.cabin != newCabin && targetLeader.senior){
-                        data.cabins[targetLeader.cabin]!.senior = data.nullSenior
-                        data.cabins[newCabin]!.senior.cabin = "Unassigned"
+                        data.c.cabins[targetLeader.cabin]!.senior = data.c.nullSenior
+                        data.c.cabins[newCabin]!.senior.cabin = "Unassigned"
                         targetLeader.cabin = newCabin
                         if(newCabin != "Unassigned"){
-                            data.cabins[newCabin]!.senior = targetLeader
+                            data.c.cabins[newCabin]!.senior = targetLeader
                         }
                     } else if(targetLeader.cabin != newCabin && !targetLeader.senior){
-                        data.cabins[targetLeader.cabin]!.junior = data.nullJunior
-                        data.cabins[newCabin]!.junior.cabin = "Unassigned"
+                        data.c.cabins[targetLeader.cabin]!.junior = data.c.nullJunior
+                        data.c.cabins[newCabin]!.junior.cabin = "Unassigned"
                         targetLeader.cabin = newCabin
                         if(newCabin != "Unassigned"){
-                            data.cabins[newCabin]!.junior = targetLeader
+                            data.c.cabins[newCabin]!.junior = targetLeader
                         }
                     }
                     dismiss()
                 }
                 .disabled(newFirstName == "" || newLastName == "" ||
-                          (targetLeader.fName != newFirstName && targetLeader.lName != newLastName && !humanIsUnique(fName: newFirstName, lName: newLastName, humanArray: data.leaders)))
+                          (targetLeader.fName != newFirstName && targetLeader.lName != newLastName && !humanIsUnique(fName: newFirstName, lName: newLastName, humanArray: data.c.leaders)))
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
             }
@@ -114,7 +116,7 @@ struct LeaderInfoView: View {
         .padding()
         .frame(width: 300, height: 340)
         .onAppear(perform: {
-            targetLeader = data.leaders.first(where: {$0.id == leaderID})!
+            targetLeader = data.c.leaders.first(where: {$0.id == leaderID})!
             newFirstName = targetLeader.fName
             newLastName = targetLeader.lName
             newCabin = targetLeader.cabin

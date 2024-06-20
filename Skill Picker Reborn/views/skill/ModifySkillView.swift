@@ -83,7 +83,7 @@ struct ModifySkillView: View {
                 }
                 if(editing){
                     Button("Save Changes"){
-                        data.skills[targetSkill]!.maximums = maximums
+                        data.c.skills[targetSkill]!.maximums = maximums
                         if(iName != targetSkill){
                             try! renameSkill(oldName: targetSkill, newName: iName, data: data)
                             data.selectedSkill = iName
@@ -92,7 +92,7 @@ struct ModifySkillView: View {
                     }
                     .buttonStyle(.borderedProminent)
                     .tint(.blue)
-                    .disabled(iName == "" || (data.skills.keys.contains(iName) && iName != targetSkill) || maximums == [0,0,0,0])
+                    .disabled(iName == "" || (data.c.skills.keys.contains(iName) && iName != targetSkill) || maximums == [0,0,0,0])
                 } else {
                     Button("Add Skill") {
                         //There's probably a better way to do this but I no longer care.
@@ -108,7 +108,7 @@ struct ModifySkillView: View {
                     }
                     .buttonStyle(.borderedProminent)
                     .tint(.blue)
-                    .disabled(iName == "" || data.skills.keys.contains(iName) || maximums == [0,0,0,0])
+                    .disabled(iName == "" || data.c.skills.keys.contains(iName) || maximums == [0,0,0,0])
                 }
             }
             .padding(.top)
@@ -118,7 +118,7 @@ struct ModifySkillView: View {
         .onAppear(perform: {
             iName = targetSkill
             if(editing){
-                maximums = data.skills[targetSkill]!.maximums
+                maximums = data.c.skills[targetSkill]!.maximums
             }
         })
     }

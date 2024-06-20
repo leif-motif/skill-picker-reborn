@@ -20,18 +20,32 @@
 
 import Foundation
 
-func createSkill(newSkill: Skill, data: CampData){
-    data.skills[newSkill.name] = newSkill
+func createSkill(newSkill: Skill, data: CampData, usingInternally: Bool = false){
+    if(!usingInternally){
+        data.objectWillChange.send()
+    }
+    
+    data.c.skills[newSkill.name] = newSkill
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: handle undo of createSkill")
+        }
+    }
 }
 
-func renameSkill(oldName: String, newName: String, data: CampData) throws {
+func renameSkill(oldName: String, newName: String, data: CampData, usingInternally: Bool = false) throws {
+    if(!usingInternally){
+        data.objectWillChange.send()
+    }
+    
     if(oldName == "None"){
         throw SPRError.NoneSkillRefusal
     }
-    if(data.skills.keys.contains(newName)){
+    if(data.c.skills.keys.contains(newName)){
         throw SPRError.DuplicateSkillName
     }
-    for camper in data.campers {
+    for camper in data.c.campers {
         for i in 0...(camper.preferredSkills.count-1){
             if(camper.preferredSkills[i] == oldName){
                 camper.preferredSkills[i] = newName
@@ -43,31 +57,41 @@ func renameSkill(oldName: String, newName: String, data: CampData) throws {
             }
         }
     }
-    data.skills[newName] = data.skills[oldName]
-    data.skills.removeValue(forKey: oldName)
-    data.skills[newName]!.name = newName
+    data.c.skills[newName] = data.c.skills[oldName]
+    data.c.skills.removeValue(forKey: oldName)
+    data.c.skills[newName]!.name = newName
     for i in 0...3 {
-        for leader in data.skills[newName]!.leaders[i] {
+        for leader in data.c.skills[newName]!.leaders[i] {
             leader.skills[i] = newName
+        }
+    }
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: handle undo of renameSkill")
         }
     }
 }
 
-func deleteSkill(skillName: String, data: CampData) throws {
+func deleteSkill(skillName: String, data: CampData, usingInternally: Bool = false) throws {
+    if(!usingInternally){
+        data.objectWillChange.send()
+    }
+    
     if(skillName == "None"){
         throw SPRError.RefusingDelete
     }
     for i in 0...3 {
-        if(data.skills[skillName]!.maximums[i] != 0){
-            for leader in data.skills[skillName]!.leaders[i] {
+        if(data.c.skills[skillName]!.maximums[i] != 0){
+            for leader in data.c.skills[skillName]!.leaders[i] {
                 leader.skills[i] = "None"
             }
-            for camper in data.skills[skillName]!.periods[i] {
+            for camper in data.c.skills[skillName]!.periods[i] {
                 camper.skills[i] = "None"
             }
         }
     }
-    for camper in data.campers {
+    for camper in data.c.campers {
         for i in 0...(camper.preferredSkills.count-1){
             if(camper.preferredSkills[i] == skillName){
                 camper.preferredSkills.remove(at: i)
@@ -75,76 +99,136 @@ func deleteSkill(skillName: String, data: CampData) throws {
             }
         }
     }
-    data.skills.removeValue(forKey: skillName)
-}
-
-func assignLeaderToSkill(targetLeader: Leader, skillName: String, period: Int, data: CampData){
-    data.skills[targetLeader.skills[period]]!.leaders[period].removeAll(where: {$0 == targetLeader})
-    data.skills[skillName]!.leaders[period].append(targetLeader)
-    targetLeader.skills[period] = skillName
-}
-
-func removeLeaderFromSkill(leaderID: Leader.ID, skillName: String, period: Int, data: CampData) throws {
-    if(skillName == "None"){
-        throw SPRError.RefusingDelete
-    }
-    data.skills[skillName]!.leaders[period].removeAll(where: {$0.id == leaderID})
-    data.leaders.first(where: {$0.id == leaderID})!.skills[period] = "None"
-    data.skills["None"]!.leaders[period].append(data.leaders.first(where: {$0.id == leaderID})!)
-}
-
-func assignCamperToSkill(targetCamper: Camper, skillName: String, period: Int, data: CampData){
-    data.skills[targetCamper.skills[period]]!.periods[period].removeAll(where: {$0 == targetCamper})
-    data.skills[skillName]!.periods[period].append(targetCamper)
-    targetCamper.skills[period] = skillName
-}
-
-func removeCamperFromSkill(camperID: Camper.ID, skillName: String, period: Int, data: CampData) throws {
-    if(skillName == "None"){
-        throw SPRError.RefusingDelete
-    }
-    data.skills[skillName]!.periods[period].removeAll(where: {$0.id == camperID})
-    data.campers.first(where: {$0.id == camperID})!.skills[period] = "None"
-    data.skills["None"]!.periods[period].append(data.campers.first(where: {$0.id == camperID})!)
-}
-
-func clearAllCamperSkills(data: CampData){
-    for skill in data.skills.keys {
-        if(!data.fanatics.keys.contains(skill)){
-            for i in 0...3 {
-                for camper in data.skills[skill]!.periods[i] {
-                    camper.skills[i] = "None"
-                }
-                data.skills[skill]!.periods[i] = []
-            }
+    data.c.skills.removeValue(forKey: skillName)
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: handle undo of deleteSkill")
         }
     }
 }
 
-func processPreferredSkills(data: CampData) throws {
-    if(data.skills.count == 1){
+func assignLeaderToSkill(targetLeader: Leader, skillName: String, period: Int, data: CampData, usingInternally: Bool = false){
+    if(!usingInternally){
+        data.objectWillChange.send()
+    }
+    
+    data.c.skills[targetLeader.skills[period]]!.leaders[period].removeAll(where: {$0 == targetLeader})
+    data.c.skills[skillName]!.leaders[period].append(targetLeader)
+    targetLeader.skills[period] = skillName
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: handle undo of assignLeaderToSkill")
+        }
+    }
+}
+
+func removeLeaderFromSkill(leaderID: Leader.ID, skillName: String, period: Int, data: CampData, usingInternally: Bool = false) throws {
+    if(!usingInternally){
+        data.objectWillChange.send()
+    }
+    
+    if(skillName == "None"){
+        throw SPRError.RefusingDelete
+    }
+    data.c.skills[skillName]!.leaders[period].removeAll(where: {$0.id == leaderID})
+    data.c.leaders.first(where: {$0.id == leaderID})!.skills[period] = "None"
+    data.c.skills["None"]!.leaders[period].append(data.c.leaders.first(where: {$0.id == leaderID})!)
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: handle undo of removeLeaderFromSkill")
+        }
+    }
+}
+
+func assignCamperToSkill(targetCamper: Camper, skillName: String, period: Int, data: CampData, usingInternally: Bool = false){
+    if(!usingInternally){
+        data.objectWillChange.send()
+    }
+    
+    data.c.skills[targetCamper.skills[period]]!.periods[period].removeAll(where: {$0 == targetCamper})
+    data.c.skills[skillName]!.periods[period].append(targetCamper)
+    targetCamper.skills[period] = skillName
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: handle undo of assignCamperToSkill")
+        }
+    }
+}
+
+func removeCamperFromSkill(camperID: Camper.ID, skillName: String, period: Int, data: CampData, usingInternally: Bool = false) throws {
+    if(!usingInternally){
+        data.objectWillChange.send()
+    }
+    
+    if(skillName == "None"){
+        throw SPRError.RefusingDelete
+    }
+    data.c.skills[skillName]!.periods[period].removeAll(where: {$0.id == camperID})
+    data.c.campers.first(where: {$0.id == camperID})!.skills[period] = "None"
+    data.c.skills["None"]!.periods[period].append(data.c.campers.first(where: {$0.id == camperID})!)
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: handle undo of removeCamperFromSkill")
+        }
+    }
+}
+
+func clearAllCamperSkills(data: CampData, usingInternally: Bool = false){
+    if(!usingInternally){
+        data.objectWillChange.send()
+    }
+    
+    for skill in data.c.skills.keys {
+        if(!data.c.fanatics.keys.contains(skill)){
+            for i in 0...3 {
+                for camper in data.c.skills[skill]!.periods[i] {
+                    camper.skills[i] = "None"
+                }
+                data.c.skills[skill]!.periods[i] = []
+            }
+        }
+    }
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: handle undo of clearAllCamperSkills")
+        }
+    }
+}
+
+func processPreferredSkills(data: CampData, usingInternally: Bool = false) throws {
+    if(!usingInternally){
+        data.objectWillChange.send()
+    }
+    
+    if(data.c.skills.count == 1){
         throw SPRError.NoSkills
     }
     var emptySpaces: Int
     for p in 0...3 {
         emptySpaces = 0
-        for skill in data.skills.keys {
-            if(skill != "None" && !data.fanatics.keys.contains(skill)){
-                emptySpaces += data.skills[skill]!.maximums[p]-data.skills[skill]!.periods[p].count
+        for skill in data.c.skills.keys {
+            if(skill != "None" && !data.c.fanatics.keys.contains(skill)){
+                emptySpaces += data.c.skills[skill]!.maximums[p]-data.c.skills[skill]!.periods[p].count
             }
         }
-        if(emptySpaces-data.skills["None"]!.periods[p].count < 0){
+        if(emptySpaces - data.c.skills["None"]!.periods[p].count < 0){
             throw SPRError.NotEnoughSkillSpace
         }
     }
     for p in 0...5 {
-        for camper in data.campers {
+        for camper in data.c.campers {
             if(camper.skills.contains("None") && (camper.fanatic == "None" || p != 5)){
                 if(camper.preferredSkills[p] != "None"){
                     var skillCaps: [Int?] = [nil,nil,nil,nil]
                     for i in 0...3 {
-                        if(camper.skills[i] == "None" && data.skills[camper.preferredSkills[p]]!.maximums[i] > data.skills[camper.preferredSkills[p]]!.periods[i].count){
-                            skillCaps[i] = data.skills[camper.preferredSkills[p]]!.periods[i].count
+                        if(camper.skills[i] == "None" && data.c.skills[camper.preferredSkills[p]]!.maximums[i] > data.c.skills[camper.preferredSkills[p]]!.periods[i].count){
+                            skillCaps[i] = data.c.skills[camper.preferredSkills[p]]!.periods[i].count
                         }
                     }
                     if(skillCaps != [nil,nil,nil,nil]){
@@ -166,12 +250,18 @@ func processPreferredSkills(data: CampData) throws {
             }
         }
     }
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: handle undo of processPreferredSkills")
+        }
+    }
 }
 
-func skillIsOverMax(oldSkill: String, newSkill: String, skillPeriod: Int, data: CampData) -> Bool {
-    if(data.fanatics.keys.contains(newSkill) || newSkill == "None" || newSkill == ""){
+func skillIsOverMax(oldSkill: String, newSkill: String, skillPeriod: Int, camp: Camp) -> Bool {
+    if(camp.fanatics.keys.contains(newSkill) || newSkill == "None" || newSkill == ""){
         return false
     } else {
-        return data.skills[newSkill]!.maximums[skillPeriod] < data.skills[newSkill]!.periods[skillPeriod].count+(oldSkill == newSkill ? 0 : 1)
+        return camp.skills[newSkill]!.maximums[skillPeriod] < camp.skills[newSkill]!.periods[skillPeriod].count+(oldSkill == newSkill ? 0 : 1)
     }
 }

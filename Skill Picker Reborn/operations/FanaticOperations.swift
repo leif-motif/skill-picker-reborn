@@ -20,17 +20,31 @@
 
 import Foundation
 
-func createFanatic(newFanatic: Fanatic, data: CampData){
-    data.fanatics[newFanatic.name] = newFanatic
-    data.skills[newFanatic.name] = try! Skill(name: newFanatic.name, maximums: [newFanatic.activePeriods[0] ? 255 : 0,
-                                                                                newFanatic.activePeriods[1] ? 255 : 0,
-                                                                                newFanatic.activePeriods[2] ? 255 : 0,
-                                                                                newFanatic.activePeriods[3] ? 255 : 0])
+func createFanatic(newFanatic: Fanatic, data: CampData, usingInternally: Bool = false){
+    if(!usingInternally){
+        data.objectWillChange.send()
+    }
+    
+    data.c.fanatics[newFanatic.name] = newFanatic
+    data.c.skills[newFanatic.name] = try! Skill(name: newFanatic.name, maximums: [newFanatic.activePeriods[0] ? 255 : 0,
+                                                                                  newFanatic.activePeriods[1] ? 255 : 0,
+                                                                                  newFanatic.activePeriods[2] ? 255 : 0,
+                                                                                  newFanatic.activePeriods[3] ? 255 : 0])
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: handle undo of createFanatic")
+        }
+    }
 }
 
-func renameFanatic(oldName: String, newName: String, data: CampData) throws {
+func renameFanatic(oldName: String, newName: String, data: CampData, usingInternally: Bool = false) throws {
+    if(!usingInternally){
+        data.objectWillChange.send()
+    }
+    
     for i in 0...3 {
-        for camper in data.skills[oldName]!.periods[i] {
+        for camper in data.c.skills[oldName]!.periods[i] {
             if(camper.skills[i] == oldName){
                 camper.skills[i] = newName
             }
@@ -38,21 +52,31 @@ func renameFanatic(oldName: String, newName: String, data: CampData) throws {
         }
     }
     for i in 0...3 {
-        for leader in data.skills[oldName]!.leaders[i] {
+        for leader in data.c.skills[oldName]!.leaders[i] {
             if(leader.skills[i] == oldName){
                 leader.skills[i] = newName
             }
         }
     }
-    data.skills[newName] = data.skills[oldName]
-    data.skills.removeValue(forKey: oldName)
-    data.skills[newName]!.name = newName
-    data.fanatics[newName] = data.fanatics[oldName]
-    data.fanatics.removeValue(forKey: oldName)
-    data.fanatics[newName]!.name = newName
+    data.c.skills[newName] = data.c.skills[oldName]
+    data.c.skills.removeValue(forKey: oldName)
+    data.c.skills[newName]!.name = newName
+    data.c.fanatics[newName] = data.c.fanatics[oldName]
+    data.c.fanatics.removeValue(forKey: oldName)
+    data.c.fanatics[newName]!.name = newName
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: implement undo in renameFanatic")
+        }
+    }
 }
 
-func changeFanaticPeriods(targetFanatic: String, newPeriods: [Bool], data: CampData) throws {
+func changeFanaticPeriods(targetFanatic: String, newPeriods: [Bool], data: CampData, usingInternally: Bool = false) throws {
+    if(!usingInternally){
+        data.objectWillChange.send()
+    }
+    
     if(newPeriods.count != 4){
         throw SPRError.InvalidSize
     }
@@ -60,27 +84,27 @@ func changeFanaticPeriods(targetFanatic: String, newPeriods: [Bool], data: CampD
     var leaderFanatics: [Leader]?
     //find list of campers to use
     for i in 0...3 {
-        if(data.fanatics[targetFanatic]!.activePeriods[i]){
-            camperFanatics = data.skills[targetFanatic]!.periods[i]
-            leaderFanatics = data.skills[targetFanatic]!.leaders[i]
+        if(data.c.fanatics[targetFanatic]!.activePeriods[i]){
+            camperFanatics = data.c.skills[targetFanatic]!.periods[i]
+            leaderFanatics = data.c.skills[targetFanatic]!.leaders[i]
+            break
         }
-        break
     }
     for i in 0...3 {
-        if(data.fanatics[targetFanatic]!.activePeriods[i] && !newPeriods[i]){
-            for camper in data.skills[targetFanatic]!.periods[i] {
+        if(data.c.fanatics[targetFanatic]!.activePeriods[i] && !newPeriods[i]){
+            for camper in data.c.skills[targetFanatic]!.periods[i] {
                 camper.skills[i] = "None"
-                data.skills["None"]!.periods[i].append(camper)
+                data.c.skills["None"]!.periods[i].append(camper)
             }
-            for leader in data.skills[targetFanatic]!.leaders[i] {
+            for leader in data.c.skills[targetFanatic]!.leaders[i] {
                 leader.skills[i] = "None"
-                data.skills["None"]!.leaders[i].append(leader)
+                data.c.skills["None"]!.leaders[i].append(leader)
             }
-            data.skills[targetFanatic]!.periods[i] = []
-            data.skills[targetFanatic]!.leaders[i] = []
-            data.skills[targetFanatic]!.maximums[i] = 0
-        } else if(!data.fanatics[targetFanatic]!.activePeriods[i] && newPeriods[i]){
-            data.skills[targetFanatic]!.maximums[i] = 255
+            data.c.skills[targetFanatic]!.periods[i] = []
+            data.c.skills[targetFanatic]!.leaders[i] = []
+            data.c.skills[targetFanatic]!.maximums[i] = 0
+        } else if(!data.c.fanatics[targetFanatic]!.activePeriods[i] && newPeriods[i]){
+            data.c.skills[targetFanatic]!.maximums[i] = 255
             for camper in camperFanatics! {
                 if(camper.skills[i] != "None"){
                     try! removeCamperFromSkill(camperID: camper.id, skillName: camper.skills[i], period: i, data: data)
@@ -95,71 +119,127 @@ func changeFanaticPeriods(targetFanatic: String, newPeriods: [Bool], data: CampD
             }
         }
     }
-    data.fanatics[targetFanatic]!.activePeriods = newPeriods
+    data.c.fanatics[targetFanatic]!.activePeriods = newPeriods
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: implement undo in changeFanaticPeriods")
+        }
+    }
 }
 
-func deleteFanatic(fanaticName: String, data: CampData) throws {
+func deleteFanatic(fanaticName: String, data: CampData, usingInternally: Bool = false) throws {
+    if(!usingInternally){
+        data.objectWillChange.send()
+    }
+    
     if(fanaticName == "None"){
         throw SPRError.NoneSkillRefusal
     }
     try! deleteSkill(skillName: fanaticName, data: data)
-    data.fanatics.removeValue(forKey: fanaticName)
+    data.c.fanatics.removeValue(forKey: fanaticName)
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: implement undo in deleteFanatic")
+        }
+    }
 }
 
-func assignLeaderToFanatic(targetLeader: Leader, fanaticName: String, data: CampData) throws {
+func assignLeaderToFanatic(targetLeader: Leader, fanaticName: String, data: CampData, usingInternally: Bool = false) throws {
+    if(!usingInternally){
+        data.objectWillChange.send()
+    }
+    
     if(fanaticName == "None"){
         throw SPRError.NoneSkillRefusal
     }
     for i in 0...3 {
-        if(data.fanatics[fanaticName]!.activePeriods[i]){
-            data.skills[targetLeader.skills[i]]!.leaders[i].removeAll(where: {$0 == targetLeader})
+        if(data.c.fanatics[fanaticName]!.activePeriods[i]){
+            data.c.skills[targetLeader.skills[i]]!.leaders[i].removeAll(where: {$0 == targetLeader})
             targetLeader.skills[i] = fanaticName
-            data.skills[fanaticName]!.leaders[i].append(targetLeader)
+            data.c.skills[fanaticName]!.leaders[i].append(targetLeader)
+        }
+    }
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: implement undo in assignLeaderToFanatic")
         }
     }
 }
 
-func removeLeaderFromFanatic(leaderID: Leader.ID, fanaticName: String, data: CampData) throws {
+func removeLeaderFromFanatic(leaderID: Leader.ID, fanaticName: String, data: CampData, usingInternally: Bool = false) throws {
+    if(!usingInternally){
+        data.objectWillChange.send()
+    }
+    
     if(fanaticName == "None"){
         throw SPRError.NoneSkillRefusal
     }
     for i in 0...3 {
-        if(data.fanatics[fanaticName]!.activePeriods[i]){
-            data.skills[fanaticName]!.leaders[i].removeAll(where: {$0.id == leaderID})
-            data.leaders.first(where: {$0.id == leaderID})!.skills[i] = "None"
-            data.skills["None"]!.leaders[i].append(data.leaders.first(where: {$0.id == leaderID})!)
+        if(data.c.fanatics[fanaticName]!.activePeriods[i]){
+            data.c.skills[fanaticName]!.leaders[i].removeAll(where: {$0.id == leaderID})
+            data.c.leaders.first(where: {$0.id == leaderID})!.skills[i] = "None"
+            data.c.skills["None"]!.leaders[i].append(data.c.leaders.first(where: {$0.id == leaderID})!)
+        }
+    }
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: implement undo in removeLeaderFromFanatic")
         }
     }
 }
 
-func assignCamperToFanatic(targetCamper: Camper, fanaticName: String, data: CampData) throws {
+func assignCamperToFanatic(targetCamper: Camper, fanaticName: String, data: CampData, usingInternally: Bool = false) throws {
+    if(!usingInternally){
+        data.objectWillChange.send()
+    }
+    
     if(fanaticName == "None"){
         throw SPRError.NoneSkillRefusal
     }
     for i in 0...3 {
-        if(data.fanatics[fanaticName]!.activePeriods[i]){
-            data.skills[targetCamper.skills[i]]!.periods[i].removeAll(where: {$0 == targetCamper})
+        if(data.c.fanatics[fanaticName]!.activePeriods[i]){
+            data.c.skills[targetCamper.skills[i]]!.periods[i].removeAll(where: {$0 == targetCamper})
             targetCamper.skills[i] = fanaticName
-            data.skills[fanaticName]!.periods[i].append(targetCamper)
+            data.c.skills[fanaticName]!.periods[i].append(targetCamper)
         }
     }
     targetCamper.fanatic = fanaticName
     targetCamper.preferredSkills.remove(at: 5)
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: implement undo in assignCamperToFanatic")
+        }
+    }
 }
 
-func removeCamperFromFanatic(camperID: Camper.ID, fanaticName: String, newSixthPreferredSkill: String, data: CampData) throws {
+func removeCamperFromFanatic(camperID: Camper.ID, fanaticName: String, newSixthPreferredSkill: String, data: CampData, usingInternally: Bool = false) throws {
+    if(!usingInternally){
+        data.objectWillChange.send()
+    }
+    
     if(fanaticName == "None"){
         throw SPRError.NoneSkillRefusal
     }
     for i in 0...3 {
-        if(data.fanatics[fanaticName]!.activePeriods[i]){
-            data.skills[fanaticName]!.periods[i].removeAll(where: {$0.id == camperID})
-            data.campers.first(where: {$0.id == camperID})!.skills[i] = "None"
-            data.skills["None"]!.periods[i].append(data.campers.first(where: {$0.id == camperID})!)
+        if(data.c.fanatics[fanaticName]!.activePeriods[i]){
+            data.c.skills[fanaticName]!.periods[i].removeAll(where: {$0.id == camperID})
+            data.c.campers.first(where: {$0.id == camperID})!.skills[i] = "None"
+            data.c.skills["None"]!.periods[i].append(data.c.campers.first(where: {$0.id == camperID})!)
         }
     }
-    data.campers.first(where: {$0.id == camperID})!.fanatic = "None"
-    data.campers.first(where: {$0.id == camperID})!.preferredSkills.append(newSixthPreferredSkill)
+    data.c.campers.first(where: {$0.id == camperID})!.fanatic = "None"
+    data.c.campers.first(where: {$0.id == camperID})!.preferredSkills.append(newSixthPreferredSkill)
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: implement undo in removeCamperFromFanatic")
+        }
+    }
 }
 
 func evaluateFanatics(fanatic: String, periods: [String], data: CampData) throws -> Bool {
@@ -169,12 +249,12 @@ func evaluateFanatics(fanatic: String, periods: [String], data: CampData) throws
     }
     if(fanatic == "None"){
         return !periods.contains { key in
-            data.fanatics.keys.contains(key)
+            data.c.fanatics.keys.contains(key)
         }
     } else {
         var valid = true
         for i in 0...3 {
-            if(data.fanatics.keys.contains(periods[i]) && fanatic != periods[i] && !data.fanatics[fanatic]!.activePeriods[i]){
+            if(data.c.fanatics.keys.contains(periods[i]) && fanatic != periods[i] && !data.c.fanatics[fanatic]!.activePeriods[i]){
                 valid = false
                 break
             }

@@ -54,7 +54,7 @@ struct ModifyFanaticView: View {
                 }
                 if(editing){
                     Button("Save Changes"){
-                        if(activePeriods != data.fanatics[targetFanatic]!.activePeriods){
+                        if(activePeriods != data.c.fanatics[targetFanatic]!.activePeriods){
                             try! changeFanaticPeriods(targetFanatic: targetFanatic, newPeriods: activePeriods, data: data)
                         }
                         if(iName != targetFanatic){
@@ -63,7 +63,7 @@ struct ModifyFanaticView: View {
                         }
                         dismiss()
                     }
-                    .disabled(iName == "" || (data.skills.keys.contains(iName) && iName != targetFanatic) || activePeriods == [false,false,false,false])
+                    .disabled(iName == "" || (data.c.skills.keys.contains(iName) && iName != targetFanatic) || activePeriods == [false,false,false,false])
                     .buttonStyle(.borderedProminent)
                     .tint(.blue)
                 } else {
@@ -71,7 +71,7 @@ struct ModifyFanaticView: View {
                         createFanatic(newFanatic: try! Fanatic(name: iName, activePeriods: activePeriods), data: data)
                         dismiss()
                     }
-                    .disabled(iName == "" || data.skills.keys.contains(iName) || activePeriods == [false,false,false,false])
+                    .disabled(iName == "" || data.c.skills.keys.contains(iName) || activePeriods == [false,false,false,false])
                     .buttonStyle(.borderedProminent)
                     .tint(.blue)
                 }
@@ -83,7 +83,7 @@ struct ModifyFanaticView: View {
         .onAppear(perform: {
             iName = targetFanatic
             if(editing){
-                activePeriods = data.fanatics[targetFanatic]!.activePeriods
+                activePeriods = data.c.fanatics[targetFanatic]!.activePeriods
             }
         })
     }

@@ -32,7 +32,7 @@ struct AddLeaderView: View {
             TextField("First Name:", text: $iFName)
             TextField("Last Name:", text: $iLName)
             Picker("Cabin:", selection: $selectedCabin) {
-                ForEach(Array(data.cabins.keys).sorted(), id: \.self){
+                ForEach(Array(data.c.cabins.keys).sorted(), id: \.self){
                     Text($0).tag($0)
                 }
             }
@@ -52,7 +52,7 @@ struct AddLeaderView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
-                .disabled(iFName == "" || iLName == "" || !humanIsUnique(fName: iFName, lName: iLName, humanArray: data.leaders))
+                .disabled(iFName == "" || iLName == "" || !humanIsUnique(fName: iFName, lName: iLName, humanArray: data.c.leaders))
             }
         }
         .frame(width: 255, height: 150)

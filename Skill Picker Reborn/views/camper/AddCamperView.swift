@@ -34,13 +34,13 @@ struct AddCamperView: View {
             TextField("First Name:",text: $iFName)
             TextField("Last Name:",text: $iLName)
             Picker("Cabin:", selection: $selectedCabin) {
-                ForEach(Array(data.cabins.keys).sorted(), id: \.self){
+                ForEach(Array(data.c.cabins.keys).sorted(), id: \.self){
                     Text($0).tag($0)
                 }
             }
             Picker("Fanatic:", selection: $fanaticSelection){
                 Text("None").tag("None")
-                ForEach(Array(data.fanatics.keys).sorted(), id: \.self){
+                ForEach(Array(data.c.fanatics.keys).sorted(), id: \.self){
                     Text($0).tag($0)
                 }
             }
@@ -48,37 +48,38 @@ struct AddCamperView: View {
             Text("Preferred Skills:")
                 .bold()
             Group {
+                #warning("TODO: change this to be a ForEach")
                 Picker("First:", selection: $preferredSkills[0]){
-                    ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
+                    ForEach(Array(data.c.skills.keys).sorted().filter({!data.c.fanatics.keys.contains($0)}), id: \.self){
                         Text($0).tag($0)
                     }
                 }
                 Picker("Second:", selection: $preferredSkills[1]){
-                    ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
+                    ForEach(Array(data.c.skills.keys).sorted().filter({!data.c.fanatics.keys.contains($0)}), id: \.self){
                         Text($0).tag($0)
                     }
                 }
                 Picker("Third:", selection: $preferredSkills[2]){
-                    ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
+                    ForEach(Array(data.c.skills.keys).sorted().filter({!data.c.fanatics.keys.contains($0)}), id: \.self){
                         Text($0).tag($0)
                     }
                 }
                 Picker("Fourth:", selection: $preferredSkills[3]){
-                    ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
+                    ForEach(Array(data.c.skills.keys).sorted().filter({!data.c.fanatics.keys.contains($0)}), id: \.self){
                         Text($0).tag($0)
                     }
                 }
                 Picker("Fifth:", selection: $preferredSkills[4]){
-                    ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
+                    ForEach(Array(data.c.skills.keys).sorted().filter({!data.c.fanatics.keys.contains($0)}), id: \.self){
                         Text($0).tag($0)
                     }
                 }
                 Picker("Sixth:", selection: $preferredSkills[5]){
-                    ForEach(Array(data.skills.keys).sorted().filter({!data.fanatics.keys.contains($0)}), id: \.self){
+                    ForEach(Array(data.c.skills.keys).sorted().filter({!data.c.fanatics.keys.contains($0)}), id: \.self){
                         Text($0).tag($0)
                     }
                 }
-                    .disabled(fanaticSelection != "None")
+                .disabled(fanaticSelection != "None")
             }
             HStack {
                 Spacer()
@@ -104,7 +105,7 @@ struct AddCamperView: View {
                         dismiss()
                     }
                 }
-                .disabled(iFName == "" || iLName == "" || !humanIsUnique(fName: iFName, lName: iLName, humanArray: data.campers))
+                .disabled(iFName == "" || iLName == "" || !humanIsUnique(fName: iFName, lName: iLName, humanArray: data.c.campers))
                 
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)

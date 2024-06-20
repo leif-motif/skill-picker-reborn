@@ -46,8 +46,7 @@ struct Skill_Picker_RebornApp: App {
                     if panel.runModal() == .OK, let url = panel.url {
                         let encoder = JSONEncoder()
                         do {
-                            #warning("TODO: change this to save the entire camp")
-                            let encoded = try encoder.encode(campData.campers.first!)
+                            let encoded = try encoder.encode(campData.c)
                             try encoded.write(to: url)
                         } catch {
                             print("Failed to save app state: \(error.localizedDescription)")
@@ -69,9 +68,9 @@ struct Skill_Picker_RebornApp: App {
                         do {
                             let data = try Data(contentsOf: url)
                             let decoder = JSONDecoder()
-                            #warning("TODO: change this to load the entire camp")
-                            let decoded = try decoder.decode(Camper.self, from: data)
-                            try! createCamper(newCamper: decoded, data: campData)
+                            let decoded = try decoder.decode(Camp.self, from: data)
+                            #warning("TODO: clear undo history")
+                            campData.c = decoded
                         } catch {
                             print("Failed to load app state: \(error)")
                         }

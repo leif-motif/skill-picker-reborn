@@ -20,39 +20,59 @@
 
 import Foundation
 
-func createLeader(newLeader: Leader, data: CampData){
-    data.leaders.append(newLeader)
+func createLeader(newLeader: Leader, data: CampData, usingInternally: Bool = false){
+    if(!usingInternally){
+        data.objectWillChange.send()
+    }
+    
+    data.c.leaders.append(newLeader)
     if(newLeader.senior){
         //if this new leader is going to be assigned a cabin and the cabin leader at that cabin is not the null leader
-        if(newLeader.cabin != "Unassigned" && data.cabins[newLeader.cabin]!.senior.id != data.nullSenior.id){
+        if(newLeader.cabin != "Unassigned" && data.c.cabins[newLeader.cabin]!.senior.id != data.c.nullSenior.id){
             //set the old leader's cabin as unassigned
-            data.cabins[newLeader.cabin]!.senior.cabin = "Unassigned"
+            data.c.cabins[newLeader.cabin]!.senior.cabin = "Unassigned"
         }
-        data.cabins[newLeader.cabin]!.senior = newLeader
+        data.c.cabins[newLeader.cabin]!.senior = newLeader
     } else {
-        if(newLeader.cabin != "Unassigned" && data.cabins[newLeader.cabin]!.junior.id != data.nullJunior.id){
-            data.cabins[newLeader.cabin]!.junior.cabin = "Unassigned"
+        if(newLeader.cabin != "Unassigned" && data.c.cabins[newLeader.cabin]!.junior.id != data.c.nullJunior.id){
+            data.c.cabins[newLeader.cabin]!.junior.cabin = "Unassigned"
         }
-        data.cabins[newLeader.cabin]!.junior = newLeader
+        data.c.cabins[newLeader.cabin]!.junior = newLeader
     }
     for i in 0...3 {
-        data.skills[newLeader.skills[i]]!.leaders[i].append(newLeader)
+        data.c.skills[newLeader.skills[i]]!.leaders[i].append(newLeader)
+    }
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: implement undo in createLeader")
+        }
     }
 }
 
-func deleteLeader(leaderID: Leader.ID, data: CampData){
+func deleteLeader(leaderID: Leader.ID, data: CampData, usingInternally: Bool = false){
+    if(!usingInternally){
+        data.objectWillChange.send()
+    }
+    
     //remove leader from cabin if not unassigned
-    if(data.leaders.first(where: {$0.id == leaderID})!.cabin != "Unassigned"){
-        if(data.leaders.first(where: {$0.id == leaderID})!.senior){
-            data.cabins[data.leaders.first(where: {$0.id == leaderID})!.cabin]!.senior = data.nullSenior
+    if(data.c.leaders.first(where: {$0.id == leaderID})!.cabin != "Unassigned"){
+        if(data.c.leaders.first(where: {$0.id == leaderID})!.senior){
+            data.c.cabins[data.c.leaders.first(where: {$0.id == leaderID})!.cabin]!.senior = data.c.nullSenior
         } else {
-            data.cabins[data.leaders.first(where: {$0.id == leaderID})!.cabin]!.junior = data.nullJunior
+            data.c.cabins[data.c.leaders.first(where: {$0.id == leaderID})!.cabin]!.junior = data.c.nullJunior
         }
     }
     //remove leader from skills
     for i in 0...3 {
-        data.skills[data.leaders.first(where: {$0.id == leaderID})!.skills[i]]!.leaders[i].removeAll(where: {$0.id == leaderID})
+        data.c.skills[data.c.leaders.first(where: {$0.id == leaderID})!.skills[i]]!.leaders[i].removeAll(where: {$0.id == leaderID})
     }
     //delete leader for good
-    data.leaders.removeAll(where: {$0.id == leaderID})
+    data.c.leaders.removeAll(where: {$0.id == leaderID})
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: implement undo in deleteLeader")
+        }
+    }
 }

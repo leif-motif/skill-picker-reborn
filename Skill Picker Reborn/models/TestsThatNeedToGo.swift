@@ -21,10 +21,10 @@
 import Foundation
 
 func createTestingData(data: CampData){
-    createCabin(cabinName: "1", targetSenior: data.nullSenior, targetJunior: data.nullJunior, data: data)
-    createCabin(cabinName: "2", targetSenior: data.nullSenior, targetJunior: data.nullJunior, data: data)
-    createCabin(cabinName: "A", targetSenior: data.nullSenior, targetJunior: data.nullJunior, data: data)
-    createCabin(cabinName: "B", targetSenior: data.nullSenior, targetJunior: data.nullJunior, data: data)
+    createCabin(cabinName: "1", targetSenior: data.c.nullSenior, targetJunior: data.c.nullJunior, data: data)
+    createCabin(cabinName: "2", targetSenior: data.c.nullSenior, targetJunior: data.c.nullJunior, data: data)
+    createCabin(cabinName: "A", targetSenior: data.c.nullSenior, targetJunior: data.c.nullJunior, data: data)
+    createCabin(cabinName: "B", targetSenior: data.c.nullSenior, targetJunior: data.c.nullJunior, data: data)
     
     createSkill(newSkill: try! Skill(name: "Archery", maximums: [10,10,0,10]), data: data)
     createSkill(newSkill: try! Skill(name: "Backcountry", maximums: [10,0,10,10]), data: data)
@@ -83,12 +83,12 @@ func createTestingData(data: CampData){
 }
 
 func createTestingDataPlus(data: CampData){
-    createCabin(cabinName: "1", targetSenior: data.nullSenior, targetJunior: data.nullJunior, data: data)
-    createCabin(cabinName: "2", targetSenior: data.nullSenior, targetJunior: data.nullJunior, data: data)
-    createCabin(cabinName: "3", targetSenior: data.nullSenior, targetJunior: data.nullJunior, data: data)
-    createCabin(cabinName: "A", targetSenior: data.nullSenior, targetJunior: data.nullJunior, data: data)
-    createCabin(cabinName: "B", targetSenior: data.nullSenior, targetJunior: data.nullJunior, data: data)
-    createCabin(cabinName: "C", targetSenior: data.nullSenior, targetJunior: data.nullJunior, data: data)
+    createCabin(cabinName: "1", targetSenior: data.c.nullSenior, targetJunior: data.c.nullJunior, data: data)
+    createCabin(cabinName: "2", targetSenior: data.c.nullSenior, targetJunior: data.c.nullJunior, data: data)
+    createCabin(cabinName: "3", targetSenior: data.c.nullSenior, targetJunior: data.c.nullJunior, data: data)
+    createCabin(cabinName: "A", targetSenior: data.c.nullSenior, targetJunior: data.c.nullJunior, data: data)
+    createCabin(cabinName: "B", targetSenior: data.c.nullSenior, targetJunior: data.c.nullJunior, data: data)
+    createCabin(cabinName: "C", targetSenior: data.c.nullSenior, targetJunior: data.c.nullJunior, data: data)
     
     createSkill(newSkill: try! Skill(name: "Archery", maximums: [10,10,0,10]), data: data)
     createSkill(newSkill: try! Skill(name: "Backcountry", maximums: [10,0,10,10]), data: data)

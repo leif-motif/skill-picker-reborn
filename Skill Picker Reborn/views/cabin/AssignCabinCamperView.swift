@@ -2,7 +2,7 @@
  * AssignCabinCamperView.swift
  * This file is part of Skill Picker Reborn
  *
- * Copyright (C) 2023 Ranger Lake Bible Camp
+ * Copyright (C) 2024 Ranger Lake Bible Camp
  *
  * Skill Picker Reborn is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ struct AssignCabinCamperView: View {
                     dismiss()
                 }
                 Button("Assign Camper") {
-                    assignCamperToCabin(targetCamper: data.campers.first(where: {$0.id == camperIDs[camperInput.lowercased()]})!, cabinName: targetCabin, data: data)
+                    assignCamperToCabin(targetCamper: data.c.campers.first(where: {$0.id == camperIDs[camperInput.lowercased()]})!, cabinName: targetCabin, data: data)
                     dismiss()
                 }
                 .buttonStyle(.borderedProminent)
@@ -48,7 +48,7 @@ struct AssignCabinCamperView: View {
         .padding()
         .frame(width: 290, height: 90)
         .onAppear(perform: {
-            for camper in data.campers/*.sorted(by: {$0.lName < $1.lName})*/ {
+            for camper in data.c.campers/*.sorted(by: {$0.lName < $1.lName})*/ {
                 if(camper.cabin != targetCabin){
                     camperIDs[camper.fName.lowercased()+" "+camper.lName.lowercased()] = camper.id
                 }

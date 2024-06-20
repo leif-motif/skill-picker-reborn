@@ -49,16 +49,17 @@ struct AssignSkillCamperView: View {
                     if(isFanatic){
                         //quite frankly, i thought searching for specific campers wasn't working.
                         //and yet, when i last tested this, it is now. if anything is going wacko, it's because of this.
-                        if(data.campers.first(where: {$0.id == camperIDs[camperInput.lowercased()]})!.fanatic != "None"){
+                        #warning("possible group undo management needed")
+                        if(data.c.campers.first(where: {$0.id == camperIDs[camperInput.lowercased()]})!.fanatic != "None"){
                             try! removeCamperFromFanatic(camperID: camperIDs[camperInput.lowercased()]!,
-                                                         fanaticName: data.campers.first(where: {$0.id == camperIDs[camperInput.lowercased()]})!.fanatic,
+                                                         fanaticName: data.c.campers.first(where: {$0.id == camperIDs[camperInput.lowercased()]})!.fanatic,
                                                          newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST", data: data)
                         }
-                        try! assignCamperToFanatic(targetCamper: data.campers.first(where: {$0.id == camperIDs[camperInput.lowercased()]})!,
+                        try! assignCamperToFanatic(targetCamper: data.c.campers.first(where: {$0.id == camperIDs[camperInput.lowercased()]})!,
                                                    fanaticName: targetSkill,
                                                    data: data)
                     } else {
-                        assignCamperToSkill(targetCamper: data.campers.first(where: {$0.id == camperIDs[camperInput.lowercased()]})!,
+                        assignCamperToSkill(targetCamper: data.c.campers.first(where: {$0.id == camperIDs[camperInput.lowercased()]})!,
                                             skillName: targetSkill, period: skillPeriod,
                                             data: data)
                     }
@@ -72,18 +73,18 @@ struct AssignSkillCamperView: View {
         .padding()
         .frame(width: 280, height: isFanatic ? 130 : 100)
         .onAppear(perform: {
-            isFanatic = data.fanatics.keys.contains(targetSkill)
+            isFanatic = data.c.fanatics.keys.contains(targetSkill)
             if(isFanatic){
-                for camper in data.campers {
+                for camper in data.c.campers {
                     if(!camper.skills.contains(targetSkill) && !camper.skills.contains { key in
-                        data.fanatics.keys.contains(key)
+                        data.c.fanatics.keys.contains(key)
                     }){
                         camperIDs[camper.fName.lowercased()+" "+camper.lName.lowercased()] = camper.id
                     }
                 }
             } else {
-                for camper in data.campers {
-                    if(camper.skills[skillPeriod] != targetSkill && !data.fanatics.keys.contains(camper.skills[skillPeriod])){
+                for camper in data.c.campers {
+                    if(camper.skills[skillPeriod] != targetSkill && !data.c.fanatics.keys.contains(camper.skills[skillPeriod])){
                         camperIDs[camper.fName.lowercased()+" "+camper.lName.lowercased()] = camper.id
                     }
                 }

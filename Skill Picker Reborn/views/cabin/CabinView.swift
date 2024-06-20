@@ -40,13 +40,13 @@ struct CabinView: View {
     var body: some View {
         VStack {
             #warning("TODO: allow for editing/removal/deletion of leaders with context menu")
-            Text(try! AttributedString(markdown: "**Senior:** "+data.cabins[data.selectedCabin]!.senior.fName+" "+data.cabins[data.selectedCabin]!.senior.lName))
+            Text(try! AttributedString(markdown: "**Senior:** "+data.c.cabins[data.selectedCabin]!.senior.fName+" "+data.c.cabins[data.selectedCabin]!.senior.lName))
                 .font(.title2)
                 .padding(.top,10)
                 .padding(.bottom,2)
-            Text(try! AttributedString(markdown: "**Junior:** "+data.cabins[data.selectedCabin]!.junior.fName+" "+data.cabins[data.selectedCabin]!.junior.lName))
+            Text(try! AttributedString(markdown: "**Junior:** "+data.c.cabins[data.selectedCabin]!.junior.fName+" "+data.c.cabins[data.selectedCabin]!.junior.lName))
                 .font(.title2)
-            Table(data.cabins[data.selectedCabin]!.campers, selection: $selectedCamper, sortOrder: $data.cabinCamperSortOrder){
+            Table(data.c.cabins[data.selectedCabin]!.campers, selection: $selectedCamper, sortOrder: $data.cabinCamperSortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 //see comment in LeaderView.swift
@@ -60,7 +60,7 @@ struct CabinView: View {
             }
             .onChange(of: data.cabinCamperSortOrder){
                 data.objectWillChange.send()
-                data.cabins[data.selectedCabin]!.campers.sort(using: $0)
+                data.c.cabins[data.selectedCabin]!.campers.sort(using: $0)
             }
             .contextMenu(forSelectionType: Camper.ID.self) { items in
                 let selectedCamperUnion = selectedCamper.union(items)
@@ -70,7 +70,7 @@ struct CabinView: View {
                     } label: {
                         Label("Assign Camper to Cabin...", systemImage: "plus")
                     }
-                    .disabled(data.campers.count == 0)
+                    .disabled(data.c.campers.count == 0)
                 } else if(selectedCamperUnion.count == 1){
                     Button {
                         camperEditPass = HumanSelection(selection: selectedCamperUnion)
@@ -108,7 +108,7 @@ struct CabinView: View {
                 } label: {
                     Label("Assign Camper to Cabin...", systemImage: "plus")
                 }
-                .disabled(data.campers.count == 0)
+                .disabled(data.c.campers.count == 0)
             }
         }
         .toolbar {
@@ -191,7 +191,7 @@ struct CabinView: View {
                 try! ImportSkillView(data: data)
             })
             Button {
-                if(data.cabins[data.selectedCabin]!.campers.count > 0){
+                if(data.c.cabins[data.selectedCabin]!.campers.count > 0){
                     showCsvExporter.toggle()
                 } else {
                     exportCabinAlert.toggle()
@@ -216,7 +216,7 @@ struct CabinView: View {
                       dismissButton: .default(Text("Dismiss")))
             }
             Picker("Cabin", selection: $data.selectedCabin) {
-                ForEach(Array(data.cabins.keys).sorted(), id: \.self){
+                ForEach(Array(data.c.cabins.keys).sorted(), id: \.self){
                     Text($0).tag($0)
                 }
             }
@@ -250,6 +250,7 @@ struct CabinView: View {
                 Text("Cancel")
             }
             Button(role: .destructive){
+                #warning("possible group undo management needed")
                 for camperID in p.selection {
                     removeCamperFromCabin(camperID: camperID, data: data)
                 }
@@ -271,6 +272,7 @@ struct CabinView: View {
                 Text("Cancel")
             }
             Button(role: .destructive){
+                #warning("possible group undo management needed")
                 for camperID in p.selection {
                     deleteCamper(camperID: camperID, data: data)
                 }

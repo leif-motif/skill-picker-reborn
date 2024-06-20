@@ -33,7 +33,7 @@ struct SkillLeadersView: View {
             .font(.title)
             .bold()
             .padding(.top, 10)
-        Table(data.skills[data.selectedSkill]!.leaders[data.selectedPeriod], selection: $selectedLeader, sortOrder: $data.skillLeaderSortOrder){
+        Table(data.c.skills[data.selectedSkill]!.leaders[data.selectedPeriod], selection: $selectedLeader, sortOrder: $data.skillLeaderSortOrder){
             TableColumn("First Name",value: \.fName)
             TableColumn("Last Name",value: \.lName)
             TableColumn("Cabin",value: \.cabin)
@@ -41,7 +41,7 @@ struct SkillLeadersView: View {
         .frame(height: 85)
         .onChange(of: data.skillLeaderSortOrder){
             data.objectWillChange.send()
-            data.skills[data.selectedSkill]!.leaders[data.selectedPeriod].sort(using: $0)
+            data.c.skills[data.selectedSkill]!.leaders[data.selectedPeriod].sort(using: $0)
         }
         .contextMenu(forSelectionType: Leader.ID.self) { items in
             let leaderSelectionUnion = selectedLeader.union(items)
@@ -51,7 +51,7 @@ struct SkillLeadersView: View {
                 } label: {
                     Label("Assign Leader to Skill...", systemImage: "plus")
                 }
-                .disabled(data.leaders.count == data.skills[data.selectedSkill]!.leaders[data.selectedPeriod].count)
+                .disabled(data.c.leaders.count == data.c.skills[data.selectedSkill]!.leaders[data.selectedPeriod].count)
             } else if(leaderSelectionUnion.count == 1){
                 Button {
                     leaderEditPass = HumanSelection(selection: leaderSelectionUnion)
@@ -91,7 +91,7 @@ struct SkillLeadersView: View {
             } label: {
                 Label("Assign Leader to Skill...", systemImage: "plus")
             }
-            .disabled(data.leaders.count == data.skills[data.selectedSkill]!.leaders[data.selectedPeriod].count)
+            .disabled(data.c.leaders.count == data.c.skills[data.selectedSkill]!.leaders[data.selectedPeriod].count)
         }
         .sheet(isPresented: $assignSkillLeaderSheet, onDismiss: {
             data.objectWillChange.send()
@@ -110,7 +110,8 @@ struct SkillLeadersView: View {
                 Text("Cancel")
             }
             Button(role: .destructive){
-                if(data.fanatics.keys.contains(data.selectedSkill)){
+                if(data.c.fanatics.keys.contains(data.selectedSkill)){
+                    #warning("possible group undo management needed")
                     for leaderID in p.selection {
                         try! removeLeaderFromFanatic(leaderID: leaderID, fanaticName: data.selectedSkill, data: data)
                     }
@@ -127,9 +128,9 @@ struct SkillLeadersView: View {
             }
         } message: { p in
             if(p.selection.count == 1){
-                Text("Are you sure you want to remove the selected leader from the \(data.fanatics.keys.contains(data.selectedSkill) ? "fanatic" : "skill")?")
+                Text("Are you sure you want to remove the selected leader from the \(data.c.fanatics.keys.contains(data.selectedSkill) ? "fanatic" : "skill")?")
             } else {
-                Text("Are you sure you want to remove multiple leaders from the \(data.fanatics.keys.contains(data.selectedSkill) ? "fanatic" : "skill")?")
+                Text("Are you sure you want to remove multiple leaders from the \(data.c.fanatics.keys.contains(data.selectedSkill) ? "fanatic" : "skill")?")
             }
         }
         .confirmationDialog("Confirm Deletion", isPresented: $deleteLeaderConfirm, presenting: leaderDestPass){ p in
@@ -138,6 +139,7 @@ struct SkillLeadersView: View {
                 Text("Cancel")
             }
             Button(role: .destructive){
+                #warning("possible group undo management needed")
                 for leaderID in p.selection {
                     deleteLeader(leaderID: leaderID, data: data)
                 }
@@ -153,9 +155,6 @@ struct SkillLeadersView: View {
                 Text("Are you sure you want to delete "+String(p.selection.count)+" leaders?")
             }
         }
-    }
-    init(){
-        
     }
 }
 
