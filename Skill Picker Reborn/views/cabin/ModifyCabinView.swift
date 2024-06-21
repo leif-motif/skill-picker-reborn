@@ -59,26 +59,27 @@ struct ModifyCabinView: View {
                 }
                 if(editing){
                     Button("Save Changes") {
-                        #warning("TODO: handle group undo when cabin's name needs modifying")
+                        data.objectWillChange.send()
                         if(seniorSelection == data.c.nullSenior.id && juniorSelection == data.c.nullJunior.id){
-                            changeCabinLeaders(cabinName: targetCabin, targetSenior: data.c.nullSenior, targetJunior: data.c.nullJunior, data: data)
+                            changeCabinLeaders(cabinName: targetCabin, targetSenior: data.c.nullSenior, targetJunior: data.c.nullJunior, data: data, usingInternally: true)
                         } else if(seniorSelection == data.c.nullSenior.id){
                             changeCabinLeaders(cabinName: targetCabin,
                                                targetSenior: data.c.nullSenior,
-                                               targetJunior: data.c.leaders.first(where: {$0.id == juniorSelection})!, data: data)
+                                               targetJunior: data.c.leaders.first(where: {$0.id == juniorSelection})!, data: data, usingInternally: true)
                         } else if(juniorSelection == data.c.nullJunior.id){
                             changeCabinLeaders(cabinName: targetCabin,
                                                targetSenior: data.c.leaders.first(where: {$0.id == seniorSelection})!,
-                                               targetJunior: data.c.nullJunior, data: data)
+                                               targetJunior: data.c.nullJunior, data: data, usingInternally: true)
                         } else {
                             changeCabinLeaders(cabinName: targetCabin,
                                                targetSenior: data.c.leaders.first(where: {$0.id == seniorSelection})!,
-                                               targetJunior: data.c.leaders.first(where: {$0.id == juniorSelection})!, data: data)
+                                               targetJunior: data.c.leaders.first(where: {$0.id == juniorSelection})!, data: data, usingInternally: true)
                         }
                         if(iName != targetCabin){
-                            renameCabin(oldCabin: targetCabin, newCabin: iName, data: data)
+                            renameCabin(oldCabin: targetCabin, newCabin: iName, data: data, usingInternally: true)
                             data.selectedCabin = iName
                         }
+                        #warning("TODO: handle group undo when cabin's name needs modifying")
                         dismiss()
                     }
                     .disabled(iName == "" || (data.c.cabins.keys.contains(iName) && iName != targetCabin))

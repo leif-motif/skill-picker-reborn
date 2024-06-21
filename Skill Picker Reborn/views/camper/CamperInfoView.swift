@@ -141,7 +141,7 @@ struct CamperInfoView: View {
                         targetCamper.fName = newFirstName
                         targetCamper.lName = newLastName
                         if(targetCamper.cabin != newCabin){
-                            removeCamperFromCabin(camperID: camperID, data: data)
+                            removeCamperFromCabin(camperID: camperID, data: data, usingInternally: true)
                             assignCamperToCabin(targetCamper: targetCamper, cabinName: newCabin, data: data, usingInternally: true)
                         }
                         if(targetCamper.fanatic != newFanatic){
@@ -170,8 +170,8 @@ struct CamperInfoView: View {
                             targetCamper.fName = newFirstName
                             targetCamper.lName = newLastName
                             if(targetCamper.cabin != newCabin){
-                                removeCamperFromCabin(camperID: camperID, data: data)
-                                assignCamperToCabin(targetCamper: targetCamper, cabinName: newCabin, data: data)
+                                removeCamperFromCabin(camperID: camperID, data: data, usingInternally: true)
+                                assignCamperToCabin(targetCamper: targetCamper, cabinName: newCabin, data: data, usingInternally: true)
                             }
                             if(newFanatic != "None" && newPreferredSkills.count == 6){
                                 newPreferredSkills.remove(at: 5)
