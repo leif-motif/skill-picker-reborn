@@ -26,8 +26,8 @@ func createTestingData(data: CampData){
     createCabin(cabinName: "A", targetSenior: data.c.nullSenior, targetJunior: data.c.nullJunior, data: data, usingInternally: true)
     createCabin(cabinName: "B", targetSenior: data.c.nullSenior, targetJunior: data.c.nullJunior, data: data, usingInternally: true)
     
-    createSkill(newSkill: try! Skill(name: "Archery", maximums: [10,10,0,10]), data: data)
-    createSkill(newSkill: try! Skill(name: "Backcountry", maximums: [10,0,10,10]), data: data)
+    createSkill(newSkill: try! Skill(name: "Archery", maximums: [10,10,0,10]), data: data, usingInternally: true)
+    createSkill(newSkill: try! Skill(name: "Backcountry", maximums: [10,0,10,10]), data: data, usingInternally: true)
     
     createFanatic(newFanatic: try! Fanatic(name: "Paintball", activePeriods: [false,false,true,true]), data: data)
     
@@ -90,12 +90,12 @@ func createTestingDataPlus(data: CampData){
     createCabin(cabinName: "B", targetSenior: data.c.nullSenior, targetJunior: data.c.nullJunior, data: data, usingInternally: true)
     createCabin(cabinName: "C", targetSenior: data.c.nullSenior, targetJunior: data.c.nullJunior, data: data, usingInternally: true)
     
-    createSkill(newSkill: try! Skill(name: "Archery", maximums: [10,10,0,10]), data: data)
-    createSkill(newSkill: try! Skill(name: "Backcountry", maximums: [10,0,10,10]), data: data)
-    createSkill(newSkill: try! Skill(name: "Horses", maximums: [10,10,10,0]), data: data)
-    createSkill(newSkill: try! Skill(name: "Pelletry", maximums: [10,10,10,0]), data: data)
-    createSkill(newSkill: try! Skill(name: "Ultimate", maximums: [0,10,10,10]), data: data)
-    createSkill(newSkill: try! Skill(name: "Wall Climbing", maximums: [10,10,0,10]), data: data)
+    createSkill(newSkill: try! Skill(name: "Archery", maximums: [10,10,0,10]), data: data, usingInternally: true)
+    createSkill(newSkill: try! Skill(name: "Backcountry", maximums: [10,0,10,10]), data: data, usingInternally: true)
+    createSkill(newSkill: try! Skill(name: "Horses", maximums: [10,10,10,0]), data: data, usingInternally: true)
+    createSkill(newSkill: try! Skill(name: "Pelletry", maximums: [10,10,10,0]), data: data, usingInternally: true)
+    createSkill(newSkill: try! Skill(name: "Ultimate", maximums: [0,10,10,10]), data: data, usingInternally: true)
+    createSkill(newSkill: try! Skill(name: "Wall Climbing", maximums: [10,10,0,10]), data: data, usingInternally: true)
     
     createFanatic(newFanatic: try! Fanatic(name: "Paintball", activePeriods: [false,false,true,true]), data: data)
     createFanatic(newFanatic: try! Fanatic(name: "Tabletop Adventure", activePeriods: [true,true,false,false]), data: data)

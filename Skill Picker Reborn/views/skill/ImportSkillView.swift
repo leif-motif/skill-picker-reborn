@@ -120,7 +120,7 @@ struct ImportSkillView: View {
                                     skillMaximums[skill]![i] = 255
                                 }
                             }
-                            createSkill(newSkill: try! Skill(name: skill, maximums: skillMaximums[skill]!), data: data)
+                            createSkill(newSkill: try! Skill(name: skill, maximums: skillMaximums[skill]!), data: data, usingInternally: true)
                         }
                     }
                     data.isImporting = true
