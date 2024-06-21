@@ -130,7 +130,6 @@ struct CamperView: View {
             Button {
                 do {
                     try processPreferredSkills(data: data)
-                    data.objectWillChange.send()
                     //honestly this really should catch specific errors but whatver, i'll attribute that to yet another compiler error.
                 } catch {
                     preferredSkillsAlert.toggle()
@@ -147,7 +146,6 @@ struct CamperView: View {
                       dismissButton: .default(Text("Dismiss")))
             }
             Button {
-                data.objectWillChange.send()
                 clearAllCamperSkills(data: data)
             } label: {
                 Image(systemName: "person.2.gobackward")

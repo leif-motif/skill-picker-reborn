@@ -248,7 +248,7 @@ func processPreferredSkills(data: CampData, usingInternally: Bool = false) throw
                                 }
                             }
                         }
-                        assignCamperToSkill(targetCamper: camper, skillName: camper.preferredSkills[p], period: highestCountIndexes[Int.random(in: 0..<highestCountIndexes.count)], data: data)
+                        assignCamperToSkill(targetCamper: camper, skillName: camper.preferredSkills[p], period: highestCountIndexes[Int.random(in: 0..<highestCountIndexes.count)], data: data, usingInternally: true)
                     }
                 }
             }

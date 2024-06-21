@@ -150,10 +150,10 @@ struct CamperInfoView: View {
                         }
                         for i in 0...3 {
                             if(targetCamper.skills[i] != newSkills[i] && targetCamper.skills[i] != "None" && !data.c.fanatics.keys.contains(targetCamper.skills[i])){
-                                try! removeCamperFromSkill(camperID: targetCamper.id, skillName: targetCamper.skills[i], period: i, data: data)
+                                try! removeCamperFromSkill(camperID: targetCamper.id, skillName: targetCamper.skills[i], period: i, data: data, usingInternally: true)
                             }
                             if(targetCamper.skills[i] != newSkills[i] && newSkills[i] != "None" && !data.c.fanatics.keys.contains(targetCamper.skills[i])){
-                                assignCamperToSkill(targetCamper: targetCamper, skillName: newSkills[i], period: i, data: data)
+                                assignCamperToSkill(targetCamper: targetCamper, skillName: newSkills[i], period: i, data: data, usingInternally: true)
                             }
                         }
                         dismiss()

@@ -83,10 +83,10 @@ struct LeaderInfoView: View {
                     #warning("undo management needed")
                     for i in 0...3 {
                         if(targetLeader.skills[i] != newSkills[i] && targetLeader.skills[i] != "None"){
-                            try! removeLeaderFromSkill(leaderID: targetLeader.id, skillName: targetLeader.skills[i], period: i, data: data)
+                            try! removeLeaderFromSkill(leaderID: targetLeader.id, skillName: targetLeader.skills[i], period: i, data: data, usingInternally: true)
                         }
                         if(targetLeader.skills[i] != newSkills[i] && newSkills[i] != "None"){
-                            assignLeaderToSkill(targetLeader: targetLeader, skillName: newSkills[i], period: i, data: data)
+                            assignLeaderToSkill(targetLeader: targetLeader, skillName: newSkills[i], period: i, data: data, usingInternally: true)
                         }
                     }
                     if(targetLeader.cabin != newCabin && targetLeader.senior){

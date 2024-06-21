@@ -107,15 +107,15 @@ func changeFanaticPeriods(targetFanatic: String, newPeriods: [Bool], data: CampD
             data.c.skills[targetFanatic]!.maximums[i] = 255
             for camper in camperFanatics! {
                 if(camper.skills[i] != "None"){
-                    try! removeCamperFromSkill(camperID: camper.id, skillName: camper.skills[i], period: i, data: data)
+                    try! removeCamperFromSkill(camperID: camper.id, skillName: camper.skills[i], period: i, data: data, usingInternally: true)
                 }
-                assignCamperToSkill(targetCamper: camper, skillName: targetFanatic, period: i, data: data)
+                assignCamperToSkill(targetCamper: camper, skillName: targetFanatic, period: i, data: data, usingInternally: true)
             }
             for leader in leaderFanatics! {
                 if(leader.skills[i] != "None"){
-                    try! removeLeaderFromSkill(leaderID: leader.id, skillName: leader.skills[i], period: i, data: data)
+                    try! removeLeaderFromSkill(leaderID: leader.id, skillName: leader.skills[i], period: i, data: data, usingInternally: true)
                 }
-                assignLeaderToSkill(targetLeader: leader, skillName: targetFanatic, period: i, data: data)
+                assignLeaderToSkill(targetLeader: leader, skillName: targetFanatic, period: i, data: data, usingInternally: true)
             }
         }
     }
@@ -136,7 +136,7 @@ func deleteFanatic(fanaticName: String, data: CampData, usingInternally: Bool = 
     if(fanaticName == "None"){
         throw SPRError.NoneSkillRefusal
     }
-    try! deleteSkill(skillName: fanaticName, data: data)
+    try! deleteSkill(skillName: fanaticName, data: data, usingInternally: true)
     data.c.fanatics.removeValue(forKey: fanaticName)
     
     if(!usingInternally){

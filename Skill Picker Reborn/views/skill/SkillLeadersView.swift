@@ -117,7 +117,7 @@ struct SkillLeadersView: View {
                     }
                 } else {
                     for leaderID in p.selection {
-                        try! removeLeaderFromSkill(leaderID: leaderID, skillName: data.selectedSkill, period: data.selectedPeriod, data: data)
+                        try! removeLeaderFromSkill(leaderID: leaderID, skillName: data.selectedSkill, period: data.selectedPeriod, data: data, usingInternally: true)
                     }
                 }
                 leaderDestPass = nil

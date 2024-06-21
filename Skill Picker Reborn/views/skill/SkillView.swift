@@ -64,7 +64,6 @@ struct SkillView: View {
                 ModifyFanaticView()
             }
             Button {
-                data.objectWillChange.send()
                 if(data.c.fanatics.keys.contains(data.selectedSkill)){
                     try! deleteFanatic(fanaticName: data.selectedSkill, data: data)
                 } else {
