@@ -148,11 +148,13 @@ struct LeaderView: View {
                 Text("Cancel")
             }
             Button(role: .destructive){
+                data.objectWillChange.send()
                 for leaderID in p.selection {
-                    deleteLeader(leaderID: leaderID, data: data)
+                    deleteLeader(leaderID: leaderID, data: data, usingInternally: true)
                 }
                 leaderDestPass = nil
                 selectedLeader = []
+                #warning("TODO: handle group undo")
             } label: {
                 Text("Remove")
             }

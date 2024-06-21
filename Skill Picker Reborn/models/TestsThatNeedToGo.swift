@@ -65,21 +65,21 @@ func createTestingData(data: CampData){
                                              skills: ["Backcountry","None","None","Archery"]), data: data, usingInternally: true)
     
     createLeader(newLeader: try! Leader(fName: "Joe", lName: "Biden", cabin: "1", senior: true,
-                                        skills: ["Archery",    "None",   "None",       "Backcountry"]), data: data)
+                                        skills: ["Archery",    "None",   "None",       "Backcountry"]), data: data, usingInternally: true)
     createLeader(newLeader: try! Leader(fName: "Snoop", lName: "Dogg", cabin: "1", senior: false,
-                                        skills: ["Backcountry","None",   "Paintball",  "Paintball"]), data: data)
+                                        skills: ["Backcountry","None",   "Paintball",  "Paintball"]), data: data, usingInternally: true)
     createLeader(newLeader: try! Leader(fName: "Donald", lName: "Trump", cabin: "2", senior: true,
-                                        skills: ["Backcountry","Archery","Paintball",  "Paintball"]), data: data)
+                                        skills: ["Backcountry","Archery","Paintball",  "Paintball"]), data: data, usingInternally: true)
     createLeader(newLeader: try! Leader(fName: "Justin", lName: "Bieber", cabin: "2", senior: false,
-                                        skills: ["None","None","None","None"]), data: data)
+                                        skills: ["None","None","None","None"]), data: data, usingInternally: true)
     createLeader(newLeader: try! Leader(fName: "Hilary", lName: "Clinton", cabin: "A", senior: true,
-                                        skills: ["None",       "None",   "None",       "Archery"]), data: data)
+                                        skills: ["None",       "None",   "None",       "Archery"]), data: data, usingInternally: true)
     createLeader(newLeader: try! Leader(fName: "Doja", lName: "Cat", cabin: "A", senior: false,
-                                        skills: ["Archery",    "None",   "Backcountry","Archery"]), data: data)
+                                        skills: ["Archery",    "None",   "Backcountry","Archery"]), data: data, usingInternally: true)
     createLeader(newLeader: try! Leader(fName: "Greta", lName: "Thunberg", cabin: "B", senior: true,
-                                        skills: ["None",       "Archery","Backcountry","Backcountry"]), data: data)
+                                        skills: ["None",       "Archery","Backcountry","Backcountry"]), data: data, usingInternally: true)
     createLeader(newLeader: try! Leader(fName: "Nikki", lName: "Minaj", cabin: "B", senior: false,
-                                        skills: ["None","None","None","None"]), data: data)
+                                        skills: ["None","None","None","None"]), data: data, usingInternally: true)
 }
 
 func createTestingDataPlus(data: CampData){
@@ -135,27 +135,27 @@ func createTestingDataPlus(data: CampData){
                                              fanatic: "None"), data: data, usingInternally: true)
     
     createLeader(newLeader: try! Leader(fName: "Joe", lName: "Biden", cabin: "1", senior: true,
-                                        skills: ["Archery",       "Pelletry",      "None",       "Backcountry"]), data: data)
+                                        skills: ["Archery",       "Pelletry",      "None",       "Backcountry"]), data: data, usingInternally: true)
     createLeader(newLeader: try! Leader(fName: "Snoop", lName: "Dogg", cabin: "1", senior: false,
-                                        skills: ["Backcountry",   "None",          "Paintball",  "Paintball"]), data: data)
+                                        skills: ["Backcountry",   "None",          "Paintball",  "Paintball"]), data: data, usingInternally: true)
     createLeader(newLeader: try! Leader(fName: "Donald", lName: "Trump", cabin: "2", senior: true,
-                                        skills: ["Backcountry",   "Archery",       "Paintball",  "Paintball"]), data: data)
+                                        skills: ["Backcountry",   "Archery",       "Paintball",  "Paintball"]), data: data, usingInternally: true)
     createLeader(newLeader: try! Leader(fName: "Justin", lName: "Bieber", cabin: "2", senior: false,
-                                        skills: ["None",          "Ultimate",          "None","None"]), data: data)
+                                        skills: ["None",          "Ultimate",          "None","None"]), data: data, usingInternally: true)
     createLeader(newLeader: try! Leader(fName: "George", lName: "Bush", cabin: "3", senior: true,
-                                        skills: ["Pelletry",      "Wall Climbing", "None",       "Ultimate"]), data: data)
+                                        skills: ["Pelletry",      "Wall Climbing", "None",       "Ultimate"]), data: data, usingInternally: true)
     createLeader(newLeader: try! Leader(fName: "Ryan", lName: "Reynolds", cabin: "3", senior: false,
-                                        skills: ["Wall Climbing", "None",          "Pelletry",   "Wall Climbing"]), data: data)
+                                        skills: ["Wall Climbing", "None",          "Pelletry",   "Wall Climbing"]), data: data, usingInternally: true)
     createLeader(newLeader: try! Leader(fName: "Hilary", lName: "Clinton", cabin: "A", senior: true,
-                                        skills: ["Wall Climbing", "None",          "Pelletry",   "Archery"]), data: data)
+                                        skills: ["Wall Climbing", "None",          "Pelletry",   "Archery"]), data: data, usingInternally: true)
     createLeader(newLeader: try! Leader(fName: "Doja", lName: "Cat", cabin: "A", senior: false,
-                                        skills: ["Archery",       "None",          "Backcountry","Archery"]), data: data)
+                                        skills: ["Archery",       "None",          "Backcountry","Archery"]), data: data, usingInternally: true)
     createLeader(newLeader: try! Leader(fName: "Greta", lName: "Thunberg", cabin: "B", senior: true,
-                                        skills: ["None",          "Archery",       "Backcountry","Backcountry"]), data: data)
+                                        skills: ["None",          "Archery",       "Backcountry","Backcountry"]), data: data, usingInternally: true)
     createLeader(newLeader: try! Leader(fName: "Nikki", lName: "Minaj", cabin: "B", senior: false,
-                                        skills: ["Pelletry",      "Pelletry",      "None","None"]), data: data)
+                                        skills: ["Pelletry",      "Pelletry",      "None","None"]), data: data, usingInternally: true)
     createLeader(newLeader: try! Leader(fName: "Michelle", lName: "Obama", cabin: "C", senior: true,
-                                        skills: ["None",          "Ultimate",      "Ultimate",   "Wall Climbing"]), data: data)
+                                        skills: ["None",          "Ultimate",      "Ultimate",   "Wall Climbing"]), data: data, usingInternally: true)
     createLeader(newLeader: try! Leader(fName: "Celine", lName: "Dion", cabin: "C", senior: false,
-                                        skills: ["None",          "Wall Climbing","Ultimate",    "Ultimate"]), data: data)
+                                        skills: ["None",          "Wall Climbing","Ultimate",    "Ultimate"]), data: data, usingInternally: true)
 }
