@@ -137,12 +137,13 @@ struct SkillCampersView: View {
                 Text("Cancel")
             }
             Button(role: .destructive){
-                #warning("possible group undo management needed")
+                data.objectWillChange.send()
                 for camperID in p.selection {
-                    deleteCamper(camperID: camperID, data: data)
+                    deleteCamper(camperID: camperID, data: data, usingInternally: true)
                 }
                 camperDestPass = nil
                 selectedCamper = []
+                #warning("TODO: handle group undo")
             } label: {
                 Text("Remove")
             }

@@ -59,7 +59,7 @@ struct ModifyCabinView: View {
                 }
                 if(editing){
                     Button("Save Changes") {
-                        #warning("possible group undo management needed")
+                        #warning("TODO: handle group undo when cabin's name needs modifying")
                         if(seniorSelection == data.c.nullSenior.id && juniorSelection == data.c.nullJunior.id){
                             changeCabinLeaders(cabinName: targetCabin, targetSenior: data.c.nullSenior, targetJunior: data.c.nullJunior, data: data)
                         } else if(seniorSelection == data.c.nullSenior.id){

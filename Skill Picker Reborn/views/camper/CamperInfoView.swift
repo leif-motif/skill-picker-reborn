@@ -132,6 +132,7 @@ struct CamperInfoView: View {
                     dismiss()
                 }
                 Button("Save Changes") {
+                    data.objectWillChange.send()
                     if(newFanatic != "None"){
                         newPreferredSkills.remove(at: 5)
                     }
@@ -139,10 +140,9 @@ struct CamperInfoView: View {
                     if(targetCamper.preferredSkills == newPreferredSkills){
                         targetCamper.fName = newFirstName
                         targetCamper.lName = newLastName
-                        #warning("possible group undo management needed")
                         if(targetCamper.cabin != newCabin){
                             removeCamperFromCabin(camperID: camperID, data: data)
-                            assignCamperToCabin(targetCamper: targetCamper, cabinName: newCabin, data: data)
+                            assignCamperToCabin(targetCamper: targetCamper, cabinName: newCabin, data: data, usingInternally: true)
                         }
                         if(targetCamper.fanatic != newFanatic){
                             try! removeCamperFromFanatic(camperID: camperID, fanaticName: targetCamper.fanatic, newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST.", data: data)
@@ -169,7 +169,6 @@ struct CamperInfoView: View {
                         } else {
                             targetCamper.fName = newFirstName
                             targetCamper.lName = newLastName
-                            #warning("possible group undo management needed")
                             if(targetCamper.cabin != newCabin){
                                 removeCamperFromCabin(camperID: camperID, data: data)
                                 assignCamperToCabin(targetCamper: targetCamper, cabinName: newCabin, data: data)
@@ -199,6 +198,9 @@ struct CamperInfoView: View {
                             }
                             dismiss()
                         }
+                    }
+                    data.undoManager.registerUndo(withTarget: data.c){ _ in
+                        #warning("TODO: handle camper info editing")
                     }
                 }
                 .disabled(try! !evaluateFanatics(fanatic: newFanatic, periods: newSkills, data: data) || newFirstName == "" || newLastName == "" ||

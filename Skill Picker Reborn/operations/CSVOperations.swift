@@ -111,7 +111,7 @@ func campersFromCSV(csv: [Substring], data: CampData) throws {
             preferredSkills.append("None")
         }
         #warning("possible group undo management needed")
-        try createCamper(newCamper: try! Camper(fName: fName, lName: lName, cabin: cabinName, preferredSkills: preferredSkills, fanatic: fanatic), data: data)
+        try createCamper(newCamper: try! Camper(fName: fName, lName: lName, cabin: cabinName, preferredSkills: preferredSkills, fanatic: fanatic), data: data, usingInternally: true)
     }
 }
 

@@ -137,7 +137,6 @@ struct CabinView: View {
                     title: Text("Confirm"),
                     message: Text("Are you sure you want to delete the current cabin?"),
                     primaryButton: .default(Text("Delete")){
-                        data.objectWillChange.send()
                         try! deleteCabin(targetCabin: data.selectedCabin, data: data)
                         data.selectedCabin = "Unassigned"
                     },
@@ -250,12 +249,13 @@ struct CabinView: View {
                 Text("Cancel")
             }
             Button(role: .destructive){
-                #warning("possible group undo management needed")
+                data.objectWillChange.send()
                 for camperID in p.selection {
-                    removeCamperFromCabin(camperID: camperID, data: data)
+                    removeCamperFromCabin(camperID: camperID, data: data, usingInternally: true)
                 }
                 camperDestPass = nil
                 selectedCamper = []
+                #warning("TODO: handle group undo")
             } label: {
                 Text("Remove")
             }
@@ -272,12 +272,13 @@ struct CabinView: View {
                 Text("Cancel")
             }
             Button(role: .destructive){
-                #warning("possible group undo management needed")
+                data.objectWillChange.send()
                 for camperID in p.selection {
-                    deleteCamper(camperID: camperID, data: data)
+                    deleteCamper(camperID: camperID, data: data, usingInternally: true)
                 }
                 camperDestPass = nil
                 selectedCamper = []
+                #warning("TODO: handle group undo")
             } label: {
                 Text("Remove")
             }

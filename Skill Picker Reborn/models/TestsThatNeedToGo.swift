@@ -34,35 +34,35 @@ func createTestingData(data: CampData){
     try! createCamper(newCamper: try! Camper(fName: "Bart", lName: "Simpson", cabin: "1",
                                              preferredSkills: ["Wall Climbing","Horses","Swimming","Drama","Crafts"],
                                              fanatic: "Paintball",
-                                             skills: ["Archery","None","None","None"]), data: data)
+                                             skills: ["Archery","None","None","None"]), data: data, usingInternally: true)
     try! createCamper(newCamper: try! Camper(fName: "Bugs", lName: "Bunny", cabin: "1",
                                              preferredSkills: ["Horses","Archery","Pelletry","Crafts","Ultimate","Drama"],
                                              fanatic: "None",
-                                             skills: ["Backcountry","None","None","Archery"]), data: data)
+                                             skills: ["Backcountry","None","None","Archery"]), data: data, usingInternally: true)
     try! createCamper(newCamper: try! Camper(fName: "Eric", lName: "Cartman", cabin: "2",
                                              preferredSkills: ["Pelletry","Backcountry","Archery","Wall Climbing","Horses"],
                                              fanatic: "Paintball",
-                                             skills: ["Archery","None","None","None"]), data: data)
+                                             skills: ["Archery","None","None","None"]), data: data, usingInternally: true)
     try! createCamper(newCamper: try! Camper(fName: "Daffy", lName: "Duck", cabin: "2",
                                              preferredSkills: ["Archery","Pelletry","Wall Climbing","Ultimate","Swimming","Horses"],
                                              fanatic: "None",
-                                             skills: ["Archery","None","None","None"]), data: data)
+                                             skills: ["Archery","None","None","None"]), data: data, usingInternally: true)
     try! createCamper(newCamper: try! Camper(fName: "Suzy", lName: "Johnson", cabin: "A",
                                              preferredSkills: ["Pelletry","Archery","Backcountry","Ultimate","Horses"],
                                              fanatic: "Paintball",
-                                             skills: ["Archery","None","None","None"]), data: data)
+                                             skills: ["Archery","None","None","None"]), data: data, usingInternally: true)
     try! createCamper(newCamper: try! Camper(fName: "Sandy", lName: "Cheeks", cabin: "A",
                                              preferredSkills: ["Crafts","Backcountry","Horses","Drama","Ultimate","Canoeing"],
                                              fanatic: "None",
-                                             skills: ["None","Archery","Backcountry","None"]), data: data)
+                                             skills: ["None","Archery","Backcountry","None"]), data: data, usingInternally: true)
     try! createCamper(newCamper: try! Camper(fName: "Lisa", lName: "Simpson", cabin: "B",
                                              preferredSkills: ["Canoeing","Archery","Drama","Backcountry","Horses","Ultimate"],
                                              fanatic: "None",
-                                             skills: ["None","None","Backcountry","Archery"]), data: data)
+                                             skills: ["None","None","Backcountry","Archery"]), data: data, usingInternally: true)
     try! createCamper(newCamper: try! Camper(fName: "Velma", lName: "Dinkley", cabin: "B",
                                              preferredSkills: ["Crafts","Backcountry","Horses","Wall Climbing","Ultimate","Canoeing"],
                                              fanatic: "None",
-                                             skills: ["Backcountry","None","None","Archery"]), data: data)
+                                             skills: ["Backcountry","None","None","Archery"]), data: data, usingInternally: true)
     
     createLeader(newLeader: try! Leader(fName: "Joe", lName: "Biden", cabin: "1", senior: true,
                                         skills: ["Archery",    "None",   "None",       "Backcountry"]), data: data)
@@ -102,37 +102,37 @@ func createTestingDataPlus(data: CampData){
     
     try! createCamper(newCamper: try! Camper(fName: "Bart", lName: "Simpson", cabin: "1",
                                              preferredSkills: ["Wall Climbing","Archery","Backcountry","Pelletry","Ultimate"],
-                                             fanatic: "Paintball"), data: data)
+                                             fanatic: "Paintball"), data: data, usingInternally: true)
     try! createCamper(newCamper: try! Camper(fName: "Bugs", lName: "Bunny", cabin: "1",
                                              preferredSkills: ["Horses","Archery","Pelletry","Wall Climbing","Ultimate","Backcountry"],
-                                             fanatic: "None"), data: data)
+                                             fanatic: "None"), data: data, usingInternally: true)
     try! createCamper(newCamper: try! Camper(fName: "Eric", lName: "Cartman", cabin: "2",
                                              preferredSkills: ["Pelletry","Backcountry","Archery","Wall Climbing","Horses"],
-                                             fanatic: "Paintball"), data: data)
+                                             fanatic: "Paintball"), data: data, usingInternally: true)
     try! createCamper(newCamper: try! Camper(fName: "Daffy", lName: "Duck", cabin: "2",
                                              preferredSkills: ["Archery","Pelletry","Wall Climbing","Ultimate","Ultimate","Horses"],
-                                             fanatic: "None"), data: data)
+                                             fanatic: "None"), data: data, usingInternally: true)
     try! createCamper(newCamper: try! Camper(fName: "Fred", lName: "Flintstone", cabin: "3",
                                              preferredSkills: ["Horses","Pelletry","Archery","Wall Climbing","Ultimate"],
-                                             fanatic: "Tabletop Adventure"), data: data)
+                                             fanatic: "Tabletop Adventure"), data: data, usingInternally: true)
     try! createCamper(newCamper: try! Camper(fName: "Sid", lName: "Sloth", cabin: "3",
                                              preferredSkills: ["Wall Climbing","Horses","Archery","Ultimate","Pelletry"],
-                                             fanatic: "Tabletop Adventure"), data: data)
+                                             fanatic: "Tabletop Adventure"), data: data, usingInternally: true)
     try! createCamper(newCamper: try! Camper(fName: "Suzy", lName: "Johnson", cabin: "A",
                                              preferredSkills: ["Pelletry","Archery","Backcountry","Ultimate","Horses"],
-                                             fanatic: "Paintball"), data: data)
+                                             fanatic: "Paintball"), data: data, usingInternally: true)
     try! createCamper(newCamper: try! Camper(fName: "Sandy", lName: "Cheeks", cabin: "A",
                                              preferredSkills: ["Wall Climbing","Backcountry","Horses","Archery","Ultimate"],
-                                             fanatic: "Tabletop Adventure"), data: data)
+                                             fanatic: "Tabletop Adventure"), data: data, usingInternally: true)
     try! createCamper(newCamper: try! Camper(fName: "Lisa", lName: "Simpson", cabin: "B",
                                              preferredSkills: ["Pelletry","Archery","Wall Climbing","Backcountry","Horses","Ultimate"],
-                                             fanatic: "None"), data: data)
+                                             fanatic: "None"), data: data, usingInternally: true)
     try! createCamper(newCamper: try! Camper(fName: "Velma", lName: "Dinkley", cabin: "B",
                                              preferredSkills: ["Archery","Backcountry","Horses","Wall Climbing","Ultimate","Pelletry"],
-                                             fanatic: "None"), data: data)
+                                             fanatic: "None"), data: data, usingInternally: true)
     try! createCamper(newCamper: try! Camper(fName: "Wilma", lName: "Flintstone", cabin: "C",
                                              preferredSkills: ["Backcountry","Horses","Wall Climbing","Ultimate","Pelletry","Archery"],
-                                             fanatic: "None"), data: data)
+                                             fanatic: "None"), data: data, usingInternally: true)
     
     createLeader(newLeader: try! Leader(fName: "Joe", lName: "Biden", cabin: "1", senior: true,
                                         skills: ["Archery",       "Pelletry",      "None",       "Backcountry"]), data: data)
