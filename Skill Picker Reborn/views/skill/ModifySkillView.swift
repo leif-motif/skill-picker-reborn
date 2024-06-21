@@ -83,9 +83,8 @@ struct ModifySkillView: View {
                 }
                 if(editing){
                     Button("Save Changes"){
-                        data.c.skills[targetSkill]!.maximums = maximums
+                        try! modifySkill(oldName: targetSkill, newName: iName, newMaximums: maximums, data: data)
                         if(iName != targetSkill){
-                            try! renameSkill(oldName: targetSkill, newName: iName, data: data)
                             data.selectedSkill = iName
                         }
                         dismiss()

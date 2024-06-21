@@ -34,7 +34,7 @@ func createSkill(newSkill: Skill, data: CampData, usingInternally: Bool = false)
     }
 }
 
-func renameSkill(oldName: String, newName: String, data: CampData, usingInternally: Bool = false) throws {
+func modifySkill(oldName: String, newName: String, newMaximums: [Int], data: CampData, usingInternally: Bool = false) throws {
     if(!usingInternally){
         data.objectWillChange.send()
     }
@@ -45,6 +45,10 @@ func renameSkill(oldName: String, newName: String, data: CampData, usingInternal
     if(data.c.skills.keys.contains(newName)){
         throw SPRError.DuplicateSkillName
     }
+    if(newMaximums.count != 4){
+        throw SPRError.InvalidSize
+    }
+    data.c.skills[oldName]!.maximums = newMaximums
     for camper in data.c.campers {
         for i in 0...(camper.preferredSkills.count-1){
             if(camper.preferredSkills[i] == oldName){
