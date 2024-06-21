@@ -72,7 +72,7 @@ func modifySkill(oldName: String, newName: String, newMaximums: [Int], data: Cam
     
     if(!usingInternally){
         data.undoManager.registerUndo(withTarget: data.c){ _ in
-            #warning("TODO: handle undo of renameSkill")
+            #warning("TODO: handle undo of modifySkill")
         }
     }
 }
