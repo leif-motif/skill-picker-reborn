@@ -146,7 +146,7 @@ struct CamperView: View {
                       dismissButton: .default(Text("Dismiss")))
             }
             Button {
-                clearAllCamperSkills(data: data)
+                try! clearAllCamperSkills(data: data)
             } label: {
                 Image(systemName: "person.2.gobackward")
                     .foregroundColor(Color(.systemRed))

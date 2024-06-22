@@ -107,7 +107,7 @@ func changeFanaticPeriods(targetFanatic: String, newPeriods: [Bool], data: CampD
             data.c.skills[targetFanatic]!.maximums[i] = 255
             for camper in camperFanatics! {
                 if(camper.skills[i] != "None"){
-                    try! removeCamperFromSkill(camperID: camper.id, skillName: camper.skills[i], period: i, data: data, usingInternally: true)
+                    try! removeCamperFromSkill(camperID: camper.id, skillName: camper.skills[i], period: i, data: data, overrideFanaticWarning: true, usingInternally: true)
                 }
                 assignCamperToSkill(targetCamper: camper, skillName: targetFanatic, period: i, data: data, usingInternally: true)
             }

@@ -163,13 +163,16 @@ func assignCamperToSkill(targetCamper: Camper, skillName: String, period: Int, d
     }
 }
 
-func removeCamperFromSkill(camperID: Camper.ID, skillName: String, period: Int, data: CampData, usingInternally: Bool = false) throws {
+func removeCamperFromSkill(camperID: Camper.ID, skillName: String, period: Int, data: CampData, overrideFanaticWarning: Bool = false, usingInternally: Bool = false) throws {
     if(!usingInternally){
         data.objectWillChange.send()
     }
     
     if(skillName == "None"){
         throw SPRError.RefusingDelete
+    }
+    if(data.c.fanatics.keys.contains(skillName) && !overrideFanaticWarning){
+        throw SPRError.SkillIsFanatic
     }
     data.c.skills[skillName]!.periods[period].removeAll(where: {$0.id == camperID})
     data.c.campers.first(where: {$0.id == camperID})!.skills[period] = "None"
@@ -182,19 +185,21 @@ func removeCamperFromSkill(camperID: Camper.ID, skillName: String, period: Int, 
     }
 }
 
-func clearAllCamperSkills(data: CampData, usingInternally: Bool = false){
+func clearAllCamperSkills(data: CampData, usingInternally: Bool = false) throws {
     if(!usingInternally){
         data.objectWillChange.send()
     }
     
-    #warning("TODO: change to use internal method")
-    for skill in data.c.skills.keys {
-        if(!data.c.fanatics.keys.contains(skill)){
-            for i in 0...3 {
-                for camper in data.c.skills[skill]!.periods[i] {
-                    camper.skills[i] = "None"
-                }
-                data.c.skills[skill]!.periods[i] = []
+    for camper in data.c.campers {
+        for i in 0...3 {
+            do {
+                try removeCamperFromSkill(camperID: camper.id, skillName: camper.skills[i], period: i, data: data, usingInternally: true)
+            } catch SPRError.RefusingDelete {
+                continue
+            } catch SPRError.SkillIsFanatic {
+                continue
+            } catch {
+                throw error
             }
         }
     }
