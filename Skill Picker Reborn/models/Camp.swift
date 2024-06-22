@@ -30,6 +30,8 @@ class Camp: Codable {
     let nullSenior: Leader
     let nullJunior: Leader
     
+    let version: String
+    
     init(){
         self.campers = []
         self.leaders = []
@@ -38,5 +40,22 @@ class Camp: Codable {
         self.cabins = ["Unassigned": try! Cabin(name: "Unassigned", senior: self.nullSenior, junior: self.nullJunior, campers: [])]
         self.skills = ["None": try! Skill(name: "None", maximums: [255,255,255,255])]
         self.fanatics = [:]
+        self.version = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String)!
+    }
+    
+    required init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.campers = try container.decode([Camper].self, forKey: .campers)
+        self.leaders = try container.decode([Leader].self, forKey: .leaders)
+        self.cabins = try container.decode([String : Cabin].self, forKey: .cabins)
+        self.skills = try container.decode([String : Skill].self, forKey: .skills)
+        self.fanatics = try container.decode([String : Fanatic].self, forKey: .fanatics)
+        self.nullSenior = try container.decode(Leader.self, forKey: .nullSenior)
+        self.nullJunior = try container.decode(Leader.self, forKey: .nullJunior)
+        let reportedVersion = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String)!
+        if(!supportedVersions.contains(reportedVersion)){
+            throw SPRError.UnsupportedVersion
+        }
+        self.version = reportedVersion
     }
 }

@@ -20,6 +20,8 @@
 
 import SwiftUI
 
+let supportedVersions = ["0.1","1.0.2"]
+
 @main
 struct Skill_Picker_RebornApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
