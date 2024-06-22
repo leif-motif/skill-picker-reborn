@@ -187,6 +187,7 @@ func clearAllCamperSkills(data: CampData, usingInternally: Bool = false){
         data.objectWillChange.send()
     }
     
+    #warning("TODO: change to use internal method")
     for skill in data.c.skills.keys {
         if(!data.c.fanatics.keys.contains(skill)){
             for i in 0...3 {

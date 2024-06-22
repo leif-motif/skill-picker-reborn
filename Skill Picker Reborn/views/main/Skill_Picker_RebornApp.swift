@@ -36,8 +36,7 @@ struct Skill_Picker_RebornApp: App {
             CommandGroup(replacing: CommandGroupPlacement.saveItem){
                 Button("Save...") {
                     let panel = NSSavePanel()
-                    #warning("TODO: change to allowedContentTypes instead")
-                    panel.allowedFileTypes = ["json"]
+                    panel.allowedContentTypes = [.json]
                     panel.canCreateDirectories = true
                     panel.isExtensionHidden = false
                     panel.title = "Save your camp"
@@ -56,8 +55,7 @@ struct Skill_Picker_RebornApp: App {
                 .keyboardShortcut("S", modifiers: [.command])
                 Button("Load...") {
                     let panel = NSOpenPanel()
-                    #warning("TODO: change to allowedContentTypes instead")
-                    panel.allowedFileTypes = ["json"]
+                    panel.allowedContentTypes = [.json]
                     panel.allowsMultipleSelection = false
                     panel.canChooseDirectories = false
                     panel.canChooseFiles = true
@@ -71,6 +69,7 @@ struct Skill_Picker_RebornApp: App {
                             let decoded = try decoder.decode(Camp.self, from: data)
                             #warning("TODO: clear undo history")
                             campData.c = decoded
+                            campData.objectWillChange.send()
                         } catch {
                             print("Failed to load app state: \(error)")
                         }
