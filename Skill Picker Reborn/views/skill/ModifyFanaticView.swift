@@ -55,10 +55,10 @@ struct ModifyFanaticView: View {
                 if(editing){
                     Button("Save Changes"){
                         if(activePeriods != data.c.fanatics[targetFanatic]!.activePeriods){
-                            try! changeFanaticPeriods(targetFanatic: targetFanatic, newPeriods: activePeriods, data: data)
+                            try! changeFanaticPeriods(targetFanatic: targetFanatic, newPeriods: activePeriods, data: data, usingInternally: true)
                         }
                         if(iName != targetFanatic){
-                            try! renameFanatic(oldName: targetFanatic, newName: iName, data: data)
+                            try! renameFanatic(oldName: targetFanatic, newName: iName, data: data, usingInternally: true)
                             data.selectedSkill = iName
                         }
                         dismiss()

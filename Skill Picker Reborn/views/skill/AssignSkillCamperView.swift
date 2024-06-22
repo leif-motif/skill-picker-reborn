@@ -49,15 +49,16 @@ struct AssignSkillCamperView: View {
                     if(isFanatic){
                         //quite frankly, i thought searching for specific campers wasn't working.
                         //and yet, when i last tested this, it is now. if anything is going wacko, it's because of this.
-                        #warning("possible group undo management needed")
+                        data.objectWillChange.send()
                         if(data.c.campers.first(where: {$0.id == camperIDs[camperInput.lowercased()]})!.fanatic != "None"){
                             try! removeCamperFromFanatic(camperID: camperIDs[camperInput.lowercased()]!,
                                                          fanaticName: data.c.campers.first(where: {$0.id == camperIDs[camperInput.lowercased()]})!.fanatic,
-                                                         newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST", data: data)
+                                                         newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST", data: data, usingInternally: true)
                         }
                         try! assignCamperToFanatic(targetCamper: data.c.campers.first(where: {$0.id == camperIDs[camperInput.lowercased()]})!,
                                                    fanaticName: targetSkill,
-                                                   data: data)
+                                                   data: data, usingInternally: true)
+                        #warning("TODO: handle group undo")
                     } else {
                         assignCamperToSkill(targetCamper: data.c.campers.first(where: {$0.id == camperIDs[camperInput.lowercased()]})!,
                                             skillName: targetSkill, period: skillPeriod,

@@ -145,8 +145,8 @@ struct CamperInfoView: View {
                             assignCamperToCabin(targetCamper: targetCamper, cabinName: newCabin, data: data, usingInternally: true)
                         }
                         if(targetCamper.fanatic != newFanatic){
-                            try! removeCamperFromFanatic(camperID: camperID, fanaticName: targetCamper.fanatic, newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST.", data: data)
-                            try! assignCamperToFanatic(targetCamper: targetCamper, fanaticName: newFanatic, data: data)
+                            try! removeCamperFromFanatic(camperID: camperID, fanaticName: targetCamper.fanatic, newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST.", data: data, usingInternally: true)
+                            try! assignCamperToFanatic(targetCamper: targetCamper, fanaticName: newFanatic, data: data, usingInternally: true)
                         }
                         for i in 0...3 {
                             if(targetCamper.skills[i] != newSkills[i] && targetCamper.skills[i] != "None" && !data.c.fanatics.keys.contains(targetCamper.skills[i])){

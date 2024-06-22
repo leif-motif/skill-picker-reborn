@@ -110,19 +110,20 @@ struct SkillLeadersView: View {
                 Text("Cancel")
             }
             Button(role: .destructive){
+                data.objectWillChange.send()
                 if(data.c.fanatics.keys.contains(data.selectedSkill)){
-                    #warning("possible group undo management needed")
                     for leaderID in p.selection {
-                        try! removeLeaderFromFanatic(leaderID: leaderID, fanaticName: data.selectedSkill, data: data)
+                        try! removeLeaderFromFanatic(leaderID: leaderID, fanaticName: data.selectedSkill, data: data, usingInternally: true)
                     }
+                    #warning("TODO: handle group undo")
                 } else {
                     for leaderID in p.selection {
                         try! removeLeaderFromSkill(leaderID: leaderID, skillName: data.selectedSkill, period: data.selectedPeriod, data: data, usingInternally: true)
                     }
+                    #warning("TODO: handle group undo")
                 }
                 leaderDestPass = nil
                 selectedLeader = []
-                data.objectWillChange.send()
             } label: {
                 Text("Remove")
             }

@@ -29,7 +29,7 @@ func createTestingData(data: CampData){
     createSkill(newSkill: try! Skill(name: "Archery", maximums: [10,10,0,10]), data: data, usingInternally: true)
     createSkill(newSkill: try! Skill(name: "Backcountry", maximums: [10,0,10,10]), data: data, usingInternally: true)
     
-    createFanatic(newFanatic: try! Fanatic(name: "Paintball", activePeriods: [false,false,true,true]), data: data)
+    createFanatic(newFanatic: try! Fanatic(name: "Paintball", activePeriods: [false,false,true,true]), data: data, usingInternally: true)
     
     try! createCamper(newCamper: try! Camper(fName: "Bart", lName: "Simpson", cabin: "1",
                                              preferredSkills: ["Wall Climbing","Horses","Swimming","Drama","Crafts"],
@@ -97,8 +97,8 @@ func createTestingDataPlus(data: CampData){
     createSkill(newSkill: try! Skill(name: "Ultimate", maximums: [0,10,10,10]), data: data, usingInternally: true)
     createSkill(newSkill: try! Skill(name: "Wall Climbing", maximums: [10,10,0,10]), data: data, usingInternally: true)
     
-    createFanatic(newFanatic: try! Fanatic(name: "Paintball", activePeriods: [false,false,true,true]), data: data)
-    createFanatic(newFanatic: try! Fanatic(name: "Tabletop Adventure", activePeriods: [true,true,false,false]), data: data)
+    createFanatic(newFanatic: try! Fanatic(name: "Paintball", activePeriods: [false,false,true,true]), data: data, usingInternally: true)
+    createFanatic(newFanatic: try! Fanatic(name: "Tabletop Adventure", activePeriods: [true,true,false,false]), data: data, usingInternally: true)
     
     try! createCamper(newCamper: try! Camper(fName: "Bart", lName: "Simpson", cabin: "1",
                                              preferredSkills: ["Wall Climbing","Archery","Backcountry","Pelletry","Ultimate"],
