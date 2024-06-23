@@ -27,9 +27,9 @@ struct Skill_Picker_RebornApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject private var campData = CampData()
     @State private var campThatShouldNotBeLoaded = Camp()
-    @State private var incompatableVersion = ""
+    @State private var genericErrorDesc = ""
     @State private var jsonWarningConfirm = false
-    @State private var versionIncompatableAlert = false
+    @State private var genericErrorAlert = false
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -47,13 +47,13 @@ struct Skill_Picker_RebornApp: App {
                 } message: { c in
                     Text("You are attempting to load the same file or version of a file over itself! This WILL cause errors in viewing data in this session. If you want to reload your file, restart the app and load the camp once more. If you still wish to load the same file over itself, select \"Load Anyway\" AT YOUR OWN RISK.")
                 }
-                .alert("Error!", isPresented: $versionIncompatableAlert, presenting: incompatableVersion){ i in
+                .alert("Error!", isPresented: $genericErrorAlert, presenting: genericErrorDesc){ _ in
                     Button(){
                     } label: {
                         Text("Dismiss")
                     }
-                } message: { i in
-                    Text("The current app version's version \((Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String)!), is incompatable with the selected JSON's version (\(i)).")
+                } message: { e in
+                    Text(e)
                 }
         }
         .commands {
@@ -75,7 +75,8 @@ struct Skill_Picker_RebornApp: App {
                             let encoded = try encoder.encode(campData.c)
                             try encoded.write(to: url)
                         } catch {
-                            print("Failed to save app state: \(error.localizedDescription)")
+                            genericErrorDesc = "Failed to save app state: \(error.localizedDescription)"
+                            genericErrorAlert.toggle()
                         }
                     }
                 }
@@ -102,11 +103,12 @@ struct Skill_Picker_RebornApp: App {
                                 campData.c = decoded
                                 campData.objectWillChange.send()
                             }
-                        } catch SPRError.UnsupportedVersion(let i){
-                            incompatableVersion = i
-                            versionIncompatableAlert.toggle()
+                        } catch SPRError.UnsupportedVersion(let e){
+                            genericErrorDesc = "The current app version's version \((Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String)!), is incompatable with the selected JSON's version (\(e))."
+                            genericErrorAlert.toggle()
                         } catch {
-                            print("Failed to load app state: \(error)")
+                            genericErrorDesc = "Failed to load app state: \(error.localizedDescription)"
+                            genericErrorAlert.toggle()
                         }
                     }
                 }
