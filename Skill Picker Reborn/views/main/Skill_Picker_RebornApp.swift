@@ -20,7 +20,7 @@
 
 import SwiftUI
 
-let supportedVersions = ["0.1","1.0.2"]
+let supportedVersions = ["0.1","1.1.0"]
 
 @main
 struct Skill_Picker_RebornApp: App {
