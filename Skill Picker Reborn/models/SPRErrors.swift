@@ -37,5 +37,5 @@ enum SPRError: Error {
     case DuplicateSkillName
     case SkillIsFanatic
     case InvalidFileFormat
-    case UnsupportedVersion
+    case UnsupportedVersion(String)
 }

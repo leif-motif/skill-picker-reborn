@@ -20,19 +20,21 @@
 
 import SwiftUI
 
-let supportedVersions = ["0.1","1.1.0"]
+let supportedVersions = ["0.1","1.1.0","1.1.1"]
 
 @main
 struct Skill_Picker_RebornApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject private var campData = CampData()
-    @State private var jsonWarningConfirm = false
     @State private var campThatShouldNotBeLoaded = Camp()
+    @State private var incompatableVersion = ""
+    @State private var jsonWarningConfirm = false
+    @State private var versionIncompatableAlert = false
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(campData)
-                .confirmationDialog("WARNING", isPresented: $jsonWarningConfirm, presenting: campThatShouldNotBeLoaded){ c in
+                .confirmationDialog("WARNING!", isPresented: $jsonWarningConfirm, presenting: campThatShouldNotBeLoaded){ c in
                     Button(role: .cancel){
                     } label: {
                         Text("Stop")
@@ -40,10 +42,18 @@ struct Skill_Picker_RebornApp: App {
                     Button(role: .destructive){
                         campData.c = campThatShouldNotBeLoaded
                     } label: {
-                        Text("Continue")
+                        Text("Load Anyway")
                     }
                 } message: { c in
-                    Text("You are attempting to load the same file or version of a file over itself! This WILL cause errors in viewing data in this session. If you want to reload your file, restart the app and load the camp once more. If you still wish to load the same file over itself, select \"Continue\" AT YOUR OWN RISK.")
+                    Text("You are attempting to load the same file or version of a file over itself! This WILL cause errors in viewing data in this session. If you want to reload your file, restart the app and load the camp once more. If you still wish to load the same file over itself, select \"Load Anyway\" AT YOUR OWN RISK.")
+                }
+                .alert("Error!", isPresented: $versionIncompatableAlert, presenting: incompatableVersion){ i in
+                    Button(){
+                    } label: {
+                        Text("Dismiss")
+                    }
+                } message: { i in
+                    Text("The current app version's version \((Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String)!), is incompatable with the selected JSON's version (\(i)).")
                 }
         }
         .commands {
@@ -92,6 +102,9 @@ struct Skill_Picker_RebornApp: App {
                                 campData.c = decoded
                                 campData.objectWillChange.send()
                             }
+                        } catch SPRError.UnsupportedVersion(let i){
+                            incompatableVersion = i
+                            versionIncompatableAlert.toggle()
                         } catch {
                             print("Failed to load app state: \(error)")
                         }

@@ -54,11 +54,11 @@ class Camp: Codable {
         self.fanatics = try container.decode([String : Fanatic].self, forKey: .fanatics)
         self.nullSenior = try container.decode(Leader.self, forKey: .nullSenior)
         self.nullJunior = try container.decode(Leader.self, forKey: .nullJunior)
-        let reportedVersion = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String)!
-        if(!supportedVersions.contains(reportedVersion)){
-            throw SPRError.UnsupportedVersion
+        let fileVersion = try container.decode(String.self, forKey: .version)
+        if(!supportedVersions.contains(fileVersion)){
+            throw SPRError.UnsupportedVersion(fileVersion)
         }
-        self.version = reportedVersion
+        self.version = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String)!
         self.id = try container.decode(UUID.self, forKey: .id)
     }
 }
