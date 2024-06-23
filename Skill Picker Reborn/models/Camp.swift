@@ -31,6 +31,7 @@ class Camp: Codable {
     let nullJunior: Leader
     
     let version: String
+    let id: UUID
     
     init(){
         self.campers = []
@@ -41,6 +42,7 @@ class Camp: Codable {
         self.skills = ["None": try! Skill(name: "None", maximums: [255,255,255,255])]
         self.fanatics = [:]
         self.version = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String)!
+        self.id = UUID()
     }
     
     required init(from decoder: any Decoder) throws {
@@ -57,5 +59,6 @@ class Camp: Codable {
             throw SPRError.UnsupportedVersion
         }
         self.version = reportedVersion
+        self.id = try container.decode(UUID.self, forKey: .id)
     }
 }

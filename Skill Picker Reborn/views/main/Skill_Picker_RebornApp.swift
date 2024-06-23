@@ -26,10 +26,25 @@ let supportedVersions = ["0.1","1.0.2"]
 struct Skill_Picker_RebornApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject private var campData = CampData()
+    @State private var jsonWarningConfirm = false
+    @State private var campThatShouldNotBeLoaded = Camp()
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(campData)
+                .confirmationDialog("WARNING", isPresented: $jsonWarningConfirm, presenting: campThatShouldNotBeLoaded){ c in
+                    Button(role: .cancel){
+                    } label: {
+                        Text("Stop")
+                    }
+                    Button(role: .destructive){
+                        campData.c = campThatShouldNotBeLoaded
+                    } label: {
+                        Text("Continue")
+                    }
+                } message: { c in
+                    Text("You are attempting to load the same file or version of a file over itself! This WILL cause errors in viewing data in this session. If you want to reload your file, restart the app and load the camp once more. If you still wish to load the same file over itself, select \"Continue\" AT YOUR OWN RISK.")
+                }
         }
         .commands {
             CommandGroup(replacing: CommandGroupPlacement.newItem){
@@ -70,8 +85,13 @@ struct Skill_Picker_RebornApp: App {
                             let decoder = JSONDecoder()
                             let decoded = try decoder.decode(Camp.self, from: data)
                             #warning("TODO: clear undo history")
-                            campData.c = decoded
-                            campData.objectWillChange.send()
+                            if(campData.c.id == decoded.id){
+                                campThatShouldNotBeLoaded = decoded
+                                jsonWarningConfirm.toggle()
+                            } else {
+                                campData.c = decoded
+                                campData.objectWillChange.send()
+                            }
                         } catch {
                             print("Failed to load app state: \(error)")
                         }
