@@ -26,16 +26,16 @@ struct CabinView: View {
     @State private var camperEditPass: HumanSelection<Camper>?
     @State private var camperDestPass: HumanSelection<Camper>?
     @State private var csvInput: [Substring] = [""]
+    @State private var genericErrorDesc = ""
     @State private var showCsvExporter = false
     @State private var addCabinSheet = false
     @State private var modifyCabinSheet = false
     @State private var assignCabinCamperSheet = false
     @State private var importSkillSheet = false
-    @State private var exportCabinAlert = false
     @State private var removeCamperConfirm = false
     @State private var deleteCamperConfirm = false
     @State private var deleteCabinConfirm = false
-    @State private var csvErrorAlert = false
+    @State private var genericErrorAlert = false
     @State private var search = ""
     var body: some View {
         VStack {
@@ -167,11 +167,11 @@ struct CabinView: View {
                         data.importSkillList = try skillListFromCSV(csv: csvInput)
                         importSkillSheet.toggle()
                     } catch SPRError.InvalidFileFormat {
-                        csvErrorAlert.toggle()
+                        genericErrorDesc = "The provided CSV is probably invalid. If there are any skills that no camper has set as a preferred skill, remove that skill."
+                        genericErrorAlert.toggle()
                     } catch {
-                        //I have really no idea what this does.
-                        //It was whining about some kind of warning earlier? Wrapped \/ THAT part in String() and it shut up so idk.
-                        assertionFailure("Failed reading from URL: \(String(describing: panel.url)), Error: " + error.localizedDescription)
+                        genericErrorDesc = "Failed reading from URL: \(String(describing: panel.url)), Error: " + error.localizedDescription
+                        genericErrorAlert.toggle()
                     }
                 }
             } label: {
@@ -193,7 +193,8 @@ struct CabinView: View {
                 if(data.c.cabins[data.selectedCabin]!.campers.count > 0){
                     showCsvExporter.toggle()
                 } else {
-                    exportCabinAlert.toggle()
+                    genericErrorDesc = "Cannot export a schedule for a cabin that has no campers."
+                    genericErrorAlert.toggle()
                 }
             } label: {
                 Image(systemName: "arrow.up.doc.on.clipboard")
@@ -206,13 +207,9 @@ struct CabinView: View {
                 case .success(let url):
                     print("Saved to \(url)")
                 case .failure(let error):
-                    print(error.localizedDescription)
+                    genericErrorDesc = "Could not save: \(error.localizedDescription)"
+                    genericErrorAlert.toggle()
                 }
-            }
-            .alert(isPresented: $exportCabinAlert){
-                Alert(title: Text("Error!"),
-                      message: Text("Cannot export a schedule for a cabin that has no campers."),
-                      dismissButton: .default(Text("Dismiss")))
             }
             Picker("Cabin", selection: $data.selectedCabin) {
                 ForEach(Array(data.c.cabins.keys).sorted(), id: \.self){
@@ -234,13 +231,13 @@ struct CabinView: View {
         }, content: { x in
             CamperInfoView(camperID: x.selection.first!)
         })
-        .alert("Error!", isPresented: $csvErrorAlert){
+        .alert("Error!", isPresented: $genericErrorAlert, presenting: genericErrorDesc){ _ in
             Button(){
             } label: {
                 Text("Dismiss")
             }
-        } message: {
-            Text("The provided CSV is probably invalid. If there are any skills that no camper has set as a preferred skill, remove that skill.")
+        } message: { e in
+            Text(e)
         }
         .confirmationDialog("Confirm Removal", isPresented: $removeCamperConfirm, presenting: camperDestPass){ p in
             Button(role: .cancel){
