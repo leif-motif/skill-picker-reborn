@@ -104,7 +104,7 @@ struct Skill_Picker_RebornApp: App {
                                 campData.objectWillChange.send()
                             }
                         } catch SPRError.UnsupportedVersion(let e){
-                            genericErrorDesc = "The current app version's version \((Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String)!), is incompatable with the selected JSON's version (\(e))."
+                            genericErrorDesc = "The current app version (\((Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String)!)) is incompatable with the selected JSON's version (\(e))."
                             genericErrorAlert.toggle()
                         } catch {
                             genericErrorDesc = "Failed to load app state: \(error.localizedDescription)"
