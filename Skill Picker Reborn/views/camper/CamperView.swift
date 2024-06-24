@@ -27,13 +27,13 @@ struct CamperView: View {
     @State private var camperEditPass: HumanSelection<Camper>?
     @State private var camperDestPass: HumanSelection<Camper>?
     @State private var csvInput: [Substring] = [""]
+    @State private var genericErrorDesc = ""
     @State private var showFileChooser = false
     @State private var showCsvExporter = false
     @State private var addCamperSheet = false
     @State private var importSkillSheet = false
-    @State private var preferredSkillsAlert = false
+    @State private var genericErrorAlert = false
     @State private var deleteCamperConfirm = false
-    @State private var csvErrorAlert = false
     @State private var search = ""
     var body: some View {
         VStack(){
@@ -130,20 +130,28 @@ struct CamperView: View {
             Button {
                 do {
                     try processPreferredSkills(data: data)
-                    //honestly this really should catch specific errors but whatver, i'll attribute that to yet another compiler error.
+                } catch SPRError.NoSkills {
+                    genericErrorDesc = "There are no skills to assign campers to."
+                    genericErrorAlert.toggle()
+                } catch SPRError.NotEnoughSkillSpace {
+                    genericErrorDesc = "There is not enough space in the skills to accomodate all campers."
+                    genericErrorAlert.toggle()
                 } catch {
-                    preferredSkillsAlert.toggle()
-                    print("\(error)")
+                    genericErrorDesc = "Unknown error occured! \(error.localizedDescription)"
+                    genericErrorAlert.toggle()
                 }
             } label: {
                 Image(systemName: "figure.run.square.stack")
                     .foregroundColor(Color(.systemIndigo))
             }
             .help("Assign Preferred Skills")
-            .alert(isPresented: $preferredSkillsAlert) {
-                Alert(title: Text("Error!"),
-                      message: Text("There is not enough skill space to accommodate all potential campers."),
-                      dismissButton: .default(Text("Dismiss")))
+            .alert("Error!", isPresented: $genericErrorAlert, presenting: genericErrorDesc){ _ in
+                Button(){
+                } label: {
+                    Text("Dismiss")
+                }
+            } message: { e in
+                Text(e)
             }
             Button {
                 try! clearAllCamperSkills(data: data)
@@ -163,11 +171,11 @@ struct CamperView: View {
                         data.importSkillList = try! skillListFromCSV(csv: csvInput)
                         importSkillSheet.toggle()
                     } catch SPRError.InvalidFileFormat {
-                        csvErrorAlert.toggle()
+                        genericErrorDesc = "The provided CSV is probably invalid. If there are any skills in the CSV that no camper has set as a fanatic option/preferred skill, remove that skill/fanatic."
+                        genericErrorAlert.toggle()
                     } catch {
-                        //I have really no idea what this does.
-                        //It was whining about some kind of warning earlier? Wrapped \/ THAT part in String() and it shut up so idk.
-                        assertionFailure("Failed reading from URL: \(String(describing: panel.url)), Error: " + error.localizedDescription)
+                        genericErrorDesc = "Failed reading from URL: \(String(describing: panel.url)), Error: " + error.localizedDescription
+                        genericErrorAlert.toggle()
                     }
                 }
             } label: {
@@ -237,14 +245,6 @@ struct CamperView: View {
         }, content: { x in
             CamperInfoView(camperID: x.selection.first!)
         })
-        .alert("Error!", isPresented: $csvErrorAlert){
-            Button(){
-            } label: {
-                Text("Dismiss")
-            }
-        } message: {
-            Text("The provided CSV is probably invalid. If there are any skills that no camper has set as a preferred skill, remove that skill.")
-        }
     }
 }
 
