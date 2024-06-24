@@ -205,7 +205,8 @@ struct CamperView: View {
                 case .success(let url):
                     print("Saved to \(url)")
                 case .failure(let error):
-                    print(error.localizedDescription)
+                    genericErrorDesc = "Could not save: \(error.localizedDescription)"
+                    genericErrorAlert.toggle()
                 }
             }
             #warning("TODO: implement search bar")
