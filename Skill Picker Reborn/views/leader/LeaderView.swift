@@ -25,9 +25,11 @@ struct LeaderView: View {
     @State private var selectedLeader = Set<Leader.ID>()
     @State private var leaderEditPass: HumanSelection<Leader>?
     @State private var leaderDestPass: HumanSelection<Leader>?
+    @State private var genericErrorDesc = ""
     @State private var showCsvExporter = false
     @State private var addLeaderSheet = false
     @State private var deleteLeaderConfirm = false
+    @State private var genericErrorAlert = false
     @State private var search = ""
     var body: some View {
         VStack(){
@@ -134,7 +136,8 @@ struct LeaderView: View {
                 case .success(let url):
                     print("Saved to \(url)")
                 case .failure(let error):
-                    print(error.localizedDescription)
+                    genericErrorDesc = "Could not save: \(error.localizedDescription)"
+                    genericErrorAlert.toggle()
                 }
             }
             #warning("TODO: implement search bar")
@@ -170,6 +173,14 @@ struct LeaderView: View {
         }, content: { x in
             LeaderInfoView(leaderID: x.selection.first!)
         })
+        .alert("Error!", isPresented: $genericErrorAlert, presenting: genericErrorDesc){ _ in
+            Button(){
+            } label: {
+                Text("Dismiss")
+            }
+        } message: { e in
+            Text(e)
+        }
     }
 }
 
