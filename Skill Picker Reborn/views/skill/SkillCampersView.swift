@@ -28,6 +28,7 @@ struct SkillCampersView: View {
     @State private var assignSkillCamperSheet = false
     @State private var removeCamperConfirm = false
     @State private var deleteCamperConfirm = false
+    private var searchTerm: String
     var body: some View {
         @State var currentSkillCount = data.c.skills[data.selectedSkill]!.periods[data.selectedPeriod].count
         @State var currentSkillMax = data.c.skills[data.selectedSkill]!.maximums[data.selectedPeriod]
@@ -35,7 +36,9 @@ struct SkillCampersView: View {
             .font(.title)
             .bold()
             .foregroundColor(currentSkillCount > currentSkillMax ? Color(.systemRed) : Color.primary)
-        Table(data.c.skills[data.selectedSkill]!.periods[data.selectedPeriod], selection: $selectedCamper, sortOrder: $data.skillCamperSortOrder){
+        Table(searchTerm == "" ? data.c.skills[data.selectedSkill]!.periods[data.selectedPeriod] :
+                data.c.skills[data.selectedSkill]!.periods[data.selectedPeriod].filter {$0.fName.range(of: searchTerm, options: .caseInsensitive) != nil || $0.lName.range(of: searchTerm, options: .caseInsensitive) != nil},
+              selection: $selectedCamper, sortOrder: $data.skillCamperSortOrder){
             TableColumn("First Name",value: \.fName)
             TableColumn("Last Name",value: \.lName)
             TableColumn("Cabin",value: \.cabin)
@@ -155,8 +158,12 @@ struct SkillCampersView: View {
             }
         }
     }
+    
+    init(searchTerm: String){
+        self.searchTerm = searchTerm
+    }
 }
 
 #Preview {
-    SkillCampersView()
+    SkillCampersView(searchTerm: "")
 }

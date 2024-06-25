@@ -37,8 +37,8 @@ struct SkillView: View {
     @State private var search = ""
     var body: some View {
         VStack {
-            SkillLeadersView()
-            SkillCampersView()
+            SkillLeadersView(searchTerm: search)
+            SkillCampersView(searchTerm: search)
         }
         .toolbar {
             Button {
@@ -191,10 +191,9 @@ struct SkillView: View {
                     Text("Skill "+String($0+1)).tag($0)
                 }
             }
-            #warning("TODO: implement search bar")
             TextField("Search...", text: $search)
                 .frame(width: 100)
-                .disabled(true)
+                .textFieldStyle(.roundedBorder)
         }
         //Somehow, you can't have more than one file exporter in a single view.
         //WHY?

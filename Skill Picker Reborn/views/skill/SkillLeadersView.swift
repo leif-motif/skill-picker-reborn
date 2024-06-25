@@ -28,12 +28,15 @@ struct SkillLeadersView: View {
     @State private var assignSkillLeaderSheet = false
     @State private var removeLeaderConfirm = false
     @State private var deleteLeaderConfirm = false
+    private var searchTerm: String
     var body: some View {
         Text("Leaders")
             .font(.title)
             .bold()
             .padding(.top, 10)
-        Table(data.c.skills[data.selectedSkill]!.leaders[data.selectedPeriod], selection: $selectedLeader, sortOrder: $data.skillLeaderSortOrder){
+        Table(searchTerm == "" ? data.c.skills[data.selectedSkill]!.leaders[data.selectedPeriod] :
+                data.c.skills[data.selectedSkill]!.leaders[data.selectedPeriod].filter {$0.fName.range(of: searchTerm, options: .caseInsensitive) != nil || $0.lName.range(of: searchTerm, options: .caseInsensitive) != nil},
+              selection: $selectedLeader, sortOrder: $data.skillLeaderSortOrder){
             TableColumn("First Name",value: \.fName)
             TableColumn("Last Name",value: \.lName)
             TableColumn("Cabin",value: \.cabin)
@@ -158,8 +161,12 @@ struct SkillLeadersView: View {
             }
         }
     }
+    
+    init(searchTerm: String){
+        self.searchTerm = searchTerm
+    }
 }
 
 #Preview {
-    SkillLeadersView()
+    SkillLeadersView(searchTerm: "")
 }
