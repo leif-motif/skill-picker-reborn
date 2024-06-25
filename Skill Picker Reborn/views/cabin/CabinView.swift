@@ -46,7 +46,8 @@ struct CabinView: View {
                 .padding(.bottom,2)
             Text(try! AttributedString(markdown: "**Junior:** "+data.c.cabins[data.selectedCabin]!.junior.fName+" "+data.c.cabins[data.selectedCabin]!.junior.lName))
                 .font(.title2)
-            Table(data.c.cabins[data.selectedCabin]!.campers, selection: $selectedCamper, sortOrder: $data.cabinCamperSortOrder){
+            Table(search == "" ? data.c.cabins[data.selectedCabin]!.campers :
+                    data.c.cabins[data.selectedCabin]!.campers.filter {$0.fName.range(of: search, options: .caseInsensitive) != nil || $0.lName.range(of: search, options: .caseInsensitive) != nil}, sortOrder: $data.cabinCamperSortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 //see comment in LeaderView.swift
@@ -219,10 +220,9 @@ struct CabinView: View {
                     Text($0).tag($0)
                 }
             }
-            #warning("TODO: implement search bar")
             TextField("Search... ", text: $search)
                 .frame(width: 100)
-                .disabled(true)
+                .textFieldStyle(.roundedBorder)
         }
         .sheet(isPresented: $assignCabinCamperSheet, onDismiss: {
             data.objectWillChange.send()

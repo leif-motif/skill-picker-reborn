@@ -33,7 +33,8 @@ struct LeaderView: View {
     @State private var search = ""
     var body: some View {
         VStack(){
-            Table(data.c.leaders, selection: $selectedLeader, sortOrder: $data.leaderSortOrder){
+            Table(search == "" ? data.c.leaders :
+                    data.c.leaders.filter {$0.fName.range(of: search, options: .caseInsensitive) != nil || $0.lName.range(of: search, options: .caseInsensitive) != nil}, selection: $selectedLeader, sortOrder: $data.leaderSortOrder){
                 TableColumn("First Name",value: \.fName)
                     .width(min: 80, ideal: 80)
                 TableColumn("Last Name",value: \.lName)
@@ -140,10 +141,9 @@ struct LeaderView: View {
                     genericErrorAlert.toggle()
                 }
             }
-            #warning("TODO: implement search bar")
             TextField("Search...", text: $search)
                 .frame(width: 100)
-                .disabled(true)
+                .textFieldStyle(.roundedBorder)
         }
         .confirmationDialog("Confirm Deletion", isPresented: $deleteLeaderConfirm, presenting: leaderDestPass){ p in
             Button(role: .cancel){

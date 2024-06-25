@@ -37,7 +37,8 @@ struct CamperView: View {
     @State private var search = ""
     var body: some View {
         VStack(){
-            Table(data.c.campers, selection: $selectedCamper, sortOrder: $data.camperSortOrder){
+            Table(search == "" ? data.c.campers : data.c.campers.filter {$0.fName.range(of: search, options: .caseInsensitive) != nil || $0.lName.range(of: search, options: .caseInsensitive) != nil},
+                selection: $selectedCamper, sortOrder: $data.camperSortOrder){
                 TableColumn("First Name",value: \.fName)
                     .width(min: 80, ideal: 80)
                 TableColumn("Last Name",value: \.lName)
@@ -212,10 +213,9 @@ struct CamperView: View {
                     genericErrorAlert.toggle()
                 }
             }
-            #warning("TODO: implement search bar")
             TextField("Search...", text: $search)
                 .frame(width: 100)
-                .disabled(true)
+                .textFieldStyle(.roundedBorder)
         }
         .confirmationDialog("Confirm Deletion", isPresented: $deleteCamperConfirm, presenting: camperDestPass){ p in
             Button(role: .cancel){
