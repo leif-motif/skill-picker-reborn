@@ -38,4 +38,5 @@ enum SPRError: Error {
     case SkillIsFanatic
     case InvalidFileFormat
     case UnsupportedVersion(String)
+    case AmbiguousSkillEntries([String])
 }

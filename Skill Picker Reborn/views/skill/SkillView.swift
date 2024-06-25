@@ -107,8 +107,11 @@ struct SkillView: View {
                         csvInput = try String(contentsOf: panel.url!).lines
                         data.importSkillList = try skillListFromCSV(csv: csvInput)
                         importSkillSheet.toggle()
+                    } catch SPRError.AmbiguousSkillEntries(let s){
+                        genericErrorDesc = "The provided CSV has skills or fanatic options that cannot be evaluated because no camper has selected them. Remove the following skills/fanatics: \(s)"
+                        genericErrorAlert.toggle()
                     } catch SPRError.InvalidFileFormat {
-                        genericErrorDesc = "The provided CSV is probably invalid. If there are any skills that no camper has set as a preferred skill, remove that skill."
+                        genericErrorDesc = "The provided CSV is invalid and cannot be imported."
                         genericErrorAlert.toggle()
                     } catch {
                         genericErrorDesc = "Failed reading from URL: \(String(describing: panel.url)), Error: " + error.localizedDescription
