@@ -224,7 +224,13 @@ struct CamperView: View {
                     Text("Import Anyway")
                 }
             } message: {
-                Text("Some campers have incorrectly filled out entries! You may import the CSV anyway and let the app attempt to interpret any erronous data, or stop.\n\nThe following campers have major errors:\n\(majorIdiots)\n\nThe following campers have minor errors:\n\(idiots)")
+                if(majorIdiots.isEmpty){
+                    Text("Some campers have incorrectly filled out entries! You may import the CSV anyway and let the app attempt to interpret any erronous data, or stop.\n\nThe following campers have minor errors:\n\(idiots)")
+                } else if(idiots.isEmpty){
+                    Text("Some campers have incorrectly filled out entries! You may import the CSV anyway and let the app attempt to interpret any erronous data, or stop.\n\nThe following campers have major errors:\n\(majorIdiots)")
+                } else {
+                    Text("Some campers have incorrectly filled out entries! You may import the CSV anyway and let the app attempt to interpret any erronous data, or stop.\n\nThe following campers have major errors:\n\(majorIdiots)\n\nThe following campers have minor errors:\n\(idiots)")
+                }
             }
             Button {
                 showCsvExporter.toggle()
