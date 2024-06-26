@@ -38,11 +38,9 @@ struct ImportSkillView: View {
             }
             if(selectedSkill == "this is an empty selection"){
             } else if(!data.importSkillList[selectedSkill]!){
-                //The only reason I am not displaying the number "0" outright is because the values in the TextFields won't update unless their unbinded value is shown somewhere.
-                //I HATE THE SWIFT COMPILER I HATE THE SWIFT COMPILER I HATE THE SWIFT COMPILER
-                Text("To make a skill not run during a skill period, set the size to "+String((skillMaximums[selectedSkill]![0]-skillMaximums[selectedSkill]![0]))+".")
+                Text("Total campers preferring skill (first choice):")
+                Text("\(data.importSkillDemand[selectedSkill]!.reduce(0, +)) (\(data.importSkillDemand[selectedSkill]![0]))")
                     .bold()
-                    .frame(width: 150, alignment: .center)
                 VStack(alignment: .leading) {
                     HStack {
                         TextField("First Skill Size:", value: Binding($skillMaximums[selectedSkill])![0], formatter: NumberFormatter())
@@ -51,7 +49,7 @@ struct ImportSkillView: View {
                             EmptyView()
                         }
                         .labelsHidden()
-                        Text(try! AttributedString(markdown: "Total periods (capacity): **\(skillMaximums.values.map { $0[0] }.filter { $0 != 0 }.count) (\(skillMaximums.values.map { $0[0] }.reduce(0, +)))**"))
+                        Text(try! AttributedString(markdown: "Total periods (capacity): **\(skillMaximums.values.map { $0[0] }.filter { $0 != 0 }.count + fanaticPeriods.values.map { $0[0] }.filter {$0}.count) (\(skillMaximums.values.map { $0[0] }.reduce(0, +)))**"))
                     }
                 }
                 VStack(alignment: .leading) {
@@ -62,7 +60,7 @@ struct ImportSkillView: View {
                             EmptyView()
                         }
                         .labelsHidden()
-                        Text(try! AttributedString(markdown: "Total periods (capacity): **\(skillMaximums.values.map { $0[1] }.reduce(0, +) ) (\(skillMaximums.values.map { $0[1] }.filter { $0 != 0 }.count))**"))
+                        Text(try! AttributedString(markdown: "Total periods (capacity): **\(skillMaximums.values.map { $0[1] }.filter { $0 != 0 }.count + fanaticPeriods.values.map { $0[1] }.filter {$0}.count) (\(skillMaximums.values.map { $0[1] }.reduce(0, +)))**"))
                     }
                 }
                 VStack(alignment: .leading) {
@@ -73,7 +71,7 @@ struct ImportSkillView: View {
                             EmptyView()
                         }
                         .labelsHidden()
-                        Text(try! AttributedString(markdown:"Total periods (capacity): **\(skillMaximums.values.map { $0[2] }.reduce(0, +) ) (\(skillMaximums.values.map { $0[2] }.filter { $0 != 0 }.count))**"))
+                        Text(try! AttributedString(markdown:"Total periods (capacity): **\(skillMaximums.values.map { $0[2] }.filter { $0 != 0 }.count + fanaticPeriods.values.map { $0[2] }.filter {$0}.count) (\(skillMaximums.values.map { $0[2] }.reduce(0, +)))**"))
                     }
                 }
                 VStack(alignment: .leading) {
@@ -84,27 +82,44 @@ struct ImportSkillView: View {
                             EmptyView()
                         }
                         .labelsHidden()
-                        Text(try! AttributedString(markdown: "Total periods (capacity): **\(skillMaximums.values.map { $0[3] }.reduce(0, +) ) (\(skillMaximums.values.map { $0[3] }.filter { $0 != 0 }.count))**"))
+                        Text(try! AttributedString(markdown: "Total periods (capacity): **\(skillMaximums.values.map { $0[3] }.filter { $0 != 0 }.count + fanaticPeriods.values.map { $0[3] }.filter {$0}.count) (\(skillMaximums.values.map { $0[3] }.reduce(0, +)))**"))
                     }
                 }
+                //The only reason I am not displaying the number "0" outright is because the values in the TextFields won't update unless their unbinded value is shown somewhere.
+                //I HATE THE SWIFT COMPILER I HATE THE SWIFT COMPILER I HATE THE SWIFT COMPILER
+                Text("To make a skill not run during a skill period, set the size to "+String((skillMaximums[selectedSkill]![0]-skillMaximums[selectedSkill]![0]))+".")
+                    .bold()
+                    .frame(width: 150, alignment: .center)
             } else if(data.importSkillList[selectedSkill]!){
                 //fanatic
-                Toggle(isOn: Binding($fanaticPeriods[selectedSkill])![0]){
-                    Text("First Skill:")
+                HStack {
+                    Toggle(isOn: Binding($fanaticPeriods[selectedSkill])![0]){
+                        Text("First Skill:")
+                    }
+                    .toggleStyle(.switch)
+                    Text(try! AttributedString(markdown: "Total periods (capacity): **\(skillMaximums.values.map { $0[0] }.filter { $0 != 0 }.count + fanaticPeriods.values.map { $0[0] }.filter {$0}.count) (\(skillMaximums.values.map { $0[0] }.reduce(0, +)))**"))
                 }
-                .toggleStyle(.switch)
-                Toggle(isOn: Binding($fanaticPeriods[selectedSkill])![1]){
-                    Text("Second Skill:")
+                HStack {
+                    Toggle(isOn: Binding($fanaticPeriods[selectedSkill])![1]){
+                        Text("Second Skill:")
+                    }
+                    .toggleStyle(.switch)
+                    Text(try! AttributedString(markdown: "Total periods (capacity): **\(skillMaximums.values.map { $0[1] }.filter { $0 != 0 }.count + fanaticPeriods.values.map { $0[1] }.filter {$0}.count) (\(skillMaximums.values.map { $0[1] }.reduce(0, +)))**"))
                 }
-                .toggleStyle(.switch)
-                Toggle(isOn: Binding($fanaticPeriods[selectedSkill])![2]){
-                    Text("Third Skill:")
+                HStack {
+                    Toggle(isOn: Binding($fanaticPeriods[selectedSkill])![2]){
+                        Text("Third Skill:")
+                    }
+                    .toggleStyle(.switch)
+                    Text(try! AttributedString(markdown: "Total periods (capacity): **\(skillMaximums.values.map { $0[2] }.filter { $0 != 0 }.count + fanaticPeriods.values.map { $0[2] }.filter {$0}.count) (\(skillMaximums.values.map { $0[2] }.reduce(0, +)))**"))
                 }
-                .toggleStyle(.switch)
-                Toggle(isOn: Binding($fanaticPeriods[selectedSkill])![3]){
-                    Text("Fourth Skill:")
+                HStack {
+                    Toggle(isOn: Binding($fanaticPeriods[selectedSkill])![3]){
+                        Text("Fourth Skill:")
+                    }
+                    .toggleStyle(.switch)
+                    Text(try! AttributedString(markdown: "Total periods (capacity): **\(skillMaximums.values.map { $0[3] }.filter { $0 != 0 }.count + fanaticPeriods.values.map { $0[3] }.filter {$0}.count) (\(skillMaximums.values.map { $0[3] }.reduce(0, +)))**"))
                 }
-                .toggleStyle(.switch)
             }
             Spacer()
             HStack {
@@ -136,7 +151,7 @@ struct ImportSkillView: View {
             }
         }
         .padding()
-        .frame(width: 400, height: 260)
+        .frame(width: 400, height: 290)
         .onAppear(perform: {
             //I love you, ChatGPT.
             skillMaximums = data.importSkillList.reduce(into: [String:[Int]]()){ (result, element) in

@@ -110,6 +110,12 @@ struct SkillView: View {
                         csvInput = try String(contentsOf: panel.url!).lines
                         idiots = try evaluateCamperIdiocyFromCSV(csv: csvInput, strict: true)
                         data.importSkillList = try skillListFromCSV(csv: csvInput)
+                        data.importSkillDemand = [:]
+                        for skill in data.importSkillList.keys {
+                            if(!data.importSkillList[skill]!){
+                                data.importSkillDemand[skill] = try evaluateSkillDemand(csv: csvInput, targetSkill: skill)
+                            }
+                        }
                         if(idiots.isEmpty){
                             importSkillSheet.toggle()
                         } else {

@@ -41,6 +41,30 @@ func cabinsFromCSV(csv: [Substring], data: CampData){
     }
 }
 
+func evaluateSkillDemand(csv: [Substring], targetSkill: String) throws -> [Int] {
+    var totalDemand = [0,0,0,0,0,0]
+    let numbers: [Substring] = ["1","2","3","4","5","6"]
+    for i in 2...(csv[0].collumns.count-1){
+        if(String(csv[0].collumns[i]) == targetSkill){
+            for j in 1...(csv.count-1){
+                if(numbers.contains(csv[j].collumns[i])){
+                    totalDemand[Int(csv[j].collumns[i])!-1] += 1
+                } else if(csv[j].collumns[i] == "TRUE"){
+                    throw SPRError.SkillIsFanatic
+                } else if(csv[j].collumns[i] == ""){
+                    continue
+                } else {
+                    throw SPRError.InvalidFileFormat
+                }
+            }
+            return totalDemand
+        } else {
+            continue
+        }
+    }
+    throw SPRError.MissingSkill
+}
+
 func skillListFromCSV(csv: [Substring]) throws -> [String:Bool] {
     var isFanatic: [String:Bool] = [:]
     var invalidSkills: [String] = []

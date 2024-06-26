@@ -35,6 +35,7 @@ class CampData: ObservableObject {
     @Published var skillLeaderSortOrder: [KeyPathComparator<Leader>]
     
     @Published var importSkillList: [String:Bool]
+    @Published var importSkillDemand: [String:[Int]]
     @Published var isImporting: Bool
     
     init(){
@@ -52,6 +53,7 @@ class CampData: ObservableObject {
         self.skillLeaderSortOrder = [KeyPathComparator(\Leader.lName)]
         
         self.importSkillList = [:]
+        self.importSkillDemand = [:]
         self.isImporting = false
     }
 }
