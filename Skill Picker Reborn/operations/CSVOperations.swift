@@ -74,6 +74,41 @@ func skillListFromCSV(csv: [Substring]) throws -> [String:Bool] {
     return isFanatic
 }
 
+func evaluateCamperIdiocyFromCSV(csv: [Substring], strict: Bool = false) throws -> [String] {
+    let numbers: [Substring] = ["1","2","3","4","5","6"]
+    var idiots: [Substring] = []
+    var used: [Bool]
+    var prefIndex: Int?
+    for i in 1...(csv.count-1){
+        used = [false, false, false, false, false, false]
+        for j in 2...(csv[i].collumns.count-1){
+            prefIndex = nil
+            if(csv[i].collumns[j] == "TRUE" && strict){
+                prefIndex = 5
+            } else if(csv[i].collumns[j] == "TRUE"){
+                continue
+            } else if(numbers.contains(csv[i].collumns[j])){
+                prefIndex = Int(csv[i].collumns[j])!-1
+            } else if(csv[i].collumns[j] == ""){
+                continue
+            } else {
+                throw SPRError.InvalidFileFormat
+            }
+            
+            if(used[prefIndex!]){
+                idiots.append(csv[i].collumns[0])
+                break
+            } else {
+                used[prefIndex!] = true
+            }
+        }
+        if(strict && used.contains(false) && !idiots.contains(csv[i].collumns[0])){
+            idiots.append(csv[i].collumns[0])
+        }
+    }
+    return idiots.map { String($0) }
+}
+
 func campersFromCSV(csv: [Substring], data: CampData) throws {
     let numbers = ["1","2","3","4","5","6"]
     var fName: String
@@ -98,9 +133,14 @@ func campersFromCSV(csv: [Substring], data: CampData) throws {
         for j in 2...(csv[i].collumns.count-1){
             if(csv[i].collumns[j] == "TRUE"){
                 fanatic = String(csv[0].collumns[j])
+                continue
             } else if(numbers.contains(String(csv[i].collumns[j]))){
                 preferredNullSkills[Int(csv[i].collumns[j])!-1] = String(csv[0].collumns[j])
+                continue
+            } else if(csv[i].collumns[j] == ""){
+                continue
             }
+            throw SPRError.InvalidFileFormat
         }
         var preferredSkills: [String] = []
         for skill in preferredNullSkills {

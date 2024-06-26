@@ -28,12 +28,15 @@ struct CamperView: View {
     @State private var camperDestPass: HumanSelection<Camper>?
     @State private var csvInput: [Substring] = [""]
     @State private var genericErrorDesc = ""
+    @State private var majorIdiots: [String] = [""]
+    @State private var idiots: [String] = [""]
     @State private var showFileChooser = false
     @State private var showCsvExporter = false
     @State private var addCamperSheet = false
     @State private var importSkillSheet = false
     @State private var genericErrorAlert = false
     @State private var deleteCamperConfirm = false
+    @State private var ignoreIdiotsConfirm = false
     @State private var search = ""
     var body: some View {
         VStack(){
@@ -169,8 +172,16 @@ struct CamperView: View {
                 if panel.runModal() == .OK {
                     do {
                         csvInput = try String(contentsOf: panel.url!).lines
+                        idiots = try evaluateCamperIdiocyFromCSV(csv: csvInput, strict: true)
                         data.importSkillList = try skillListFromCSV(csv: csvInput)
-                        importSkillSheet.toggle()
+                        if(idiots.isEmpty){
+                            importSkillSheet.toggle()
+                        } else {
+                            //This didn't do exactly what I wanted so I renamed things.
+                            majorIdiots = try evaluateCamperIdiocyFromCSV(csv: csvInput)
+                            idiots = idiots.filter { !majorIdiots.contains($0)}
+                            ignoreIdiotsConfirm.toggle()
+                        }
                     } catch SPRError.AmbiguousSkillEntries(let s){
                         genericErrorDesc = "The provided CSV has skills or fanatic options that cannot be evaluated because no camper has selected them. Remove the following skills/fanatics: \(s)"
                         genericErrorAlert.toggle()
@@ -196,6 +207,19 @@ struct CamperView: View {
             }, content: {
                 try! ImportSkillView(data: data)
             })
+            .confirmationDialog("Warning!", isPresented: $ignoreIdiotsConfirm){
+                Button(role: .cancel){
+                } label: {
+                    Text("Stop")
+                }
+                Button(role: .destructive){
+                    importSkillSheet.toggle()
+                } label: {
+                    Text("Import Anyway")
+                }
+            } message: {
+                Text("Some campers have incorrectly filled out entries! You may import the CSV anyway and let the app attempt to interpret any erronous data, or stop.\n\nThe following campers have major errors:\n\(majorIdiots)\n\nThe following campers have minor errors:\n\(idiots)")
+            }
             Button {
                 showCsvExporter.toggle()
             } label: {
