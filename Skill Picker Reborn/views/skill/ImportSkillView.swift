@@ -51,6 +51,7 @@ struct ImportSkillView: View {
                             EmptyView()
                         }
                         .labelsHidden()
+                        Text(try! AttributedString(markdown: "Total periods (capacity): **\(skillMaximums.values.map { $0[0] }.filter { $0 != 0 }.count) (\(skillMaximums.values.map { $0[0] }.reduce(0, +)))**"))
                     }
                 }
                 VStack(alignment: .leading) {
@@ -61,6 +62,7 @@ struct ImportSkillView: View {
                             EmptyView()
                         }
                         .labelsHidden()
+                        Text(try! AttributedString(markdown: "Total periods (capacity): **\(skillMaximums.values.map { $0[1] }.reduce(0, +) ) (\(skillMaximums.values.map { $0[1] }.filter { $0 != 0 }.count))**"))
                     }
                 }
                 VStack(alignment: .leading) {
@@ -71,6 +73,7 @@ struct ImportSkillView: View {
                             EmptyView()
                         }
                         .labelsHidden()
+                        Text(try! AttributedString(markdown:"Total periods (capacity): **\(skillMaximums.values.map { $0[2] }.reduce(0, +) ) (\(skillMaximums.values.map { $0[2] }.filter { $0 != 0 }.count))**"))
                     }
                 }
                 VStack(alignment: .leading) {
@@ -81,6 +84,7 @@ struct ImportSkillView: View {
                             EmptyView()
                         }
                         .labelsHidden()
+                        Text(try! AttributedString(markdown: "Total periods (capacity): **\(skillMaximums.values.map { $0[3] }.reduce(0, +) ) (\(skillMaximums.values.map { $0[3] }.filter { $0 != 0 }.count))**"))
                     }
                 }
             } else if(data.importSkillList[selectedSkill]!){
@@ -132,13 +136,13 @@ struct ImportSkillView: View {
             }
         }
         .padding()
-        .frame(width: 360, height: 260)
+        .frame(width: 400, height: 260)
         .onAppear(perform: {
             //I love you, ChatGPT.
             skillMaximums = data.importSkillList.reduce(into: [String:[Int]]()){ (result, element) in
                 let (key, value) = element
                 if(!value){
-                    result[key] = [1, 1, 1, 1]
+                    result[key] = [0, 0, 0, 0]
                 }
             }
             fanaticPeriods = data.importSkillList.reduce(into: [String:[Bool]]()){ (result, element) in
