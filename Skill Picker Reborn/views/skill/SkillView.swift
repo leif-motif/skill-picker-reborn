@@ -67,12 +67,7 @@ struct SkillView: View {
                 ModifyFanaticView()
             }
             Button {
-                if(data.c.fanatics.keys.contains(data.selectedSkill)){
-                    try! deleteFanatic(fanaticName: data.selectedSkill, data: data)
-                } else {
-                    try! deleteSkill(skillName: data.selectedSkill, data: data)
-                }
-                data.selectedSkill = "None"
+                deleteSkillConfirm.toggle()
             } label: {
                 Image(systemName: "calendar.badge.minus")
                     .foregroundColor(data.selectedSkill == "None" ? Color(.systemGray) : Color(.systemRed))
@@ -88,6 +83,24 @@ struct SkillView: View {
             } label: {
                 Image(systemName: "pencil.line")
                     .foregroundColor(data.selectedSkill == "None" ? Color(.systemGray) : Color(.systemOrange))
+            }
+            .confirmationDialog("Confirm Deletion", isPresented: $deleteSkillConfirm){
+                Button(role: .cancel){
+                } label: {
+                    Text("Cancel")
+                }
+                Button(role: .destructive){
+                    if(data.c.fanatics.keys.contains(data.selectedSkill)){
+                        try! deleteFanatic(fanaticName: data.selectedSkill, data: data)
+                    } else {
+                        try! deleteSkill(skillName: data.selectedSkill, data: data)
+                    }
+                    data.selectedSkill = "None"
+                } label: {
+                    Text("Delete")
+                }
+            } message: {
+                Text("Are you sure you want to delete \(data.selectedSkill)?")
             }
             .disabled(data.selectedSkill == "None")
             .sheet(isPresented: $editFanaticSheet, onDismiss: {
