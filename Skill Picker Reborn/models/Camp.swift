@@ -49,11 +49,34 @@ class Camp: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.campers = try container.decode([Camper].self, forKey: .campers)
         self.leaders = try container.decode([Leader].self, forKey: .leaders)
-        self.cabins = try container.decode([String : Cabin].self, forKey: .cabins)
-        self.skills = try container.decode([String : Skill].self, forKey: .skills)
-        self.fanatics = try container.decode([String : Fanatic].self, forKey: .fanatics)
         self.nullSenior = try container.decode(Leader.self, forKey: .nullSenior)
         self.nullJunior = try container.decode(Leader.self, forKey: .nullJunior)
+        let cabinReference = try container.decode([String : Cabin].self, forKey: .cabins)
+        self.cabins = ["Unassigned":try! Cabin(name: "Unassigned", senior: self.nullSenior, junior: self.nullJunior)]
+        for cabin in cabinReference.values {
+            if(cabin.name != "Unassigned"){
+                self.cabins[cabin.name] = try! Cabin(name: cabin.name,
+                                                     senior: self.leaders.first(where: {$0.id == cabin.senior.id})!,
+                                                     junior: self.leaders.first(where: {$0.id == cabin.junior.id})!)
+            }
+            for camper in cabin.campers {
+                self.cabins[cabin.name]!.campers.append(self.campers.first(where: {$0.id == camper.id})!)
+            }
+        }
+        let skillReference = try container.decode([String : Skill].self, forKey: .skills)
+        self.skills = [:]
+        for skill in skillReference.values {
+            self.skills[skill.name] = try! Skill(name: skill.name, maximums: skill.maximums)
+            for i in 0...3 {
+                for camper in skill.periods[i] {
+                    self.skills[skill.name]!.periods[i].append(self.campers.first(where: {$0.id == camper.id})!)
+                }
+                for leader in skill.leaders[i] {
+                    self.skills[skill.name]!.leaders[i].append(self.leaders.first(where: {$0.id == leader.id})!)
+                }
+            }
+        }
+        self.fanatics = try container.decode([String : Fanatic].self, forKey: .fanatics)
         let fileVersion = try container.decode(String.self, forKey: .version)
         if(!supportedVersions.contains(fileVersion)){
             throw SPRError.UnsupportedVersion(fileVersion)
