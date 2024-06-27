@@ -211,6 +211,32 @@ func clearAllCamperSkills(data: CampData, usingInternally: Bool = false) throws 
     }
 }
 
+func processTopSkills(data: CampData, usingInternally: Bool = false) throws {
+    if(!usingInternally){
+        data.objectWillChange.send()
+    }
+    
+    var skillPriority: [String:Int] = [:]
+    
+    for skill in data.c.skills.keys {
+        if(skill != "None"){
+            skillPriority[skill] = 0
+        }
+    }
+    
+    for camper in data.c.campers {
+        if(camper.preferredSkills[0] != "None"){
+            skillPriority[camper.preferredSkills[0]]! += 1
+        }
+    }
+    
+    if(!usingInternally){
+        data.undoManager.registerUndo(withTarget: data.c){ _ in
+            #warning("TODO: handle undo of processTopSkills")
+        }
+    }
+}
+
 func processPreferredSkills(data: CampData, usingInternally: Bool = false) throws {
     if(!usingInternally){
         data.objectWillChange.send()
