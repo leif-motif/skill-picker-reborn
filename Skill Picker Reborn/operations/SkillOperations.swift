@@ -230,6 +230,39 @@ func processTopSkills(data: CampData, usingInternally: Bool = false) throws {
         }
     }
     
+    for skill in skillPriority.keys.sorted(by: {skillPriority[$0]! > skillPriority[$1]!}) {
+        for camper in data.c.campers {
+            if(camper.preferredSkills[0] == skill && !camper.skills.contains(skill)){
+                var skillCaps: [Int?] = [nil,nil,nil,nil]
+                for i in 0...3 {
+                    if(camper.skills[i] == "None" && data.c.skills[skill]!.maximums[i] > data.c.skills[skill]!.periods[i].count){
+                        skillCaps[i] = data.c.skills[skill]!.periods[i].count
+                    }
+                }
+                if(skillCaps != [nil,nil,nil,nil]){
+                    var highestCount: Int = Int.min
+                    var highestCountIndexes: [Int] = []
+                    for (index, value) in skillCaps.enumerated() {
+                        if let intValue = value {
+                            if intValue > highestCount {
+                                highestCount = intValue
+                                highestCountIndexes = [index]
+                            } else if intValue == highestCount {
+                                highestCountIndexes.append(index)
+                            }
+                        }
+                    }
+                    assignCamperToSkill(targetCamper: camper, skillName: skill, period: highestCountIndexes[Int.random(in: 0..<highestCountIndexes.count)], data: data, usingInternally: true)
+                /*for i in 0...3 {
+                    if(data.c.skills[skill]!.periods[i].count < data.c.skills[skill]!.maximums[i]){
+                        assignCamperToSkill(targetCamper: camper, skillName: skill, period: i, data: data, usingInternally: true)
+                        break
+                    }*/
+                }
+            }
+        }
+    }
+    
     if(!usingInternally){
         data.undoManager.registerUndo(withTarget: data.c){ _ in
             #warning("TODO: handle undo of processTopSkills")
@@ -257,10 +290,11 @@ func processPreferredSkills(data: CampData, usingInternally: Bool = false) throw
             throw SPRError.NotEnoughSkillSpace
         }
     }
-    for p in 0...5 {
+    try! processTopSkills(data: data, usingInternally: true)
+    for p in 1...5 {
         for camper in data.c.campers {
             if(camper.skills.contains("None") && (camper.fanatic == "None" || p != 5)){
-                if(camper.preferredSkills[p] != "None"){
+                if(camper.preferredSkills[p] != "None" && !camper.skills.contains(camper.preferredSkills[p])){
                     var skillCaps: [Int?] = [nil,nil,nil,nil]
                     for i in 0...3 {
                         if(camper.skills[i] == "None" && data.c.skills[camper.preferredSkills[p]]!.maximums[i] > data.c.skills[camper.preferredSkills[p]]!.periods[i].count){
