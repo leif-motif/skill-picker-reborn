@@ -177,7 +177,7 @@ struct CamperView: View {
                         data.importSkillDemand = [:]
                         for skill in data.importSkillList.keys {
                             if(!data.importSkillList[skill]!){
-                                data.importSkillDemand[skill] = try evaluateSkillDemand(csv: csvInput, targetSkill: skill)
+                                data.importSkillDemand[skill] = try evaluateSkillDemandFromCSV(csv: csvInput, targetSkill: skill)
                             }
                         }
                         if(idiots.isEmpty){
