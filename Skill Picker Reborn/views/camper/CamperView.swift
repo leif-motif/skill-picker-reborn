@@ -49,7 +49,7 @@ struct CamperView: View {
                 TableColumn("Cabin",value: \.cabin)
                     .width(min: 80, ideal: 80)
                 TableColumn("Skill%"){ camper in
-                    Text(prefSkillPercentage(targetCamper: camper))
+                    prefSkillPercentage(targetCamper: camper)
                 }
                     .width(min: 40, ideal: 40)
                 //see comment in LeaderView.swift

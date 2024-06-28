@@ -19,6 +19,7 @@
  */
 
 import Foundation
+import SwiftUI
 
 func createCamper(newCamper: Camper, data: CampData, usingInternally: Bool = false) throws {
     if(!usingInternally){
@@ -73,27 +74,27 @@ func deleteCamper(camperID: Camper.ID, data: CampData, usingInternally: Bool = f
     }
 }
 
-func prefSkillPercentage(targetCamper: Camper) -> String {
+func prefSkillPercentage(targetCamper: Camper) -> Text {
     var topFour: [String] = Array(targetCamper.preferredSkills[0...3])
     topFour.removeAll(where: {$0 == "None"})
     var nonFanatics = targetCamper.skills
     nonFanatics.removeAll(where: {$0 == targetCamper.fanatic})
-    nonFanatics.removeAll(where: {$0 == "None"})
-    if(topFour == [] || nonFanatics == []){
-        return "N/A"
-    } else {
-        let fmt = NumberFormatter()
-        fmt.numberStyle = .percent
-        fmt.minimumIntegerDigits = 1
-        fmt.maximumIntegerDigits = 3
-        fmt.minimumFractionDigits = 0
-        fmt.maximumFractionDigits = 0
-        var prefSkillsNum = 0
-        for skill in topFour {
-            if(nonFanatics.contains(skill)){
-                prefSkillsNum += 1
-            }
-        }
-        return fmt.string(from: NSNumber(value: Float(prefSkillsNum)/Float(nonFanatics.count > topFour.count ? topFour.count : nonFanatics.count)))!
+    let set1 = Set(nonFanatics)
+    let set2 = Set(topFour)
+    let intersection = set1.intersection(set2)
+    
+    var percentage = Double(intersection.count) / Double(set1.count)
+    if(percentage.isNaN){
+        percentage = 0
     }
+    let fmt = NumberFormatter()
+    fmt.numberStyle = .percent
+    fmt.minimumIntegerDigits = 1
+    fmt.maximumIntegerDigits = 3
+    fmt.minimumFractionDigits = 0
+    fmt.maximumFractionDigits = 0
+    if(percentage != 1){
+        return Text(fmt.string(from: NSNumber(value: percentage))!).foregroundColor(Color(percentage == 0 ? .systemRed : .systemYellow))
+    }
+    return Text("100%").foregroundColor(Color(.systemGreen))
 }
