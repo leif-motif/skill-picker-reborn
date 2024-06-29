@@ -39,6 +39,7 @@ class CampData: ObservableObject {
     @Published var isImporting: Bool
     
     @Published var ignoreIdiotsConfirm: Bool
+    @Published var clearSkillsConfirm: Bool
     @Published var genericErrorAlert: Bool
     @Published var genericErrorDesc: String
     @Published var importSkillSheet: Bool
@@ -74,6 +75,7 @@ class CampData: ObservableObject {
         self.isImporting = false
         
         self.ignoreIdiotsConfirm = false
+        self.clearSkillsConfirm = false
         self.genericErrorAlert = false
         self.genericErrorDesc = ""
         self.importSkillSheet = false

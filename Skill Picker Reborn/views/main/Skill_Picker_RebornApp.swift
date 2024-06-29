@@ -74,6 +74,19 @@ struct Skill_Picker_RebornApp: App {
                         Text("Some campers have incorrectly filled out entries! You may import the CSV anyway and let the app attempt to interpret any erronous data, or stop.\n\nThe following campers have major errors:\n\(data.majorIdiots)\n\nThe following campers have minor errors:\n\(data.idiots)")
                     }
                 }
+                .confirmationDialog("Warning!", isPresented: $data.clearSkillsConfirm){
+                    Button(role: .cancel){
+                    } label: {
+                        Text("Stop")
+                    }
+                    Button(role: .destructive){
+                        try! data.clearAllCamperSkills()
+                    } label: {
+                        Text("Clear All Skills")
+                    }
+                } message: {
+                    Text("Are you sure to wish to clear all of the campers' skills?")
+                }
                 .alert("Error!", isPresented: $data.genericErrorAlert, presenting: data.genericErrorDesc){ _ in
                     Button(){
                     } label: {
@@ -146,6 +159,35 @@ struct Skill_Picker_RebornApp: App {
                     data.importFromCSV()
                 }
                 .keyboardShortcut("I", modifiers: [.command])
+            }
+            CommandGroup(replacing: .undoRedo){
+                //nothing... for now!
+            }
+            CommandGroup(before: .pasteboard){
+                Menu("New"){
+                    Button("New Camper..."){
+                        
+                    }
+                    Button("New Leader..."){
+                        
+                    }
+                    Button("New Cabin..."){
+                        
+                    }
+                    Button("New Skill..."){
+                        
+                    }
+                    Button("New Fanatic..."){
+                        
+                    }
+                }
+                Button("Assign Preferred Skills"){
+                    try! data.processPreferredSkills()
+                }
+                Button("Clear All Skills..."){
+                    data.clearSkillsConfirm.toggle()
+                }
+                Divider()
             }
         }
     }

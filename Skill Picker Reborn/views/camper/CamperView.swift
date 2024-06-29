@@ -139,7 +139,7 @@ struct CamperView: View {
             }
             .help("Assign Preferred Skills")
             Button {
-                try! data.clearAllCamperSkills()
+                data.clearSkillsConfirm.toggle()
             } label: {
                 Image(systemName: "person.2.gobackward")
                     .foregroundColor(Color(.systemRed))
