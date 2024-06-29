@@ -25,8 +25,6 @@ struct SkillView: View {
     @State private var csvExport = ""
     @State private var showFanaticCsvExporter = false
     @State private var showSkillCsvExporter = false
-    @State private var addSkillSheet = false
-    @State private var addFanaticSheet = false
     @State private var editSkillSheet = false
     @State private var editFanaticSheet = false
     @State private var deleteSkillConfirm = false
@@ -40,27 +38,19 @@ struct SkillView: View {
         }
         .toolbar {
             Button {
-                addSkillSheet.toggle()
+                data.addSkillSheet.toggle()
             } label: {
                 Image(systemName: "calendar.badge.plus")
                     .foregroundColor(Color(.systemGreen))
             }
             .help("Add Skill")
-            .sheet(isPresented: $addSkillSheet){
-            } content: {
-                try! ModifySkillView()
-            }
             Button {
-                addFanaticSheet.toggle()
+                data.addFanaticSheet.toggle()
             } label: {
                 Image(systemName: "note.text.badge.plus")
                     .foregroundColor(Color(.systemGreen))
             }
             .help("Add Fanatic")
-            .sheet(isPresented: $addFanaticSheet){
-            } content: {
-                ModifyFanaticView()
-            }
             Button {
                 deleteSkillConfirm.toggle()
             } label: {

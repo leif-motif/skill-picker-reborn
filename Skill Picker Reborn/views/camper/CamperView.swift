@@ -27,7 +27,6 @@ struct CamperView: View {
     @State private var camperEditPass: HumanSelection<Camper>?
     @State private var camperDestPass: HumanSelection<Camper>?
     @State private var showCsvExporter = false
-    @State private var addCamperSheet = false
     @State private var deleteCamperConfirm = false
     @State private var search = ""
     var body: some View {
@@ -62,7 +61,7 @@ struct CamperView: View {
                 let camperSelectionUnion = selectedCamper.union(items)
                 if(camperSelectionUnion.isEmpty){
                     Button {
-                        addCamperSheet.toggle()
+                        data.addCamperSheet.toggle()
                     } label: {
                         Label("New Camper...", systemImage: "plus")
                     }
@@ -89,7 +88,7 @@ struct CamperView: View {
             //empty selection
             .contextMenu {
                 Button {
-                    addCamperSheet.toggle()
+                    data.addCamperSheet.toggle()
                 } label: {
                     Label("New Camper...", systemImage: "plus")
                 }
@@ -97,7 +96,7 @@ struct CamperView: View {
         }
         .toolbar {
             Button {
-                addCamperSheet.toggle()
+                data.addCamperSheet.toggle()
             } label: {
                 Image(systemName:"person.badge.plus")
                     .foregroundColor(Color(.systemGreen))
@@ -195,10 +194,6 @@ struct CamperView: View {
             } else {
                 Text("Are you sure you want to delete "+String(p.selection.count)+" campers?")
             }
-        }
-        .sheet(isPresented: $addCamperSheet) {
-        } content: {
-            AddCamperView()
         }
         .sheet(item: $camperEditPass, onDismiss: {
             data.objectWillChange.send()

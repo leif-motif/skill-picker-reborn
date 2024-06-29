@@ -26,7 +26,6 @@ struct LeaderView: View {
     @State private var leaderEditPass: HumanSelection<Leader>?
     @State private var leaderDestPass: HumanSelection<Leader>?
     @State private var showCsvExporter = false
-    @State private var addLeaderSheet = false
     @State private var deleteLeaderConfirm = false
     @State private var search = ""
     var body: some View {
@@ -57,7 +56,7 @@ struct LeaderView: View {
                 let leaderSelectionUnion = selectedLeader.union(items)
                 if(leaderSelectionUnion.isEmpty){
                     Button {
-                        addLeaderSheet.toggle()
+                        data.addLeaderSheet.toggle()
                     } label: {
                         Label("New Leader...", systemImage: "plus")
                     }
@@ -84,7 +83,7 @@ struct LeaderView: View {
             //empty selection
             .contextMenu {
                 Button {
-                    addLeaderSheet.toggle()
+                    data.addLeaderSheet.toggle()
                 } label: {
                     Label("New Leader...", systemImage: "plus")
                 }
@@ -92,16 +91,12 @@ struct LeaderView: View {
         }
         .toolbar {
             Button {
-                addLeaderSheet.toggle()
+                data.addLeaderSheet.toggle()
             } label: {
                 Image(systemName:"person.badge.plus")
                     .foregroundColor(Color(.systemGreen))
             }
             .help("Add Leader")
-            .sheet(isPresented: $addLeaderSheet) {
-            } content: {
-                AddLeaderView()
-            }
             Button {
                 leaderDestPass = HumanSelection(selection: selectedLeader)
                 deleteLeaderConfirm.toggle()

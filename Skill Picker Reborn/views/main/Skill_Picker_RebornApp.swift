@@ -32,6 +32,32 @@ struct Skill_Picker_RebornApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(data)
+                .sheet(isPresented: $data.addCamperSheet) {
+                } content: {
+                    AddCamperView()
+                        .environmentObject(data)
+                }
+                .sheet(isPresented: $data.addLeaderSheet) {
+                } content: {
+                    AddLeaderView()
+                        .environmentObject(data)
+                }
+                .sheet(isPresented: $data.addCabinSheet, onDismiss: {
+                    data.objectWillChange.send()
+                }, content: {
+                    ModifyCabinView()
+                        .environmentObject(data)
+                })
+                .sheet(isPresented: $data.addSkillSheet){
+                } content: {
+                    try! ModifySkillView()
+                        .environmentObject(data)
+                }
+                .sheet(isPresented: $data.addFanaticSheet){
+                } content: {
+                    ModifyFanaticView()
+                        .environmentObject(data)
+                }
                 .sheet(isPresented: $data.importSkillSheet, onDismiss: {
                     if(data.isImporting){
                         data.cabinsFromCSV(csv: data.csvInput)
@@ -166,19 +192,19 @@ struct Skill_Picker_RebornApp: App {
             CommandGroup(before: .pasteboard){
                 Menu("New"){
                     Button("New Camper..."){
-                        
+                        data.addCamperSheet.toggle()
                     }
                     Button("New Leader..."){
-                        
+                        data.addLeaderSheet.toggle()
                     }
                     Button("New Cabin..."){
-                        
+                        data.addCabinSheet.toggle()
                     }
                     Button("New Skill..."){
-                        
+                        data.addSkillSheet.toggle()
                     }
                     Button("New Fanatic..."){
-                        
+                        data.addFanaticSheet.toggle()
                     }
                 }
                 Button("Assign Preferred Skills"){

@@ -26,7 +26,6 @@ struct CabinView: View {
     @State private var camperEditPass: HumanSelection<Camper>?
     @State private var camperDestPass: HumanSelection<Camper>?
     @State private var showCsvExporter = false
-    @State private var addCabinSheet = false
     @State private var modifyCabinSheet = false
     @State private var assignCabinCamperSheet = false
     @State private var removeCamperConfirm = false
@@ -108,17 +107,12 @@ struct CabinView: View {
         }
         .toolbar {
             Button {
-                addCabinSheet.toggle()
+                data.addCabinSheet.toggle()
             } label: {
                 Image(systemName: "plus.square")
                     .foregroundColor(Color(.systemGreen))
             }
             .help("Add Cabin")
-            .sheet(isPresented: $addCabinSheet, onDismiss: {
-                data.objectWillChange.send()
-            }, content: {
-                ModifyCabinView()
-            })
             Button {
                 deleteCabinConfirm.toggle()
             } label: {

@@ -42,6 +42,11 @@ class CampData: ObservableObject {
     @Published var clearSkillsConfirm: Bool
     @Published var genericErrorAlert: Bool
     @Published var genericErrorDesc: String
+    @Published var addCamperSheet: Bool
+    @Published var addLeaderSheet: Bool
+    @Published var addCabinSheet: Bool
+    @Published var addSkillSheet: Bool
+    @Published var addFanaticSheet: Bool
     @Published var importSkillSheet: Bool
     
     @Published var csvInput: [Substring]
@@ -78,6 +83,11 @@ class CampData: ObservableObject {
         self.clearSkillsConfirm = false
         self.genericErrorAlert = false
         self.genericErrorDesc = ""
+        self.addCamperSheet = false
+        self.addLeaderSheet = false
+        self.addCabinSheet = false
+        self.addSkillSheet = false
+        self.addFanaticSheet = false
         self.importSkillSheet = false
         
         self.csvInput = [""]
