@@ -22,10 +22,11 @@ import Foundation
 
 class Skill: Codable {
     var name: String
-    var periods: [[Camper]]
-    var leaders: [[Leader]]
+    var periods: [Set<Camper>]
+    var leaders: [Set<Leader>]
     var maximums: [Int]
-    init(name: String, periods: [[Camper]] = [[],[],[],[]], leaders: [[Leader]] = [[],[],[],[]], maximums: [Int]) throws {
+    
+    init(name: String, periods: [Set<Camper>] = [[],[],[],[]], leaders: [Set<Leader>] = [[],[],[],[]], maximums: [Int]) throws {
         self.name = name
         if(periods.count != 4){
             throw SPRError.InvalidSize

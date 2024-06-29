@@ -204,7 +204,7 @@ struct CamperInfoView: View {
                     }
                 }
                 .disabled(try! !evaluateFanatics(fanatic: newFanatic, periods: newSkills, data: data) || newFirstName == "" || newLastName == "" ||
-                          (targetCamper.fName != newFirstName && targetCamper.lName != newLastName && !humanIsUnique(fName: newFirstName, lName: newLastName, humanArray: data.c.campers)))
+                          (targetCamper.fName != newFirstName && targetCamper.lName != newLastName && !humanIsUnique(fName: newFirstName, lName: newLastName, humanSet: data.c.campers)))
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
                 .alert(isPresented: $duplicateSkillsAlert) {
@@ -218,7 +218,7 @@ struct CamperInfoView: View {
         .padding()
         .frame(width: 300, height: 550)
         .onAppear(perform: {
-            targetCamper = data.c.campers.first(where: {$0.id == camperID})!
+            targetCamper = data.c.getCamper(camperID: camperID)!
             newFirstName = targetCamper.fName
             newLastName = targetCamper.lName
             newCabin = targetCamper.cabin

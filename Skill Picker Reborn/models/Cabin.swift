@@ -24,8 +24,9 @@ class Cabin: Codable {
     var name: String
     var senior: Leader
     var junior: Leader
-    var campers: [Camper]
-    init(name: String, senior: Leader, junior: Leader, campers: [Camper] = []) throws {
+    var campers: Set<Camper>
+    
+    init(name: String, senior: Leader, junior: Leader, campers: Set<Camper> = []) throws {
         self.name = name
         if(!senior.senior){
             throw SPRError.NotASenior

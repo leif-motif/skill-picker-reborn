@@ -25,7 +25,7 @@ func createLeader(newLeader: Leader, data: CampData, usingInternally: Bool = fal
         data.objectWillChange.send()
     }
     
-    data.c.leaders.append(newLeader)
+    data.c.leaders.insert(newLeader)
     if(newLeader.senior){
         //if this new leader is going to be assigned a cabin and the cabin leader at that cabin is not the null leader
         if(newLeader.cabin != "Unassigned" && data.c.cabins[newLeader.cabin]!.senior.id != data.c.nullSenior.id){
@@ -40,7 +40,7 @@ func createLeader(newLeader: Leader, data: CampData, usingInternally: Bool = fal
         data.c.cabins[newLeader.cabin]!.junior = newLeader
     }
     for i in 0...3 {
-        data.c.skills[newLeader.skills[i]]!.leaders[i].append(newLeader)
+        data.c.skills[newLeader.skills[i]]!.leaders[i].insert(newLeader)
     }
     
     if(!usingInternally){
@@ -56,19 +56,19 @@ func deleteLeader(leaderID: Leader.ID, data: CampData, usingInternally: Bool = f
     }
     
     //remove leader from cabin if not unassigned
-    if(data.c.leaders.first(where: {$0.id == leaderID})!.cabin != "Unassigned"){
-        if(data.c.leaders.first(where: {$0.id == leaderID})!.senior){
-            data.c.cabins[data.c.leaders.first(where: {$0.id == leaderID})!.cabin]!.senior = data.c.nullSenior
+    if(data.c.getLeader(leaderID: leaderID)!.cabin != "Unassigned"){
+        if(data.c.getLeader(leaderID: leaderID)!.senior){
+            data.c.cabins[data.c.getLeader(leaderID: leaderID)!.cabin]!.senior = data.c.nullSenior
         } else {
-            data.c.cabins[data.c.leaders.first(where: {$0.id == leaderID})!.cabin]!.junior = data.c.nullJunior
+            data.c.cabins[data.c.getLeader(leaderID: leaderID)!.cabin]!.junior = data.c.nullJunior
         }
     }
     //remove leader from skills
     for i in 0...3 {
-        data.c.skills[data.c.leaders.first(where: {$0.id == leaderID})!.skills[i]]!.leaders[i].removeAll(where: {$0.id == leaderID})
+        data.c.skills[data.c.getLeader(leaderID: leaderID)!.skills[i]]!.leaders[i].remove(data.c.getLeader(leaderID: leaderID)!)
     }
     //delete leader for good
-    data.c.leaders.removeAll(where: {$0.id == leaderID})
+    data.c.leaders.remove(data.c.getLeader(leaderID: leaderID)!)
     
     if(!usingInternally){
         data.undoManager.registerUndo(withTarget: data.c){ _ in

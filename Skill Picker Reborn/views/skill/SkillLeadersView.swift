@@ -34,18 +34,15 @@ struct SkillLeadersView: View {
             .font(.title)
             .bold()
             .padding(.top, 10)
-        Table(searchTerm == "" ? data.c.skills[data.selectedSkill]!.leaders[data.selectedPeriod] :
-                data.c.skills[data.selectedSkill]!.leaders[data.selectedPeriod].filter {$0.fName.range(of: searchTerm, options: .caseInsensitive) != nil || $0.lName.range(of: searchTerm, options: .caseInsensitive) != nil},
+        //i'm going to hell for this.
+        Table(searchTerm == "" ? Array(data.c.skills[data.selectedSkill]!.leaders[data.selectedPeriod]).sorted(using: data.skillLeaderSortOrder) :
+                Array(data.c.skills[data.selectedSkill]!.leaders[data.selectedPeriod]).sorted(using: data.skillLeaderSortOrder).filter {$0.fName.range(of: searchTerm, options: .caseInsensitive) != nil || $0.lName.range(of: searchTerm, options: .caseInsensitive) != nil},
               selection: $selectedLeader, sortOrder: $data.skillLeaderSortOrder){
             TableColumn("First Name",value: \.fName)
             TableColumn("Last Name",value: \.lName)
             TableColumn("Cabin",value: \.cabin)
         }
         .frame(height: 85)
-        .onChange(of: data.skillLeaderSortOrder){
-            data.objectWillChange.send()
-            data.c.skills[data.selectedSkill]!.leaders[data.selectedPeriod].sort(using: $0)
-        }
         .contextMenu(forSelectionType: Leader.ID.self) { items in
             let leaderSelectionUnion = selectedLeader.union(items)
             if(leaderSelectionUnion.isEmpty){

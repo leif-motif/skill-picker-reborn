@@ -49,8 +49,7 @@ struct CabinView: View {
                 .padding(.bottom,2)
             Text(try! AttributedString(markdown: "**Junior:** "+data.c.cabins[data.selectedCabin]!.junior.fName+" "+data.c.cabins[data.selectedCabin]!.junior.lName))
                 .font(.title2)
-            Table(search == "" ? data.c.cabins[data.selectedCabin]!.campers :
-                    data.c.cabins[data.selectedCabin]!.campers.filter {$0.fName.range(of: search, options: .caseInsensitive) != nil || $0.lName.range(of: search, options: .caseInsensitive) != nil}, sortOrder: $data.cabinCamperSortOrder){
+            Table(search == "" ? Array(data.c.cabins[data.selectedCabin]!.campers).sorted(using: data.cabinCamperSortOrder) : Array(data.c.cabins[data.selectedCabin]!.campers).sorted(using: data.cabinCamperSortOrder).filter {$0.fName.range(of: search, options: .caseInsensitive) != nil || $0.lName.range(of: search, options: .caseInsensitive) != nil}, selection: $selectedCamper, sortOrder: $data.cabinCamperSortOrder){
                 TableColumn("First Name",value: \.fName)
                 TableColumn("Last Name",value: \.lName)
                 //see comment in LeaderView.swift
@@ -62,9 +61,8 @@ struct CabinView: View {
                 TableColumn("Skill 3",value: \.skills[2])
                 TableColumn("Skill 4",value: \.skills[3])
             }
-            .onChange(of: data.cabinCamperSortOrder){
-                data.objectWillChange.send()
-                data.c.cabins[data.selectedCabin]!.campers.sort(using: $0)
+            .onChange(of: data.selectedCabin){ _ in
+                selectedCamper = []
             }
             .contextMenu(forSelectionType: Camper.ID.self) { items in
                 let selectedCamperUnion = selectedCamper.union(items)

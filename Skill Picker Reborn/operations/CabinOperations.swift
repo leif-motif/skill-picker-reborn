@@ -124,9 +124,9 @@ func assignCamperToCabin(targetCamper: Camper, cabinName: String, data: CampData
         data.objectWillChange.send()
     }
     
-    data.c.cabins[targetCamper.cabin]!.campers.removeAll(where: {$0 == targetCamper})
+    data.c.cabins[targetCamper.cabin]!.campers.remove(targetCamper)
     targetCamper.cabin = cabinName
-    data.c.cabins[cabinName]!.campers.append(targetCamper)
+    data.c.cabins[cabinName]!.campers.insert(targetCamper)
     
     if(!usingInternally){
         data.undoManager.registerUndo(withTarget: data.c){ _ in
@@ -140,8 +140,8 @@ func removeCamperFromCabin(camperID: Camper.ID, data: CampData, usingInternally:
         data.objectWillChange.send()
     }
     
-    data.c.cabins[data.c.campers.first(where: {$0.id == camperID})!.cabin]!.campers.removeAll(where: {$0.id == camperID})
-    data.c.campers.first(where: {$0.id == camperID})!.cabin = "Unassigned"
+    data.c.cabins[data.c.getCamper(camperID: camperID)!.cabin]!.campers.remove(data.c.getCamper(camperID: camperID)!)
+    data.c.getCamper(camperID: camperID)!.cabin = "Unassigned"
     
     if(!usingInternally){
         data.undoManager.registerUndo(withTarget: data.c){ _ in

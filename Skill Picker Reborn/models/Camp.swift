@@ -21,8 +21,8 @@
 import Foundation
 
 class Camp: Codable {
-    var campers: [Camper]
-    var leaders: [Leader]
+    var campers: Set<Camper>
+    var leaders: Set<Leader>
     var cabins: [String:Cabin]
     var skills: [String:Skill]
     var fanatics: [String:Fanatic]
@@ -32,6 +32,14 @@ class Camp: Codable {
     
     let version: String
     let id: UUID
+    
+    func getCamper(camperID: Camper.ID) -> Camper? {
+        return campers.first(where: {$0.id == camperID})
+    }
+    
+    func getLeader(leaderID: Leader.ID) -> Leader? {
+        return leaders.first(where: {$0.id == leaderID})
+    }
     
     init(){
         self.campers = []
@@ -47,8 +55,8 @@ class Camp: Codable {
     
     required init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.campers = try container.decode([Camper].self, forKey: .campers)
-        self.leaders = try container.decode([Leader].self, forKey: .leaders)
+        self.campers = try container.decode(Set<Camper>.self, forKey: .campers)
+        self.leaders = try container.decode(Set<Leader>.self, forKey: .leaders)
         self.nullSenior = try container.decode(Leader.self, forKey: .nullSenior)
         self.nullJunior = try container.decode(Leader.self, forKey: .nullJunior)
         let cabinReference = try container.decode([String : Cabin].self, forKey: .cabins)
@@ -60,7 +68,7 @@ class Camp: Codable {
                                                      junior: self.leaders.first(where: {$0.id == cabin.junior.id})!)
             }
             for camper in cabin.campers {
-                self.cabins[cabin.name]!.campers.append(self.campers.first(where: {$0.id == camper.id})!)
+                self.cabins[cabin.name]!.campers.insert(self.campers.first(where: {$0.id == camper.id})!)
             }
         }
         let skillReference = try container.decode([String : Skill].self, forKey: .skills)
@@ -69,10 +77,10 @@ class Camp: Codable {
             self.skills[skill.name] = try! Skill(name: skill.name, maximums: skill.maximums)
             for i in 0...3 {
                 for camper in skill.periods[i] {
-                    self.skills[skill.name]!.periods[i].append(self.campers.first(where: {$0.id == camper.id})!)
+                    self.skills[skill.name]!.periods[i].insert(self.campers.first(where: {$0.id == camper.id})!)
                 }
                 for leader in skill.leaders[i] {
-                    self.skills[skill.name]!.leaders[i].append(self.leaders.first(where: {$0.id == leader.id})!)
+                    self.skills[skill.name]!.leaders[i].insert(self.leaders.first(where: {$0.id == leader.id})!)
                 }
             }
         }

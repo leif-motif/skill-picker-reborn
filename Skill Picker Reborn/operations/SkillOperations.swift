@@ -117,8 +117,8 @@ func assignLeaderToSkill(targetLeader: Leader, skillName: String, period: Int, d
         data.objectWillChange.send()
     }
     
-    data.c.skills[targetLeader.skills[period]]!.leaders[period].removeAll(where: {$0 == targetLeader})
-    data.c.skills[skillName]!.leaders[period].append(targetLeader)
+    data.c.skills[targetLeader.skills[period]]!.leaders[period].remove(targetLeader)
+    data.c.skills[skillName]!.leaders[period].insert(targetLeader)
     targetLeader.skills[period] = skillName
     
     if(!usingInternally){
@@ -136,9 +136,9 @@ func removeLeaderFromSkill(leaderID: Leader.ID, skillName: String, period: Int, 
     if(skillName == "None"){
         throw SPRError.RefusingDelete
     }
-    data.c.skills[skillName]!.leaders[period].removeAll(where: {$0.id == leaderID})
-    data.c.leaders.first(where: {$0.id == leaderID})!.skills[period] = "None"
-    data.c.skills["None"]!.leaders[period].append(data.c.leaders.first(where: {$0.id == leaderID})!)
+    data.c.skills[skillName]!.leaders[period].remove(data.c.getLeader(leaderID: leaderID)!)
+    data.c.getLeader(leaderID: leaderID)!.skills[period] = "None"
+    data.c.skills["None"]!.leaders[period].insert(data.c.getLeader(leaderID: leaderID)!)
     
     if(!usingInternally){
         data.undoManager.registerUndo(withTarget: data.c){ _ in
@@ -152,8 +152,8 @@ func assignCamperToSkill(targetCamper: Camper, skillName: String, period: Int, d
         data.objectWillChange.send()
     }
     
-    data.c.skills[targetCamper.skills[period]]!.periods[period].removeAll(where: {$0 == targetCamper})
-    data.c.skills[skillName]!.periods[period].append(targetCamper)
+    data.c.skills[targetCamper.skills[period]]!.periods[period].remove(targetCamper)
+    data.c.skills[skillName]!.periods[period].insert(targetCamper)
     targetCamper.skills[period] = skillName
     
     if(!usingInternally){
@@ -174,9 +174,9 @@ func removeCamperFromSkill(camperID: Camper.ID, skillName: String, period: Int, 
     if(data.c.fanatics.keys.contains(skillName) && !overrideFanaticWarning){
         throw SPRError.SkillIsFanatic
     }
-    data.c.skills[skillName]!.periods[period].removeAll(where: {$0.id == camperID})
-    data.c.campers.first(where: {$0.id == camperID})!.skills[period] = "None"
-    data.c.skills["None"]!.periods[period].append(data.c.campers.first(where: {$0.id == camperID})!)
+    data.c.skills[skillName]!.periods[period].remove(data.c.getCamper(camperID: camperID)!)
+    data.c.getCamper(camperID: camperID)!.skills[period] = "None"
+    data.c.skills["None"]!.periods[period].insert(data.c.getCamper(camperID: camperID)!)
     
     if(!usingInternally){
         data.undoManager.registerUndo(withTarget: data.c){ _ in

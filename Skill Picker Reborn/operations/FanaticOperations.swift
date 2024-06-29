@@ -80,8 +80,8 @@ func changeFanaticPeriods(targetFanatic: String, newPeriods: [Bool], data: CampD
     if(newPeriods.count != 4){
         throw SPRError.InvalidSize
     }
-    var camperFanatics: [Camper]?
-    var leaderFanatics: [Leader]?
+    var camperFanatics: Set<Camper>?
+    var leaderFanatics: Set<Leader>?
     //find list of campers to use
     for i in 0...3 {
         if(data.c.fanatics[targetFanatic]!.activePeriods[i]){
@@ -94,11 +94,11 @@ func changeFanaticPeriods(targetFanatic: String, newPeriods: [Bool], data: CampD
         if(data.c.fanatics[targetFanatic]!.activePeriods[i] && !newPeriods[i]){
             for camper in data.c.skills[targetFanatic]!.periods[i] {
                 camper.skills[i] = "None"
-                data.c.skills["None"]!.periods[i].append(camper)
+                data.c.skills["None"]!.periods[i].insert(camper)
             }
             for leader in data.c.skills[targetFanatic]!.leaders[i] {
                 leader.skills[i] = "None"
-                data.c.skills["None"]!.leaders[i].append(leader)
+                data.c.skills["None"]!.leaders[i].insert(leader)
             }
             data.c.skills[targetFanatic]!.periods[i] = []
             data.c.skills[targetFanatic]!.leaders[i] = []
@@ -156,9 +156,9 @@ func assignLeaderToFanatic(targetLeader: Leader, fanaticName: String, data: Camp
     }
     for i in 0...3 {
         if(data.c.fanatics[fanaticName]!.activePeriods[i]){
-            data.c.skills[targetLeader.skills[i]]!.leaders[i].removeAll(where: {$0 == targetLeader})
+            data.c.skills[targetLeader.skills[i]]!.leaders[i].remove(targetLeader)
             targetLeader.skills[i] = fanaticName
-            data.c.skills[fanaticName]!.leaders[i].append(targetLeader)
+            data.c.skills[fanaticName]!.leaders[i].insert(targetLeader)
         }
     }
     
@@ -179,9 +179,9 @@ func removeLeaderFromFanatic(leaderID: Leader.ID, fanaticName: String, data: Cam
     }
     for i in 0...3 {
         if(data.c.fanatics[fanaticName]!.activePeriods[i]){
-            data.c.skills[fanaticName]!.leaders[i].removeAll(where: {$0.id == leaderID})
-            data.c.leaders.first(where: {$0.id == leaderID})!.skills[i] = "None"
-            data.c.skills["None"]!.leaders[i].append(data.c.leaders.first(where: {$0.id == leaderID})!)
+            data.c.skills[fanaticName]!.leaders[i].remove(data.c.getLeader(leaderID: leaderID)!)
+            data.c.getLeader(leaderID: leaderID)!.skills[i] = "None"
+            data.c.skills["None"]!.leaders[i].insert(data.c.getLeader(leaderID: leaderID)!)
         }
     }
     
@@ -202,9 +202,9 @@ func assignCamperToFanatic(targetCamper: Camper, fanaticName: String, data: Camp
     }
     for i in 0...3 {
         if(data.c.fanatics[fanaticName]!.activePeriods[i]){
-            data.c.skills[targetCamper.skills[i]]!.periods[i].removeAll(where: {$0 == targetCamper})
+            data.c.skills[targetCamper.skills[i]]!.periods[i].remove(targetCamper)
             targetCamper.skills[i] = fanaticName
-            data.c.skills[fanaticName]!.periods[i].append(targetCamper)
+            data.c.skills[fanaticName]!.periods[i].insert(targetCamper)
         }
     }
     targetCamper.fanatic = fanaticName
@@ -227,13 +227,13 @@ func removeCamperFromFanatic(camperID: Camper.ID, fanaticName: String, newSixthP
     }
     for i in 0...3 {
         if(data.c.fanatics[fanaticName]!.activePeriods[i]){
-            data.c.skills[fanaticName]!.periods[i].removeAll(where: {$0.id == camperID})
-            data.c.campers.first(where: {$0.id == camperID})!.skills[i] = "None"
-            data.c.skills["None"]!.periods[i].append(data.c.campers.first(where: {$0.id == camperID})!)
+            data.c.skills[fanaticName]!.periods[i].remove(data.c.getCamper(camperID: camperID)!)
+            data.c.getCamper(camperID: camperID)!.skills[i] = "None"
+            data.c.skills["None"]!.periods[i].insert(data.c.getCamper(camperID: camperID)!)
         }
     }
-    data.c.campers.first(where: {$0.id == camperID})!.fanatic = "None"
-    data.c.campers.first(where: {$0.id == camperID})!.preferredSkills.append(newSixthPreferredSkill)
+    data.c.getCamper(camperID: camperID)!.fanatic = "None"
+    data.c.getCamper(camperID: camperID)!.preferredSkills.append(newSixthPreferredSkill)
     
     if(!usingInternally){
         data.undoManager.registerUndo(withTarget: data.c){ _ in

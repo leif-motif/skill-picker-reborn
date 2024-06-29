@@ -107,7 +107,7 @@ struct LeaderInfoView: View {
                     dismiss()
                 }
                 .disabled(newFirstName == "" || newLastName == "" ||
-                          (targetLeader.fName != newFirstName && targetLeader.lName != newLastName && !humanIsUnique(fName: newFirstName, lName: newLastName, humanArray: data.c.leaders)))
+                          (targetLeader.fName != newFirstName && targetLeader.lName != newLastName && !humanIsUnique(fName: newFirstName, lName: newLastName, humanSet: data.c.leaders)))
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
             }
@@ -116,7 +116,7 @@ struct LeaderInfoView: View {
         .padding()
         .frame(width: 300, height: 340)
         .onAppear(perform: {
-            targetLeader = data.c.leaders.first(where: {$0.id == leaderID})!
+            targetLeader = data.c.getLeader(leaderID: leaderID)!
             newFirstName = targetLeader.fName
             newLastName = targetLeader.lName
             newCabin = targetLeader.cabin

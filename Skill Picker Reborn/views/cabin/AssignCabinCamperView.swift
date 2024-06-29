@@ -24,7 +24,7 @@ struct AssignCabinCamperView: View {
     @EnvironmentObject private var data: CampData
     private var targetCabin: String
     @State private var camperInput = ""
-    @State private var camperIDs: [String:UUID] = [:]
+    @State private var camperIDs: [String:Camper.ID] = [:]
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
@@ -37,7 +37,7 @@ struct AssignCabinCamperView: View {
                     dismiss()
                 }
                 Button("Assign Camper") {
-                    assignCamperToCabin(targetCamper: data.c.campers.first(where: {$0.id == camperIDs[camperInput.lowercased()]})!, cabinName: targetCabin, data: data)
+                    assignCamperToCabin(targetCamper: data.c.getCamper(camperID: camperIDs[camperInput.lowercased()]!)!, cabinName: targetCabin, data: data)
                     dismiss()
                 }
                 .buttonStyle(.borderedProminent)

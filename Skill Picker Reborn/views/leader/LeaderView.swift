@@ -33,8 +33,8 @@ struct LeaderView: View {
     @State private var search = ""
     var body: some View {
         VStack(){
-            Table(search == "" ? data.c.leaders :
-                    data.c.leaders.filter {$0.fName.range(of: search, options: .caseInsensitive) != nil || $0.lName.range(of: search, options: .caseInsensitive) != nil}, selection: $selectedLeader, sortOrder: $data.leaderSortOrder){
+            Table(search == "" ? Array(data.c.leaders).sorted(using: data.leaderSortOrder) :
+                    Array(data.c.leaders).sorted(using: data.leaderSortOrder).filter {$0.fName.range(of: search, options: .caseInsensitive) != nil || $0.lName.range(of: search, options: .caseInsensitive) != nil}, selection: $selectedLeader, sortOrder: $data.leaderSortOrder){
                 TableColumn("First Name",value: \.fName)
                     .width(min: 80, ideal: 80)
                 TableColumn("Last Name",value: \.lName)
@@ -54,9 +54,6 @@ struct LeaderView: View {
                     .width(min: 80, ideal: 80)
                 TableColumn("Skill 4",value: \.skills[3])
                     .width(min: 80, ideal: 80)
-            }
-            .onChange(of: data.leaderSortOrder){
-                data.c.leaders.sort(using: $0)
             }
             .contextMenu(forSelectionType: Leader.ID.self) { items in
                 let leaderSelectionUnion = selectedLeader.union(items)

@@ -24,8 +24,8 @@ struct ModifyCabinView: View {
     @EnvironmentObject private var data: CampData
     @State private var iName: String = ""
     private var editing: Bool
-    @State private var seniorSelection = UUID()
-    @State private var juniorSelection = UUID()
+    @State private var seniorSelection = Leader.ID()
+    @State private var juniorSelection = Leader.ID()
     private var targetCabin: String
     @Environment(\.dismiss) var dismiss
     var body: some View {
@@ -35,9 +35,9 @@ struct ModifyCabinView: View {
             Picker("Senior:", selection: $seniorSelection) {
                 Text("None").tag(data.c.nullSenior.id)
                 if(data.c.leaders.count > 0){
-                    ForEach(0...(data.c.leaders.count-1), id: \.self){
-                        if(data.c.leaders[$0].senior){
-                            Text(data.c.leaders[$0].fName+" "+data.c.leaders[$0].lName).tag(data.c.leaders[$0].id)
+                    ForEach(Array(data.c.leaders)){ leader in
+                        if(leader.senior){
+                            Text(leader.fName+" "+leader.lName).tag(leader.id)
                         }
                     }
                 }
@@ -45,9 +45,9 @@ struct ModifyCabinView: View {
             Picker("Junior:", selection: $juniorSelection) {
                 Text("None").tag(data.c.nullJunior.id)
                 if(data.c.leaders.count > 0){
-                    ForEach(0...(data.c.leaders.count-1), id: \.self){
-                        if(!data.c.leaders[$0].senior){
-                            Text(data.c.leaders[$0].fName+" "+data.c.leaders[$0].lName).tag(data.c.leaders[$0].id)
+                    ForEach(Array(data.c.leaders)){ leader in
+                        if(!leader.senior){
+                            Text(leader.fName+" "+leader.lName).tag(leader.id)
                         }
                     }
                 }
@@ -65,15 +65,15 @@ struct ModifyCabinView: View {
                         } else if(seniorSelection == data.c.nullSenior.id){
                             changeCabinLeaders(cabinName: targetCabin,
                                                targetSenior: data.c.nullSenior,
-                                               targetJunior: data.c.leaders.first(where: {$0.id == juniorSelection})!, data: data, usingInternally: true)
+                                               targetJunior: data.c.getLeader(leaderID: juniorSelection)!, data: data, usingInternally: true)
                         } else if(juniorSelection == data.c.nullJunior.id){
                             changeCabinLeaders(cabinName: targetCabin,
-                                               targetSenior: data.c.leaders.first(where: {$0.id == seniorSelection})!,
+                                               targetSenior: data.c.getLeader(leaderID: seniorSelection)!,
                                                targetJunior: data.c.nullJunior, data: data, usingInternally: true)
                         } else {
                             changeCabinLeaders(cabinName: targetCabin,
-                                               targetSenior: data.c.leaders.first(where: {$0.id == seniorSelection})!,
-                                               targetJunior: data.c.leaders.first(where: {$0.id == juniorSelection})!, data: data, usingInternally: true)
+                                               targetSenior: data.c.getLeader(leaderID: seniorSelection)!,
+                                               targetJunior: data.c.getLeader(leaderID: juniorSelection)!, data: data, usingInternally: true)
                         }
                         if(iName != targetCabin){
                             renameCabin(oldCabin: targetCabin, newCabin: iName, data: data, usingInternally: true)
@@ -92,15 +92,15 @@ struct ModifyCabinView: View {
                         } else if(seniorSelection == data.c.nullSenior.id){
                             createCabin(cabinName: iName,
                                         targetSenior: data.c.nullSenior,
-                                        targetJunior: data.c.leaders.first(where: {$0.id == juniorSelection})!, data: data)
+                                        targetJunior: data.c.getLeader(leaderID: juniorSelection)!, data: data)
                         } else if(juniorSelection == data.c.nullJunior.id){
                             createCabin(cabinName: iName,
-                                        targetSenior: data.c.leaders.first(where: {$0.id == seniorSelection})!,
+                                        targetSenior: data.c.getLeader(leaderID: seniorSelection)!,
                                         targetJunior: data.c.nullJunior, data: data)
                         } else {
                             createCabin(cabinName: iName,
-                                        targetSenior: data.c.leaders.first(where: {$0.id == seniorSelection})!,
-                                        targetJunior: data.c.leaders.first(where: {$0.id == juniorSelection})!,
+                                        targetSenior: data.c.getLeader(leaderID: seniorSelection)!,
+                                        targetJunior: data.c.getLeader(leaderID: juniorSelection)!,
                                         data: data)
                         }
                         data.selectedCabin = iName

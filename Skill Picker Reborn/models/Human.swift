@@ -20,7 +20,7 @@
 
 import Foundation
 
-class Human: Identifiable, Equatable, Codable {
+class Human: Identifiable, Equatable, Hashable, Codable {
     let id: UUID
     var fName: String
     var lName: String
@@ -40,6 +40,10 @@ class Human: Identifiable, Equatable, Codable {
     
     static func == (lhs: Human, rhs: Human) -> Bool {
         return lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
     
     enum CodingKeys: String, CodingKey {

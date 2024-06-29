@@ -26,7 +26,7 @@ struct AssignSkillLeaderView: View {
     private let targetSkill: String
     private let skillPeriod: Int
     @State private var leaderInput = ""
-    @State private var leaderIDs: [String:UUID] = [:]
+    @State private var leaderIDs: [String:Leader.ID] = [:]
     @Environment(\.dismiss) var dismiss
     var body: some View {
         Form {
@@ -39,11 +39,11 @@ struct AssignSkillLeaderView: View {
                 }
                 Button("Assign Leader") {
                     if(isFanatic){
-                        try! assignLeaderToFanatic(targetLeader: data.c.leaders.first(where: {$0.id == leaderIDs[leaderInput.lowercased()]})!,
+                        try! assignLeaderToFanatic(targetLeader: data.c.getLeader(leaderID: leaderIDs[leaderInput.lowercased()]!)!,
                                                    fanaticName: targetSkill,
                                                    data: data)
                     } else {
-                        assignLeaderToSkill(targetLeader: data.c.leaders.first(where: {$0.id == leaderIDs[leaderInput.lowercased()]})!,
+                        assignLeaderToSkill(targetLeader: data.c.getLeader(leaderID: leaderIDs[leaderInput.lowercased()]!)!,
                                             skillName: targetSkill, period: skillPeriod,
                                             data: data)
                     }

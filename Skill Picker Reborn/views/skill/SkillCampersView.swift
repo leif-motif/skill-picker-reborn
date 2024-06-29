@@ -36,16 +36,12 @@ struct SkillCampersView: View {
             .font(.title)
             .bold()
             .foregroundColor(currentSkillCount > currentSkillMax ? Color(.systemRed) : Color.primary)
-        Table(searchTerm == "" ? data.c.skills[data.selectedSkill]!.periods[data.selectedPeriod] :
-                data.c.skills[data.selectedSkill]!.periods[data.selectedPeriod].filter {$0.fName.range(of: searchTerm, options: .caseInsensitive) != nil || $0.lName.range(of: searchTerm, options: .caseInsensitive) != nil},
+        Table(searchTerm == "" ? Array(data.c.skills[data.selectedSkill]!.periods[data.selectedPeriod]).sorted(using: data.skillCamperSortOrder) :
+                Array(data.c.skills[data.selectedSkill]!.periods[data.selectedPeriod]).sorted(using: data.skillCamperSortOrder).filter {$0.fName.range(of: searchTerm, options: .caseInsensitive) != nil || $0.lName.range(of: searchTerm, options: .caseInsensitive) != nil},
               selection: $selectedCamper, sortOrder: $data.skillCamperSortOrder){
             TableColumn("First Name",value: \.fName)
             TableColumn("Last Name",value: \.lName)
             TableColumn("Cabin",value: \.cabin)
-        }
-        .onChange(of: data.skillCamperSortOrder){
-            data.objectWillChange.send()
-            data.c.skills[data.selectedSkill]!.periods[data.selectedPeriod].sort(using: $0)
         }
         .contextMenu(forSelectionType: Camper.ID.self) { items in
             let camperSelectionUnion = selectedCamper.union(items)

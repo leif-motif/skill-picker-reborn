@@ -20,9 +20,9 @@
 
 import Foundation
 
-func humanIsUnique(fName: String, lName: String, humanArray: [Human]) -> Bool {
+func humanIsUnique(fName: String, lName: String, humanSet: Set<Human>) -> Bool {
     var duplicateFound = false
-    for human in humanArray {
+    for human in humanSet {
         if(fName == human.fName && lName == human.lName){
             duplicateFound = true
             break

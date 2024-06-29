@@ -26,23 +26,23 @@ func createCamper(newCamper: Camper, data: CampData, usingInternally: Bool = fal
         data.objectWillChange.send()
     }
     
-    data.c.campers.append(newCamper)
-    data.c.cabins[newCamper.cabin]!.campers.append(newCamper)
+    data.c.campers.insert(newCamper)
+    data.c.cabins[newCamper.cabin]!.campers.insert(newCamper)
     //apply fanatic skills if it's passed
     if(newCamper.fanatic != "None"){
         for i in 0...3 {
             if(data.c.fanatics[newCamper.fanatic]!.activePeriods[i] && newCamper.skills[i] == "None"){
-                data.c.skills[newCamper.fanatic]!.periods[i].append(newCamper)
+                data.c.skills[newCamper.fanatic]!.periods[i].insert(newCamper)
                 newCamper.skills[i] = newCamper.fanatic
             } else if(data.c.fanatics[newCamper.fanatic]!.activePeriods[i]){
                 throw SPRError.SkillFanaticConflict
             } else {
-                data.c.skills[newCamper.skills[i]]!.periods[i].append(newCamper)
+                data.c.skills[newCamper.skills[i]]!.periods[i].insert(newCamper)
             }
         }
     } else {
         for i in 0...3 {
-            data.c.skills[newCamper.skills[i]]!.periods[i].append(newCamper)
+            data.c.skills[newCamper.skills[i]]!.periods[i].insert(newCamper)
         }
     }
     
@@ -59,13 +59,13 @@ func deleteCamper(camperID: Camper.ID, data: CampData, usingInternally: Bool = f
     }
     
     //remove camper from cabin
-    data.c.cabins[data.c.campers.first(where: {$0.id == camperID})!.cabin]!.campers.removeAll(where: {$0.id == camperID})
+    data.c.cabins[data.c.getCamper(camperID: camperID)!.cabin]!.campers.remove(data.c.getCamper(camperID: camperID)!)
     //remove camper from skills
     for i in 0...3 {
-        data.c.skills[data.c.campers.first(where: {$0.id == camperID})!.skills[i]]!.periods[i].removeAll(where: {$0.id == camperID})
+        data.c.skills[data.c.getCamper(camperID: camperID)!.skills[i]]!.periods[i].remove(data.c.getCamper(camperID: camperID)!)
     }
     //delete camper for good
-    data.c.campers.removeAll(where: {$0.id == camperID})
+    data.c.campers.remove(data.c.getCamper(camperID: camperID)!)
     
     if(!usingInternally){
         data.undoManager.registerUndo(withTarget: data.c){ _ in

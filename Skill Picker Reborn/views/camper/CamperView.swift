@@ -40,7 +40,7 @@ struct CamperView: View {
     @State private var search = ""
     var body: some View {
         VStack(){
-            Table(search == "" ? data.c.campers : data.c.campers.filter {$0.fName.range(of: search, options: .caseInsensitive) != nil || $0.lName.range(of: search, options: .caseInsensitive) != nil},
+            Table(search == "" ? Array(data.c.campers).sorted(using: data.camperSortOrder) : Array(data.c.campers).sorted(using: data.camperSortOrder).filter {$0.fName.range(of: search, options: .caseInsensitive) != nil || $0.lName.range(of: search, options: .caseInsensitive) != nil},
                 selection: $selectedCamper, sortOrder: $data.camperSortOrder){
                 TableColumn("First Name",value: \.fName)
                     .width(min: 80, ideal: 80)
@@ -65,9 +65,6 @@ struct CamperView: View {
                     .width(min: 80, ideal: 80)
                 TableColumn("Skill 4",value: \.skills[3])
                     .width(min: 80, ideal: 80)
-            }
-            .onChange(of: data.camperSortOrder){
-                data.c.campers.sort(using: $0)
             }
             .contextMenu(forSelectionType: Camper.ID.self) { items in
                 let camperSelectionUnion = selectedCamper.union(items)

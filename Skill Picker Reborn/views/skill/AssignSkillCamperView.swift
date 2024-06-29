@@ -25,7 +25,7 @@ struct AssignSkillCamperView: View {
     private var targetSkill: String
     private var skillPeriod: Int
     @State private var camperInput = ""
-    @State private var camperIDs: [String:UUID] = [:]
+    @State private var camperIDs: [String:Camper.ID] = [:]
     @State private var isFanatic: Bool = false
     @Environment(\.dismiss) var dismiss
     var body: some View {
@@ -50,17 +50,17 @@ struct AssignSkillCamperView: View {
                         //quite frankly, i thought searching for specific campers wasn't working.
                         //and yet, when i last tested this, it is now. if anything is going wacko, it's because of this.
                         data.objectWillChange.send()
-                        if(data.c.campers.first(where: {$0.id == camperIDs[camperInput.lowercased()]})!.fanatic != "None"){
+                        if(data.c.getCamper(camperID: camperIDs[camperInput.lowercased()]!)!.fanatic != "None"){
                             try! removeCamperFromFanatic(camperID: camperIDs[camperInput.lowercased()]!,
-                                                         fanaticName: data.c.campers.first(where: {$0.id == camperIDs[camperInput.lowercased()]})!.fanatic,
+                                                         fanaticName: data.c.getCamper(camperID: camperIDs[camperInput.lowercased()]!)!.fanatic,
                                                          newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST", data: data, usingInternally: true)
                         }
-                        try! assignCamperToFanatic(targetCamper: data.c.campers.first(where: {$0.id == camperIDs[camperInput.lowercased()]})!,
+                        try! assignCamperToFanatic(targetCamper: data.c.getCamper(camperID: camperIDs[camperInput.lowercased()]!)!,
                                                    fanaticName: targetSkill,
                                                    data: data, usingInternally: true)
                         #warning("TODO: handle group undo")
                     } else {
-                        assignCamperToSkill(targetCamper: data.c.campers.first(where: {$0.id == camperIDs[camperInput.lowercased()]})!,
+                        assignCamperToSkill(targetCamper: data.c.getCamper(camperID: camperIDs[camperInput.lowercased()]!)!,
                                             skillName: targetSkill, period: skillPeriod,
                                             data: data)
                     }
