@@ -32,6 +32,16 @@ struct Skill_Picker_RebornApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(data)
+                .sheet(isPresented: $data.importSkillSheet, onDismiss: {
+                    if(data.isImporting){
+                        data.cabinsFromCSV(csv: data.csvInput)
+                        try! data.campersFromCSV(csv: data.csvInput)
+                        data.isImporting = false
+                    }
+                    data.objectWillChange.send()
+                }, content: {
+                    try! ImportSkillView(data: data)
+                })
                 .confirmationDialog("WARNING!", isPresented: $jsonWarningConfirm, presenting: campThatShouldNotBeLoaded){ c in
                     Button(role: .cancel){
                     } label: {
@@ -44,6 +54,25 @@ struct Skill_Picker_RebornApp: App {
                     }
                 } message: { c in
                     Text("You are attempting to load the same file or version of a file over itself! This WILL cause errors in viewing data in this session. If you want to reload your file, restart the app and load the camp once more. If you still wish to load the same file over itself, select \"Load Anyway\" AT YOUR OWN RISK.")
+                }
+                .confirmationDialog("Warning!", isPresented: $data.ignoreIdiotsConfirm){
+                    Button(role: .cancel){
+                    } label: {
+                        Text("Stop")
+                    }
+                    Button(role: .destructive){
+                        data.importSkillSheet.toggle()
+                    } label: {
+                        Text("Import Anyway")
+                    }
+                } message: {
+                    if(data.majorIdiots.isEmpty){
+                        Text("Some campers have incorrectly filled out entries! You may import the CSV anyway and let the app attempt to interpret any erronous data, or stop.\n\nThe following campers have minor errors:\n\(data.idiots)")
+                    } else if(data.idiots.isEmpty){
+                        Text("Some campers have incorrectly filled out entries! You may import the CSV anyway and let the app attempt to interpret any erronous data, or stop.\n\nThe following campers have major errors:\n\(data.majorIdiots)")
+                    } else {
+                        Text("Some campers have incorrectly filled out entries! You may import the CSV anyway and let the app attempt to interpret any erronous data, or stop.\n\nThe following campers have major errors:\n\(data.majorIdiots)\n\nThe following campers have minor errors:\n\(data.idiots)")
+                    }
                 }
                 .alert("Error!", isPresented: $data.genericErrorAlert, presenting: data.genericErrorDesc){ _ in
                     Button(){

@@ -151,7 +151,7 @@ struct ImportSkillView: View {
             }
         }
         .padding()
-        .frame(width: 400, height: 290)
+        .frame(width: 420, height: 290)
         .onAppear(perform: {
             //I love you, ChatGPT.
             skillMaximums = data.importSkillList.reduce(into: [String:[Int]]()){ (result, element) in
