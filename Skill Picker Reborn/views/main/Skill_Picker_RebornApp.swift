@@ -141,6 +141,12 @@ struct Skill_Picker_RebornApp: App {
                 }
                 .keyboardShortcut("O", modifiers: [.command])
             }
+            CommandGroup(before: .importExport){
+                Button("Import CSV..."){
+                    data.importFromCSV()
+                }
+                .keyboardShortcut("I", modifiers: [.command])
+            }
         }
     }
 }
