@@ -38,6 +38,9 @@ class CampData: ObservableObject {
     @Published var importSkillDemand: [String:[Int]]
     @Published var isImporting: Bool
     
+    @Published var genericErrorAlert: Bool
+    @Published var genericErrorDesc: String
+    
     func getCamper(camperID: Camper.ID) -> Camper? {
         return self.c.campers.first(where: {$0.id == camperID})
     }
@@ -63,5 +66,8 @@ class CampData: ObservableObject {
         self.importSkillList = [:]
         self.importSkillDemand = [:]
         self.isImporting = false
+        
+        self.genericErrorAlert = false
+        self.genericErrorDesc = ""
     }
 }

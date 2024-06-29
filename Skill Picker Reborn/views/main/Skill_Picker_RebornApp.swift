@@ -25,29 +25,27 @@ let supportedVersions = ["0.1","1.1.0","1.2.0"]
 @main
 struct Skill_Picker_RebornApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    @StateObject private var campData = CampData()
+    @StateObject private var data = CampData()
     @State private var campThatShouldNotBeLoaded = Camp()
-    @State private var genericErrorDesc = ""
     @State private var jsonWarningConfirm = false
-    @State private var genericErrorAlert = false
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(campData)
+                .environmentObject(data)
                 .confirmationDialog("WARNING!", isPresented: $jsonWarningConfirm, presenting: campThatShouldNotBeLoaded){ c in
                     Button(role: .cancel){
                     } label: {
                         Text("Stop")
                     }
                     Button(role: .destructive){
-                        campData.c = campThatShouldNotBeLoaded
+                        data.c = campThatShouldNotBeLoaded
                     } label: {
                         Text("Load Anyway")
                     }
                 } message: { c in
                     Text("You are attempting to load the same file or version of a file over itself! This WILL cause errors in viewing data in this session. If you want to reload your file, restart the app and load the camp once more. If you still wish to load the same file over itself, select \"Load Anyway\" AT YOUR OWN RISK.")
                 }
-                .alert("Error!", isPresented: $genericErrorAlert, presenting: genericErrorDesc){ _ in
+                .alert("Error!", isPresented: $data.genericErrorAlert, presenting: data.genericErrorDesc){ _ in
                     Button(){
                     } label: {
                         Text("Dismiss")
@@ -72,11 +70,11 @@ struct Skill_Picker_RebornApp: App {
                     if panel.runModal() == .OK, let url = panel.url {
                         let encoder = JSONEncoder()
                         do {
-                            let encoded = try encoder.encode(campData.c)
+                            let encoded = try encoder.encode(data.c)
                             try encoded.write(to: url)
                         } catch {
-                            genericErrorDesc = "Failed to save app state: \(error.localizedDescription)"
-                            genericErrorAlert.toggle()
+                            data.genericErrorDesc = "Failed to save app state: \(error.localizedDescription)"
+                            data.genericErrorAlert.toggle()
                         }
                     }
                 }
@@ -92,23 +90,23 @@ struct Skill_Picker_RebornApp: App {
                     
                     if panel.runModal() == .OK, let url = panel.url {
                         do {
-                            let data = try Data(contentsOf: url)
+                            let urlData = try Data(contentsOf: url)
                             let decoder = JSONDecoder()
-                            let decoded = try decoder.decode(Camp.self, from: data)
+                            let decoded = try decoder.decode(Camp.self, from: urlData)
                             #warning("TODO: clear undo history")
-                            if(campData.c.id == decoded.id){
+                            if(data.c.id == decoded.id){
                                 campThatShouldNotBeLoaded = decoded
                                 jsonWarningConfirm.toggle()
                             } else {
-                                campData.c = decoded
-                                campData.objectWillChange.send()
+                                data.c = decoded
+                                data.objectWillChange.send()
                             }
                         } catch SPRError.UnsupportedVersion(let e){
-                            genericErrorDesc = "The current app version (\((Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String)!)) is incompatable with the selected JSON's version (\(e))."
-                            genericErrorAlert.toggle()
+                            data.genericErrorDesc = "The current app version (\((Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String)!)) is incompatable with the selected JSON's version (\(e))."
+                            data.genericErrorAlert.toggle()
                         } catch {
-                            genericErrorDesc = "Failed to load app state: \(error.localizedDescription)"
-                            genericErrorAlert.toggle()
+                            data.genericErrorDesc = "Failed to load app state: \(error.localizedDescription)"
+                            data.genericErrorAlert.toggle()
                         }
                     }
                 }

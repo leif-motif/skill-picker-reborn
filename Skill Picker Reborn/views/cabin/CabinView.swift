@@ -26,7 +26,6 @@ struct CabinView: View {
     @State private var camperEditPass: HumanSelection<Camper>?
     @State private var camperDestPass: HumanSelection<Camper>?
     @State private var csvInput: [Substring] = [""]
-    @State private var genericErrorDesc = ""
     @State private var majorIdiots: [String] = [""]
     @State private var idiots: [String] = [""]
     @State private var showCsvExporter = false
@@ -37,7 +36,6 @@ struct CabinView: View {
     @State private var removeCamperConfirm = false
     @State private var deleteCamperConfirm = false
     @State private var deleteCabinConfirm = false
-    @State private var genericErrorAlert = false
     @State private var ignoreIdiotsConfirm = false
     @State private var search = ""
     var body: some View {
@@ -183,14 +181,14 @@ struct CabinView: View {
                             ignoreIdiotsConfirm.toggle()
                         }
                     } catch SPRError.AmbiguousSkillEntries(let s){
-                        genericErrorDesc = "The provided CSV has skills or fanatic options that cannot be evaluated because no camper has selected them. Remove the following skills/fanatics: \(s)"
-                        genericErrorAlert.toggle()
+                        data.genericErrorDesc = "The provided CSV has skills or fanatic options that cannot be evaluated because no camper has selected them. Remove the following skills/fanatics: \(s)"
+                        data.genericErrorAlert.toggle()
                     } catch SPRError.InvalidFileFormat {
-                        genericErrorDesc = "The provided CSV is invalid and cannot be imported."
-                        genericErrorAlert.toggle()
+                        data.genericErrorDesc = "The provided CSV is invalid and cannot be imported."
+                        data.genericErrorAlert.toggle()
                     } catch {
-                        genericErrorDesc = "Failed reading from URL: \(String(describing: panel.url)), Error: " + error.localizedDescription
-                        genericErrorAlert.toggle()
+                        data.genericErrorDesc = "Failed reading from URL: \(String(describing: panel.url)), Error: " + error.localizedDescription
+                        data.genericErrorAlert.toggle()
                     }
                 }
             } label: {
@@ -231,8 +229,8 @@ struct CabinView: View {
                 if(data.c.cabins[data.selectedCabin]!.campers.count > 0){
                     showCsvExporter.toggle()
                 } else {
-                    genericErrorDesc = "Cannot export a schedule for a cabin that has no campers."
-                    genericErrorAlert.toggle()
+                    data.genericErrorDesc = "Cannot export a schedule for a cabin that has no campers."
+                    data.genericErrorAlert.toggle()
                 }
             } label: {
                 Image(systemName: "arrow.up.doc.on.clipboard")
@@ -245,8 +243,8 @@ struct CabinView: View {
                 case .success(let url):
                     print("Saved to \(url)")
                 case .failure(let error):
-                    genericErrorDesc = "Could not save: \(error.localizedDescription)"
-                    genericErrorAlert.toggle()
+                    data.genericErrorDesc = "Could not save: \(error.localizedDescription)"
+                    data.genericErrorAlert.toggle()
                 }
             }
             Picker("Cabin", selection: $data.selectedCabin) {
@@ -268,14 +266,6 @@ struct CabinView: View {
         }, content: { x in
             CamperInfoView(camperID: x.selection.first!)
         })
-        .alert("Error!", isPresented: $genericErrorAlert, presenting: genericErrorDesc){ _ in
-            Button(){
-            } label: {
-                Text("Dismiss")
-            }
-        } message: { e in
-            Text(e)
-        }
         .confirmationDialog("Confirm Removal", isPresented: $removeCamperConfirm, presenting: camperDestPass){ p in
             Button(role: .cancel){
                 

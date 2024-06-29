@@ -24,7 +24,6 @@ struct SkillView: View {
     @EnvironmentObject private var data: CampData
     @State private var csvInput: [Substring] = [""]
     @State private var csvExport = ""
-    @State private var genericErrorDesc = ""
     @State private var majorIdiots: [String] = [""]
     @State private var idiots: [String] = [""]
     @State private var showFanaticCsvExporter = false
@@ -35,7 +34,6 @@ struct SkillView: View {
     @State private var editFanaticSheet = false
     @State private var deleteSkillConfirm = false
     @State private var importSkillSheet = false
-    @State private var genericErrorAlert = false
     @State private var ignoreIdiotsConfirm = false
     @State private var search = ""
     var body: some View {
@@ -138,14 +136,14 @@ struct SkillView: View {
                             ignoreIdiotsConfirm.toggle()
                         }
                     } catch SPRError.AmbiguousSkillEntries(let s){
-                        genericErrorDesc = "The provided CSV has skills or fanatic options that cannot be evaluated because no camper has selected them. Remove the following skills/fanatics: \(s)"
-                        genericErrorAlert.toggle()
+                        data.genericErrorDesc = "The provided CSV has skills or fanatic options that cannot be evaluated because no camper has selected them. Remove the following skills/fanatics: \(s)"
+                        data.genericErrorAlert.toggle()
                     } catch SPRError.InvalidFileFormat {
-                        genericErrorDesc = "The provided CSV is invalid and cannot be imported."
-                        genericErrorAlert.toggle()
+                        data.genericErrorDesc = "The provided CSV is invalid and cannot be imported."
+                        data.genericErrorAlert.toggle()
                     } catch {
-                        genericErrorDesc = "Failed reading from URL: \(String(describing: panel.url)), Error: " + error.localizedDescription
-                        genericErrorAlert.toggle()
+                        data.genericErrorDesc = "Failed reading from URL: \(String(describing: panel.url)), Error: " + error.localizedDescription
+                        data.genericErrorAlert.toggle()
                     }
                 }
             } label: {
@@ -181,14 +179,6 @@ struct SkillView: View {
                     Text("Some campers have incorrectly filled out entries! You may import the CSV anyway and let the app attempt to interpret any erronous data, or stop.\n\nThe following campers have major errors:\n\(majorIdiots)\n\nThe following campers have minor errors:\n\(idiots)")
                 }
             }
-            .alert("Error!", isPresented: $genericErrorAlert, presenting: genericErrorDesc){ _ in
-                Button(){
-                } label: {
-                    Text("Dismiss")
-                }
-            } message: { e in
-                Text(e)
-            }
             Button {
                 if(data.c.fanatics.keys.contains(data.selectedSkill)){
                     var p: Int?
@@ -202,16 +192,16 @@ struct SkillView: View {
                         csvExport = data.fanaticListToCSV(fanaticName: data.selectedSkill)
                         showFanaticCsvExporter.toggle()
                     } else {
-                        genericErrorDesc = "Cannot export skill; there must be both leaders and campers assigned to the skill for export."
-                        genericErrorAlert.toggle()
+                        data.genericErrorDesc = "Cannot export skill; there must be both leaders and campers assigned to the skill for export."
+                        data.genericErrorAlert.toggle()
                     }
                 } else {
                     if(data.c.skills[data.selectedSkill]!.periods[data.selectedPeriod].count != 0 && data.c.skills[data.selectedSkill]!.leaders[data.selectedPeriod].count != 0){
                         csvExport = data.skillListToCSV(skillName: data.selectedSkill, skillPeriod: data.selectedPeriod)
                         showSkillCsvExporter.toggle()
                     } else {
-                        genericErrorDesc = "Cannot export skill; there must be both leaders and campers assigned to the skill for export."
-                        genericErrorAlert.toggle()
+                        data.genericErrorDesc = "Cannot export skill; there must be both leaders and campers assigned to the skill for export."
+                        data.genericErrorAlert.toggle()
                     }
                 }
             } label: {
@@ -225,8 +215,8 @@ struct SkillView: View {
                 case .success(let url):
                     print("Saved to \(url)")
                 case .failure(let error):
-                    genericErrorDesc = "Could not save: \(error.localizedDescription)"
-                    genericErrorAlert.toggle()
+                    data.genericErrorDesc = "Could not save: \(error.localizedDescription)"
+                    data.genericErrorAlert.toggle()
                 }
             }
             Picker("Skill", selection: $data.selectedSkill){
@@ -252,8 +242,8 @@ struct SkillView: View {
             case .success(let url):
                 print("Saved to \(url)")
             case .failure(let error):
-                genericErrorDesc = "Could not save: \(error.localizedDescription)"
-                genericErrorAlert.toggle()
+                data.genericErrorDesc = "Could not save: \(error.localizedDescription)"
+                data.genericErrorAlert.toggle()
             }
         }
     }

@@ -27,14 +27,12 @@ struct CamperView: View {
     @State private var camperEditPass: HumanSelection<Camper>?
     @State private var camperDestPass: HumanSelection<Camper>?
     @State private var csvInput: [Substring] = [""]
-    @State private var genericErrorDesc = ""
     @State private var majorIdiots: [String] = [""]
     @State private var idiots: [String] = [""]
     @State private var showFileChooser = false
     @State private var showCsvExporter = false
     @State private var addCamperSheet = false
     @State private var importSkillSheet = false
-    @State private var genericErrorAlert = false
     @State private var deleteCamperConfirm = false
     @State private var ignoreIdiotsConfirm = false
     @State private var search = ""
@@ -132,28 +130,20 @@ struct CamperView: View {
                 do {
                     try data.processPreferredSkills()
                 } catch SPRError.NoSkills {
-                    genericErrorDesc = "There are no skills to assign campers to."
-                    genericErrorAlert.toggle()
+                    data.genericErrorDesc = "There are no skills to assign campers to."
+                    data.genericErrorAlert.toggle()
                 } catch SPRError.NotEnoughSkillSpace {
-                    genericErrorDesc = "There is not enough space in the skills to accomodate all campers."
-                    genericErrorAlert.toggle()
+                    data.genericErrorDesc = "There is not enough space in the skills to accomodate all campers."
+                    data.genericErrorAlert.toggle()
                 } catch {
-                    genericErrorDesc = "Unknown error occured! \(error.localizedDescription)"
-                    genericErrorAlert.toggle()
+                    data.genericErrorDesc = "Unknown error occured! \(error.localizedDescription)"
+                    data.genericErrorAlert.toggle()
                 }
             } label: {
                 Image(systemName: "figure.run.square.stack")
                     .foregroundColor(Color(.systemIndigo))
             }
             .help("Assign Preferred Skills")
-            .alert("Error!", isPresented: $genericErrorAlert, presenting: genericErrorDesc){ _ in
-                Button(){
-                } label: {
-                    Text("Dismiss")
-                }
-            } message: { e in
-                Text(e)
-            }
             Button {
                 try! data.clearAllCamperSkills()
             } label: {
@@ -186,14 +176,14 @@ struct CamperView: View {
                             ignoreIdiotsConfirm.toggle()
                         }
                     } catch SPRError.AmbiguousSkillEntries(let s){
-                        genericErrorDesc = "The provided CSV has skills or fanatic options that cannot be evaluated because no camper has selected them. Remove the following skills/fanatics: \(s)"
-                        genericErrorAlert.toggle()
+                        data.genericErrorDesc = "The provided CSV has skills or fanatic options that cannot be evaluated because no camper has selected them. Remove the following skills/fanatics: \(s)"
+                        data.genericErrorAlert.toggle()
                     } catch SPRError.InvalidFileFormat {
-                        genericErrorDesc = "The provided CSV is invalid and cannot be imported."
-                        genericErrorAlert.toggle()
+                        data.genericErrorDesc = "The provided CSV is invalid and cannot be imported."
+                        data.genericErrorAlert.toggle()
                     } catch {
-                        genericErrorDesc = "Failed reading from URL: \(String(describing: panel.url)), Error: " + error.localizedDescription
-                        genericErrorAlert.toggle()
+                        data.genericErrorDesc = "Failed reading from URL: \(String(describing: panel.url)), Error: " + error.localizedDescription
+                        data.genericErrorAlert.toggle()
                     }
                 }
             } label: {
@@ -242,8 +232,8 @@ struct CamperView: View {
                 case .success(let url):
                     print("Saved to \(url)")
                 case .failure(let error):
-                    genericErrorDesc = "Could not save: \(error.localizedDescription)"
-                    genericErrorAlert.toggle()
+                    data.genericErrorDesc = "Could not save: \(error.localizedDescription)"
+                    data.genericErrorAlert.toggle()
                 }
             }
             TextField("Search...", text: $search)
