@@ -101,7 +101,7 @@ struct AddCamperView: View {
                         while(preferredSkills.count < (fanaticSelection == "None" ? 6 : 5)){
                             preferredSkills.append("None")
                         }
-                        try! createCamper(newCamper: try! Camper(fName: iFName, lName: iLName, cabin: selectedCabin, preferredSkills: preferredSkills, fanatic: fanaticSelection), data: data)
+                        try! data.createCamper(newCamper: try! Camper(fName: iFName, lName: iLName, cabin: selectedCabin, preferredSkills: preferredSkills, fanatic: fanaticSelection))
                         dismiss()
                     }
                 }

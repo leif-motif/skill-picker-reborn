@@ -61,22 +61,22 @@ struct ModifyCabinView: View {
                     Button("Save Changes") {
                         data.objectWillChange.send()
                         if(seniorSelection == data.c.nullSenior.id && juniorSelection == data.c.nullJunior.id){
-                            changeCabinLeaders(cabinName: targetCabin, targetSenior: data.c.nullSenior, targetJunior: data.c.nullJunior, data: data, usingInternally: true)
+                            data.changeCabinLeaders(cabinName: targetCabin, targetSenior: data.c.nullSenior, targetJunior: data.c.nullJunior, usingInternally: true)
                         } else if(seniorSelection == data.c.nullSenior.id){
-                            changeCabinLeaders(cabinName: targetCabin,
+                            data.changeCabinLeaders(cabinName: targetCabin,
                                                targetSenior: data.c.nullSenior,
-                                               targetJunior: data.c.getLeader(leaderID: juniorSelection)!, data: data, usingInternally: true)
+                                               targetJunior: data.getLeader(leaderID: juniorSelection)!, usingInternally: true)
                         } else if(juniorSelection == data.c.nullJunior.id){
-                            changeCabinLeaders(cabinName: targetCabin,
-                                               targetSenior: data.c.getLeader(leaderID: seniorSelection)!,
-                                               targetJunior: data.c.nullJunior, data: data, usingInternally: true)
+                            data.changeCabinLeaders(cabinName: targetCabin,
+                                               targetSenior: data.getLeader(leaderID: seniorSelection)!,
+                                               targetJunior: data.c.nullJunior, usingInternally: true)
                         } else {
-                            changeCabinLeaders(cabinName: targetCabin,
-                                               targetSenior: data.c.getLeader(leaderID: seniorSelection)!,
-                                               targetJunior: data.c.getLeader(leaderID: juniorSelection)!, data: data, usingInternally: true)
+                            data.changeCabinLeaders(cabinName: targetCabin,
+                                               targetSenior: data.getLeader(leaderID: seniorSelection)!,
+                                               targetJunior: data.getLeader(leaderID: juniorSelection)!, usingInternally: true)
                         }
                         if(iName != targetCabin){
-                            renameCabin(oldCabin: targetCabin, newCabin: iName, data: data, usingInternally: true)
+                            data.renameCabin(oldCabin: targetCabin, newCabin: iName, usingInternally: true)
                             data.selectedCabin = iName
                         }
                         #warning("TODO: handle group undo when cabin's name needs modifying")
@@ -88,20 +88,19 @@ struct ModifyCabinView: View {
                 } else {
                     Button("Create Cabin"){
                         if(seniorSelection == data.c.nullSenior.id && juniorSelection == data.c.nullJunior.id){
-                            createCabin(cabinName: iName, targetSenior: data.c.nullSenior, targetJunior: data.c.nullJunior, data: data)
+                            data.createCabin(cabinName: iName, targetSenior: data.c.nullSenior, targetJunior: data.c.nullJunior)
                         } else if(seniorSelection == data.c.nullSenior.id){
-                            createCabin(cabinName: iName,
+                            data.createCabin(cabinName: iName,
                                         targetSenior: data.c.nullSenior,
-                                        targetJunior: data.c.getLeader(leaderID: juniorSelection)!, data: data)
+                                        targetJunior: data.getLeader(leaderID: juniorSelection)!)
                         } else if(juniorSelection == data.c.nullJunior.id){
-                            createCabin(cabinName: iName,
-                                        targetSenior: data.c.getLeader(leaderID: seniorSelection)!,
-                                        targetJunior: data.c.nullJunior, data: data)
+                            data.createCabin(cabinName: iName,
+                                        targetSenior: data.getLeader(leaderID: seniorSelection)!,
+                                        targetJunior: data.c.nullJunior)
                         } else {
-                            createCabin(cabinName: iName,
-                                        targetSenior: data.c.getLeader(leaderID: seniorSelection)!,
-                                        targetJunior: data.c.getLeader(leaderID: juniorSelection)!,
-                                        data: data)
+                            data.createCabin(cabinName: iName,
+                                        targetSenior: data.getLeader(leaderID: seniorSelection)!,
+                                        targetJunior: data.getLeader(leaderID: juniorSelection)!)
                         }
                         data.selectedCabin = iName
                         dismiss()

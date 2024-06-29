@@ -112,12 +112,12 @@ struct SkillCampersView: View {
                 data.objectWillChange.send()
                 if(data.c.fanatics.keys.contains(data.selectedSkill)){
                     for camperID in p.selection {
-                        try! removeCamperFromFanatic(camperID: camperID, fanaticName: data.selectedSkill, newSixthPreferredSkill: "None", data: data, usingInternally: true)
+                        try! data.removeCamperFromFanatic(camperID: camperID, fanaticName: data.selectedSkill, newSixthPreferredSkill: "None", usingInternally: true)
                     }
                     #warning("TODO: handle group undo")
                 } else {
                     for camperID in p.selection {
-                        try! removeCamperFromSkill(camperID: camperID, skillName: data.selectedSkill, period: data.selectedPeriod, data: data, usingInternally: true)
+                        try! data.removeCamperFromSkill(camperID: camperID, skillName: data.selectedSkill, period: data.selectedPeriod, usingInternally: true)
                     }
                     #warning("TODO: handle group undo")
                 }
@@ -141,7 +141,7 @@ struct SkillCampersView: View {
             Button(role: .destructive){
                 data.objectWillChange.send()
                 for camperID in p.selection {
-                    deleteCamper(camperID: camperID, data: data, usingInternally: true)
+                    data.deleteCamper(camperID: camperID, usingInternally: true)
                 }
                 camperDestPass = nil
                 selectedCamper = []

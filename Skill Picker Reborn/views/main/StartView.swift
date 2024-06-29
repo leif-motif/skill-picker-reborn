@@ -59,7 +59,7 @@ struct StartView: View {
             .help("View Software License")
             #if DEBUG
             Button {
-                createTestingDataPlus(data: data)
+                data.createTestingDataPlus(data: data)
                 isTesting = true
             } label: {
                 Image(systemName: "testtube.2")

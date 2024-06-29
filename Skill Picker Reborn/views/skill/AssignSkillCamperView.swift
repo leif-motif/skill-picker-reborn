@@ -50,19 +50,15 @@ struct AssignSkillCamperView: View {
                         //quite frankly, i thought searching for specific campers wasn't working.
                         //and yet, when i last tested this, it is now. if anything is going wacko, it's because of this.
                         data.objectWillChange.send()
-                        if(data.c.getCamper(camperID: camperIDs[camperInput.lowercased()]!)!.fanatic != "None"){
-                            try! removeCamperFromFanatic(camperID: camperIDs[camperInput.lowercased()]!,
-                                                         fanaticName: data.c.getCamper(camperID: camperIDs[camperInput.lowercased()]!)!.fanatic,
-                                                         newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST", data: data, usingInternally: true)
+                        if(data.getCamper(camperID: camperIDs[camperInput.lowercased()]!)!.fanatic != "None"){
+                            try! data.removeCamperFromFanatic(camperID: camperIDs[camperInput.lowercased()]!,
+                                                         fanaticName: data.getCamper(camperID: camperIDs[camperInput.lowercased()]!)!.fanatic,
+                                                         newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST", usingInternally: true)
                         }
-                        try! assignCamperToFanatic(targetCamper: data.c.getCamper(camperID: camperIDs[camperInput.lowercased()]!)!,
-                                                   fanaticName: targetSkill,
-                                                   data: data, usingInternally: true)
+                        try! data.assignCamperToFanatic(targetCamper: data.getCamper(camperID: camperIDs[camperInput.lowercased()]!)!, fanaticName: targetSkill, usingInternally: true)
                         #warning("TODO: handle group undo")
                     } else {
-                        assignCamperToSkill(targetCamper: data.c.getCamper(camperID: camperIDs[camperInput.lowercased()]!)!,
-                                            skillName: targetSkill, period: skillPeriod,
-                                            data: data)
+                        data.assignCamperToSkill(targetCamper: data.getCamper(camperID: camperIDs[camperInput.lowercased()]!)!, skillName: targetSkill, period: skillPeriod)
                     }
                     dismiss()
                 }

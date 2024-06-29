@@ -55,10 +55,10 @@ struct ModifyFanaticView: View {
                 if(editing){
                     Button("Save Changes"){
                         if(activePeriods != data.c.fanatics[targetFanatic]!.activePeriods){
-                            try! changeFanaticPeriods(targetFanatic: targetFanatic, newPeriods: activePeriods, data: data, usingInternally: true)
+                            try! data.changeFanaticPeriods(targetFanatic: targetFanatic, newPeriods: activePeriods, usingInternally: true)
                         }
                         if(iName != targetFanatic){
-                            try! renameFanatic(oldName: targetFanatic, newName: iName, data: data, usingInternally: true)
+                            try! data.renameFanatic(oldName: targetFanatic, newName: iName, usingInternally: true)
                             data.selectedSkill = iName
                         }
                         dismiss()
@@ -68,7 +68,7 @@ struct ModifyFanaticView: View {
                     .tint(.blue)
                 } else {
                     Button("Add Fanatic") {
-                        createFanatic(newFanatic: try! Fanatic(name: iName, activePeriods: activePeriods), data: data)
+                        data.createFanatic(newFanatic: try! Fanatic(name: iName, activePeriods: activePeriods))
                         dismiss()
                     }
                     .disabled(iName == "" || data.c.skills.keys.contains(iName) || activePeriods == [false,false,false,false])

@@ -20,59 +20,61 @@
 
 import Foundation
 
-func createLeader(newLeader: Leader, data: CampData, usingInternally: Bool = false){
-    if(!usingInternally){
-        data.objectWillChange.send()
-    }
-    
-    data.c.leaders.insert(newLeader)
-    if(newLeader.senior){
-        //if this new leader is going to be assigned a cabin and the cabin leader at that cabin is not the null leader
-        if(newLeader.cabin != "Unassigned" && data.c.cabins[newLeader.cabin]!.senior.id != data.c.nullSenior.id){
-            //set the old leader's cabin as unassigned
-            data.c.cabins[newLeader.cabin]!.senior.cabin = "Unassigned"
+extension CampData {
+    func createLeader(newLeader: Leader, usingInternally: Bool = false){
+        if(!usingInternally){
+            self.objectWillChange.send()
         }
-        data.c.cabins[newLeader.cabin]!.senior = newLeader
-    } else {
-        if(newLeader.cabin != "Unassigned" && data.c.cabins[newLeader.cabin]!.junior.id != data.c.nullJunior.id){
-            data.c.cabins[newLeader.cabin]!.junior.cabin = "Unassigned"
-        }
-        data.c.cabins[newLeader.cabin]!.junior = newLeader
-    }
-    for i in 0...3 {
-        data.c.skills[newLeader.skills[i]]!.leaders[i].insert(newLeader)
-    }
-    
-    if(!usingInternally){
-        data.undoManager.registerUndo(withTarget: data.c){ _ in
-            #warning("TODO: implement undo in createLeader")
-        }
-    }
-}
-
-func deleteLeader(leaderID: Leader.ID, data: CampData, usingInternally: Bool = false){
-    if(!usingInternally){
-        data.objectWillChange.send()
-    }
-    
-    //remove leader from cabin if not unassigned
-    if(data.c.getLeader(leaderID: leaderID)!.cabin != "Unassigned"){
-        if(data.c.getLeader(leaderID: leaderID)!.senior){
-            data.c.cabins[data.c.getLeader(leaderID: leaderID)!.cabin]!.senior = data.c.nullSenior
+        
+        self.c.leaders.insert(newLeader)
+        if(newLeader.senior){
+            //if this new leader is going to be assigned a cabin and the cabin leader at that cabin is not the null leader
+            if(newLeader.cabin != "Unassigned" && self.c.cabins[newLeader.cabin]!.senior.id != self.c.nullSenior.id){
+                //set the old leader's cabin as unassigned
+                self.c.cabins[newLeader.cabin]!.senior.cabin = "Unassigned"
+            }
+            self.c.cabins[newLeader.cabin]!.senior = newLeader
         } else {
-            data.c.cabins[data.c.getLeader(leaderID: leaderID)!.cabin]!.junior = data.c.nullJunior
+            if(newLeader.cabin != "Unassigned" && self.c.cabins[newLeader.cabin]!.junior.id != self.c.nullJunior.id){
+                self.c.cabins[newLeader.cabin]!.junior.cabin = "Unassigned"
+            }
+            self.c.cabins[newLeader.cabin]!.junior = newLeader
+        }
+        for i in 0...3 {
+            self.c.skills[newLeader.skills[i]]!.leaders[i].insert(newLeader)
+        }
+        
+        if(!usingInternally){
+            self.undoManager.registerUndo(withTarget: self.c){ _ in
+                #warning("TODO: implement undo in createLeader")
+            }
         }
     }
-    //remove leader from skills
-    for i in 0...3 {
-        data.c.skills[data.c.getLeader(leaderID: leaderID)!.skills[i]]!.leaders[i].remove(data.c.getLeader(leaderID: leaderID)!)
-    }
-    //delete leader for good
-    data.c.leaders.remove(data.c.getLeader(leaderID: leaderID)!)
     
-    if(!usingInternally){
-        data.undoManager.registerUndo(withTarget: data.c){ _ in
-            #warning("TODO: implement undo in deleteLeader")
+    func deleteLeader(leaderID: Leader.ID, usingInternally: Bool = false){
+        if(!usingInternally){
+            self.objectWillChange.send()
+        }
+        
+        //remove leader from cabin if not unassigned
+        if(self.getLeader(leaderID: leaderID)!.cabin != "Unassigned"){
+            if(self.getLeader(leaderID: leaderID)!.senior){
+                self.c.cabins[self.getLeader(leaderID: leaderID)!.cabin]!.senior = self.c.nullSenior
+            } else {
+                self.c.cabins[self.getLeader(leaderID: leaderID)!.cabin]!.junior = self.c.nullJunior
+            }
+        }
+        //remove leader from skills
+        for i in 0...3 {
+            self.c.skills[self.getLeader(leaderID: leaderID)!.skills[i]]!.leaders[i].remove(self.getLeader(leaderID: leaderID)!)
+        }
+        //delete leader for good
+        self.c.leaders.remove(self.getLeader(leaderID: leaderID)!)
+        
+        if(!usingInternally){
+            self.undoManager.registerUndo(withTarget: self.c){ _ in
+                #warning("TODO: implement undo in deleteLeader")
+            }
         }
     }
 }

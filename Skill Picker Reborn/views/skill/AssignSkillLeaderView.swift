@@ -39,13 +39,9 @@ struct AssignSkillLeaderView: View {
                 }
                 Button("Assign Leader") {
                     if(isFanatic){
-                        try! assignLeaderToFanatic(targetLeader: data.c.getLeader(leaderID: leaderIDs[leaderInput.lowercased()]!)!,
-                                                   fanaticName: targetSkill,
-                                                   data: data)
+                        try! data.assignLeaderToFanatic(targetLeader: data.getLeader(leaderID: leaderIDs[leaderInput.lowercased()]!)!, fanaticName: targetSkill)
                     } else {
-                        assignLeaderToSkill(targetLeader: data.c.getLeader(leaderID: leaderIDs[leaderInput.lowercased()]!)!,
-                                            skillName: targetSkill, period: skillPeriod,
-                                            data: data)
+                        data.assignLeaderToSkill(targetLeader: data.getLeader(leaderID: leaderIDs[leaderInput.lowercased()]!)!, skillName: targetSkill, period: skillPeriod)
                     }
                     dismiss()
                 }

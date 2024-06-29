@@ -91,9 +91,9 @@ struct SkillView: View {
                 }
                 Button(role: .destructive){
                     if(data.c.fanatics.keys.contains(data.selectedSkill)){
-                        try! deleteFanatic(fanaticName: data.selectedSkill, data: data)
+                        try! data.deleteFanatic(fanaticName: data.selectedSkill)
                     } else {
-                        try! deleteSkill(skillName: data.selectedSkill, data: data)
+                        try! data.deleteSkill(skillName: data.selectedSkill)
                     }
                     data.selectedSkill = "None"
                 } label: {
@@ -155,8 +155,8 @@ struct SkillView: View {
             .help("Import CSV")
             .sheet(isPresented: $importSkillSheet, onDismiss: {
                 if(data.isImporting){
-                    cabinsFromCSV(csv: csvInput, data: data)
-                    try! campersFromCSV(csv: csvInput, data: data)
+                    data.cabinsFromCSV(csv: csvInput)
+                    try! data.campersFromCSV(csv: csvInput)
                     data.isImporting = false
                 }
             }, content: {
@@ -199,7 +199,7 @@ struct SkillView: View {
                         }
                     }
                     if(data.c.skills[data.selectedSkill]!.periods[p!].count != 0 && data.c.skills[data.selectedSkill]!.leaders[p!].count != 0){
-                        csvExport = fanaticListToCSV(fanaticName: data.selectedSkill, data: data)
+                        csvExport = data.fanaticListToCSV(fanaticName: data.selectedSkill)
                         showFanaticCsvExporter.toggle()
                     } else {
                         genericErrorDesc = "Cannot export skill; there must be both leaders and campers assigned to the skill for export."
@@ -207,7 +207,7 @@ struct SkillView: View {
                     }
                 } else {
                     if(data.c.skills[data.selectedSkill]!.periods[data.selectedPeriod].count != 0 && data.c.skills[data.selectedSkill]!.leaders[data.selectedPeriod].count != 0){
-                        csvExport = skillListToCSV(skillName: data.selectedSkill, skillPeriod: data.selectedPeriod, data: data)
+                        csvExport = data.skillListToCSV(skillName: data.selectedSkill, skillPeriod: data.selectedPeriod)
                         showSkillCsvExporter.toggle()
                     } else {
                         genericErrorDesc = "Cannot export skill; there must be both leaders and campers assigned to the skill for export."

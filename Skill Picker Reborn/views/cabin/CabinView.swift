@@ -139,7 +139,7 @@ struct CabinView: View {
                     title: Text("Confirm"),
                     message: Text("Are you sure you want to delete the current cabin?"),
                     primaryButton: .default(Text("Delete")){
-                        try! deleteCabin(targetCabin: data.selectedCabin, data: data)
+                        try! data.deleteCabin(targetCabin: data.selectedCabin)
                         data.selectedCabin = "Unassigned"
                     },
                     secondaryButton: .cancel()
@@ -200,8 +200,8 @@ struct CabinView: View {
             .help("Import CSV")
             .sheet(isPresented: $importSkillSheet, onDismiss: {
                 if(data.isImporting){
-                    cabinsFromCSV(csv: csvInput, data: data)
-                    try! campersFromCSV(csv: csvInput, data: data)
+                    data.cabinsFromCSV(csv: csvInput)
+                    try! data.campersFromCSV(csv: csvInput)
                     data.isImporting = false
                 }
                 data.objectWillChange.send()
@@ -239,7 +239,7 @@ struct CabinView: View {
                     .foregroundColor(Color(.systemBlue))
             }
             .help("Export Cabin Schedule")
-            .fileExporter(isPresented: $showCsvExporter, document: CSVFile(initialText: cabinListToCSV(cabinName: data.selectedCabin, data: data)),
+            .fileExporter(isPresented: $showCsvExporter, document: CSVFile(initialText: data.cabinListToCSV(cabinName: data.selectedCabin)),
                           contentType: .csv, defaultFilename: data.selectedCabin) { result in
                 switch result {
                 case .success(let url):
@@ -285,7 +285,7 @@ struct CabinView: View {
             Button(role: .destructive){
                 data.objectWillChange.send()
                 for camperID in p.selection {
-                    removeCamperFromCabin(camperID: camperID, data: data, usingInternally: true)
+                    data.removeCamperFromCabin(camperID: camperID, usingInternally: true)
                 }
                 camperDestPass = nil
                 selectedCamper = []
@@ -308,7 +308,7 @@ struct CabinView: View {
             Button(role: .destructive){
                 data.objectWillChange.send()
                 for camperID in p.selection {
-                    deleteCamper(camperID: camperID, data: data, usingInternally: true)
+                    data.deleteCamper(camperID: camperID, usingInternally: true)
                 }
                 camperDestPass = nil
                 selectedCamper = []

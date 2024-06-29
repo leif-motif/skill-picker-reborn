@@ -37,7 +37,7 @@ struct AssignCabinCamperView: View {
                     dismiss()
                 }
                 Button("Assign Camper") {
-                    assignCamperToCabin(targetCamper: data.c.getCamper(camperID: camperIDs[camperInput.lowercased()]!)!, cabinName: targetCabin, data: data)
+                    data.assignCamperToCabin(targetCamper: data.getCamper(camperID: camperIDs[camperInput.lowercased()]!)!, cabinName: targetCabin)
                     dismiss()
                 }
                 .buttonStyle(.borderedProminent)

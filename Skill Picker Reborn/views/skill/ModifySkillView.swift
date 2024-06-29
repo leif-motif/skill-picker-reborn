@@ -83,7 +83,7 @@ struct ModifySkillView: View {
                 }
                 if(editing){
                     Button("Save Changes"){
-                        try! modifySkill(oldName: targetSkill, newName: iName, newMaximums: maximums, data: data)
+                        try! data.modifySkill(oldName: targetSkill, newName: iName, newMaximums: maximums)
                         if(iName != targetSkill){
                             data.selectedSkill = iName
                         }
@@ -102,7 +102,7 @@ struct ModifySkillView: View {
                                 maximums[i] = 255
                             }
                         }
-                        createSkill(newSkill: try! Skill(name: iName, maximums: maximums), data: data)
+                        data.createSkill(newSkill: try! Skill(name: iName, maximums: maximums))
                         dismiss()
                     }
                     .buttonStyle(.borderedProminent)

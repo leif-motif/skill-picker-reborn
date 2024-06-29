@@ -38,6 +38,14 @@ class CampData: ObservableObject {
     @Published var importSkillDemand: [String:[Int]]
     @Published var isImporting: Bool
     
+    func getCamper(camperID: Camper.ID) -> Camper? {
+        return self.c.campers.first(where: {$0.id == camperID})
+    }
+    
+    func getLeader(leaderID: Leader.ID) -> Leader? {
+        return self.c.leaders.first(where: {$0.id == leaderID})
+    }
+    
     init(){
         self.c = Camp()
         

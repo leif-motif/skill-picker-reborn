@@ -128,7 +128,7 @@ struct LeaderView: View {
                 .foregroundColor(Color(.systemBlue))
             }
             .help("Export Schedule for all Leaders")
-            .fileExporter(isPresented: $showCsvExporter, document: CSVFile(initialText: leaderListToCSV(data: data)),
+            .fileExporter(isPresented: $showCsvExporter, document: CSVFile(initialText: data.leaderListToCSV()),
                           contentType: .csv, defaultFilename: "Leaders") { result in
                 switch result {
                 case .success(let url):
@@ -150,7 +150,7 @@ struct LeaderView: View {
             Button(role: .destructive){
                 data.objectWillChange.send()
                 for leaderID in p.selection {
-                    deleteLeader(leaderID: leaderID, data: data, usingInternally: true)
+                    data.deleteLeader(leaderID: leaderID, usingInternally: true)
                 }
                 leaderDestPass = nil
                 selectedLeader = []

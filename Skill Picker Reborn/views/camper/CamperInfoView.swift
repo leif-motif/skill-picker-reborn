@@ -59,28 +59,28 @@ struct CamperInfoView: View {
                         Text($0).tag($0)
                     }
                 }
-                .foregroundColor(skillIsOverMax(oldSkill: targetCamper.skills[0], newSkill: newSkills[0], skillPeriod: 0, camp: data.c) ? Color(.systemRed) : Color.primary)
+                .foregroundColor(data.skillIsOverMax(oldSkill: targetCamper.skills[0], newSkill: newSkills[0], skillPeriod: 0) ? Color(.systemRed) : Color.primary)
                 .disabled(newFanatic != "None" && data.c.fanatics[newFanatic]?.activePeriods[0] ?? false)
                 Picker("Skill Two:", selection: $newSkills[1]){
                     ForEach(Array(data.c.skills.keys).filter({!data.c.fanatics.keys.contains($0)}).sorted(), id: \.self){
                         Text($0).tag($0)
                     }
                 }
-                .foregroundColor(skillIsOverMax(oldSkill: targetCamper.skills[1], newSkill: newSkills[1], skillPeriod: 1, camp: data.c) ? Color(.systemRed) : Color.primary)
+                .foregroundColor(data.skillIsOverMax(oldSkill: targetCamper.skills[1], newSkill: newSkills[1], skillPeriod: 1) ? Color(.systemRed) : Color.primary)
                 .disabled(newFanatic != "None" && data.c.fanatics[newFanatic]?.activePeriods[1] ?? false)
                 Picker("Skill Three:", selection: $newSkills[2]){
                     ForEach(Array(data.c.skills.keys).filter({!data.c.fanatics.keys.contains($0)}).sorted(), id: \.self){
                         Text($0).tag($0)
                     }
                 }
-                .foregroundColor(skillIsOverMax(oldSkill: targetCamper.skills[2], newSkill: newSkills[2], skillPeriod: 2, camp: data.c) ? Color(.systemRed) : Color.primary)
+                .foregroundColor(data.skillIsOverMax(oldSkill: targetCamper.skills[2], newSkill: newSkills[2], skillPeriod: 2) ? Color(.systemRed) : Color.primary)
                 .disabled(newFanatic != "None" && data.c.fanatics[newFanatic]?.activePeriods[2] ?? false)
                 Picker("Skill Four:", selection: $newSkills[3]){
                     ForEach(Array(data.c.skills.keys).filter({!data.c.fanatics.keys.contains($0)}).sorted(), id: \.self){
                         Text($0).tag($0)
                     }
                 }
-                .foregroundColor(skillIsOverMax(oldSkill: targetCamper.skills[3], newSkill: newSkills[3], skillPeriod: 3, camp: data.c) ? Color(.systemRed) : Color.primary)
+                .foregroundColor(data.skillIsOverMax(oldSkill: targetCamper.skills[3], newSkill: newSkills[3], skillPeriod: 3) ? Color(.systemRed) : Color.primary)
                 .disabled(newFanatic != "None" && data.c.fanatics[newFanatic]?.activePeriods[3] ?? false)
             }
             Text("Preferred Skills:")
@@ -141,19 +141,19 @@ struct CamperInfoView: View {
                         targetCamper.fName = newFirstName
                         targetCamper.lName = newLastName
                         if(targetCamper.cabin != newCabin){
-                            removeCamperFromCabin(camperID: camperID, data: data, usingInternally: true)
-                            assignCamperToCabin(targetCamper: targetCamper, cabinName: newCabin, data: data, usingInternally: true)
+                            data.removeCamperFromCabin(camperID: camperID, usingInternally: true)
+                            data.assignCamperToCabin(targetCamper: targetCamper, cabinName: newCabin, usingInternally: true)
                         }
                         if(targetCamper.fanatic != newFanatic){
-                            try! removeCamperFromFanatic(camperID: camperID, fanaticName: targetCamper.fanatic, newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST.", data: data, usingInternally: true)
-                            try! assignCamperToFanatic(targetCamper: targetCamper, fanaticName: newFanatic, data: data, usingInternally: true)
+                            try! data.removeCamperFromFanatic(camperID: camperID, fanaticName: targetCamper.fanatic, newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST.", usingInternally: true)
+                            try! data.assignCamperToFanatic(targetCamper: targetCamper, fanaticName: newFanatic, usingInternally: true)
                         }
                         for i in 0...3 {
                             if(targetCamper.skills[i] != newSkills[i] && targetCamper.skills[i] != "None" && !data.c.fanatics.keys.contains(targetCamper.skills[i])){
-                                try! removeCamperFromSkill(camperID: targetCamper.id, skillName: targetCamper.skills[i], period: i, data: data, usingInternally: true)
+                                try! data.removeCamperFromSkill(camperID: targetCamper.id, skillName: targetCamper.skills[i], period: i, usingInternally: true)
                             }
                             if(targetCamper.skills[i] != newSkills[i] && newSkills[i] != "None" && !data.c.fanatics.keys.contains(targetCamper.skills[i])){
-                                assignCamperToSkill(targetCamper: targetCamper, skillName: newSkills[i], period: i, data: data, usingInternally: true)
+                                data.assignCamperToSkill(targetCamper: targetCamper, skillName: newSkills[i], period: i, usingInternally: true)
                             }
                         }
                         dismiss()
@@ -170,8 +170,8 @@ struct CamperInfoView: View {
                             targetCamper.fName = newFirstName
                             targetCamper.lName = newLastName
                             if(targetCamper.cabin != newCabin){
-                                removeCamperFromCabin(camperID: camperID, data: data, usingInternally: true)
-                                assignCamperToCabin(targetCamper: targetCamper, cabinName: newCabin, data: data, usingInternally: true)
+                                data.removeCamperFromCabin(camperID: camperID, usingInternally: true)
+                                data.assignCamperToCabin(targetCamper: targetCamper, cabinName: newCabin, usingInternally: true)
                             }
                             if(newFanatic != "None" && newPreferredSkills.count == 6){
                                 newPreferredSkills.remove(at: 5)
@@ -180,20 +180,20 @@ struct CamperInfoView: View {
                                 newPreferredSkills.append("None")
                             }
                             if(targetCamper.fanatic == "None" && newFanatic != "None"){
-                                try! assignCamperToFanatic(targetCamper: targetCamper, fanaticName: newFanatic, data: data)
+                                try! data.assignCamperToFanatic(targetCamper: targetCamper, fanaticName: newFanatic)
                             } else if(targetCamper.fanatic != "None" && newFanatic == "None"){
-                                try! removeCamperFromFanatic(camperID: camperID, fanaticName: targetCamper.fanatic, newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST", data: data)
+                                try! data.removeCamperFromFanatic(camperID: camperID, fanaticName: targetCamper.fanatic, newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST")
                             } else if(targetCamper.fanatic != newFanatic && targetCamper.fanatic != "None" && newFanatic != "None"){
-                                try! removeCamperFromFanatic(camperID: camperID, fanaticName: targetCamper.fanatic, newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST", data: data)
-                                try! assignCamperToFanatic(targetCamper: targetCamper, fanaticName: newFanatic, data: data)
+                                try! data.removeCamperFromFanatic(camperID: camperID, fanaticName: targetCamper.fanatic, newSixthPreferredSkill: "THIS SKILL SHOULDN'T EXIST")
+                                try! data.assignCamperToFanatic(targetCamper: targetCamper, fanaticName: newFanatic)
                             }
                             targetCamper.preferredSkills = newPreferredSkills
                             for i in 0...3 {
                                 if(targetCamper.skills[i] != newSkills[i] && targetCamper.skills[i] != "None" && !data.c.fanatics.keys.contains(targetCamper.skills[i])){
-                                    try! removeCamperFromSkill(camperID: targetCamper.id, skillName: targetCamper.skills[i], period: i, data: data)
+                                    try! data.removeCamperFromSkill(camperID: targetCamper.id, skillName: targetCamper.skills[i], period: i)
                                 }
                                 if(targetCamper.skills[i] != newSkills[i] && newSkills[i] != "None" && !data.c.fanatics.keys.contains(targetCamper.skills[i])){
-                                    assignCamperToSkill(targetCamper: targetCamper, skillName: newSkills[i], period: i, data: data)
+                                    data.assignCamperToSkill(targetCamper: targetCamper, skillName: newSkills[i], period: i)
                                 }
                             }
                             dismiss()
@@ -203,7 +203,7 @@ struct CamperInfoView: View {
                         #warning("TODO: handle camper info editing")
                     }
                 }
-                .disabled(try! !evaluateFanatics(fanatic: newFanatic, periods: newSkills, data: data) || newFirstName == "" || newLastName == "" ||
+                .disabled(try! !data.evaluateFanatics(fanatic: newFanatic, periods: newSkills) || newFirstName == "" || newLastName == "" ||
                           (targetCamper.fName != newFirstName && targetCamper.lName != newLastName && !humanIsUnique(fName: newFirstName, lName: newLastName, humanSet: data.c.campers)))
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
@@ -218,7 +218,7 @@ struct CamperInfoView: View {
         .padding()
         .frame(width: 300, height: 550)
         .onAppear(perform: {
-            targetCamper = data.c.getCamper(camperID: camperID)!
+            targetCamper = data.getCamper(camperID: camperID)!
             newFirstName = targetCamper.fName
             newLastName = targetCamper.lName
             newCabin = targetCamper.cabin

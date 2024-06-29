@@ -21,55 +21,57 @@
 import Foundation
 import SwiftUI
 
-func createCamper(newCamper: Camper, data: CampData, usingInternally: Bool = false) throws {
-    if(!usingInternally){
-        data.objectWillChange.send()
-    }
-    
-    data.c.campers.insert(newCamper)
-    data.c.cabins[newCamper.cabin]!.campers.insert(newCamper)
-    //apply fanatic skills if it's passed
-    if(newCamper.fanatic != "None"){
-        for i in 0...3 {
-            if(data.c.fanatics[newCamper.fanatic]!.activePeriods[i] && newCamper.skills[i] == "None"){
-                data.c.skills[newCamper.fanatic]!.periods[i].insert(newCamper)
-                newCamper.skills[i] = newCamper.fanatic
-            } else if(data.c.fanatics[newCamper.fanatic]!.activePeriods[i]){
-                throw SPRError.SkillFanaticConflict
-            } else {
-                data.c.skills[newCamper.skills[i]]!.periods[i].insert(newCamper)
+extension CampData {
+    func createCamper(newCamper: Camper, usingInternally: Bool = false) throws {
+        if(!usingInternally){
+            self.objectWillChange.send()
+        }
+        
+        self.c.campers.insert(newCamper)
+        self.c.cabins[newCamper.cabin]!.campers.insert(newCamper)
+        //apply fanatic skills if it's passed
+        if(newCamper.fanatic != "None"){
+            for i in 0...3 {
+                if(self.c.fanatics[newCamper.fanatic]!.activePeriods[i] && newCamper.skills[i] == "None"){
+                    self.c.skills[newCamper.fanatic]!.periods[i].insert(newCamper)
+                    newCamper.skills[i] = newCamper.fanatic
+                } else if(self.c.fanatics[newCamper.fanatic]!.activePeriods[i]){
+                    throw SPRError.SkillFanaticConflict
+                } else {
+                    self.c.skills[newCamper.skills[i]]!.periods[i].insert(newCamper)
+                }
+            }
+        } else {
+            for i in 0...3 {
+                self.c.skills[newCamper.skills[i]]!.periods[i].insert(newCamper)
             }
         }
-    } else {
+        
+        if(!usingInternally){
+            self.undoManager.registerUndo(withTarget: self.c){ _ in
+                #warning("TODO: implement undo in createCamper")
+            }
+        }
+    }
+    
+    func deleteCamper(camperID: Camper.ID, usingInternally: Bool = false){
+        if(!usingInternally){
+            self.objectWillChange.send()
+        }
+        
+        //remove camper from cabin
+        self.c.cabins[self.getCamper(camperID: camperID)!.cabin]!.campers.remove(self.getCamper(camperID: camperID)!)
+        //remove camper from skills
         for i in 0...3 {
-            data.c.skills[newCamper.skills[i]]!.periods[i].insert(newCamper)
+            self.c.skills[self.getCamper(camperID: camperID)!.skills[i]]!.periods[i].remove(self.getCamper(camperID: camperID)!)
         }
-    }
-    
-    if(!usingInternally){
-        data.undoManager.registerUndo(withTarget: data.c){ _ in
-            #warning("TODO: implement undo in createCamper")
-        }
-    }
-}
-
-func deleteCamper(camperID: Camper.ID, data: CampData, usingInternally: Bool = false){
-    if(!usingInternally){
-        data.objectWillChange.send()
-    }
-    
-    //remove camper from cabin
-    data.c.cabins[data.c.getCamper(camperID: camperID)!.cabin]!.campers.remove(data.c.getCamper(camperID: camperID)!)
-    //remove camper from skills
-    for i in 0...3 {
-        data.c.skills[data.c.getCamper(camperID: camperID)!.skills[i]]!.periods[i].remove(data.c.getCamper(camperID: camperID)!)
-    }
-    //delete camper for good
-    data.c.campers.remove(data.c.getCamper(camperID: camperID)!)
-    
-    if(!usingInternally){
-        data.undoManager.registerUndo(withTarget: data.c){ _ in
-            #warning("TODO: implement undo in deleteCamper")
+        //delete camper for good
+        self.c.campers.remove(self.getCamper(camperID: camperID)!)
+        
+        if(!usingInternally){
+            self.undoManager.registerUndo(withTarget: self.c){ _ in
+                #warning("TODO: implement undo in deleteCamper")
+            }
         }
     }
 }

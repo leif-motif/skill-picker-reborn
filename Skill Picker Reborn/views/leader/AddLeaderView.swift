@@ -47,7 +47,7 @@ struct AddLeaderView: View {
                     dismiss()
                 }
                 Button("Create Leader"){
-                    createLeader(newLeader: try! Leader(fName: iFName, lName: iLName, cabin: selectedCabin, senior: isSenior), data: data)
+                    data.createLeader(newLeader: try! Leader(fName: iFName, lName: iLName, cabin: selectedCabin, senior: isSenior))
                     dismiss()
                 }
                 .buttonStyle(.borderedProminent)

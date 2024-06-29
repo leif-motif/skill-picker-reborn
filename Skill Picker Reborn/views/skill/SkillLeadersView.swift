@@ -113,12 +113,12 @@ struct SkillLeadersView: View {
                 data.objectWillChange.send()
                 if(data.c.fanatics.keys.contains(data.selectedSkill)){
                     for leaderID in p.selection {
-                        try! removeLeaderFromFanatic(leaderID: leaderID, fanaticName: data.selectedSkill, data: data, usingInternally: true)
+                        try! data.removeLeaderFromFanatic(leaderID: leaderID, fanaticName: data.selectedSkill, usingInternally: true)
                     }
                     #warning("TODO: handle group undo")
                 } else {
                     for leaderID in p.selection {
-                        try! removeLeaderFromSkill(leaderID: leaderID, skillName: data.selectedSkill, period: data.selectedPeriod, data: data, usingInternally: true)
+                        try! data.removeLeaderFromSkill(leaderID: leaderID, skillName: data.selectedSkill, period: data.selectedPeriod, usingInternally: true)
                     }
                     #warning("TODO: handle group undo")
                 }
@@ -142,7 +142,7 @@ struct SkillLeadersView: View {
             Button(role: .destructive){
                 data.objectWillChange.send()
                 for leaderID in p.selection {
-                    deleteLeader(leaderID: leaderID, data: data, usingInternally: true)
+                    data.deleteLeader(leaderID: leaderID, usingInternally: true)
                 }
                 leaderDestPass = nil
                 selectedLeader = []

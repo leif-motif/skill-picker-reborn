@@ -130,7 +130,7 @@ struct ImportSkillView: View {
                 Button("Import Skills") {
                     for skill in Array(data.importSkillList.keys) {
                         if(data.importSkillList[skill]!){
-                            createFanatic(newFanatic: try! Fanatic(name: skill, activePeriods: fanaticPeriods[skill]!), data: data, usingInternally: true)
+                            data.createFanatic(newFanatic: try! Fanatic(name: skill, activePeriods: fanaticPeriods[skill]!), usingInternally: true)
                         } else {
                             for i in 0...3 {
                                 if(skillMaximums[skill]![i] < 0){
@@ -139,7 +139,7 @@ struct ImportSkillView: View {
                                     skillMaximums[skill]![i] = 255
                                 }
                             }
-                            createSkill(newSkill: try! Skill(name: skill, maximums: skillMaximums[skill]!), data: data, usingInternally: true)
+                            data.createSkill(newSkill: try! Skill(name: skill, maximums: skillMaximums[skill]!), usingInternally: true)
                         }
                     }
                     data.isImporting = true

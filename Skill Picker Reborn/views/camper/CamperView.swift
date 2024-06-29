@@ -130,7 +130,7 @@ struct CamperView: View {
             .disabled(selectedCamper.count != 1)
             Button {
                 do {
-                    try processPreferredSkills(data: data)
+                    try data.processPreferredSkills()
                 } catch SPRError.NoSkills {
                     genericErrorDesc = "There are no skills to assign campers to."
                     genericErrorAlert.toggle()
@@ -155,7 +155,7 @@ struct CamperView: View {
                 Text(e)
             }
             Button {
-                try! clearAllCamperSkills(data: data)
+                try! data.clearAllCamperSkills()
             } label: {
                 Image(systemName: "person.2.gobackward")
                     .foregroundColor(Color(.systemRed))
@@ -203,8 +203,8 @@ struct CamperView: View {
             .help("Import CSV")
             .sheet(isPresented: $importSkillSheet, onDismiss: {
                 if(data.isImporting){
-                    cabinsFromCSV(csv: csvInput, data: data)
-                    try! campersFromCSV(csv: csvInput, data: data)
+                    data.cabinsFromCSV(csv: csvInput)
+                    try! data.campersFromCSV(csv: csvInput)
                     data.isImporting = false
                 }
             }, content: {
@@ -236,7 +236,7 @@ struct CamperView: View {
                 .foregroundColor(Color(.systemBlue))
             }
             .help("Export Schedule for all Campers")
-            .fileExporter(isPresented: $showCsvExporter, document: CSVFile(initialText: camperListToCSV(data: data)),
+            .fileExporter(isPresented: $showCsvExporter, document: CSVFile(initialText: data.camperListToCSV()),
                           contentType: .csv, defaultFilename: "Campers") { result in
                 switch result {
                 case .success(let url):
@@ -258,7 +258,7 @@ struct CamperView: View {
             Button(role: .destructive){
                 data.objectWillChange.send()
                 for camperID in p.selection {
-                    deleteCamper(camperID: camperID, data: data, usingInternally: true)
+                    data.deleteCamper(camperID: camperID, usingInternally: true)
                 }
                 camperDestPass = nil
                 selectedCamper = []

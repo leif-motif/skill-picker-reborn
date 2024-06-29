@@ -33,14 +33,6 @@ class Camp: Codable {
     let version: String
     let id: UUID
     
-    func getCamper(camperID: Camper.ID) -> Camper? {
-        return campers.first(where: {$0.id == camperID})
-    }
-    
-    func getLeader(leaderID: Leader.ID) -> Leader? {
-        return leaders.first(where: {$0.id == leaderID})
-    }
-    
     init(){
         self.campers = []
         self.leaders = []
