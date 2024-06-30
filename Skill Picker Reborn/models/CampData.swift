@@ -34,14 +34,9 @@ class CampData: ObservableObject {
     @Published var skillCamperSortOrder: [KeyPathComparator<Camper>]
     @Published var skillLeaderSortOrder: [KeyPathComparator<Leader>]
     
-    @Published var importSkillList: [String:Bool]
-    @Published var importSkillDemand: [String:[Int]]
-    @Published var isImporting: Bool
-    
     @Published var ignoreIdiotsConfirm: Bool
     @Published var clearSkillsConfirm: Bool
     @Published var genericErrorAlert: Bool
-    @Published var genericErrorDesc: String
     @Published var addCamperSheet: Bool
     @Published var addLeaderSheet: Bool
     @Published var addCabinSheet: Bool
@@ -49,9 +44,13 @@ class CampData: ObservableObject {
     @Published var addFanaticSheet: Bool
     @Published var importSkillSheet: Bool
     
-    @Published var csvInput: [Substring]
-    @Published var majorIdiots: [String]
-    @Published var idiots: [String]
+    var importSkillList: [String:Bool]
+    var importSkillDemand: [String:[Int]]
+    var isImporting: Bool
+    var genericErrorDesc: String
+    var csvInput: [Substring]
+    var majorIdiots: [String]
+    var idiots: [String]
     
     func getCamper(camperID: Camper.ID) -> Camper? {
         return self.c.campers.first(where: {$0.id == camperID})
@@ -75,14 +74,9 @@ class CampData: ObservableObject {
         self.skillCamperSortOrder = [KeyPathComparator(\Camper.lName)]
         self.skillLeaderSortOrder = [KeyPathComparator(\Leader.lName)]
         
-        self.importSkillList = [:]
-        self.importSkillDemand = [:]
-        self.isImporting = false
-        
         self.ignoreIdiotsConfirm = false
         self.clearSkillsConfirm = false
         self.genericErrorAlert = false
-        self.genericErrorDesc = ""
         self.addCamperSheet = false
         self.addLeaderSheet = false
         self.addCabinSheet = false
@@ -90,6 +84,10 @@ class CampData: ObservableObject {
         self.addFanaticSheet = false
         self.importSkillSheet = false
         
+        self.importSkillList = [:]
+        self.importSkillDemand = [:]
+        self.isImporting = false
+        self.genericErrorDesc = ""
         self.csvInput = [""]
         self.majorIdiots = [""]
         self.idiots = [""]
