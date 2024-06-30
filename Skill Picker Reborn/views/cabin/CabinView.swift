@@ -165,7 +165,7 @@ struct CabinView: View {
             }
             .help("Export Cabin Schedule")
             .fileExporter(isPresented: $showCsvExporter, document: CSVFile(initialText: data.cabinListToCSV(cabinName: data.selectedCabin)),
-                          contentType: .csv, defaultFilename: data.selectedCabin) { result in
+                          contentType: .commaSeparatedText, defaultFilename: data.selectedCabin) { result in
                 switch result {
                 case .success(let url):
                     print("Saved to \(url)")

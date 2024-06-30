@@ -159,7 +159,7 @@ struct CamperView: View {
             }
             .help("Export Schedule for all Campers")
             .fileExporter(isPresented: $showCsvExporter, document: CSVFile(initialText: data.camperListToCSV()),
-                          contentType: .csv, defaultFilename: "Campers") { result in
+                          contentType: .commaSeparatedText, defaultFilename: "Campers") { result in
                 switch result {
                 case .success(let url):
                     print("Saved to \(url)")

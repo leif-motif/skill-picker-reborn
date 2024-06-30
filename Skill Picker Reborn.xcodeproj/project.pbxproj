@@ -50,6 +50,7 @@
 		29A4EF182A70F3EB00B034E7 /* AddCamperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A4EF172A70F3EB00B034E7 /* AddCamperView.swift */; };
 		29B4BE0B2A7B0EF800FBE06B /* ImportSkillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B4BE0A2A7B0EF800FBE06B /* ImportSkillView.swift */; };
 		29BFB0392A847E06006725D6 /* LeaderInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BFB0382A847E06006725D6 /* LeaderInfoView.swift */; };
+		29CB910D2C30FA5400B8E111 /* FileDocuments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CB910C2C30FA5400B8E111 /* FileDocuments.swift */; };
 		29CF31412A855EFB002EA2F8 /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CF31402A855EFB002EA2F8 /* StartView.swift */; };
 		29E0D1E82A775E5E00C068A9 /* AssignSkillLeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E0D1E72A775E5E00C068A9 /* AssignSkillLeaderView.swift */; };
 		29E0D1EA2A7801DE00C068A9 /* AssignSkillCamperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E0D1E92A7801DE00C068A9 /* AssignSkillCamperView.swift */; };
@@ -122,6 +123,7 @@
 		29A4EF172A70F3EB00B034E7 /* AddCamperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCamperView.swift; sourceTree = "<group>"; };
 		29B4BE0A2A7B0EF800FBE06B /* ImportSkillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportSkillView.swift; sourceTree = "<group>"; };
 		29BFB0382A847E06006725D6 /* LeaderInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderInfoView.swift; sourceTree = "<group>"; };
+		29CB910C2C30FA5400B8E111 /* FileDocuments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDocuments.swift; sourceTree = "<group>"; };
 		29CF31402A855EFB002EA2F8 /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
 		29E0D1E72A775E5E00C068A9 /* AssignSkillLeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignSkillLeaderView.swift; sourceTree = "<group>"; };
 		29E0D1E92A7801DE00C068A9 /* AssignSkillCamperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignSkillCamperView.swift; sourceTree = "<group>"; };
@@ -293,6 +295,7 @@
 				290240102A6EDB7200F747D7 /* Skill.swift */,
 				2970DFA52A7412C400D2A71F /* Fanatic.swift */,
 				2974B6EE2A6ECBA800EB063B /* Human.swift */,
+				29CB910C2C30FA5400B8E111 /* FileDocuments.swift */,
 				293A19842A74E1C400B4B015 /* Extensions.swift */,
 				293A19822A74DE4400B4B015 /* SPRErrors.swift */,
 				29154B2F2A706EDC00CE8CAC /* TestsThatNeedToGo.swift */,
@@ -476,6 +479,7 @@
 				2974B6C62A6ECB6A00EB063B /* ContentView.swift in Sources */,
 				290240112A6EDB7200F747D7 /* Skill.swift in Sources */,
 				29633AFB2A815ED100DF0FF4 /* AssignCabinCamperView.swift in Sources */,
+				29CB910D2C30FA5400B8E111 /* FileDocuments.swift in Sources */,
 				2970DFA62A7412C400D2A71F /* Fanatic.swift in Sources */,
 				291CC57F2A72C2E2001D422C /* CabinOperations.swift in Sources */,
 				29154B2A2A7027B300CE8CAC /* SkillView.swift in Sources */,

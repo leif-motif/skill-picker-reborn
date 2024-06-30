@@ -122,7 +122,7 @@ struct LeaderView: View {
             }
             .help("Export Schedule for all Leaders")
             .fileExporter(isPresented: $showCsvExporter, document: CSVFile(initialText: data.leaderListToCSV()),
-                          contentType: .csv, defaultFilename: "Leaders") { result in
+                          contentType: .commaSeparatedText, defaultFilename: "Leaders") { result in
                 switch result {
                 case .success(let url):
                     print("Saved to \(url)")

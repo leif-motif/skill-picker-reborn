@@ -26,7 +26,7 @@ extension CampData {
         let panel = NSOpenPanel()
         panel.allowsMultipleSelection = false
         panel.canChooseDirectories = false
-        panel.allowedContentTypes = [.csv]
+        panel.allowedContentTypes = [.commaSeparatedText]
         if panel.runModal() == .OK {
             do {
                 self.csvInput = try String(contentsOf: panel.url!).lines

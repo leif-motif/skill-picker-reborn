@@ -136,7 +136,7 @@ struct SkillView: View {
             }
             .help("Export Skill Schedule")
             .fileExporter(isPresented: $showFanaticCsvExporter, document: CSVFile(initialText: csvExport),
-                          contentType: .csv, defaultFilename: data.selectedSkill) { result in
+                          contentType: .commaSeparatedText, defaultFilename: data.selectedSkill) { result in
                 switch result {
                 case .success(let url):
                     print("Saved to \(url)")
@@ -163,7 +163,7 @@ struct SkillView: View {
         //Somehow, you can't have more than one file exporter in a single view.
         //WHY?
         .fileExporter(isPresented: $showSkillCsvExporter, document: CSVFile(initialText: csvExport),
-                      contentType: .csv, defaultFilename: data.selectedSkill+" - Skill "+String(data.selectedPeriod+1)) { result in
+                      contentType: .commaSeparatedText, defaultFilename: data.selectedSkill+" - Skill "+String(data.selectedPeriod+1)) { result in
             switch result {
             case .success(let url):
                 print("Saved to \(url)")
