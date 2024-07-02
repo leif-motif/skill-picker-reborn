@@ -208,7 +208,18 @@ struct Skill_Picker_RebornApp: App {
                     }
                 }
                 Button("Assign Preferred Skills"){
-                    try! data.processPreferredSkills()
+                    do {
+                        try data.processPreferredSkills()
+                    } catch SPRError.NoSkills {
+                        data.genericErrorDesc = "There are no skills to assign campers to!"
+                        data.genericErrorAlert.toggle()
+                    } catch SPRError.NotEnoughSkillSpace {
+                        data.genericErrorDesc = "There is not enough space in the skills to accomodate all campers."
+                        data.genericErrorAlert.toggle()
+                    } catch {
+                        data.genericErrorDesc = "Failed to process skills: \(error.localizedDescription)"
+                        data.genericErrorAlert.toggle()
+                    }
                 }
                 Button("Clear All Skills..."){
                     data.clearSkillsConfirm.toggle()
