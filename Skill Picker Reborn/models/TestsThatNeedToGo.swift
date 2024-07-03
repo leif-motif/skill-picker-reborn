@@ -111,7 +111,7 @@ extension CampData {
                                                  preferredSkills: ["Pelletry","Backcountry","Archery","Wall Climbing","Horses"],
                                                  fanatic: "Paintball"), usingInternally: true)
         try! self.createCamper(newCamper: try! Camper(fName: "Daffy", lName: "Duck", cabin: "2",
-                                                 preferredSkills: ["Archery","Pelletry","Wall Climbing","Ultimate","Ultimate","Horses"],
+                                                 preferredSkills: ["Archery","Pelletry","Wall Climbing","Backcountry","Ultimate","Horses"],
                                                  fanatic: "None"), usingInternally: true)
         try! self.createCamper(newCamper: try! Camper(fName: "Fred", lName: "Flintstone", cabin: "3",
                                                  preferredSkills: ["Horses","Pelletry","Archery","Wall Climbing","Ultimate"],

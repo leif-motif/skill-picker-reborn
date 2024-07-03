@@ -26,14 +26,12 @@ enum SPRError: Error {
     case NotAJunior
     case RefusingDelete
     case SkillFanaticConflict
-    case SkillFull
     case NoneSkillRefusal
     case EmptySelection
     case MissingSkill
     case ReallyBadName
     case NoSkills
     case NotEnoughSkillSpace
-    case CamperCouldNotGetSkill
     case DuplicateSkillName
     case SkillIsFanatic
     case InvalidFileFormat

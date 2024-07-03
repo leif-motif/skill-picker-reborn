@@ -50,7 +50,7 @@ extension CampData {
         var fanatic: String
         for i in 1...(csv.count-1){
             let nameComponents = csv[i].collumns[0].components(separatedBy: " ")
-            if(nameComponents.count < 2){
+            if(nameComponents.count < 2 || csv[i].collumns[0] == ""){
                 throw SPRError.ReallyBadName
             }
             fName = nameComponents.first!
@@ -104,7 +104,7 @@ extension CampData {
     }
     
     func camperListToCSV() -> String {
-        var csv = "Name,Cabin,Skill 1,Skill 2,Skill 3, Skill 4"
+        var csv = "Name,Cabin,Skill 1,Skill 2,Skill 3,Skill 4"
         for camper in self.c.campers.sorted(using: KeyPathComparator(\Camper.lName)) {
             csv += "\n\(camper.fName) \(camper.lName),\(camper.cabin),\(camper.skills[0]),\(camper.skills[1]),\(camper.skills[2]),\(camper.skills[3])"
         }
@@ -112,7 +112,7 @@ extension CampData {
     }
     
     func leaderListToCSV() -> String {
-        var csv = "Leader,Cabin,Skill 1,Skill 2,Skill 3, Skill 4"
+        var csv = "Leader,Cabin,Skill 1,Skill 2,Skill 3,Skill 4"
         for leader in self.c.leaders.sorted(using: KeyPathComparator(\Leader.lName)) {
             csv += "\n\(leader.fName) \(leader.lName),\(leader.cabin),\(leader.skills[0]),\(leader.skills[1]),\(leader.skills[2]),\(leader.skills[3])"
         }
