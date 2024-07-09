@@ -22,7 +22,6 @@ import SwiftUI
 
 struct AssignSkillLeaderView: View {
     @EnvironmentObject private var data: CampData
-    @State private var isFanatic: Bool = false
     private let targetSkill: String
     private let skillPeriod: Int
     @State private var leaderInput = ""
@@ -38,11 +37,7 @@ struct AssignSkillLeaderView: View {
                     dismiss()
                 }
                 Button("Assign Leader") {
-                    if(isFanatic){
-                        try! data.assignLeaderToFanatic(targetLeader: data.getLeader(leaderID: leaderIDs[leaderInput.lowercased()]!)!, fanaticName: targetSkill)
-                    } else {
-                        data.assignLeaderToSkill(targetLeader: data.getLeader(leaderID: leaderIDs[leaderInput.lowercased()]!)!, skillName: targetSkill, period: skillPeriod)
-                    }
+                    data.assignLeaderToSkill(targetLeader: data.getLeader(leaderID: leaderIDs[leaderInput.lowercased()]!)!, skillName: targetSkill, period: skillPeriod)
                     dismiss()
                 }
                 .buttonStyle(.borderedProminent)
@@ -53,20 +48,9 @@ struct AssignSkillLeaderView: View {
         .padding()
         .frame(width: 270, height: 90)
         .onAppear(perform: {
-            isFanatic = data.c.fanatics.keys.contains(self.targetSkill)
-            if(isFanatic){
-                for leader in data.c.leaders {
-                    if(!leader.skills.contains(targetSkill) && !leader.skills.contains { key in
-                        data.c.fanatics.keys.contains(key)
-                    }){
-                        leaderIDs[leader.fName.lowercased()+" "+leader.lName.lowercased()] = leader.id
-                    }
-                }
-            } else {
-                for leader in data.c.leaders {
-                    if(leader.skills[skillPeriod] != targetSkill && !data.c.fanatics.keys.contains(leader.skills[skillPeriod])){
-                        leaderIDs[leader.fName.lowercased()+" "+leader.lName.lowercased()] = leader.id
-                    }
+            for leader in data.c.leaders {
+                if(leader.skills[skillPeriod] != targetSkill){
+                    leaderIDs[leader.fName.lowercased()+" "+leader.lName.lowercased()] = leader.id
                 }
             }
         })

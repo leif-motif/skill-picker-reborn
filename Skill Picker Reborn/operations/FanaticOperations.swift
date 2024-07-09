@@ -82,12 +82,10 @@ extension CampData {
             throw SPRError.InvalidSize
         }
         var camperFanatics: Set<Camper>?
-        var leaderFanatics: Set<Leader>?
         //find list of campers to use
         for i in 0...3 {
             if(self.c.fanatics[targetFanatic]!.activePeriods[i]){
                 camperFanatics = self.c.skills[targetFanatic]!.periods[i]
-                leaderFanatics = self.c.skills[targetFanatic]!.leaders[i]
                 break
             }
         }
@@ -111,12 +109,6 @@ extension CampData {
                         try! self.removeCamperFromSkill(camperID: camper.id, skillName: camper.skills[i], period: i, overrideFanaticWarning: true, usingInternally: true)
                     }
                     self.assignCamperToSkill(targetCamper: camper, skillName: targetFanatic, period: i, usingInternally: true)
-                }
-                for leader in leaderFanatics! {
-                    if(leader.skills[i] != "None"){
-                        try! self.removeLeaderFromSkill(leaderID: leader.id, skillName: leader.skills[i], period: i, usingInternally: true)
-                    }
-                    self.assignLeaderToSkill(targetLeader: leader, skillName: targetFanatic, period: i, usingInternally: true)
                 }
             }
         }
@@ -143,52 +135,6 @@ extension CampData {
         if(!usingInternally){
             self.undoManager.registerUndo(withTarget: self.c){ _ in
                 #warning("TODO: implement undo in deleteFanatic")
-            }
-        }
-    }
-    
-    func assignLeaderToFanatic(targetLeader: Leader, fanaticName: String, usingInternally: Bool = false) throws {
-        if(!usingInternally){
-            self.objectWillChange.send()
-        }
-        
-        if(fanaticName == "None"){
-            throw SPRError.NoneSkillRefusal
-        }
-        for i in 0...3 {
-            if(self.c.fanatics[fanaticName]!.activePeriods[i]){
-                self.c.skills[targetLeader.skills[i]]!.leaders[i].remove(targetLeader)
-                targetLeader.skills[i] = fanaticName
-                self.c.skills[fanaticName]!.leaders[i].insert(targetLeader)
-            }
-        }
-        
-        if(!usingInternally){
-            self.undoManager.registerUndo(withTarget: self.c){ _ in
-                #warning("TODO: implement undo in assignLeaderToFanatic")
-            }
-        }
-    }
-    
-    func removeLeaderFromFanatic(leaderID: Leader.ID, fanaticName: String, usingInternally: Bool = false) throws {
-        if(!usingInternally){
-            self.objectWillChange.send()
-        }
-        
-        if(fanaticName == "None"){
-            throw SPRError.NoneSkillRefusal
-        }
-        for i in 0...3 {
-            if(self.c.fanatics[fanaticName]!.activePeriods[i]){
-                self.c.skills[fanaticName]!.leaders[i].remove(self.getLeader(leaderID: leaderID)!)
-                self.getLeader(leaderID: leaderID)!.skills[i] = "None"
-                self.c.skills["None"]!.leaders[i].insert(self.getLeader(leaderID: leaderID)!)
-            }
-        }
-        
-        if(!usingInternally){
-            self.undoManager.registerUndo(withTarget: self.c){ _ in
-                #warning("TODO: implement undo in removeLeaderFromFanatic")
             }
         }
     }
@@ -262,5 +208,15 @@ extension CampData {
             }
             return valid
         }
+    }
+    
+    func isNotFanaticOrIsRunning(skillName: String, period: Int) throws -> Bool {
+        if(period < 0 || period > 3){
+            throw SPRError.InvalidSize
+        }
+        if(!self.c.fanatics.keys.contains(skillName)){
+            return true
+        }
+        return self.c.fanatics[skillName]!.activePeriods[period]
     }
 }

@@ -49,29 +49,25 @@ struct LeaderInfoView: View {
                 .bold()
             #warning("TODO: change this to be a ForEach")
             Picker("Skill 1:", selection: $newSkills[0]){
-                ForEach(Array(data.c.skills.keys).sorted().filter({!data.c.fanatics.keys.contains($0)}), id: \.self){
+                ForEach(Array(data.c.skills.keys).sorted().filter({try! data.isNotFanaticOrIsRunning(skillName: $0, period: 0)}), id: \.self){
                     Text($0).tag($0)
                 }
             }
-            .disabled(data.c.fanatics.keys.contains(newSkills[0]))
             Picker("Skill 2:", selection: $newSkills[1]){
-                ForEach(Array(data.c.skills.keys).sorted().filter({!data.c.fanatics.keys.contains($0)}), id: \.self){
+                ForEach(Array(data.c.skills.keys).sorted().filter({try! data.isNotFanaticOrIsRunning(skillName: $0, period: 1)}), id: \.self){
                     Text($0).tag($0)
                 }
             }
-            .disabled(data.c.fanatics.keys.contains(newSkills[1]))
             Picker("Skill 3:", selection: $newSkills[2]){
-                ForEach(Array(data.c.skills.keys).sorted().filter({!data.c.fanatics.keys.contains($0)}), id: \.self){
+                ForEach(Array(data.c.skills.keys).sorted().filter({try! data.isNotFanaticOrIsRunning(skillName: $0, period: 2)}), id: \.self){
                     Text($0).tag($0)
                 }
             }
-            .disabled(data.c.fanatics.keys.contains(newSkills[2]))
             Picker("Skill 4:", selection: $newSkills[3]){
-                ForEach(Array(data.c.skills.keys).sorted().filter({!data.c.fanatics.keys.contains($0)}), id: \.self){
+                ForEach(Array(data.c.skills.keys).sorted().filter({try! data.isNotFanaticOrIsRunning(skillName: $0, period: 3)}), id: \.self){
                     Text($0).tag($0)
                 }
             }
-            .disabled(data.c.fanatics.keys.contains(newSkills[3]))
             HStack {
                 Spacer()
                 Button("Dismiss") {
