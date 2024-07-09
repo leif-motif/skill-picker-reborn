@@ -52,7 +52,7 @@ struct SkillCampersView: View {
                     Label("Assign Camper to Skill...", systemImage: "plus")
                 }
                 //TODO: negate total number of campers registered in fanatics for that period from total campers
-                .disabled(data.c.campers.count == data.c.skills[data.selectedSkill]!.periods[data.selectedPeriod].count)
+                .disabled(data.c.campers.count == data.c.skills[data.selectedSkill]!.periods[data.selectedPeriod].count || !data.isNotFanaticOrIsRunning(skillName: data.selectedSkill, period: data.selectedPeriod))
             } else if(camperSelectionUnion.count == 1){
                 Button {
                     camperEditPass = HumanSelection(selection: camperSelectionUnion)
@@ -90,7 +90,7 @@ struct SkillCampersView: View {
             } label: {
                 Label("Assign Camper to Skill...", systemImage: "plus")
             }
-            .disabled(data.c.campers.count == data.c.skills[data.selectedSkill]!.periods[data.selectedPeriod].count)
+            .disabled(data.c.campers.count == data.c.skills[data.selectedSkill]!.periods[data.selectedPeriod].count || !data.isNotFanaticOrIsRunning(skillName: data.selectedSkill, period: data.selectedPeriod))
         }
         .sheet(item: $camperEditPass, onDismiss: {
             data.objectWillChange.send()

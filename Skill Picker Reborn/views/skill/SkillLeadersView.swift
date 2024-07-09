@@ -51,7 +51,7 @@ struct SkillLeadersView: View {
                 } label: {
                     Label("Assign Leader to Skill...", systemImage: "plus")
                 }
-                .disabled(data.c.leaders.count == data.c.skills[data.selectedSkill]!.leaders[data.selectedPeriod].count)
+                .disabled(data.c.leaders.count == data.c.skills[data.selectedSkill]!.leaders[data.selectedPeriod].count || !data.isNotFanaticOrIsRunning(skillName: data.selectedSkill, period: data.selectedPeriod))
             } else if(leaderSelectionUnion.count == 1){
                 Button {
                     leaderEditPass = HumanSelection(selection: leaderSelectionUnion)
@@ -91,7 +91,7 @@ struct SkillLeadersView: View {
             } label: {
                 Label("Assign Leader to Skill...", systemImage: "plus")
             }
-            .disabled(data.c.leaders.count == data.c.skills[data.selectedSkill]!.leaders[data.selectedPeriod].count)
+            .disabled(data.c.leaders.count == data.c.skills[data.selectedSkill]!.leaders[data.selectedPeriod].count || !data.isNotFanaticOrIsRunning(skillName: data.selectedSkill, period: data.selectedPeriod))
         }
         .sheet(isPresented: $assignSkillLeaderSheet, onDismiss: {
             data.objectWillChange.send()

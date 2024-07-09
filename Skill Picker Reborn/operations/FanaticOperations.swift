@@ -210,10 +210,7 @@ extension CampData {
         }
     }
     
-    func isNotFanaticOrIsRunning(skillName: String, period: Int) throws -> Bool {
-        if(period < 0 || period > 3){
-            throw SPRError.InvalidSize
-        }
+    func isNotFanaticOrIsRunning(skillName: String, period: Int) -> Bool {
         if(!self.c.fanatics.keys.contains(skillName)){
             return true
         }
