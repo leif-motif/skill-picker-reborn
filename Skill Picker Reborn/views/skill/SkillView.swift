@@ -114,7 +114,7 @@ struct SkillView: View {
                             break
                         }
                     }
-                    if(data.c.skills[data.selectedSkill]!.periods[p!].count != 0 && data.c.skills[data.selectedSkill]!.leaders[p!].count != 0){
+                    if(data.c.skills[data.selectedSkill]!.periods[p!].count != 0){
                         csvExport = data.fanaticListToCSV(fanaticName: data.selectedSkill)
                         showFanaticCsvExporter.toggle()
                     } else {
@@ -122,7 +122,7 @@ struct SkillView: View {
                         data.genericErrorAlert.toggle()
                     }
                 } else {
-                    if(data.c.skills[data.selectedSkill]!.periods[data.selectedPeriod].count != 0 && data.c.skills[data.selectedSkill]!.leaders[data.selectedPeriod].count != 0){
+                    if(data.c.skills[data.selectedSkill]!.periods[data.selectedPeriod].count != 0){
                         csvExport = data.skillListToCSV(skillName: data.selectedSkill, skillPeriod: data.selectedPeriod)
                         showSkillCsvExporter.toggle()
                     } else {

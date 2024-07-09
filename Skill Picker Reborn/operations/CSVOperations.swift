@@ -120,11 +120,20 @@ extension CampData {
     }
     
     func skillListToCSV(skillName: String, skillPeriod: Int) -> String {
-        var csv = "\(skillName),Skill \(skillPeriod+1)\nLeaders,Name,Cabin"
+        var csv: String
+        if(self.c.skills[skillName]!.leaders[skillPeriod].isEmpty){
+            csv = "\(skillName),Skill \(skillPeriod+1)\nCampers,Name,Cabin"
+        } else {
+            csv = "\(skillName),Skill \(skillPeriod+1)\nLeaders,Name,Cabin"
+        }
         for leader in self.c.skills[skillName]!.leaders[skillPeriod].sorted(using: KeyPathComparator(\Leader.lName)) {
             csv += "\n,\(leader.fName) \(leader.lName),\(leader.cabin)"
         }
-        csv += "\nCampers"
+        if(!self.c.skills[skillName]!.leaders[skillPeriod].isEmpty){
+            csv += "\nCampers"
+        } else {
+            csv += "\n"
+        }
         for camper in self.c.skills[skillName]!.periods[skillPeriod].sorted(using: KeyPathComparator(\Camper.cabin)) {
             csv += ",\(camper.fName) \(camper.lName),\(camper.cabin)\n"
         }
