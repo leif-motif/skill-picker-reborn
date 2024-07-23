@@ -43,34 +43,35 @@ extension CampData {
         if(oldName == "None"){
             throw SPRError.NoneSkillRefusal
         }
-        if(self.c.skills.keys.contains(newName)){
+        if(oldName != newName && self.c.skills.keys.contains(newName)){
             throw SPRError.DuplicateSkillName
         }
         if(newMaximums.count != 4){
             throw SPRError.InvalidSize
         }
         self.c.skills[oldName]!.maximums = newMaximums
-        for camper in self.c.campers {
-            for i in 0...(camper.preferredSkills.count-1){
-                if(camper.preferredSkills[i] == oldName){
-                    camper.preferredSkills[i] = newName
+        if(oldName != newName){
+            for camper in self.c.campers {
+                for i in 0...(camper.preferredSkills.count-1){
+                    if(camper.preferredSkills[i] == oldName){
+                        camper.preferredSkills[i] = newName
+                    }
+                }
+                for i in 0...3 {
+                    if(camper.skills[i] == oldName){
+                        camper.skills[i] = newName
+                    }
                 }
             }
+            self.c.skills[newName] = self.c.skills[oldName]
+            self.c.skills.removeValue(forKey: oldName)
+            self.c.skills[newName]!.name = newName
             for i in 0...3 {
-                if(camper.skills[i] == oldName){
-                    camper.skills[i] = newName
+                for leader in self.c.skills[newName]!.leaders[i] {
+                    leader.skills[i] = newName
                 }
             }
         }
-        self.c.skills[newName] = self.c.skills[oldName]
-        self.c.skills.removeValue(forKey: oldName)
-        self.c.skills[newName]!.name = newName
-        for i in 0...3 {
-            for leader in self.c.skills[newName]!.leaders[i] {
-                leader.skills[i] = newName
-            }
-        }
-        
         if(!usingInternally){
             self.undoManager.registerUndo(withTarget: self.c){ _ in
                 #warning("TODO: handle undo of modifySkill")
