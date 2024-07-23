@@ -56,8 +56,8 @@ class Camp: Codable {
         for cabin in cabinReference.values {
             if(cabin.name != "Unassigned"){
                 self.cabins[cabin.name] = try! Cabin(name: cabin.name,
-                                                     senior: self.leaders.first(where: {$0.id == cabin.senior.id})!,
-                                                     junior: self.leaders.first(where: {$0.id == cabin.junior.id})!)
+                                                     senior: self.leaders.first(where: {$0.id == cabin.senior.id}) ?? nullSenior,
+                                                     junior: self.leaders.first(where: {$0.id == cabin.junior.id}) ?? nullJunior)
             }
             for camper in cabin.campers {
                 self.cabins[cabin.name]!.campers.insert(self.campers.first(where: {$0.id == camper.id})!)
