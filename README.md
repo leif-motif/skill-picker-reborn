@@ -17,7 +17,7 @@ Skill Picker Reborn should support both Intel (x86_64) and Apple Silicon (ARM) M
 4. Go to System Preferences, go to Privacy & Security, and scroll to near the bottom. You will see something about being unable to open Skill Picker Reborn because it was from an unidentified developer. Click "Open Anyway," and confirm that you wish to open the app.
 
 # Status
-**Semi-active development.** This project is mostly complete, with the exception of undo/redo. Right now, the app will probably only see updates for bug fixes and minor UI improvements.
+**Non-active development.** This project is mostly complete, with the exception of undo/redo. Right now, the app will only see updates for bug fixes and minor UI improvements until further notice.
 
 # TODO:
 - Undo/Redo
@@ -26,4 +26,4 @@ Skill Picker Reborn should support both Intel (x86_64) and Apple Silicon (ARM) M
 If you come across any bugs in the app, have any requests, suggestions or criticisms, open an issue on this page and I will try and address it when I can. I will accept any pull requests if it makes the app work better, look better, or run faster.
 
 # Windows/Linux?
-**No.** I do not have time.
+**Outside of the scope of this project.**

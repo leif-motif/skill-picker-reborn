@@ -2,7 +2,7 @@
  * StartView.swift
  * This file is part of Skill Picker Reborn
  *
- * Copyright (C) 2024 Ranger Lake Bible Camp
+ * Copyright (C) 2025 Ranger Lake Bible Camp
  *
  * Skill Picker Reborn is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ struct StartView: View {
     #endif
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Copyright © 2024 Ranger Lake Bible Camp")
+            Text("Copyright © 2025 Ranger Lake Bible Camp")
                 .font(.title)
             Text("This program is free software: you can redistribute it and/or modify\nit under the terms of the GNU General Public License as published by\nthe Free Software Foundation, either version 3 of the License, or\n(at your option) any later version.")
                 .font(.body)

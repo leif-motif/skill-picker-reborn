@@ -2,7 +2,7 @@
  * Skill.swift
  * This file is part of Skill Picker Reborn
  *
- * Copyright (C) 2024 Ranger Lake Bible Camp
+ * Copyright (C) 2025 Ranger Lake Bible Camp
  *
  * Skill Picker Reborn is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
